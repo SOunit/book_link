@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Setup = () => {
   const [index, setIndex] = useState('');
-  const [values, setValues] = useState<number[]>([]);
+  const [indexes, setIndexes] = useState<number[]>([]);
 
   const fetchData = async () => {
     let url = 'https://jsonplaceholder.typicode.com/posts';
@@ -11,10 +11,11 @@ const Setup = () => {
 
     const result = await axios.get(url);
     console.log(result.data);
+
+    setIndexes(result.data);
   };
 
   useEffect(() => {
-    setValues([0, 1, 2]);
     // fetchData();
   }, []);
 
@@ -33,7 +34,7 @@ const Setup = () => {
       <h1>Setup</h1>
       <form onSubmit={submitHandler}>
         <label htmlFor=''>Enter your index:</label>
-        <input type='text' value={index} onChange={changeIndexHandler} />
+        <input type='number' value={index} onChange={changeIndexHandler} />
         <button>Submit</button>
       </form>
     </div>
