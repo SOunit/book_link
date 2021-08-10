@@ -16,17 +16,31 @@ const Setup = () => {
   };
 
   useEffect(() => {
+    setIndexes([0, 1, 2, 3]);
     // fetchData();
   }, []);
 
-  const submitHandler = (e: React.FormEvent) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('submit handler!');
+
+    // await axios.post('/api/values', {
+    //   index,
+    // });
+
+    // fetchData();
+
+    setIndex('');
   };
 
   const changeIndexHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     setIndex(e.target.value);
+  };
+
+  const renderIndexes = () => {
+    const nums = indexes.map((index) => index).join(', ');
+    return <div>{nums}</div>;
   };
 
   return (
@@ -37,6 +51,7 @@ const Setup = () => {
         <input type='number' value={index} onChange={changeIndexHandler} />
         <button>Submit</button>
       </form>
+      {renderIndexes()}
     </div>
   );
 };
