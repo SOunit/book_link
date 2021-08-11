@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t hiranokuosaka/react-test -f ./client/Dockerfile.dev ./client
+
+secript:
+  - docker run -e CI=true hiranokuosaka/react-test npm test
+
+after_success:
+  - docker build -t hiranokuosaka/book_link_client ./client
+  - docker build -t hiranokuosaka/book_link_nginx ./nginx
+  - docker build -t hiranokuosaka/book_link_api ./api
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push hiranokuosaka/book_link_client
+  - docker push hiranokuosaka/book_link_nginx
+  - docker push hiranokuosaka/book_link_api
