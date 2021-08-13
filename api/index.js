@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 
 // Postgres client setup
 const { Pool } = require('pg');
-const { response } = require('express');
 const pgClient = new Pool({
   user: keys.pgUser,
   host: keys.pgHost,
@@ -37,9 +36,9 @@ app.get('/values/all', async (req, res) => {
   res.send(values.rows);
 });
 
-app.post('/values', (req, res) => {
+app.post('/values', async (req, res) => {
   const index = req.body.index;
-  pgClient.query('INSERT INTO values(number) VALUES ($1)', [index]);
+  pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
   res.send({ working: true });
 });
 
