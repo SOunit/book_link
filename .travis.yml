@@ -18,3 +18,15 @@ after_success:
   - docker push hiranokuosaka/book_link_client
   - docker push hiranokuosaka/book_link_nginx
   - docker push hiranokuosaka/book_link_api
+
+deploy:
+  provider: elasticbeanstalk
+  region: ca-central-1
+  app: book_link
+  env: Booklink-env
+  bucket_name: elasticbeanstalk-ca-central-1-106351276515
+  bucket_path: book_link
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
