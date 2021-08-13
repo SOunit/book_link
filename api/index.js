@@ -37,7 +37,15 @@ app.get('/values/all', async (req, res) => {
 });
 
 app.post('/values', async (req, res) => {
-  const index = req.body.index;
+  // parseInt returns number or NaN
+  let index = parseInt(req.body.index);
+
+  // set -1 if index is not a number
+  if (isNaN(index)) {
+    index = -1;
+  }
+
+  // update db
   pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
   res.send({ working: true });
 });
