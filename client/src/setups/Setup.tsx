@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import classes from './Setup.module.css';
 
 const Setup = () => {
   const [enteredIndex, setEnteredIndex] = useState('');
@@ -46,15 +47,20 @@ const Setup = () => {
   return (
     <div>
       <h1>Setup</h1>
-      <form onSubmit={submitHandler}>
-        <label htmlFor=''>Enter your index:</label>
+      <form onSubmit={submitHandler} className={classes.form}>
+        <label htmlFor='number' className={classes.form__label}>
+          Enter your index:
+        </label>
         <input
+          id='number'
           type='number'
           value={enteredIndex}
           onChange={indexChangedHandler}
+          className={classes.form__input}
         />
-        <button>Submit</button>
+        <button className={classes.form__button}>Submit</button>
       </form>
+      <h2>Numbers</h2>
       {renderIndexes()}
     </div>
   );
