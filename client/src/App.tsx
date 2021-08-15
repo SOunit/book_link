@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
@@ -8,6 +8,9 @@ function App() {
   return (
     <Layout>
       <Switch>
+        <Route path='/' exact>
+          <Redirect to='/search' />
+        </Route>
         <Route path='/search'>
           <SearchUsers />
         </Route>
