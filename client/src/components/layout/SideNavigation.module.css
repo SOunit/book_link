@@ -1,0 +1,30 @@
+.side-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  height: 100vh;
+  width: 70vw;
+}
+
+.side-navigation__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-navigation__item {
+  margin: 1rem;
+}
+
+.side-navigation__link {
+  text-decoration: none;
+  color: #1f1f79;
+  font-weight: bold;
+}
+
+.side-navigation__link--active {
+  border-bottom: 2px solid #1f1f79;
+}

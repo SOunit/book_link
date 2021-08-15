@@ -1,7 +1,7 @@
 import classes from './MainNavigation.module.css';
 import { NavLink } from 'react-router-dom';
 
-const MainNavigation = () => {
+const MainNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
   return (
     <header className={classes['main-header']}>
       <h1 className={classes['main-header__title']}>
@@ -40,7 +40,10 @@ const MainNavigation = () => {
           </li>
         </ul>
       </nav>
-      <div className={classes['side-nav-button']}>
+      <div
+        className={classes['side-nav-button']}
+        onClick={props.onSideMenuToggle}
+      >
         <div className={classes['side-nav-button__bar']}></div>
         <div className={classes['side-nav-button__bar']}></div>
         <div className={classes['side-nav-button__bar']}></div>

@@ -1,5 +1,5 @@
 .main-header {
-  background-color: rgb(31, 31, 121);
+  background-color: #1f1f79;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -60,5 +60,9 @@
     color: white;
     text-decoration: none;
     font-weight: bold;
+  }
+
+  .main-header__nav-link--active {
+    border-bottom: 2px solid white;
   }
 }
