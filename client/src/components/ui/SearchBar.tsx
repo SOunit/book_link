@@ -1,15 +1,36 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import Item from '../../models/Item';
 import classes from './SearchBar.module.css';
 
-const SearchBar: React.FC<{ placeholder: string }> = (props) => {
+const DUMMY_DATA: Item[] | [] = [
+  new Item('title1', 'author1'),
+  new Item('title2', 'author2'),
+  new Item('title3', 'author3'),
+];
+
+const SearchBar: React.FC<{
+  placeholder: string;
+  onUpdateSearchedItems: (searchedItems: Item[]) => void;
+  onUpdateIsItemSearched: () => void;
+}> = (props) => {
   const [enteredText, setEnteredText] = useState('');
 
   const changeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setEnteredText(e.target.value);
   };
 
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    console.log('submit!');
+
+    // FIXME
+    // http request
+    props.onUpdateSearchedItems(DUMMY_DATA);
+    props.onUpdateIsItemSearched();
+  };
+
   return (
-    <div className={classes['search-bar']}>
+    <form onSubmit={submitHandler} className={classes['search-bar']}>
       <input
         type='text'
         className={classes['search-bar__input']}
@@ -18,7 +39,7 @@ const SearchBar: React.FC<{ placeholder: string }> = (props) => {
         onChange={changeInputHandler}
       />
       <i className={`fas fa-search ${classes['search-bar__icon']}`}></i>
-    </div>
+    </form>
   );
 };
 
