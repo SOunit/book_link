@@ -1,0 +1,25 @@
+// Local Access
+1. run docker-compose file for development
+2. access localhost:5555
+3. login to pgadmin with user and password with
+    - PGADMIN_DEFAULT_EMAIL 
+    - PGADMIN_DEFAULT_PASSWORD
+4. access to postgres　database, mainly come from api env values
+    - host=postgres
+    - port=5432
+    - username=postgres
+    - password=postgres_password
+
+// Production Access / AWS Access
+1. open AWS RDS access
+2. run docker-compose file for production
+3. access localhost:5555
+4. login to pgadmin with user and password with
+    - PGADMIN_DEFAULT_EMAIL 
+    - PGADMIN_DEFAULT_PASSWORD
+5. access to postgres　database, come from AWS env values
+    - host=some_host
+    - port=some_port
+    - username=some_user_name
+    - password=some_password
+6. close AWS RDS access

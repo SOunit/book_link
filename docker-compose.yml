@@ -4,6 +4,8 @@ services:
     image: 'postgres:latest'
     environment:
       - POSTGRES_PASSWORD=postgres_password
+    ports:
+      - '5432:5432'
   nginx:
     restart: always
     build:
@@ -35,3 +37,10 @@ services:
     # polling setting for Docker. activate auto reload when file change.
     environment:
       - CHOKIDAR_USEPOLLING=true
+  pgadmin:
+    image: 'dpage/pgadmin4'
+    ports:
+      - '5555:80'
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=hussein_demo_Ea625xpCJWhC@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
