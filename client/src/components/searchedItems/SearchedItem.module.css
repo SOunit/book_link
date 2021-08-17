@@ -1,0 +1,25 @@
+.searched-item {
+  display: flex;
+  margin: 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+.image {
+  width: 100%;
+  background-color: rgb(204, 204, 204);
+  height: 8rem;
+  min-width: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.searched-item__title {
+  font-weight: bold;
+  margin: 1rem;
+}
+
+.searched-item__author {
+  margin: 1rem;
+}

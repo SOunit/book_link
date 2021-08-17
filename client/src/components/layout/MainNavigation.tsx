@@ -5,7 +5,7 @@ const MainNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
   return (
     <header className={classes['main-header']}>
       <h1 className={classes['main-header__title']}>
-        <NavLink to='/search' className={classes['main-header__title-link']}>
+        <NavLink to='/' className={classes['main-header__title-link']}>
           book-link
         </NavLink>
       </h1>
