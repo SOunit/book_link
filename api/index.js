@@ -1,5 +1,3 @@
-const keys = require('./keys');
-
 // Express App Setup
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -9,15 +7,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Postgres client setup
-const { Pool } = require('pg');
-const pgClient = new Pool({
-  user: keys.pgUser,
-  host: keys.pgHost,
-  database: keys.pgDatabase,
-  password: keys.pgPassword,
-  port: keys.pgPort,
-});
+const pgClient = require('./util/database');
 
 pgClient.on('connect', (client) => {
   // initialize db by creating values table with number column
@@ -26,11 +16,9 @@ pgClient.on('connect', (client) => {
     .catch((err) => console.error(err));
 });
 
-// Express routes handlers
-app.get('/', (req, res) => {
-  res.send('hi');
-});
-
+// FIXME
+// move all setup routes to router
+// after making pgClient accessible from other files
 app.get('/values/all', async (req, res) => {
   const values = await pgClient.query('SELECT * FROM values');
   res.send(values.rows);
