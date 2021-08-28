@@ -5,7 +5,12 @@ export default buildSchema(`
         values: [Int!]!
     }
 
+    type RootMutation {
+        createValue(value: Int!): Int!
+    }
+
     schema {
         query: RootQuery
+        mutation: RootMutation
     }
 `);

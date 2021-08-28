@@ -13,7 +13,12 @@ app.use(bodyParser.json());
 
 app.use(
   '/graphql',
-  graphqlHTTP({ schema: graphqlSchema, rootValue: graphqlResolver })
+  graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    // http://localhost:3050/api/graphql
+    graphiql: true,
+  })
 );
 
 // route setup
