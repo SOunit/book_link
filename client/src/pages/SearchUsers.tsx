@@ -21,8 +21,21 @@ const SearchUsers = () => {
     console.log('delete registered item');
   };
 
-  const addRegisteredItemHandler = () => {
+  const addRegisteredItemHandler = (item: Item) => {
     console.log('add registered item');
+
+    setRegisteredItems((prevState) => {
+      const updatedRegisteredItems = [...prevState];
+
+      const match = updatedRegisteredItems.some((elem) => elem.id === item.id);
+      if (match) {
+        console.log('Item already exists');
+        return prevState;
+      }
+
+      updatedRegisteredItems.push(item);
+      return updatedRegisteredItems;
+    });
   };
 
   return (

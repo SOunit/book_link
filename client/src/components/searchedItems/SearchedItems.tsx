@@ -5,7 +5,7 @@ import { Fragment } from 'react';
 type SearchdItemsProps = {
   items: Item[];
   isItemSearched: boolean;
-  onAddRegisteredItem: () => void;
+  onAddRegisteredItem: (item: Item) => void;
 };
 
 const SearchedItems: React.FC<SearchdItemsProps> = (props) => {

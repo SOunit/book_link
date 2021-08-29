@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 
 type SearchdItemProps = {
   item: Item;
-  onAddRegisteredItem: () => void;
+  onAddRegisteredItem: (item: Item) => void;
 };
 
 const SearchedItem: React.FC<SearchdItemProps> = (props) => {
@@ -32,7 +32,7 @@ const SearchedItem: React.FC<SearchdItemProps> = (props) => {
         <div className={classes['button-container']}>
           <Button
             buttonText={'add'}
-            onButtonClick={props.onAddRegisteredItem}
+            onButtonClick={() => props.onAddRegisteredItem(props.item)}
           />
         </div>
       </div>
