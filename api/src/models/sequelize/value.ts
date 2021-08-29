@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-import sequelize from '../util/database';
+import sequelize from '../../util/database';
 
 // single form
 const Value = sequelize.define('value', {

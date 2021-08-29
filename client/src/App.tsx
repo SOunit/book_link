@@ -7,20 +7,20 @@ import Setup from './setups/Setup';
 
 function App() {
   return (
-    <Setup />
-    // <Layout>
-    //   <Switch>
-    //     <Route path='/' exact>
-    //       <Redirect to='/search' />
-    //     </Route>
-    //     <Route path='/search'>
-    //       <SearchUsers />
-    //     </Route>
-    //     <Route path='*'>
-    //       <PageNotFound />
-    //     </Route>
-    //   </Switch>
-    // </Layout>
+    // <Setup />
+    <Layout>
+      <Switch>
+        <Route path='/' exact>
+          <Redirect to='/search' />
+        </Route>
+        <Route path='/search'>
+          <SearchUsers />
+        </Route>
+        <Route path='*'>
+          <PageNotFound />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 

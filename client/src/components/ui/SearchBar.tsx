@@ -1,12 +1,7 @@
+import axios from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Item from '../../models/Item';
 import classes from './SearchBar.module.css';
-
-const DUMMY_DATA: Item[] | [] = [
-  new Item('title1', 'author1'),
-  new Item('title2', 'author2'),
-  new Item('title3', 'author3'),
-];
 
 const SearchBar: React.FC<{
   placeholder: string;
@@ -19,13 +14,32 @@ const SearchBar: React.FC<{
     setEnteredText(e.target.value);
   };
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     console.log('submit!');
 
-    // FIXME
-    // http request
-    props.onUpdateSearchedItems(DUMMY_DATA);
+    const graphqlQuery = {
+      query: `
+              query fetchItems ($title: String){
+                items(title: $title){
+                  id
+                  title
+                  author
+                }
+              }
+            `,
+      variables: {
+        title: enteredText,
+      },
+    };
+
+    const result = await axios({
+      url: '/api/graphql',
+      method: 'POST',
+      data: graphqlQuery,
+    });
+
+    props.onUpdateSearchedItems(result.data.data.items);
     props.onUpdateIsItemSearched();
   };
 
