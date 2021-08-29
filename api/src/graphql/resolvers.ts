@@ -1,9 +1,12 @@
-import Value from '../models/value';
+import { v4 as uuidv4 } from 'uuid';
+import { Op } from 'sequelize';
+import CreateItemInput from '../models/ts/CreateItemInput';
+import Value from '../models/sequelize/value';
+import Item from '../models/sequelize/item';
 
 const resolvers = {
   values: async () => {
     const result = await Value.findAll();
-    console.log(result);
 
     const values: number[] = [];
     result.map((obj: { number: number }) => {
@@ -13,14 +16,33 @@ const resolvers = {
     return values;
   },
 
-  createValue: async (value: { value: number }) => {
-    const result = await Value.create({
-      number: value.value,
+  createValue: async (args: { value: number }) => {
+    await Value.create({
+      number: args.value,
     });
 
-    console.log('result', result);
-
     return 200;
+  },
+
+  // FIXME: any type to something
+  items: async (args: any, req: any) => {
+    const titleQuery = args.title;
+
+    const result = await Item.findAll({
+      where: { title: { [Op.substring]: titleQuery } },
+    });
+
+    return result;
+  },
+
+  createItem: async (args: { data: CreateItemInput }) => {
+    const id = uuidv4();
+    const { title, author, imageUrl } = args.data;
+    const newItem = { id, title, author, imageUrl };
+
+    await Item.create(newItem);
+
+    return newItem;
   },
 };
 

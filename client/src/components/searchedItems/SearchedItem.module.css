@@ -7,12 +7,14 @@
 
 .image {
   width: 100%;
-  background-color: rgb(204, 204, 204);
+  background-color: rgb(230, 230, 230);
+  color: grey;
   height: 8rem;
   min-width: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
 .searched-item__title {
