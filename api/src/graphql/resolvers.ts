@@ -29,7 +29,7 @@ const resolvers = {
     const titleQuery = args.title;
 
     const result = await Item.findAll({
-      where: { title: { [Op.substring]: titleQuery } },
+      where: { title: { [Op.iLike]: `${titleQuery}%` } },
     });
 
     return result;
