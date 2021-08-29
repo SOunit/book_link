@@ -22,6 +22,10 @@
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
+.searched-item__details {
+  flex-grow: 1;
+}
+
 .searched-item__title {
   font-weight: bold;
   margin: 1rem;
@@ -29,4 +33,10 @@
 
 .searched-item__author {
   margin: 1rem;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

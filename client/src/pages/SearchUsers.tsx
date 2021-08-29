@@ -7,6 +7,7 @@ import classes from './SearchUsers.module.css';
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
   const [isItemSearched, setIsItemSearched] = useState(false);
+  const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
 
   const updateSearchedItemsHandler = (searchedItems: Item[]) => {
     setSearchedItems(searchedItems);
@@ -14,6 +15,14 @@ const SearchUsers = () => {
 
   const updateIsItemSearchedHandler = () => {
     setIsItemSearched(true);
+  };
+
+  const deleteRegisteredItemHandler = () => {
+    console.log('delete registered item');
+  };
+
+  const addRegisteredItemHandler = () => {
+    console.log('add registered item');
   };
 
   return (
@@ -26,7 +35,11 @@ const SearchUsers = () => {
         />
       </section>
       <section>
-        <SearchedItems items={searchedItems} isItemSearched={isItemSearched} />
+        <SearchedItems
+          items={searchedItems}
+          isItemSearched={isItemSearched}
+          onAddRegisteredItem={addRegisteredItemHandler}
+        />
       </section>
     </Fragment>
   );
