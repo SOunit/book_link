@@ -6,17 +6,19 @@ const Setup = () => {
   const [enteredIndex, setEnteredIndex] = useState('');
   const [indexes, setIndexes] = useState<number[]>([]);
 
+  const url = '/api/graphql';
+
   const fetchData = async () => {
-    let url = 'https://jsonplaceholder.typicode.com/posts';
-    url = '/api/values/all';
+    const graphqlQuery = {
+      query: `
+        query {
+          values
+        }
+      `,
+    };
 
-    const result = await axios.get(url);
-
-    const nums = result.data.map((num: { number: number }) => {
-      return num.number;
-    });
-
-    setIndexes(nums);
+    const result = await axios({ url, method: 'POST', data: graphqlQuery });
+    setIndexes(result.data.data.values);
   };
 
   useEffect(() => {
@@ -27,9 +29,16 @@ const Setup = () => {
     e.preventDefault();
     console.log('submit handler!');
 
-    await axios.post('/api/values', {
-      index: enteredIndex,
-    });
+    const graphqlQuery = {
+      query: `
+        mutation {
+          createValue(value: ${enteredIndex})
+        }
+      `,
+    };
+
+    const result = await axios({ url, method: 'POST', data: graphqlQuery });
+    console.log(result);
 
     fetchData();
     setEnteredIndex('');
