@@ -15,6 +15,10 @@ const Item = sequelize.define('item', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 });
 
 export default Item;

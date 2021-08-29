@@ -19,11 +19,13 @@ export default buildSchema(`
     input CreateItemInput {
         title: String!
         author: String!
+        imageUrl: String
     }
 
     type Item {
         id: String!
         title: String!
         author: String!
+        imageUrl: String
     }    
 `);

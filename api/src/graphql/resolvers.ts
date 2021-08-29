@@ -37,8 +37,8 @@ const resolvers = {
 
   createItem: async (args: { data: CreateItemInput }) => {
     const id = uuidv4();
-    const { title, author } = args.data;
-    const newItem = { id, title, author };
+    const { title, author, imageUrl } = args.data;
+    const newItem = { id, title, author, imageUrl };
 
     await Item.create(newItem);
 

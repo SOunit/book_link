@@ -12,6 +12,7 @@ const SearchedItems: React.FC<{ items: Item[]; isItemSearched: boolean }> = (
         title={item.title}
         id={item.id}
         author={item.author}
+        imageUrl={item.imageUrl}
       />
     );
   });
@@ -20,7 +21,7 @@ const SearchedItems: React.FC<{ items: Item[]; isItemSearched: boolean }> = (
     <Fragment>
       {dispItems}
       {(!dispItems || dispItems.length === 0) && props.isItemSearched && (
-        <p>No item found!</p>
+        <p>Item not found!</p>
       )}
     </Fragment>
   );

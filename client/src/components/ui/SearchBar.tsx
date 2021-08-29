@@ -18,8 +18,9 @@ const SearchBar: React.FC<{
     e.preventDefault();
     console.log('submit!');
 
-    if (enteredText.length < 2) {
-      console.log('keyword is too short!');
+    if (enteredText.length < 1) {
+      props.onUpdateSearchedItems([]);
+      props.onUpdateIsItemSearched();
       return;
     }
 
@@ -30,6 +31,7 @@ const SearchBar: React.FC<{
                   id
                   title
                   author
+                  imageUrl
                 }
               }
             `,
