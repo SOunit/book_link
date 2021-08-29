@@ -18,6 +18,11 @@ const SearchBar: React.FC<{
     e.preventDefault();
     console.log('submit!');
 
+    if (enteredText.length < 2) {
+      console.log('keyword is too short!');
+      return;
+    }
+
     const graphqlQuery = {
       query: `
               query fetchItems ($title: String){
