@@ -6,5 +6,6 @@ COPY ./package.json ./
 RUN npm install
 RUN npm install -g typescript ts-node
 COPY . .
+RUN npx sequelize-cli init
 
 CMD ["npm", "run", "dev"]

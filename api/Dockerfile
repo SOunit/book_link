@@ -5,7 +5,9 @@ WORKDIR "/app"
 COPY ./package.json ./
 RUN npm install
 COPY . .
+RUN npx sequelize-cli init
 RUN npm install -g typescript ts-node
 RUN tsc
+
 
 CMD ["npm", "run", "start"]
