@@ -3,11 +3,9 @@ import Layout from './components/layout/Layout';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import './App.css';
-import Setup from './setups/Setup';
 
 function App() {
   return (
-    // <Setup />
     <Layout>
       <Switch>
         <Route path='/' exact>
