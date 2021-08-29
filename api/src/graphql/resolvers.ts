@@ -2,10 +2,11 @@ import Value from '../models/value';
 
 const resolvers = {
   values: async () => {
-    const result = await Value.fetchAll();
+    const result = await Value.findAll();
+    console.log(result);
 
     const values: number[] = [];
-    result.rows.map((obj) => {
+    result.map((obj: { number: number }) => {
       values.push(obj.number);
     });
 
@@ -13,9 +14,13 @@ const resolvers = {
   },
 
   createValue: async (value: { value: number }) => {
-    const newValue = new Value(value.value);
-    await newValue.save();
-    return newValue.number;
+    const result = await Value.create({
+      number: value.value,
+    });
+
+    console.log('result', result);
+
+    return 200;
   },
 };
 
