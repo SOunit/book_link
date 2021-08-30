@@ -4,8 +4,11 @@ import Button from '../ui/Button';
 
 type ItemCardProps = {
   item: Item;
+  buttonText: string;
+  // FIXME: any
+  onButtonClick: any;
+  // FIXME: be able to set conditionally?
   buttonDisabled: boolean;
-  onButtonClick: (item: Item) => void;
 };
 
 const SearchedItem: React.FC<ItemCardProps> = (props) => {
@@ -28,7 +31,7 @@ const SearchedItem: React.FC<ItemCardProps> = (props) => {
         <div className={classes['item-card__author']}>{props.item.author}</div>
         <div className={classes['button-container']}>
           <Button
-            buttonText={'add'}
+            buttonText={props.buttonText}
             onButtonClick={() => props.onButtonClick(props.item)}
             disabled={props.buttonDisabled}
           />

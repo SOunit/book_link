@@ -18,6 +18,7 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
       <ItemCard
         key={item.id}
         item={item}
+        buttonText='add'
         onButtonClick={props.onAddRegisteredItem}
         buttonDisabled={buttonDisabled}
       />
