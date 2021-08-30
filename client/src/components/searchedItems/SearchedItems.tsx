@@ -4,17 +4,22 @@ import { Fragment } from 'react';
 
 type SearchdItemsProps = {
   items: Item[];
+  registeredItems: Item[];
   isItemSearched: boolean;
   onAddRegisteredItem: (item: Item) => void;
 };
 
 const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
-  let dispItems = props.items.map((item) => {
+  const dispItems = props.items.map((item) => {
+    const buttonDisabled = props.registeredItems.some(
+      (elem) => elem.id === item.id
+    );
     return (
       <SearchedItem
         key={item.id}
         item={item}
         onAddRegisteredItem={props.onAddRegisteredItem}
+        buttonDisabled={buttonDisabled}
       />
     );
   });

@@ -4,6 +4,7 @@ import Button from '../ui/Button';
 
 type SearchdItemProps = {
   item: Item;
+  buttonDisabled: boolean;
   onAddRegisteredItem: (item: Item) => void;
 };
 
@@ -33,6 +34,7 @@ const SearchedItem: React.FC<SearchdItemProps> = (props) => {
           <Button
             buttonText={'add'}
             onButtonClick={() => props.onAddRegisteredItem(props.item)}
+            disabled={props.buttonDisabled}
           />
         </div>
       </div>

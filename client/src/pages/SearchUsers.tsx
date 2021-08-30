@@ -50,6 +50,7 @@ const SearchUsers = () => {
       <section>
         <SearchedItems
           items={searchedItems}
+          registeredItems={registeredItems}
           isItemSearched={isItemSearched}
           onAddRegisteredItem={addRegisteredItemHandler}
         />

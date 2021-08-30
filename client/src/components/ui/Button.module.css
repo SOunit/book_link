@@ -6,3 +6,7 @@
   color: white;
   font-weight: bold;
 }
+
+.button--inactive {
+  background-color: rgb(177, 177, 177);
+}
