@@ -1,5 +1,5 @@
 import Item from '../../models/Item';
-import SearchedItem from './SearchedItem';
+import ItemCard from '../ui/ItemCard';
 import { Fragment } from 'react';
 
 type SearchdItemsProps = {
@@ -15,10 +15,10 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
       (elem) => elem.id === item.id
     );
     return (
-      <SearchedItem
+      <ItemCard
         key={item.id}
         item={item}
-        onAddRegisteredItem={props.onAddRegisteredItem}
+        onButtonClick={props.onAddRegisteredItem}
         buttonDisabled={buttonDisabled}
       />
     );

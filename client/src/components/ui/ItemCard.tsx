@@ -1,14 +1,14 @@
 import Item from '../../models/Item';
-import classes from './SearchedItem.module.css';
+import classes from './ItemCard.module.css';
 import Button from '../ui/Button';
 
-type SearchdItemProps = {
+type ItemCardProps = {
   item: Item;
   buttonDisabled: boolean;
-  onAddRegisteredItem: (item: Item) => void;
+  onButtonClick: (item: Item) => void;
 };
 
-const SearchedItem: React.FC<SearchdItemProps> = (props) => {
+const SearchedItem: React.FC<ItemCardProps> = (props) => {
   let imageTag = <div className={classes['image']}>No Image</div>;
   if (props.item.imageUrl) {
     imageTag = (
@@ -21,19 +21,15 @@ const SearchedItem: React.FC<SearchdItemProps> = (props) => {
   }
 
   return (
-    <div className={classes['searched-item']}>
+    <div className={classes['item-card']}>
       <div className={classes['image-container']}>{imageTag}</div>
-      <div className={classes['searched-item__details']}>
-        <div className={classes['searched-item__title']}>
-          {props.item.title}
-        </div>
-        <div className={classes['searched-item__author']}>
-          {props.item.author}
-        </div>
+      <div className={classes['item-card__details']}>
+        <div className={classes['item-card__title']}>{props.item.title}</div>
+        <div className={classes['item-card__author']}>{props.item.author}</div>
         <div className={classes['button-container']}>
           <Button
             buttonText={'add'}
-            onButtonClick={() => props.onAddRegisteredItem(props.item)}
+            onButtonClick={() => props.onButtonClick(props.item)}
             disabled={props.buttonDisabled}
           />
         </div>
