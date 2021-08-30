@@ -48,6 +48,10 @@ const SearchUsers = () => {
     });
   };
 
+  const userSearchHandler = () => {
+    console.log('user search!');
+  };
+
   let registeredItemSection = null;
   if (registeredItems.length > 0) {
     registeredItemSection = (
@@ -57,7 +61,14 @@ const SearchUsers = () => {
           items={registeredItems}
           onDeleteRegistedItem={deleteRegisteredItemHandler}
         />
-        <div className={classes['button-container']}></div>
+        <div className={classes['button-container']}>
+          <Button
+            buttonText={'Search users'}
+            disabled={false}
+            isDeleteButton={false}
+            onButtonClick={userSearchHandler}
+          />
+        </div>
       </section>
     );
   }
