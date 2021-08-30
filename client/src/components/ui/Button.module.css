@@ -7,6 +7,10 @@
   font-weight: bold;
 }
 
+.button--delete {
+  background-color: brown;
+}
+
 .button--inactive {
   background-color: rgb(177, 177, 177);
 }

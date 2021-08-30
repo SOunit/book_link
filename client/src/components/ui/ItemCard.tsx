@@ -9,6 +9,7 @@ type ItemCardProps = {
   onButtonClick: any;
   // FIXME: be able to set conditionally?
   buttonDisabled: boolean;
+  isDeleteButton: boolean;
 };
 
 const SearchedItem: React.FC<ItemCardProps> = (props) => {
@@ -34,6 +35,7 @@ const SearchedItem: React.FC<ItemCardProps> = (props) => {
             buttonText={props.buttonText}
             onButtonClick={() => props.onButtonClick(props.item)}
             disabled={props.buttonDisabled}
+            isDeleteButton={props.isDeleteButton}
           />
         </div>
       </div>

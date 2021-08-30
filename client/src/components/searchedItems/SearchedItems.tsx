@@ -21,6 +21,7 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
         buttonText='add'
         onButtonClick={props.onAddRegisteredItem}
         buttonDisabled={buttonDisabled}
+        isDeleteButton={false}
       />
     );
   });

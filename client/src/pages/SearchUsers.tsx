@@ -2,8 +2,9 @@ import { Fragment, useState } from 'react';
 import Item from './../models/Item';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar';
-import classes from './SearchUsers.module.css';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
+import Button from '../components/ui/Button';
+import classes from './SearchUsers.module.css';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
@@ -18,8 +19,16 @@ const SearchUsers = () => {
     setIsItemSearched(true);
   };
 
-  const deleteRegisteredItemHandler = () => {
+  const deleteRegisteredItemHandler = (id: string) => {
     console.log('delete registered item');
+    console.log('item id', id);
+
+    setRegisteredItems((prevState) => {
+      const updatedRegisteredItems = [...prevState].filter(
+        (elm) => elm.id !== id
+      );
+      return updatedRegisteredItems;
+    });
   };
 
   const addRegisteredItemHandler = (item: Item) => {
@@ -39,6 +48,20 @@ const SearchUsers = () => {
     });
   };
 
+  let registeredItemSection = null;
+  if (registeredItems.length > 0) {
+    registeredItemSection = (
+      <section>
+        <h2 className={classes['section-title']}>Registered items</h2>
+        <RegisteredItems
+          items={registeredItems}
+          onDeleteRegistedItem={deleteRegisteredItemHandler}
+        />
+        <div className={classes['button-container']}></div>
+      </section>
+    );
+  }
+
   return (
     <Fragment>
       <section className={classes['serach-bar']}>
@@ -56,9 +79,7 @@ const SearchUsers = () => {
           onAddRegisteredItem={addRegisteredItemHandler}
         />
       </section>
-      <section>
-        <RegisteredItems />
-      </section>
+      {registeredItemSection}
     </Fragment>
   );
 };
