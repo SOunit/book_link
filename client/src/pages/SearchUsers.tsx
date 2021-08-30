@@ -3,6 +3,7 @@ import Item from './../models/Item';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar';
 import classes from './SearchUsers.module.css';
+import RegisteredItems from '../components/registeredItems/RegisteredItems';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
@@ -54,6 +55,9 @@ const SearchUsers = () => {
           isItemSearched={isItemSearched}
           onAddRegisteredItem={addRegisteredItemHandler}
         />
+      </section>
+      <section>
+        <RegisteredItems />
       </section>
     </Fragment>
   );
