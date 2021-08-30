@@ -2,8 +2,9 @@ import { FC } from 'react';
 import classes from './Button.module.css';
 
 type ButtonProps = {
-  buttonText: String;
+  buttonText: string;
   disabled: boolean;
+  // FIXME: any
   onButtonClick: () => any;
 };
 
