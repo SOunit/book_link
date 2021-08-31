@@ -12,12 +12,20 @@ const ButtonTypes = {
   NORMAL: 'NORMAL',
   DELETE: 'DELETE',
   IN_ACTIVE: 'IN_ACTIVE',
+  TWITTER: 'TWITTER',
+  FOLLOWING: 'FOLLOWING',
 };
 
 const Button: FC<ButtonProps> = (props) => {
   const classList = [classes['button']];
   if (props.buttonType === ButtonTypes.DELETE) {
     classList.push(classes['button--delete']);
+  }
+  if (props.buttonType === ButtonTypes.TWITTER) {
+    classList.push(classes['button--twitter']);
+  }
+  if (props.buttonType === ButtonTypes.FOLLOWING) {
+    classList.push(classes['button--following']);
   }
   if (props.buttonType === ButtonTypes.IN_ACTIVE) {
     classList.push(classes['button--inactive']);

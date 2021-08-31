@@ -1,14 +1,26 @@
+import { FC, Fragment } from 'react';
+import User from '../../../models/User';
 import Buttons from '../Buttons/Buttons';
 import Button, { ButtonTypes } from '../Buttons/Button';
-import { Fragment } from 'react';
+import classes from './UserCardDetails.module.css';
 
-const UserCardDetails = () => {
+type UserCardDetailsProps = {
+  user: User;
+};
+
+const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
   return (
     <Fragment>
+      <div className={classes['user-card__name']}>{props.user.name}</div>
       <Buttons>
         <Button
           buttonText={'Detail'}
           buttonType={ButtonTypes.NORMAL}
+          onButtonClick={() => {}}
+        />
+        <Button
+          buttonText={'Follow'}
+          buttonType={ButtonTypes.TWITTER}
           onButtonClick={() => {}}
         />
       </Buttons>
