@@ -1,4 +1,4 @@
-.searched-item {
+.item-card {
   display: flex;
   margin: 0.5rem 0;
   padding-bottom: 0.5rem;
@@ -19,14 +19,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.5);
 }
 
-.searched-item__title {
+.item-card__details {
+  flex-grow: 1;
+}
+
+.item-card__title {
   font-weight: bold;
   margin: 1rem;
 }
 
-.searched-item__author {
+.item-card__author {
   margin: 1rem;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

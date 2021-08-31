@@ -1,18 +1,27 @@
 import Item from '../../models/Item';
-import SearchedItem from './SearchedItem';
+import ItemCard from '../ui/ItemCard';
 import { Fragment } from 'react';
 
-const SearchedItems: React.FC<{ items: Item[]; isItemSearched: boolean }> = (
-  props
-) => {
-  let dispItems = props.items.map((item) => {
+type SearchdItemsProps = {
+  items: Item[];
+  registeredItems: Item[];
+  isItemSearched: boolean;
+  onAddRegisteredItem: (item: Item) => void;
+};
+
+const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
+  const dispItems = props.items.map((item) => {
+    const buttonDisabled = props.registeredItems.some(
+      (elem) => elem.id === item.id
+    );
     return (
-      <SearchedItem
+      <ItemCard
         key={item.id}
-        title={item.title}
-        id={item.id}
-        author={item.author}
-        imageUrl={item.imageUrl}
+        item={item}
+        buttonText='add'
+        onButtonClick={props.onAddRegisteredItem}
+        buttonDisabled={buttonDisabled}
+        isDeleteButton={false}
       />
     );
   });

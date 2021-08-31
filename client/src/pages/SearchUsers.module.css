@@ -3,3 +3,13 @@
   border-bottom: 1px solid rgb(226, 226, 226);
   margin-bottom: 1.5rem;
 }
+
+.section-title {
+  text-align: center;
+}
+
+.button-container {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}

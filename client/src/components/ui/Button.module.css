@@ -1,0 +1,16 @@
+.button {
+  background-color: #1f1f79;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+}
+
+.button--delete {
+  background-color: brown;
+}
+
+.button--inactive {
+  background-color: rgb(177, 177, 177);
+}
