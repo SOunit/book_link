@@ -33,9 +33,3 @@
 .item-card__author {
   margin: 1rem;
 }
-
-.button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}

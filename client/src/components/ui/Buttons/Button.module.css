@@ -5,6 +5,7 @@
   border-radius: 8px;
   color: white;
   font-weight: bold;
+  margin: 0 1rem;
 }
 
 .button--delete {

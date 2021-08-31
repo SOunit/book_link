@@ -1,8 +1,9 @@
-import Item from '../../models/Item';
+import Item from '../../../models/Item';
 import classes from './ItemCard.module.css';
-import Button from '../ui/Button';
+import Button from '../Buttons/Button';
+import Buttons from '../Buttons/Buttons';
 
-type ItemCardProps = {
+type DispCardProps = {
   item: Item;
   buttonText: string;
   // FIXME: any
@@ -12,7 +13,7 @@ type ItemCardProps = {
   isDeleteButton: boolean;
 };
 
-const SearchedItem: React.FC<ItemCardProps> = (props) => {
+const DipsCard: React.FC<DispCardProps> = (props) => {
   let imageTag = <div className={classes['image']}>No Image</div>;
   if (props.item.imageUrl) {
     imageTag = (
@@ -30,17 +31,17 @@ const SearchedItem: React.FC<ItemCardProps> = (props) => {
       <div className={classes['item-card__details']}>
         <div className={classes['item-card__title']}>{props.item.title}</div>
         <div className={classes['item-card__author']}>{props.item.author}</div>
-        <div className={classes['button-container']}>
+        <Buttons>
           <Button
             buttonText={props.buttonText}
             onButtonClick={() => props.onButtonClick(props.item)}
             disabled={props.buttonDisabled}
             isDeleteButton={props.isDeleteButton}
           />
-        </div>
+        </Buttons>
       </div>
     </div>
   );
 };
 
-export default SearchedItem;
+export default DipsCard;
