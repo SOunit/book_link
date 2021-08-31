@@ -34,6 +34,8 @@ const setupDummyData = async () => {
     id: '2',
     name: 'Rebecca',
     about: 'test about',
+    imageUrl:
+      'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3033&q=80',
   });
 
   await rebecca.createItem({
@@ -56,6 +58,8 @@ const setupDummyData = async () => {
     id: '3',
     name: 'Kevin',
     about: 'test about',
+    imageUrl:
+      'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2744&q=80',
   });
 
   await kevin.createItem({
@@ -64,6 +68,32 @@ const setupDummyData = async () => {
     author: 'Ryotaro Shiba',
     imageUrl:
       'https://images-na.ssl-images-amazon.com/images/I/511LCOghq2L.jpg',
+  });
+
+  await UserItem.create({
+    userId: '3',
+    itemId: '20',
+  });
+
+  const kate = await User.create({
+    id: '4',
+    name: 'Kate',
+    about: 'test about',
+    imageUrl:
+      'https://images.unsplash.com/photo-1618508035424-73ad1a15006c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2801&q=80',
+  });
+
+  await UserItem.create({
+    userId: '4',
+    itemId: '20',
+  });
+
+  await kate.createItem({
+    id: '40',
+    title: 'Zatch Bell!',
+    author: 'Makoto Raiku',
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/51ux4gmFUCL.jpg',
   });
 };
 
@@ -75,7 +105,13 @@ sequelize
   })
   .then((user: any) => {
     if (!user) {
-      return User.create({ id: '1', name: 'Jack', about: 'test about' });
+      return User.create({
+        id: '1',
+        name: 'Jack',
+        about: 'test about',
+        imageUrl:
+          'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80',
+      });
     }
     return user;
   })

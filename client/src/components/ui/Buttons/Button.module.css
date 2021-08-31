@@ -5,6 +5,7 @@
   border-radius: 8px;
   color: white;
   font-weight: bold;
+  margin: 0.5rem;
 }
 
 .button--delete {
@@ -13,4 +14,15 @@
 
 .button--inactive {
   background-color: rgb(177, 177, 177);
+}
+
+.button--twitter {
+  background-color: white;
+  color: #1da1f2;
+  border: #1da1f2;
+  border: 1px solid #1da1f2;
+}
+
+.button--following {
+  background-color: #1da1f2;
 }

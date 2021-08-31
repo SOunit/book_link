@@ -1,6 +1,9 @@
 import { FC, Fragment } from 'react';
 import Item from '../../models/Item';
-import ItemCard from '../ui/ItemCard';
+import DispCard from '../ui/DispCard/DispCard';
+import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
+import Buttons from '../ui/Buttons/Buttons';
+import Button, { ButtonTypes } from '../ui/Buttons/Button';
 
 type RegisteredItemsProps = {
   items: Item[];
@@ -8,16 +11,30 @@ type RegisteredItemsProps = {
 };
 
 const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
-  const items = props.items.map((el) => (
-    <ItemCard
-      item={el}
-      key={el.id}
-      buttonText='Delete'
-      buttonDisabled={false}
-      onButtonClick={() => props.onDeleteRegistedItem(el.id)}
-      isDeleteButton={true}
-    />
-  ));
+  const createButtons = (item: Item) => {
+    const buttons = (
+      <Buttons>
+        <Button
+          buttonText='Delete'
+          buttonType={ButtonTypes.DELETE}
+          onButtonClick={() => props.onDeleteRegistedItem(item.id)}
+        />
+      </Buttons>
+    );
+
+    return buttons;
+  };
+
+  const items = props.items.map((el) => {
+    const buttons = createButtons(el);
+
+    return (
+      <DispCard imageUrl={el.imageUrl} imageName={el.title} key={el.id}>
+        <ItemCardDetail item={el} buttons={buttons} />
+      </DispCard>
+    );
+  });
+
   return <Fragment>{items}</Fragment>;
 };
 

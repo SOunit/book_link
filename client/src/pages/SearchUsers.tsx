@@ -1,15 +1,19 @@
 import { Fragment, useState } from 'react';
+import axios from 'axios';
 import Item from './../models/Item';
+import User from './../models/User';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
-import Button from '../components/ui/Button';
+import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
+import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
   const [isItemSearched, setIsItemSearched] = useState(false);
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
 
   const updateSearchedItemsHandler = (searchedItems: Item[]) => {
     setSearchedItems(searchedItems);
@@ -48,13 +52,43 @@ const SearchUsers = () => {
     });
   };
 
-  const userSearchHandler = () => {
+  const userSearchHandler = async () => {
+    const itemIdList: string[] = [];
+    registeredItems.map((item) => {
+      return itemIdList.push(item.id);
+    });
+
+    const graphqlQuery = {
+      query: `
+              query fetchUsersByItems($ids: [String!]!){
+                getUsersByItems(ids: $ids){
+                  id
+                  name
+                  about
+                  imageUrl
+                }
+              }
+            `,
+      variables: {
+        ids: itemIdList,
+      },
+    };
+
+    const result = await axios({
+      url: '/api/graphql',
+      method: 'post',
+      data: graphqlQuery,
+    });
+    console.log(result.data.data.getUsersByItems);
+
     console.log('user search!');
+
+    setSearchedUsers(result.data.data.getUsersByItems);
   };
 
-  let registeredItemSection = null;
+  let registeredItemsSection = null;
   if (registeredItems.length > 0) {
-    registeredItemSection = (
+    registeredItemsSection = (
       <section>
         <h2 className={classes['section-title']}>Registered items</h2>
         <RegisteredItems
@@ -64,13 +98,17 @@ const SearchUsers = () => {
         <div className={classes['button-container']}>
           <Button
             buttonText={'Search users'}
-            disabled={false}
-            isDeleteButton={false}
+            buttonType={ButtonTypes.NORMAL}
             onButtonClick={userSearchHandler}
           />
         </div>
       </section>
     );
+  }
+
+  let searchedUsersSection = null;
+  if (searchedUsers.length > 0) {
+    searchedUsersSection = <SearchedUsers users={searchedUsers} />;
   }
 
   return (
@@ -90,7 +128,8 @@ const SearchUsers = () => {
           onAddRegisteredItem={addRegisteredItemHandler}
         />
       </section>
-      {registeredItemSection}
+      {registeredItemsSection}
+      {searchedUsersSection}
     </Fragment>
   );
 };

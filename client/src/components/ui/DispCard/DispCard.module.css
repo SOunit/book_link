@@ -1,4 +1,4 @@
-.item-card {
+.disp-card {
   display: flex;
   margin: 0.5rem 0;
   padding-bottom: 0.5rem;
@@ -21,21 +21,6 @@
   align-items: center;
 }
 
-.item-card__details {
+.disp-card__details {
   flex-grow: 1;
-}
-
-.item-card__title {
-  font-weight: bold;
-  margin: 1rem;
-}
-
-.item-card__author {
-  margin: 1rem;
-}
-
-.button-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
