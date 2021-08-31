@@ -7,6 +7,9 @@ import { graphqlHTTP } from 'express-graphql';
 import graphqlSchema from './graphql/schema';
 import graphqlResolver from './graphql/resolvers';
 import sequelize from './util/database';
+import User from './models/sequelize/user';
+import Item from './models/sequelize/item';
+import UserItem from './models/sequelize/userItem';
 
 const app = express();
 app.use(cors());
@@ -23,14 +26,28 @@ app.use(
   })
 );
 
+User.belongsToMany(Item, { through: UserItem });
+Item.belongsToMany(User, { through: UserItem });
+
 // create table using model by sync command
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
+    return User.findByPk('1');
+  })
+  .then((user: any) => {
+    if (!user) {
+      return User.create({ id: '1', name: 'Jack', about: 'test about' });
+    }
+    return user;
+  })
+  .then((user: any) => {
+    console.log('sequelize sync, user', user);
+
     app.listen(5000, () => {
       console.log('Listening on port 5000');
     });
   })
-  .catch(() => {
-    console.log('error occured in sequelize sync');
+  .catch((err: any) => {
+    console.log('err in sync of sequelize', err);
   });
