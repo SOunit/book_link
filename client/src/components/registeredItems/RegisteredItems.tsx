@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react';
 import Item from '../../models/Item';
-import ItemCard from '../ui/ItemCard';
+import ItemCard from '../ui/DispCard/ItemCard';
 
 type RegisteredItemsProps = {
   items: Item[];

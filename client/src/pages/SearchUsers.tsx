@@ -5,7 +5,7 @@ import User from './../models/User';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
-import Button from '../components/ui/Button';
+import Button from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
 
 const SearchUsers = () => {
