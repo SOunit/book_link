@@ -34,6 +34,7 @@ export default buildSchema(`
         id: String!
         name: String!
         about: String
+        imageUrl: String
     }
 
 `);

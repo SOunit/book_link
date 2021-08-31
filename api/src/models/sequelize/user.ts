@@ -15,6 +15,10 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: true,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: true,
+  },
 });
 
 export default User;

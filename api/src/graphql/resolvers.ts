@@ -53,6 +53,7 @@ const resolvers = {
         id
         , name
         , about
+        , "imageUrl"
         from
         (
         select
