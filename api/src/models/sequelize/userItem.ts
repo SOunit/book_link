@@ -1,11 +1,22 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../util/database';
+import Item from './item';
+import User from './user';
 
 const UserItem = sequelize.define('userItem', {
-  id: {
+  userId: {
     type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
+  itemId: {
+    type: Sequelize.STRING,
+    references: {
+      model: Item,
+      key: 'id',
+    },
   },
 });
 

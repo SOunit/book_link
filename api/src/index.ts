@@ -29,6 +29,44 @@ app.use(
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
 
+const setupDummyData = async () => {
+  const rebecca = await User.create({
+    id: '2',
+    name: 'Rebecca',
+    about: 'test about',
+  });
+
+  await rebecca.createItem({
+    id: '10',
+    title: 'Majo',
+    author: 'Igarashi Daisuke',
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/518NRzHLRUL._SX349_BO1,204,203,200_.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '20',
+    title: 'Majo2',
+    author: 'Igarashi Daisuke',
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/71gDhFdvIcL.jpg',
+  });
+
+  const kevin = await User.create({
+    id: '3',
+    name: 'Kevin',
+    about: 'test about',
+  });
+
+  await kevin.createItem({
+    id: '30',
+    title: 'Kunitori Monogatari',
+    author: 'Ryotaro Shiba',
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/511LCOghq2L.jpg',
+  });
+};
+
 // create table using model by sync command
 sequelize
   .sync({ force: true })
@@ -43,6 +81,8 @@ sequelize
   })
   .then((user: any) => {
     console.log('sequelize sync, user', user);
+
+    setupDummyData();
 
     app.listen(5000, () => {
       console.log('Listening on port 5000');
