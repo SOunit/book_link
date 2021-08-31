@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Op } from 'sequelize';
+import { Op, QueryTypes } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
 import Value from '../models/sequelize/value';
 import Item from '../models/sequelize/item';
-import User from '../models/sequelize/user';
 import UserType from '../models/ts/User';
+import sequelize from '../util/database';
 
 const resolvers = {
   values: async () => {
@@ -48,24 +48,34 @@ const resolvers = {
   },
 
   getUsersByItems: async (args: { ids: String[] }) => {
-    console.log(args.ids);
+    const fetchedUsers = await sequelize.query(
+      `select
+        id
+        , name
+        , about
+        from
+        (
+        select
+        "userId"
+        , count("itemId")
+        from "userItems"
+        where
+        "itemId" in (:itemIds)
+        group by "userItems"."userId"
+        having count("itemId") = :itemIdsLength
+        ) as "targetUsers"
+        join users
+        on users.id = "targetUsers"."userId"
+        `,
+      {
+        replacements: { itemIds: args.ids, itemIdsLength: args.ids.length },
+        type: QueryTypes.SELECT,
+      }
+    );
 
     const users: UserType[] = [];
-
-    const fetchedItems = await Item.findAll({
-      where: { id: { [Op.in]: args.ids } },
-      include: User,
-    });
-    fetchedItems.map((fetchedItem: any) => {
-      const fetchedUsers = fetchedItem.users;
-      fetchedUsers.map((fetchedUser: any) => {
-        const data = fetchedUser.dataValues;
-
-        // push item if user id is new
-        if (!users.some((user) => user.id === data.id)) {
-          users.push({ id: data.id, name: data.name, about: data.about });
-        }
-      });
+    fetchedUsers.map((fetchedUser: UserType) => {
+      users.push(fetchedUser);
     });
 
     return users;
