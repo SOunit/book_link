@@ -1,16 +1,8 @@
 import Item from '../../../models/Item';
 import classes from './DispCard.module.css';
-import Button from '../Buttons/Button';
-import Buttons from '../Buttons/Buttons';
 
 type DispCardProps = {
   item: Item;
-  buttonText: string;
-  // FIXME: any
-  onButtonClick: any;
-  // FIXME: be able to set conditionally?
-  buttonDisabled: boolean;
-  isDeleteButton: boolean;
 };
 
 const DipsCard: React.FC<DispCardProps> = (props) => {
@@ -26,20 +18,9 @@ const DipsCard: React.FC<DispCardProps> = (props) => {
   }
 
   return (
-    <div className={classes['item-card']}>
+    <div className={classes['disp-card']}>
       <div className={classes['image-container']}>{imageTag}</div>
-      <div className={classes['item-card__details']}>
-        <div className={classes['item-card__title']}>{props.item.title}</div>
-        <div className={classes['item-card__author']}>{props.item.author}</div>
-        <Buttons>
-          <Button
-            buttonText={props.buttonText}
-            onButtonClick={() => props.onButtonClick(props.item)}
-            disabled={props.buttonDisabled}
-            isDeleteButton={props.isDeleteButton}
-          />
-        </Buttons>
-      </div>
+      <div className={classes['disp-card__details']}>{props.children}</div>
     </div>
   );
 };
