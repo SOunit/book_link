@@ -3,7 +3,6 @@ import { Op } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
 import Value from '../models/sequelize/value';
 import Item from '../models/sequelize/item';
-import UserItem from '../models/sequelize/userItem';
 import User from '../models/sequelize/user';
 import UserType from '../models/ts/User';
 
@@ -51,24 +50,22 @@ const resolvers = {
   getUsersByItems: async (args: { ids: String[] }) => {
     console.log(args.ids);
 
-    const userIds: String[] = [];
     const users: UserType[] = [];
 
-    const fetchedUserItems = await UserItem.findAll({
-      where: { itemId: { [Op.in]: args.ids } },
+    const fetchedItems = await Item.findAll({
+      where: { id: { [Op.in]: args.ids } },
+      include: User,
     });
-    fetchedUserItems.map((fetchedUserItem: any) => {
-      userIds.push(fetchedUserItem.userId);
-    });
+    fetchedItems.map((fetchedItem: any) => {
+      const fetchedUsers = fetchedItem.users;
+      fetchedUsers.map((fetchedUser: any) => {
+        const data = fetchedUser.dataValues;
 
-    const fetchedUsers = await User.findAll({
-      where: { id: { [Op.in]: userIds } },
-    });
-    // console.log(fetchedUsers);
-    fetchedUsers.map((fetchedUser: any) => {
-      const data = fetchedUser.dataValues;
-      console.log(data);
-      users.push({ id: data.id, name: data.name, about: data.about });
+        // push item if user id is new
+        if (!users.some((user) => user.id === data.id)) {
+          users.push({ id: data.id, name: data.name, about: data.about });
+        }
+      });
     });
 
     return users;
