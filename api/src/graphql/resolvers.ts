@@ -3,6 +3,9 @@ import { Op } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
 import Value from '../models/sequelize/value';
 import Item from '../models/sequelize/item';
+import UserItem from '../models/sequelize/userItem';
+import User from '../models/sequelize/user';
+import UserType from '../models/ts/User';
 
 const resolvers = {
   values: async () => {
@@ -43,6 +46,32 @@ const resolvers = {
     await Item.create(newItem);
 
     return newItem;
+  },
+
+  getUsersByItems: async (args: { ids: String[] }) => {
+    console.log(args.ids);
+
+    const userIds: String[] = [];
+    const users: UserType[] = [];
+
+    const fetchedUserItems = await UserItem.findAll({
+      where: { itemId: { [Op.in]: args.ids } },
+    });
+    fetchedUserItems.map((fetchedUserItem: any) => {
+      userIds.push(fetchedUserItem.userId);
+    });
+
+    const fetchedUsers = await User.findAll({
+      where: { id: { [Op.in]: userIds } },
+    });
+    // console.log(fetchedUsers);
+    fetchedUsers.map((fetchedUser: any) => {
+      const data = fetchedUser.dataValues;
+      console.log(data);
+      users.push({ id: data.id, name: data.name, about: data.about });
+    });
+
+    return users;
   },
 };
 

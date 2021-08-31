@@ -4,6 +4,7 @@ export default buildSchema(`
     type RootQuery {
         values: [Int!]!
         items(title: String): [Item!]!
+        getUsersByItems(ids: [String!]!): [User!]!
     }
 
     type RootMutation {
@@ -27,5 +28,12 @@ export default buildSchema(`
         title: String!
         author: String!
         imageUrl: String
-    }    
+    }
+
+    type User {
+        id: String!
+        name: String!
+        about: String
+    }
+
 `);
