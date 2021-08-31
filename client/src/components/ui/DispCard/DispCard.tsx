@@ -1,18 +1,18 @@
-import Item from '../../../models/Item';
 import classes from './DispCard.module.css';
 
 type DispCardProps = {
-  item: Item;
+  imageUrl: string;
+  imageName: string;
 };
 
 const DipsCard: React.FC<DispCardProps> = (props) => {
   let imageTag = <div className={classes['image']}>No Image</div>;
-  if (props.item.imageUrl) {
+  if (props.imageUrl) {
     imageTag = (
       <img
         className={classes['image']}
-        src={props.item.imageUrl}
-        alt={props.item.title}
+        src={props.imageUrl}
+        alt={props.imageName}
       />
     );
   }

@@ -3,7 +3,7 @@ import Item from '../../models/Item';
 import DispCard from '../ui/DispCard/DispCard';
 import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
-import Button from '../ui/Buttons/Button';
+import Button, { ButtonTypes } from '../ui/Buttons/Button';
 
 type SearchdItemsProps = {
   items: Item[];
@@ -22,8 +22,7 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
         <Button
           buttonText='add'
           onButtonClick={() => props.onAddRegisteredItem(item)}
-          disabled={buttonDisabled}
-          isDeleteButton={false}
+          buttonType={ButtonTypes.NORMAL}
         />
       </Buttons>
     );
@@ -31,23 +30,20 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
     return buttons;
   };
 
-  const dispItems = props.items.map((item) => {
+  let dispItems: any = props.items.map((item) => {
     const buttons = createButtons(item);
     return (
-      <DispCard key={item.id} item={item}>
+      <DispCard key={item.id} imageUrl={item.imageUrl} imageName={item.title}>
         <ItemCardDetail item={item} buttons={buttons} />
       </DispCard>
     );
   });
 
-  return (
-    <Fragment>
-      {dispItems}
-      {(!dispItems || dispItems.length === 0) && props.isItemSearched && (
-        <p>Item not found!</p>
-      )}
-    </Fragment>
-  );
+  if ((!dispItems || dispItems.length === 0) && props.isItemSearched) {
+    dispItems = <p>Item not found!</p>;
+  }
+
+  return <Fragment>{dispItems}</Fragment>;
 };
 
 export default SearchedItems;

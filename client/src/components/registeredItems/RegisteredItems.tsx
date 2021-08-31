@@ -3,7 +3,7 @@ import Item from '../../models/Item';
 import ItemCard from '../ui/DispCard/DispCard';
 import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
-import Button from '../ui/Buttons/Button';
+import Button, { ButtonTypes } from '../ui/Buttons/Button';
 
 type RegisteredItemsProps = {
   items: Item[];
@@ -16,9 +16,8 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
       <Buttons>
         <Button
           buttonText='Delete'
-          disabled={false}
+          buttonType={ButtonTypes.DELETE}
           onButtonClick={() => props.onDeleteRegistedItem(item.id)}
-          isDeleteButton={true}
         />
       </Buttons>
     );
@@ -30,7 +29,7 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
     const buttons = createButtons(el);
 
     return (
-      <ItemCard item={el} key={el.id}>
+      <ItemCard imageUrl={el.imageUrl} imageName={el.title} key={el.id}>
         <ItemCardDetail item={el} buttons={buttons} />
       </ItemCard>
     );

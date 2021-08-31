@@ -5,8 +5,9 @@ import User from './../models/User';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
-import Button from '../components/ui/Buttons/Button';
+import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
+import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
@@ -97,8 +98,7 @@ const SearchUsers = () => {
         <div className={classes['button-container']}>
           <Button
             buttonText={'Search users'}
-            disabled={false}
-            isDeleteButton={false}
+            buttonType={ButtonTypes.NORMAL}
             onButtonClick={userSearchHandler}
           />
         </div>
@@ -108,7 +108,7 @@ const SearchUsers = () => {
 
   let searchedUsersSection = null;
   if (searchedUsers.length > 0) {
-    searchedUsersSection = 'user exists!';
+    searchedUsersSection = <SearchedUsers users={searchedUsers} />;
   }
 
   return (
