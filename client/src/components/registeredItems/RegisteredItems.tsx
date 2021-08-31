@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react';
 import Item from '../../models/Item';
-import ItemCard from '../ui/DispCard/DispCard';
+import DispCard from '../ui/DispCard/DispCard';
 import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
@@ -29,11 +29,12 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
     const buttons = createButtons(el);
 
     return (
-      <ItemCard imageUrl={el.imageUrl} imageName={el.title} key={el.id}>
+      <DispCard imageUrl={el.imageUrl} imageName={el.title} key={el.id}>
         <ItemCardDetail item={el} buttons={buttons} />
-      </ItemCard>
+      </DispCard>
     );
   });
+
   return <Fragment>{items}</Fragment>;
 };
 

@@ -22,7 +22,9 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
         <Button
           buttonText='add'
           onButtonClick={() => props.onAddRegisteredItem(item)}
-          buttonType={ButtonTypes.NORMAL}
+          buttonType={
+            buttonDisabled ? ButtonTypes.IN_ACTIVE : ButtonTypes.NORMAL
+          }
         />
       </Buttons>
     );
