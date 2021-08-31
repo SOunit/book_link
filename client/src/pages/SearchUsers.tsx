@@ -49,6 +49,11 @@ const SearchUsers = () => {
   };
 
   const userSearchHandler = () => {
+    const itemIdList = [];
+    registeredItems.map((item) => {
+      itemIdList.push(item.id);
+    });
+
     console.log('user search!');
   };
 
