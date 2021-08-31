@@ -1,5 +1,5 @@
 import Item from '../../models/Item';
-import ItemCard from '../ui/DispCard/ItemCard';
+import ItemCard from '../ui/DispCard/DispCard';
 import { Fragment } from 'react';
 
 type SearchdItemsProps = {

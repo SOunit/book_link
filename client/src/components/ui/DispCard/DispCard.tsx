@@ -1,5 +1,5 @@
 import Item from '../../../models/Item';
-import classes from './ItemCard.module.css';
+import classes from './DispCard.module.css';
 import Button from '../Buttons/Button';
 import Buttons from '../Buttons/Buttons';
 
