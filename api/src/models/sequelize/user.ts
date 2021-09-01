@@ -12,7 +12,7 @@ const User = sequelize.define('user', {
     allowNull: false,
   },
   about: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true,
   },
   imageUrl: {

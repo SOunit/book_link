@@ -33,7 +33,10 @@ const setupDummyData = async () => {
   const rebecca = await User.create({
     id: '2',
     name: 'Rebecca',
-    about: 'test about',
+    about: `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Consequatur ex accusantium saepe sint sit fuga doloribus minima,
+            repudiandae molestiae voluptate? Minima tenetur quos rem nulla quo
+            praesentium libero reiciendis quam!`,
     imageUrl:
       'https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=3033&q=80',
   });
@@ -49,7 +52,7 @@ const setupDummyData = async () => {
   await rebecca.createItem({
     id: '20',
     title: 'Majo2',
-    author: 'Igarashi Daisuke',
+    author: `Igarashi Daisuke`,
     imageUrl:
       'https://images-na.ssl-images-amazon.com/images/I/71gDhFdvIcL.jpg',
   });
@@ -57,7 +60,7 @@ const setupDummyData = async () => {
   const kevin = await User.create({
     id: '3',
     name: 'Kevin',
-    about: 'test about',
+    about: ``,
     imageUrl:
       'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2744&q=80',
   });
@@ -78,7 +81,10 @@ const setupDummyData = async () => {
   const kate = await User.create({
     id: '4',
     name: 'Kate',
-    about: 'test about',
+    about: `Lorem ipsum dolor sit amet consectetur adipisicing elit. A
+            asperiores autem voluptatum nostrum provident voluptas, corrupti
+            animi quas! Temporibus error harum nam sapiente totam maiores non
+            vitae impedit recusandae aut.`,
     imageUrl:
       'https://images.unsplash.com/photo-1618508035424-73ad1a15006c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2801&q=80',
   });
@@ -108,7 +114,7 @@ sequelize
       return User.create({
         id: '1',
         name: 'Jack',
-        about: 'test about',
+        about: `hi, I'm jack.`,
         imageUrl:
           'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80',
       });
