@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import axios from 'axios';
+import { Fragment, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 type UserDetailParams = {
@@ -7,6 +8,11 @@ type UserDetailParams = {
 
 const UserDetail = () => {
   const params = useParams<UserDetailParams>();
+
+  useEffect(() => {
+    const result = axios({});
+  }, []);
+
   return (
     <Fragment>
       user detail
