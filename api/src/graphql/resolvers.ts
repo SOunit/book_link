@@ -1,31 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Op, QueryTypes } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
-import Value from '../models/sequelize/value';
 import Item from '../models/sequelize/item';
 import UserType from '../models/ts/User';
 import sequelize from '../util/database';
+import User from '../models/sequelize/user';
 
 const resolvers = {
-  values: async () => {
-    const result = await Value.findAll();
-
-    const values: number[] = [];
-    result.map((obj: { number: number }) => {
-      values.push(obj.number);
-    });
-
-    return values;
-  },
-
-  createValue: async (args: { value: number }) => {
-    await Value.create({
-      number: args.value,
-    });
-
-    return 200;
-  },
-
   // FIXME: any type to something
   items: async (args: any, req: any) => {
     const titleQuery = args.title;
@@ -80,6 +61,19 @@ const resolvers = {
     });
 
     return users;
+  },
+
+  getUser: async (args: { id: string }) => {
+    const result = await User.findByPk(args.id);
+
+    const userData = result.dataValues;
+
+    return {
+      id: userData.id,
+      name: userData.name,
+      about: userData.about,
+      imageUrl: userData.imageUrl,
+    };
   },
 };
 

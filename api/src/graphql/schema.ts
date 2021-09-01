@@ -2,9 +2,9 @@ import { buildSchema } from 'graphql';
 
 export default buildSchema(`
     type RootQuery {
-        values: [Int!]!
         items(title: String): [Item!]!
         getUsersByItems(ids: [String!]!): [User!]!
+        getUser(id: String!): User!
     }
 
     type RootMutation {
