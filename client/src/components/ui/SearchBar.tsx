@@ -27,7 +27,7 @@ const SearchBar: React.FC<{
     const graphqlQuery = {
       query: `
               query fetchItems ($title: String){
-                items(title: $title){
+                itemsByTitle(title: $title){
                   id
                   title
                   author
@@ -46,7 +46,7 @@ const SearchBar: React.FC<{
       data: graphqlQuery,
     });
 
-    props.onUpdateSearchedItems(result.data.data.items);
+    props.onUpdateSearchedItems(result.data.data.itemsByTitle);
     props.onUpdateIsItemSearched();
   };
 
