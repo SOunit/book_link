@@ -5,6 +5,8 @@ import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './UserDetail.module.css';
+import UserInfo from '../components/userInfo/UserInfo';
+import UserItems from '../components/userItems/UserItems';
 
 type UserDetailParams = {
   userId: string;
@@ -50,44 +52,9 @@ const UserDetail = () => {
 
   let dispUser = null;
   if (user) {
-    let aboutText = 'No comment yet!';
-    if (user.about && user.about.length > 0) {
-      aboutText = user.about;
-    }
-
-    let itemList: any[] = [];
-    if (user.items.length > 0) {
-      user.items.map((item) =>
-        itemList.push(
-          <div key={item.id} className={classes['user-item']}>
-            <div className={classes['image-container']}>
-              <img
-                className={classes['image']}
-                src={item.imageUrl}
-                alt={item.title}
-              />
-            </div>
-          </div>
-        )
-      );
-    }
     dispUser = (
       <Fragment>
-        <div className={classes['user-info']}>
-          <div
-            className={`${classes['image-container']} ${classes['user-image-container']}`}
-          >
-            <img
-              className={`${classes['image']} ${classes['user-info__image']}`}
-              src={user.imageUrl}
-              alt={user.name}
-            />
-          </div>
-          <div className={classes['user-info__details']}>
-            <p className={classes['user-info__name']}>{user.name}</p>
-          </div>
-        </div>
-        <p className={classes['user-about']}>{aboutText}</p>
+        <UserInfo user={user} />
         <Buttons>
           <Button
             buttonText='Follow'
@@ -100,7 +67,7 @@ const UserDetail = () => {
             onButtonClick={() => {}}
           />
         </Buttons>
-        <div className={classes['user-items']}>{itemList}</div>
+        <UserItems items={user.items} />
       </Fragment>
     );
   }
