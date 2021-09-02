@@ -2,13 +2,13 @@ import { buildSchema } from 'graphql';
 
 export default buildSchema(`
     type RootQuery {
-        values: [Int!]!
-        items(title: String): [Item!]!
+        itemsByTitle(title: String): [Item!]!
         getUsersByItems(ids: [String!]!): [User!]!
+        user(id: ID!): User!
+        item(id: ID!): Item!
     }
 
     type RootMutation {
-        createValue(value: Int!): Int!
         createItem(data: CreateItemInput!): Item!
     }
 
@@ -24,17 +24,19 @@ export default buildSchema(`
     }
 
     type Item {
-        id: String!
+        id: ID!
         title: String!
         author: String!
         imageUrl: String
+        users: [User]
     }
 
     type User {
-        id: String!
+        id: ID!
         name: String!
         about: String
         imageUrl: String
+        items: [Item]
     }
 
 `);
