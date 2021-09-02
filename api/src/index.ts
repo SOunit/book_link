@@ -194,6 +194,16 @@ const setupDummyData = async () => {
     imageUrl:
       'https://images-na.ssl-images-amazon.com/images/I/51ux4gmFUCL.jpg',
   });
+
+  await UserItem.create({
+    userId: '1',
+    itemId: '20',
+  });
+
+  await UserItem.create({
+    userId: '1',
+    itemId: '30',
+  });
 };
 
 // create table using model by sync command

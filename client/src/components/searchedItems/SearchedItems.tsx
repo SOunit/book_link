@@ -42,16 +42,6 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
     );
   });
 
-  if ((!dispItems || dispItems.length === 0) && !props.isItemSearched) {
-    dispItems = (
-      <Fragment>
-        <p className={`${classes['message']} ${classes['message--initial']}`}>
-          For friends with the same interests.
-        </p>
-      </Fragment>
-    );
-  }
-
   if ((!dispItems || dispItems.length === 0) && props.isItemSearched) {
     dispItems = <p className={classes['message']}>Item not found!</p>;
   }
