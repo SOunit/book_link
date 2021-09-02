@@ -1,0 +1,9 @@
+.message {
+  text-align: center;
+}
+
+.message--initial {
+  font-family: 'Cedarville Cursive', cursive;
+  font-weight: bold;
+  font-size: 1.2rem;
+}

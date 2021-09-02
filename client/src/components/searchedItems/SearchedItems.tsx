@@ -4,6 +4,7 @@ import DispCard from '../ui/DispCard/DispCard';
 import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
+import classes from './SearchedItems.module.css';
 
 type SearchdItemsProps = {
   items: Item[];
@@ -41,8 +42,18 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
     );
   });
 
+  if ((!dispItems || dispItems.length === 0) && !props.isItemSearched) {
+    dispItems = (
+      <Fragment>
+        <p className={`${classes['message']} ${classes['message--initial']}`}>
+          For friends with the same interests.
+        </p>
+      </Fragment>
+    );
+  }
+
   if ((!dispItems || dispItems.length === 0) && props.isItemSearched) {
-    dispItems = <p>Item not found!</p>;
+    dispItems = <p className={classes['message']}>Item not found!</p>;
   }
 
   return <Fragment>{dispItems}</Fragment>;
