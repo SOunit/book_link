@@ -55,12 +55,30 @@ const UserDetail = () => {
       aboutText = user.about;
     }
 
+    let itemList: any[] = [];
+    if (user.items.length > 0) {
+      user.items.map((item) =>
+        itemList.push(
+          <div key={item.id} className={classes['user-item']}>
+            <div className={classes['image-container']}>
+              <img
+                className={classes['image']}
+                src={item.imageUrl}
+                alt={item.title}
+              />
+            </div>
+          </div>
+        )
+      );
+    }
     dispUser = (
       <Fragment>
         <div className={classes['user-info']}>
-          <div className={classes['image-container']}>
+          <div
+            className={`${classes['image-container']} ${classes['user-image-container']}`}
+          >
             <img
-              className={classes['user-info__image']}
+              className={`${classes['image']} ${classes['user-info__image']}`}
               src={user.imageUrl}
               alt={user.name}
             />
@@ -82,7 +100,7 @@ const UserDetail = () => {
             onButtonClick={() => {}}
           />
         </Buttons>
-        <div></div>
+        <div className={classes['user-items']}>{itemList}</div>
       </Fragment>
     );
   }

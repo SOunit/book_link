@@ -3,11 +3,17 @@
 }
 
 .image-container {
+}
+
+.image {
+  width: 100%;
+}
+
+.user-image-container {
   max-width: 8rem;
 }
 
 .user-info__image {
-  width: 100%;
   border-radius: 10px;
 }
 
@@ -25,4 +31,15 @@
   background-color: rgb(221, 239, 255);
   padding: 1rem;
   border-radius: 10px;
+}
+
+.user-items {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.user-item {
+  max-width: 32%;
 }

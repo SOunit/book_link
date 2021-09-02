@@ -57,6 +57,99 @@ const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/71gDhFdvIcL.jpg',
   });
 
+  await rebecca.createItem({
+    id: '50',
+    title: 'Dorohedoro',
+    author: `Q Hayashida`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/81hJWZiZheL.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '60',
+    title: 'Atom the Beginning',
+    author: `Tetsuro Kasahara`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/91oqiYYAUpL.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '70',
+    title: 'HISTORIĒ',
+    author: `Iwaaki Hitoshi`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/51RCfblrEjL.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '80',
+    title: 'Attack on Titan',
+    author: `Hajime Isayama`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/A1uSJx8pG-S.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '90',
+    title: 'Steve Jobs',
+    author: `Mari Yamazaki`,
+    imageUrl: 'https://m.media-amazon.com/images/I/516w7mS6LKL.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '91',
+    title: 'Bataashi Kingyo',
+    author: `Minetaro Mochizuki`,
+    imageUrl: 'https://decadeview.ocnk.net/data/decadeview/product/1030-1.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '92',
+    title: 'Tobu ga Gotoku',
+    author: `Ryotaro Shiba`,
+    imageUrl: 'https://m.media-amazon.com/images/I/41lVVfWe06L.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '93',
+    title: 'RYOMA！',
+    author: `Ryotaro Shiba`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/41HMEAKYQXL.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '94',
+    title: 'Taikoki',
+    author: `Ryotaro Shiba`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/61myrbUC70L._SX360_BO1,204,203,200_.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '95',
+    title: 'One Child',
+    author: `Torey L. Hayden`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/61PUPRhrFcS.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '96',
+    title: "Tiger's child",
+    author: `Torey L. Hayden`,
+    imageUrl:
+      'https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781439107188/tigers-child-9781439107188_hr.jpg',
+  });
+
+  await rebecca.createItem({
+    id: '97',
+    title: 'Beautiful child',
+    author: `Torey L. Hayden`,
+    imageUrl:
+      'https://images-na.ssl-images-amazon.com/images/I/61RBtK1SP0L.jpg',
+  });
+
   const kevin = await User.create({
     id: '3',
     name: 'Kevin',
