@@ -1,7 +1,3 @@
-.user-info {
-  display: flex;
-}
-
 .image-container {
 }
 
@@ -11,35 +7,4 @@
 
 .user-image-container {
   max-width: 8rem;
-}
-
-.user-info__image {
-  border-radius: 10px;
-}
-
-.user-info__details {
-  margin: 0 1rem;
-  flex-grow: 1;
-}
-
-.user-info__name {
-  font-weight: bold;
-  margin-top: 0;
-}
-
-.user-about {
-  background-color: rgb(221, 239, 255);
-  padding: 1rem;
-  border-radius: 10px;
-}
-
-.user-items {
-  margin-top: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.user-item {
-  max-width: 32%;
 }

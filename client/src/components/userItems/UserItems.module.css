@@ -1,0 +1,10 @@
+.user-items {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.user-item {
+  max-width: 32%;
+}
