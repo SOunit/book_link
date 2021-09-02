@@ -2,6 +2,7 @@ import { Fragment, useState } from 'react';
 
 import MainNavigation from './MainNavigation';
 import SideNavigation from './SideNavigation';
+import FooterNav from './FooterNav';
 
 import classes from './Layout.module.css';
 import Backdrop from '../ui/Backdrop';
@@ -23,6 +24,7 @@ const Layout: React.FC = (props) => {
         <SideNavigation onSideMenuToggle={sideMenuToggleHandler} />
       )}
       <main className={classes.main}>{props.children}</main>
+      <FooterNav />
     </Fragment>
   );
 };
