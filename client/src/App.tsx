@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
+import Home from './pages/Home';
 import './App.css';
 
 function App() {
@@ -17,6 +18,9 @@ function App() {
         </Route>
         <Route path='/users/:userId'>
           <UserDetail />
+        </Route>
+        <Route path='/home'>
+          <Home />
         </Route>
         <Route path='*'>
           <PageNotFound />
