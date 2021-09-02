@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
-import classes from './UserDetail.module.css';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 
