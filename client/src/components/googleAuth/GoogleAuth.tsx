@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import keys from '../../util/keys';
+import classes from './GoogleAuth.module.css';
 
 const GoogleAuth: FC = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
@@ -26,11 +27,25 @@ const GoogleAuth: FC = () => {
 
   const renderAuthButton = () => {
     if (isSignedIn === null) {
-      return <div>Loading...</div>;
+      return null;
     } else if (isSignedIn) {
-      return <div>Signed in</div>;
+      return (
+        <button
+          className={`${classes['google-button']} ${classes['google-button--sign-out']}`}
+        >
+          <i
+            className={`fab fa-google ${classes['google-button__icon']} ${classes['google-button--sign-out__icon']}`}
+          ></i>
+          <p>Sign out</p>
+        </button>
+      );
     } else if (!isSignedIn) {
-      return <div>Not signed in</div>;
+      return (
+        <button className={`${classes['google-button']}`}>
+          <i className={`fab fa-google ${classes['google-button__icon']}`}></i>
+          <p>Sign in with Google</p>
+        </button>
+      );
     }
   };
 

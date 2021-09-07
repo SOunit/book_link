@@ -38,6 +38,15 @@ const MainNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
               Home
             </NavLink>
           </li>
+          <li className={classes['main-header__nav-item']}>
+            <NavLink
+              to='/login'
+              className={classes['main-header__nav-link']}
+              activeClassName={classes['main-header__nav-link--active']}
+            >
+              Sign in
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <div
