@@ -4,12 +4,16 @@ import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import './App.css';
 
 function App() {
   return (
     <Layout>
       <Switch>
+        <Route path='/login'>
+          <Login />
+        </Route>
         <Route path='/' exact>
           <Redirect to='/search' />
         </Route>
