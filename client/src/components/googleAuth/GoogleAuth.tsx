@@ -4,6 +4,7 @@ import classes from './GoogleAuth.module.css';
 
 const GoogleAuth: FC = () => {
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   let auth: any;
 
   const onAuthChange = () => {
@@ -25,6 +26,17 @@ const GoogleAuth: FC = () => {
     });
   }, []);
 
+  const signInClickHandler = () => {
+    const auth = window.gapi.auth2.getAuthInstance();
+    auth.signIn();
+    setUserId(auth.currentUser.get().getId());
+  };
+
+  const signOutClickHandler = () => {
+    window.gapi.auth2.getAuthInstance().signOut();
+    setUserId(null);
+  };
+
   const renderAuthButton = () => {
     if (isSignedIn === null) {
       return null;
@@ -32,6 +44,7 @@ const GoogleAuth: FC = () => {
       return (
         <button
           className={`${classes['google-button']} ${classes['google-button--sign-out']}`}
+          onClick={signOutClickHandler}
         >
           <i
             className={`fab fa-google ${classes['google-button__icon']} ${classes['google-button--sign-out__icon']}`}
@@ -41,7 +54,10 @@ const GoogleAuth: FC = () => {
       );
     } else if (!isSignedIn) {
       return (
-        <button className={`${classes['google-button']}`}>
+        <button
+          className={`${classes['google-button']}`}
+          onClick={signInClickHandler}
+        >
           <i className={`fab fa-google ${classes['google-button__icon']}`}></i>
           <p>Sign in with Google</p>
         </button>
