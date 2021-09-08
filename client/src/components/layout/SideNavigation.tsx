@@ -1,8 +1,11 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import GoogleAuth from '../googleAuth/GoogleAuth';
+import AuthContext from '../../store/auth-context';
 import classes from './SideNavigation.module.css';
 
 const SideNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <div className={classes['side-navigation']}>
       <nav className={classes['side-navigation__nav']}>
@@ -44,7 +47,7 @@ const SideNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
               activeClassName={classes['side-navigation__link--active']}
               onClick={props.onSideMenuToggle}
             >
-              Sign in
+              Sign out
             </NavLink>
           </li>
         </ul>

@@ -1,14 +1,25 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useContext } from 'react';
 import keys from '../../util/keys';
 import classes from './GoogleAuth.module.css';
+import AuthContext from '../../store/auth-context';
+
+let auth: any;
 
 const GoogleAuth: FC = () => {
+  const authCtx = useContext(AuthContext);
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  let auth: any;
 
   const onAuthChange = () => {
+    // local state
     setIsSignedIn(auth.isSignedIn.get());
+
+    // context state
+    const isLoggedIn = auth.isSignedIn.get();
+    if (isLoggedIn) {
+      authCtx.login(auth.currentUser.get().getId());
+    } else {
+      authCtx.logout();
+    }
   };
 
   useEffect(() => {
@@ -20,6 +31,7 @@ const GoogleAuth: FC = () => {
         })
         .then(() => {
           auth = window.gapi.auth2.getAuthInstance();
+          // local state
           setIsSignedIn(auth.isSignedIn.get());
           auth.isSignedIn.listen(onAuthChange);
         });
@@ -29,12 +41,10 @@ const GoogleAuth: FC = () => {
   const signInClickHandler = () => {
     const auth = window.gapi.auth2.getAuthInstance();
     auth.signIn();
-    setUserId(auth.currentUser.get().getId());
   };
 
   const signOutClickHandler = () => {
     window.gapi.auth2.getAuthInstance().signOut();
-    setUserId(null);
   };
 
   const renderAuthButton = () => {
