@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import GoogleAuth from '../googleAuth/GoogleAuth';
 import classes from './SideNavigation.module.css';
 
 const SideNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
@@ -34,6 +35,16 @@ const SideNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
               onClick={props.onSideMenuToggle}
             >
               Home
+            </NavLink>
+          </li>
+          <li className={classes['side-navigation__item']}>
+            <NavLink
+              to='/login'
+              className={classes['side-navigation__link']}
+              activeClassName={classes['side-navigation__link--active']}
+              onClick={props.onSideMenuToggle}
+            >
+              Sign in
             </NavLink>
           </li>
         </ul>
