@@ -1,4 +1,4 @@
-import { FC, useEffect, useContext, useCallback } from 'react';
+import { FC, useEffect, useContext, useCallback, Fragment } from 'react';
 import keys from '../../util/keys';
 import classes from './GoogleAuth.module.css';
 import AuthContext from '../../store/auth-context';
@@ -34,8 +34,7 @@ const GoogleAuth: FC = () => {
   }, [onAuthChange]);
 
   const signInClickHandler = () => {
-    const auth = window.gapi.auth2.getAuthInstance();
-    auth.signIn();
+    window.gapi.auth2.getAuthInstance().signIn();
     authCtx.login(auth.currentUser.get().getId());
   };
 
@@ -72,7 +71,7 @@ const GoogleAuth: FC = () => {
     }
   };
 
-  return <div>{renderAuthButton()}</div>;
+  return <Fragment>{renderAuthButton()}</Fragment>;
 };
 
 export default GoogleAuth;
