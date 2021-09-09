@@ -119,6 +119,11 @@ const resolvers = {
       users: [],
     };
   },
+
+  getUserCount: async (args: { id: string }) => {
+    const amount = await User.count({ where: { id: args.id } });
+    return amount;
+  },
 };
 
 export default resolvers;

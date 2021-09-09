@@ -6,6 +6,7 @@ export default buildSchema(`
         getUsersByItems(ids: [String!]!): [User!]!
         user(id: ID!): User!
         item(id: ID!): Item!
+        getUserCount(id: ID!): Int!
     }
 
     type RootMutation {
