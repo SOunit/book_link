@@ -1,5 +1,5 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import AuthContext from './store/auth-context';
 import Layout from './components/layout/Layout';
 import SearchUsers from './pages/SearchUsers';
@@ -13,39 +13,28 @@ function App() {
   const authCtx = useContext(AuthContext);
   const isLoggedIn = authCtx.isLoggedIn;
 
-  const loggedInRoutes = (
-    <Fragment>
-      <Route path='/' exact>
-        <Redirect to='/search' />
-      </Route>
-      <Route path='/search'>
-        <SearchUsers />
-      </Route>
-      <Route path='/users/:userId'>
-        <UserDetail />
-      </Route>
-      <Route path='/home'>
-        <Home />
-      </Route>
-    </Fragment>
-  );
-
-  const notLoggedInRoutes = (
-    <Fragment>
-      <Route path='/'>
-        <Redirect to='/login' />
-      </Route>
-    </Fragment>
-  );
-
   return (
     <Layout>
       <Switch>
         <Route path='/login'>
           <Login />
         </Route>
-        {isLoggedIn && loggedInRoutes}
-        {!isLoggedIn && notLoggedInRoutes}
+        <Route path='/' exact>
+          {isLoggedIn && <Redirect to='/search' />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/search'>
+          {isLoggedIn && <SearchUsers />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/users/:userId'>
+          {isLoggedIn && <UserDetail />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/home'>
+          {isLoggedIn && <Home />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
         <Route path='*'>
           <PageNotFound />
         </Route>
