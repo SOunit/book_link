@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { FC, Fragment, useEffect, useState, useContext } from 'react';
+import {
+  FC,
+  Fragment,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+} from 'react';
 import AuthContext from '../store/auth-context';
 import UserType from '../models/User';
 import UserInfo from '../components/userInfo/UserInfo';
@@ -11,7 +18,7 @@ const Home: FC<HomeProps> = (props) => {
   const [user, setUser] = useState<UserType>();
   const authCtx = useContext(AuthContext);
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     const graphqlQuery = {
       query: `
               query FetchUser($id: ID!){
@@ -41,11 +48,11 @@ const Home: FC<HomeProps> = (props) => {
     });
 
     setUser(result.data.data.user);
-  };
+  }, [authCtx.token]);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   let userInfo = null;
   let userItems = null;
