@@ -81,6 +81,10 @@ const resolvers = {
       include: Item,
     });
 
+    if (result.length <= 0) {
+      throw new Error('User not found');
+    }
+
     const userData = result[0].dataValues;
 
     const items: ItemType[] = [];
