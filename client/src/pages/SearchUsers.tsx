@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import axios from 'axios';
 import Item from './../models/Item';
 import User from './../models/User';
@@ -8,12 +8,14 @@ import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
 import SearchedUsers from '../components/seachedUsers/SearchedUsers';
+import AuthContext from '../store/auth-context';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
   const [isItemSearched, setIsItemSearched] = useState(false);
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
+  const authCtx = useContext(AuthContext);
 
   const updateSearchedItemsHandler = (searchedItems: Item[]) => {
     setSearchedItems(searchedItems);
@@ -60,8 +62,8 @@ const SearchUsers = () => {
 
     const graphqlQuery = {
       query: `
-              query fetchUsersByItems($ids: [String!]!){
-                getUsersByItems(ids: $ids){
+              query fetchUsersByItems($itemIds: [String!]!, $userId: String!){
+                getUsersByItems(itemIds: $itemIds, userId: $userId){
                   id
                   name
                   about
@@ -70,7 +72,8 @@ const SearchUsers = () => {
               }
             `,
       variables: {
-        ids: itemIdList,
+        itemIds: itemIdList,
+        userId: authCtx.token,
       },
     };
 
