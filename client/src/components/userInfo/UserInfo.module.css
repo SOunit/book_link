@@ -14,6 +14,17 @@
   border-radius: 10px;
 }
 
+.user-info__image--no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(236, 236, 236);
+  padding: 5rem 2rem;
+  color: rgb(99, 99, 99);
+  border-radius: 8px;
+  font-weight: bold;
+}
+
 .user-info__details {
   margin: 0 1rem;
   flex-grow: 1;

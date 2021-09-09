@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useEffect, useState, useContext } from 'react';
+import AuthContext from '../store/auth-context';
 import UserType from '../models/User';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
@@ -8,6 +9,7 @@ type HomeProps = {};
 
 const Home: FC<HomeProps> = (props) => {
   const [user, setUser] = useState<UserType>();
+  const authCtx = useContext(AuthContext);
 
   const fetchUser = async () => {
     const graphqlQuery = {
@@ -28,7 +30,7 @@ const Home: FC<HomeProps> = (props) => {
 
             `,
       variables: {
-        id: '1',
+        id: authCtx.token,
       },
     };
 
