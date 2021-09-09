@@ -27,6 +27,26 @@ export const AuthContextProvider: FC = (props) => {
 
   const createNewUser = async (id: string) => {
     console.log('create new user', id);
+
+    const graphqlQuery = {
+      query: `
+          mutation CreateUser($id: ID!){
+            createUser(id: $id){
+              id
+              name
+            }
+          }
+        `,
+      variables: {
+        id,
+      },
+    };
+
+    axios({
+      url: keys.GRAPHQL_REQUEST_URL,
+      method: 'post',
+      data: graphqlQuery,
+    });
   };
 
   const fetchUser = async (id: string) => {
@@ -36,7 +56,6 @@ export const AuthContextProvider: FC = (props) => {
           query FetchUser($id: ID!){
             getUserCount(id: $id)
           }
-
         `,
       variables: {
         id,
