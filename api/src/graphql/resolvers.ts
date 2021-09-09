@@ -49,7 +49,7 @@ const resolvers = {
     return newUser;
   },
 
-  getUsersByItems: async (args: { ids: String[] }) => {
+  getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
       `select
         id
@@ -58,20 +58,25 @@ const resolvers = {
         , "imageUrl"
         from
         (
-        select
-        "userId"
-        , count("itemId")
-        from "userItems"
-        where
-        "itemId" in (:itemIds)
-        group by "userItems"."userId"
-        having count("itemId") = :itemIdsLength
+          select
+          "userId"
+          , count("itemId")
+          from "userItems"
+          where
+          "itemId" in (:itemIds)
+          group by "userItems"."userId"
+          having count("itemId") = :itemIdsLength
         ) as "targetUsers"
         join users
         on users.id = "targetUsers"."userId"
+        where users.id <> :userId
         `,
       {
-        replacements: { itemIds: args.ids, itemIdsLength: args.ids.length },
+        replacements: {
+          itemIds: args.itemIds,
+          itemIdsLength: args.itemIds.length,
+          userId: args.userId,
+        },
         type: QueryTypes.SELECT,
       }
     );

@@ -3,7 +3,7 @@ import { buildSchema } from 'graphql';
 export default buildSchema(`
     type RootQuery {
         itemsByTitle(title: String): [Item!]!
-        getUsersByItems(ids: [String!]!): [User!]!
+        getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
         user(id: ID!): User!
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
