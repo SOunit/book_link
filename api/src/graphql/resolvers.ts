@@ -39,6 +39,16 @@ const resolvers = {
     return newItem;
   },
 
+  createUser: (args: { id: string }) => {
+    const newUser = User.create({
+      id: args.id,
+      name: 'new user',
+      about: ``,
+      imageUrl: '',
+    });
+    return newUser;
+  },
+
   getUsersByItems: async (args: { ids: String[] }) => {
     const fetchedUsers = await sequelize.query(
       `select

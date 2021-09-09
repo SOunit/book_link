@@ -11,6 +11,7 @@ export default buildSchema(`
 
     type RootMutation {
         createItem(data: CreateItemInput!): Item!
+        createUser(id: ID!): User!
     }
 
     schema {
