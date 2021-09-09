@@ -1,15 +1,17 @@
-import { FC, useEffect, useState, useContext } from 'react';
+import { FC, useEffect, useState, useContext, useCallback } from 'react';
 import keys from '../../util/keys';
 import classes from './GoogleAuth.module.css';
 import AuthContext from '../../store/auth-context';
+import { useHistory } from 'react-router';
 
 let auth: any;
 
 const GoogleAuth: FC = () => {
   const authCtx = useContext(AuthContext);
+  const history = useHistory();
   const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
 
-  const onAuthChange = () => {
+  const onAuthChange = useCallback(() => {
     // local state
     setIsSignedIn(auth.isSignedIn.get());
 
@@ -17,10 +19,12 @@ const GoogleAuth: FC = () => {
     const isLoggedIn = auth.isSignedIn.get();
     if (isLoggedIn) {
       authCtx.login(auth.currentUser.get().getId());
+      // FIXME: this code makes red warning in console
+      history.push('/');
     } else {
       authCtx.logout();
     }
-  };
+  }, [authCtx, history]);
 
   useEffect(() => {
     window.gapi.load('client:auth2', () => {
@@ -36,7 +40,7 @@ const GoogleAuth: FC = () => {
           auth.isSignedIn.listen(onAuthChange);
         });
     });
-  }, []);
+  }, [setIsSignedIn, onAuthChange]);
 
   const signInClickHandler = () => {
     const auth = window.gapi.auth2.getAuthInstance();

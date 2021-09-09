@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
@@ -15,7 +15,7 @@ const UserDetail = () => {
   const params = useParams<UserDetailParams>();
   const [user, setUser] = useState<UserType>();
 
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     const graphqlQuery = {
       query: `
             query fetchUser($id: ID!){
@@ -43,11 +43,11 @@ const UserDetail = () => {
       data: graphqlQuery,
     });
     setUser(result.data.data.user);
-  };
+  }, [params.userId]);
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [fetchUser]);
 
   let dispUser = null;
   if (user) {
