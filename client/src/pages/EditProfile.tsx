@@ -1,14 +1,24 @@
-import { FC, useContext, useEffect } from 'react';
-import AuthContext from '../store/auth-context';
+import { FC, Fragment } from 'react';
+import useUser from '../hooks/use-user';
+import UserInfo from '../components/userInfo/UserInfo';
+import UserEditForm from '../components/userEditForm/UserEditForm';
 
 const EditProfile: FC = () => {
-  const authCtx = useContext(AuthContext);
+  const user = useUser();
 
-  const fetchUser = async (id: string) => {};
+  let userInfo;
+  let userEditForm;
+  if (user) {
+    userInfo = <UserInfo user={user} />;
+    userEditForm = <UserEditForm user={user} />;
+  }
 
-  useEffect(() => {}, []);
-
-  return <div>Edit Profile</div>;
+  return (
+    <Fragment>
+      {userInfo}
+      {userEditForm}
+    </Fragment>
+  );
 };
 
 export default EditProfile;
