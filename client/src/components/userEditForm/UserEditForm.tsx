@@ -1,17 +1,30 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import classes from './UserEditForm.module.css';
 import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
 import UserType from '../../models/User';
+import { useHistory } from 'react-router';
 
 type UserEditFromProps = {
   user: UserType;
 };
 
 const UserEditForm: FC<UserEditFromProps> = (props) => {
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const imageUrlInputRef = useRef<HTMLInputElement>(null);
+  const aboutTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const history = useHistory();
+
   const submitHandler = (event: React.SyntheticEvent) => {
     event.preventDefault();
-    console.log('submit!');
+
+    const newUser = {
+      name: nameInputRef.current?.value,
+      imageUrl: imageUrlInputRef.current?.value,
+      about: aboutTextAreaRef.current?.value,
+    };
+    console.log('newUser', newUser);
+    history.push('/home');
   };
 
   return (
@@ -22,6 +35,7 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
         type='text'
         id='name'
         defaultValue={props.user.name}
+        ref={nameInputRef}
       />
       {/* FIXME: change image url to image file */}
       <label htmlFor='imageUrl'>Profile Image Url</label>
@@ -30,12 +44,14 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
         type='text'
         id='imageUrl'
         defaultValue={props.user.imageUrl}
+        ref={imageUrlInputRef}
       />
       <label htmlFor='about'>About</label>
       <textarea
         className={classes['user-edit__textarea']}
         id='about'
         defaultValue={props.user.about}
+        ref={aboutTextAreaRef}
       />
       <Buttons>
         <Button
