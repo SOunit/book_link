@@ -12,11 +12,19 @@ export default buildSchema(`
     type RootMutation {
         createItem(data: CreateItemInput!): Item!
         createUser(id: ID!): User!
+        updateUser(data: UpdateUserInput!): User!
     }
 
     schema {
         query: RootQuery
         mutation: RootMutation
+    }
+
+    input UpdateUserInput {
+        id: ID!
+        name: String!
+        imageUrl: String!
+        about: String!
     }
 
     input CreateItemInput {

@@ -49,6 +49,30 @@ const resolvers = {
     return newUser;
   },
 
+  updateUser: async (args: { data: UserType }) => {
+    const userInstance = await User.findByPk(args.data.id);
+    if (!userInstance) {
+      throw new Error('User not found!');
+    }
+
+    // update
+    if (args.data.name && args.data.name.length > 0) {
+      userInstance.name = args.data.name;
+      userInstance.about = args.data.about;
+      userInstance.imageUrl = args.data.imageUrl;
+
+      // save
+      userInstance.save();
+    }
+
+    return {
+      id: userInstance.id,
+      about: userInstance.about,
+      imageUrl: userInstance.imageUrl,
+      name: userInstance.name,
+    };
+  },
+
   getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
       `select
