@@ -2,6 +2,7 @@ import { FC, useEffect, useContext, useCallback, Fragment } from 'react';
 import keys from '../../util/keys';
 import classes from './GoogleAuth.module.css';
 import AuthContext from '../../store/auth-context';
+import DemoAuth from '../demoAuth/DemoAuth';
 
 // to hold initialized google auth
 let auth: any;
@@ -71,7 +72,12 @@ const GoogleAuth: FC = () => {
     }
   };
 
-  return <Fragment>{renderAuthButton()}</Fragment>;
+  return (
+    <Fragment>
+      {renderAuthButton()}
+      <DemoAuth />
+    </Fragment>
+  );
 };
 
 export default GoogleAuth;
