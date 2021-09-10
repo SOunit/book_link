@@ -1,5 +1,5 @@
 import { FC, Fragment } from 'react';
-import useUser from '../hooks/user-user';
+import useUser from '../hooks/use-user';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserEditForm from '../components/userEditForm/UserEditForm';
 

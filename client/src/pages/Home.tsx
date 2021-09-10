@@ -4,7 +4,7 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
-import useUser from '../hooks/user-user';
+import useUser from '../hooks/use-user';
 
 type HomeProps = {};
 
