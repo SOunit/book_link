@@ -7,6 +7,7 @@ import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import EditProfile from './pages/EditProfile';
 import './App.css';
 
 function App() {
@@ -25,6 +26,10 @@ function App() {
         </Route>
         <Route path='/search'>
           {isLoggedIn && <SearchUsers />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/users/edit'>
+          {isLoggedIn && <EditProfile />}
           {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/users/:userId'>

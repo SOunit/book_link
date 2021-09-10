@@ -7,16 +7,21 @@ import {
   useContext,
   useCallback,
 } from 'react';
+import { useHistory } from 'react-router';
 import AuthContext from '../store/auth-context';
 import UserType from '../models/User';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
+import Buttons from '../components/ui/Buttons/Buttons';
+import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 
 type HomeProps = {};
 
 const Home: FC<HomeProps> = (props) => {
+  // FIXME: refactor to custom hook
   const [user, setUser] = useState<UserType>();
   const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const fetchUser = useCallback(async () => {
     const graphqlQuery = {
@@ -54,6 +59,10 @@ const Home: FC<HomeProps> = (props) => {
     fetchUser();
   }, [fetchUser]);
 
+  const editProfileClickHandler = () => {
+    history.push(`/users/edit`);
+  };
+
   let userInfo = null;
   let userItems = null;
   if (user) {
@@ -64,6 +73,18 @@ const Home: FC<HomeProps> = (props) => {
   return (
     <Fragment>
       {userInfo}
+      <Buttons>
+        <Button
+          buttonText='Edit Profile'
+          buttonType={ButtonTypes.NORMAL}
+          onButtonClick={editProfileClickHandler}
+        ></Button>
+        <Button
+          buttonText='Edit Items'
+          buttonType={ButtonTypes.NORMAL}
+          onButtonClick={() => {}}
+        ></Button>
+      </Buttons>
       {userItems}
     </Fragment>
   );
