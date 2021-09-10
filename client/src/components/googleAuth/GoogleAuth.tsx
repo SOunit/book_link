@@ -1,15 +1,23 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useContext, useCallback, Fragment } from 'react';
 import keys from '../../util/keys';
 import classes from './GoogleAuth.module.css';
+import AuthContext from '../../store/auth-context';
+
+// to hold initialized google auth
+let auth: any;
 
 const GoogleAuth: FC = () => {
-  const [isSignedIn, setIsSignedIn] = useState<boolean | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
-  let auth: any;
+  const authCtx = useContext(AuthContext);
 
-  const onAuthChange = () => {
-    setIsSignedIn(auth.isSignedIn.get());
-  };
+  const onAuthChange = useCallback(() => {
+    // context state
+    const isLoggedIn = auth.isSignedIn.get();
+    if (isLoggedIn) {
+      authCtx.login(auth.currentUser.get().getId());
+    } else {
+      authCtx.logout();
+    }
+  }, [authCtx]);
 
   useEffect(() => {
     window.gapi.load('client:auth2', () => {
@@ -20,27 +28,25 @@ const GoogleAuth: FC = () => {
         })
         .then(() => {
           auth = window.gapi.auth2.getAuthInstance();
-          setIsSignedIn(auth.isSignedIn.get());
           auth.isSignedIn.listen(onAuthChange);
         });
     });
-  }, []);
+  }, [onAuthChange]);
 
   const signInClickHandler = () => {
-    const auth = window.gapi.auth2.getAuthInstance();
-    auth.signIn();
-    setUserId(auth.currentUser.get().getId());
+    window.gapi.auth2.getAuthInstance().signIn();
+    authCtx.login(auth.currentUser.get().getId());
   };
 
   const signOutClickHandler = () => {
     window.gapi.auth2.getAuthInstance().signOut();
-    setUserId(null);
+    authCtx.logout();
   };
 
   const renderAuthButton = () => {
-    if (isSignedIn === null) {
+    if (authCtx.isLoggedIn === null) {
       return null;
-    } else if (isSignedIn) {
+    } else if (authCtx.isLoggedIn) {
       return (
         <button
           className={`${classes['google-button']} ${classes['google-button--sign-out']}`}
@@ -52,7 +58,7 @@ const GoogleAuth: FC = () => {
           <p>Sign out</p>
         </button>
       );
-    } else if (!isSignedIn) {
+    } else if (!authCtx.isLoggedIn) {
       return (
         <button
           className={`${classes['google-button']}`}
@@ -65,7 +71,7 @@ const GoogleAuth: FC = () => {
     }
   };
 
-  return <div>{renderAuthButton()}</div>;
+  return <Fragment>{renderAuthButton()}</Fragment>;
 };
 
 export default GoogleAuth;

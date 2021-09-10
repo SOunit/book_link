@@ -39,7 +39,17 @@ const resolvers = {
     return newItem;
   },
 
-  getUsersByItems: async (args: { ids: String[] }) => {
+  createUser: (args: { id: string }) => {
+    const newUser = User.create({
+      id: args.id,
+      name: 'new user',
+      about: ``,
+      imageUrl: '',
+    });
+    return newUser;
+  },
+
+  getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
       `select
         id
@@ -48,20 +58,25 @@ const resolvers = {
         , "imageUrl"
         from
         (
-        select
-        "userId"
-        , count("itemId")
-        from "userItems"
-        where
-        "itemId" in (:itemIds)
-        group by "userItems"."userId"
-        having count("itemId") = :itemIdsLength
+          select
+          "userId"
+          , count("itemId")
+          from "userItems"
+          where
+          "itemId" in (:itemIds)
+          group by "userItems"."userId"
+          having count("itemId") = :itemIdsLength
         ) as "targetUsers"
         join users
         on users.id = "targetUsers"."userId"
+        where users.id <> :userId
         `,
       {
-        replacements: { itemIds: args.ids, itemIdsLength: args.ids.length },
+        replacements: {
+          itemIds: args.itemIds,
+          itemIdsLength: args.itemIds.length,
+          userId: args.userId,
+        },
         type: QueryTypes.SELECT,
       }
     );
@@ -80,6 +95,10 @@ const resolvers = {
       where: { id: args.id },
       include: Item,
     });
+
+    if (result.length <= 0) {
+      throw new Error('User not found');
+    }
 
     const userData = result[0].dataValues;
 
@@ -114,6 +133,11 @@ const resolvers = {
       imageUrl: itemData.imageUrl,
       users: [],
     };
+  },
+
+  getUserCount: async (args: { id: string }) => {
+    const amount = await User.count({ where: { id: args.id } });
+    return amount;
   },
 };
 

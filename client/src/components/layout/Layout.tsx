@@ -1,13 +1,13 @@
-import { Fragment, useState } from 'react';
-
+import { Fragment, useState, useContext } from 'react';
+import AuthContext from '../../store/auth-context';
 import MainNavigation from './MainNavigation';
 import SideNavigation from './SideNavigation';
 import FooterNav from './FooterNav';
-
-import classes from './Layout.module.css';
 import Backdrop from '../ui/Backdrop';
+import classes from './Layout.module.css';
 
 const Layout: React.FC = (props) => {
+  const authCtx = useContext(AuthContext);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   const sideMenuToggleHandler = () => {
@@ -24,7 +24,7 @@ const Layout: React.FC = (props) => {
         <SideNavigation onSideMenuToggle={sideMenuToggleHandler} />
       )}
       <main className={classes.main}>{props.children}</main>
-      <FooterNav />
+      {authCtx.isLoggedIn && <FooterNav />}
     </Fragment>
   );
 };

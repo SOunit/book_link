@@ -1,13 +1,19 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { useContext } from 'react';
+import AuthContext from './store/auth-context';
 import Layout from './components/layout/Layout';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import EditProfile from './pages/EditProfile';
 import './App.css';
 
 function App() {
+  const authCtx = useContext(AuthContext);
+  const isLoggedIn = authCtx.isLoggedIn;
+
   return (
     <Layout>
       <Switch>
@@ -15,16 +21,24 @@ function App() {
           <Login />
         </Route>
         <Route path='/' exact>
-          <Redirect to='/search' />
+          {isLoggedIn && <Redirect to='/search' />}
+          {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/search'>
-          <SearchUsers />
+          {isLoggedIn && <SearchUsers />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/users/edit'>
+          {isLoggedIn && <EditProfile />}
+          {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/users/:userId'>
-          <UserDetail />
+          {isLoggedIn && <UserDetail />}
+          {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/home'>
-          <Home />
+          {isLoggedIn && <Home />}
+          {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='*'>
           <PageNotFound />
