@@ -3,32 +3,27 @@ import axios from 'axios';
 import Item from './../models/Item';
 import User from './../models/User';
 import SearchedItems from '../components/searchedItems/SearchedItems';
-import SearchBar from '../components/ui/SearchBar';
+import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
 import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
+import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import useSearchedItems from '../hooks/use-searched-items';
 
 const SearchUsers = () => {
-  const [searchedItems, setSearchedItems] = useState<Item[]>([]);
-  const [isItemSearched, setIsItemSearched] = useState(false);
+  const {
+    searchedItems,
+    isItemSearched,
+    updateSearchedItemsHandler,
+    updateIsItemSearchedHandler,
+  } = useSearchedItems();
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
   const authCtx = useContext(AuthContext);
 
-  const updateSearchedItemsHandler = (searchedItems: Item[]) => {
-    setSearchedItems(searchedItems);
-  };
-
-  const updateIsItemSearchedHandler = () => {
-    setIsItemSearched(true);
-  };
-
   const deleteRegisteredItemHandler = (id: string) => {
-    console.log('delete registered item');
-    console.log('item id', id);
-
     setRegisteredItems((prevState) => {
       const updatedRegisteredItems = [...prevState].filter(
         (elm) => elm.id !== id
@@ -38,14 +33,11 @@ const SearchUsers = () => {
   };
 
   const addRegisteredItemHandler = (item: Item) => {
-    console.log('add registered item');
-
     setRegisteredItems((prevState) => {
       const updatedRegisteredItems = [...prevState];
 
       const match = updatedRegisteredItems.some((elem) => elem.id === item.id);
       if (match) {
-        console.log('Item already exists');
         return prevState;
       }
 
@@ -82,9 +74,6 @@ const SearchUsers = () => {
       method: 'post',
       data: graphqlQuery,
     });
-    console.log(result.data.data.getUsersByItems);
-
-    console.log('user search!');
 
     setSearchedUsers(result.data.data.getUsersByItems);
   };
@@ -93,7 +82,7 @@ const SearchUsers = () => {
   if (registeredItems.length > 0) {
     registeredItemsSection = (
       <section>
-        <h2 className={classes['section-title']}>Registered items</h2>
+        <SectionTitle>Registered items</SectionTitle>
         <RegisteredItems
           items={registeredItems}
           onDeleteRegistedItem={deleteRegisteredItemHandler}
@@ -119,8 +108,8 @@ const SearchUsers = () => {
       <section className={classes['serach-bar']}>
         <SearchBar
           placeholder={'Search item'}
-          onUpdateIsItemSearched={updateIsItemSearchedHandler}
-          onUpdateSearchedItems={updateSearchedItemsHandler}
+          onSetIsSearched={updateIsItemSearchedHandler}
+          onSetSearchResult={updateSearchedItemsHandler}
         />
       </section>
       <section>
@@ -128,7 +117,7 @@ const SearchUsers = () => {
           items={searchedItems}
           registeredItems={registeredItems}
           isItemSearched={isItemSearched}
-          onAddRegisteredItem={addRegisteredItemHandler}
+          onAddClick={addRegisteredItemHandler}
         />
       </section>
       {registeredItemsSection}

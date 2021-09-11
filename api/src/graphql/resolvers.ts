@@ -6,6 +6,7 @@ import UserType from '../models/ts/User';
 import sequelize from '../util/database';
 import User from '../models/sequelize/user';
 import ItemType from '../models/ts/Item';
+import UserItem from '../models/sequelize/userItem';
 
 const resolvers = {
   // FIXME: any type to something
@@ -70,6 +71,54 @@ const resolvers = {
       about: userInstance.about,
       imageUrl: userInstance.imageUrl,
       name: userInstance.name,
+    };
+  },
+
+  addUserItem: async (args: { data: { userId: string; itemId: string } }) => {
+    // FIXME: check if user and item exists
+
+    await UserItem.create({
+      userId: args.data.userId,
+      itemId: args.data.itemId,
+    });
+
+    // create return value
+    const userInstance = await User.findAll({
+      where: { id: args.data.userId },
+      include: Item,
+    });
+
+    return {
+      id: userInstance[0].id,
+      name: userInstance[0].name,
+      about: userInstance[0].about,
+      imageUrl: userInstance[0].imageUrl,
+      items: userInstance[0].items,
+    };
+  },
+
+  deleteUserItem: async (args: {
+    data: { userId: string; itemId: string };
+  }) => {
+    const userItemInstance = await UserItem.findAll({
+      where: { userId: args.data.userId, itemId: args.data.itemId },
+    });
+    if (userItemInstance && userItemInstance.length > 0) {
+      await userItemInstance[0].destroy();
+    }
+
+    // create return value
+    const userInstance = await User.findAll({
+      where: { id: args.data.userId },
+      include: Item,
+    });
+
+    return {
+      id: userInstance[0].id,
+      name: userInstance[0].name,
+      about: userInstance[0].about,
+      imageUrl: userInstance[0].imageUrl,
+      items: userInstance[0].items,
     };
   },
 

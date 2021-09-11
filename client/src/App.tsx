@@ -8,6 +8,7 @@ import UserDetail from './pages/UserDetail';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import EditProfile from './pages/EditProfile';
+import EditUserItems from './pages/EditUserItems';
 import './App.css';
 
 function App() {
@@ -30,6 +31,10 @@ function App() {
         </Route>
         <Route path='/users/edit'>
           {isLoggedIn && <EditProfile />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/users/items/edit'>
+          {isLoggedIn && <EditUserItems />}
           {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/users/:userId'>

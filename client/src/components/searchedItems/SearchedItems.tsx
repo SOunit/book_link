@@ -10,7 +10,7 @@ type SearchdItemsProps = {
   items: Item[];
   registeredItems: Item[];
   isItemSearched: boolean;
-  onAddRegisteredItem: (item: Item) => void;
+  onAddClick: (item: Item) => void;
 };
 
 const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
@@ -22,7 +22,7 @@ const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
       <Buttons>
         <Button
           buttonText='add'
-          onButtonClick={() => props.onAddRegisteredItem(item)}
+          onButtonClick={() => props.onAddClick(item)}
           buttonType={
             buttonDisabled ? ButtonTypes.IN_ACTIVE : ButtonTypes.NORMAL
           }

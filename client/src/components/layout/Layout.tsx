@@ -3,7 +3,7 @@ import AuthContext from '../../store/auth-context';
 import MainNavigation from './MainNavigation';
 import SideNavigation from './SideNavigation';
 import FooterNav from './FooterNav';
-import Backdrop from '../ui/Backdrop';
+import Backdrop from '../ui/Backdrop/Backdrop';
 import classes from './Layout.module.css';
 
 const Layout: React.FC = (props) => {

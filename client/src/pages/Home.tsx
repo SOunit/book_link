@@ -9,11 +9,15 @@ import useUser from '../hooks/use-user';
 type HomeProps = {};
 
 const Home: FC<HomeProps> = (props) => {
-  const user = useUser();
+  const { user } = useUser();
   const history = useHistory();
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
+  };
+
+  const editUserItemsClickHandler = () => {
+    history.push(`/users/items/edit`);
   };
 
   let userInfo = null;
@@ -35,7 +39,7 @@ const Home: FC<HomeProps> = (props) => {
         <Button
           buttonText='Edit Items'
           buttonType={ButtonTypes.NORMAL}
-          onButtonClick={() => {}}
+          onButtonClick={editUserItemsClickHandler}
         ></Button>
       </Buttons>
       {userItems}

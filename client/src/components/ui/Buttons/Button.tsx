@@ -35,7 +35,7 @@ const Button: FC<ButtonProps> = (props) => {
     <button
       className={classList.join(' ')}
       onClick={props.onButtonClick}
-      disabled={props.buttonType === ButtonTypes.IN_ACTIVE && false}
+      disabled={props.buttonType === ButtonTypes.IN_ACTIVE && true}
     >
       {props.buttonText}
     </button>

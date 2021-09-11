@@ -13,11 +13,23 @@ export default buildSchema(`
         createItem(data: CreateItemInput!): Item!
         createUser(id: ID!): User!
         updateUser(data: UpdateUserInput!): User!
+        deleteUserItem(data: DeleteUserItemInput!): User!
+        addUserItem(data: AddUserItemInput!): User!
     }
 
     schema {
         query: RootQuery
         mutation: RootMutation
+    }
+
+    input AddUserItemInput {
+        userId: ID!
+        itemId: ID!
+    }
+
+    input DeleteUserItemInput {
+        userId: ID!
+        itemId: ID!
     }
 
     input UpdateUserInput {
@@ -48,5 +60,4 @@ export default buildSchema(`
         imageUrl: String
         items: [Item]
     }
-
 `);

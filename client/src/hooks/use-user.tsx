@@ -43,7 +43,7 @@ const useUser = () => {
     fetchUser();
   }, [fetchUser]);
 
-  return user;
+  return { user, setUser };
 };
 
 export default useUser;

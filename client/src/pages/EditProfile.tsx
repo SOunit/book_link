@@ -4,7 +4,7 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserEditForm from '../components/userEditForm/UserEditForm';
 
 const EditProfile: FC = () => {
-  const user = useUser();
+  const { user } = useUser();
 
   let userInfo;
   let userEditForm;
