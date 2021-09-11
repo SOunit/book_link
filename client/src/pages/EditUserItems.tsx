@@ -9,6 +9,7 @@ import keys from '../util/keys';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
 import SearchedItems from '../components/searchedItems/SearchedItems';
+import ItemType from '../models/Item';
 
 const EditUserItems: FC = () => {
   const { user, setUser } = useUser();
@@ -41,7 +42,17 @@ const EditUserItems: FC = () => {
     });
   };
 
-  const addClickHandler = () => {};
+  const addClickHandler = (item: ItemType) => {
+    console.log(item);
+    if (user) {
+      // update user state
+      const newUser = { ...user };
+      newUser.items.push(item);
+      setUser(newUser);
+
+      // update db
+    }
+  };
 
   const deleteClickHandler = (itemId: string) => {
     if (user) {
