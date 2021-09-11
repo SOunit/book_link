@@ -7,6 +7,7 @@ export default buildSchema(`
         user(id: ID!): User!
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
+        getFollowings(userId: ID!): [User!]!
     }
 
     type RootMutation {

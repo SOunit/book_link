@@ -7,6 +7,7 @@ import sequelize from '../util/database';
 import User from '../models/sequelize/user';
 import ItemType from '../models/ts/Item';
 import UserItem from '../models/sequelize/userItem';
+import Following from '../models/sequelize/following';
 
 const resolvers = {
   // FIXME: any type to something
@@ -129,20 +130,26 @@ const resolvers = {
         , name
         , about
         , "imageUrl"
-        from
+      from
         (
           select
-          "userId"
-          , count("itemId")
-          from "userItems"
+            "userId"
+            , count("itemId")
+          from 
+            "userItems"
           where
-          "itemId" in (:itemIds)
-          group by "userItems"."userId"
-          having count("itemId") = :itemIdsLength
+            "itemId" in (:itemIds)
+          group by 
+            "userItems"."userId"
+          having 
+            count("itemId") = :itemIdsLength
         ) as "targetUsers"
-        join users
-        on users.id = "targetUsers"."userId"
-        where users.id <> :userId
+      join
+        users
+      on 
+        users.id = "targetUsers"."userId"
+      where 
+        users.id <> :userId
         `,
       {
         replacements: {
@@ -211,6 +218,35 @@ const resolvers = {
   getUserCount: async (args: { id: string }) => {
     const amount = await User.count({ where: { id: args.id } });
     return amount;
+  },
+
+  getFollowings: async (args: { userId: string }) => {
+    const users = await sequelize.query(
+      `
+      select
+        users.id
+        , users.name
+        , users."imageUrl"
+      from
+        followings
+      join
+        users
+      on 
+        followings."userId" = users.id
+      where
+        users.id = :userId
+    `,
+      {
+        replacements: {
+          userId: args.userId,
+        },
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    console.log(users);
+
+    return users;
   },
 };
 
