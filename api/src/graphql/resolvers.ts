@@ -232,9 +232,9 @@ const resolvers = {
       join
         users
       on 
-        followings."userId" = users.id
+        followings."targetId" = users.id
       where
-        users.id = :userId
+        followings."userId" = :userId
     `,
       {
         replacements: {
