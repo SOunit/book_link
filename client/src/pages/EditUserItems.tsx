@@ -42,6 +42,28 @@ const EditUserItems: FC = () => {
     });
   };
 
+  const addDbItem = async (itemId: string) => {
+    const graphqlQuery = {
+      query: `
+              mutation AddUserItem($userId: ID!, $itemId: ID!){
+                addUserItem(data: {userId: $userId, itemId: $itemId}){
+                  id
+                }
+              }
+              `,
+      variables: {
+        userId: user?.id,
+        itemId,
+      },
+    };
+
+    await axios({
+      url: keys.GRAPHQL_REQUEST_URL,
+      method: 'POST',
+      data: graphqlQuery,
+    });
+  };
+
   const addClickHandler = (item: ItemType) => {
     console.log(item);
     if (user) {
@@ -51,6 +73,7 @@ const EditUserItems: FC = () => {
       setUser(newUser);
 
       // update db
+      addDbItem(item.id);
     }
   };
 
