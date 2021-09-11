@@ -1,12 +1,34 @@
+import axios from 'axios';
 import { FC, Fragment } from 'react';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useUser from '../hooks/use-user';
+import keys from '../util/keys';
 
 const EditUserItems: FC = () => {
   const user = useUser();
 
-  const deleteItem = async () => {};
+  const deleteDbItem = async (itemId: string) => {
+    const graphqlQuery = {
+      query: `
+                mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
+                  updateUserItems(data: {userId: $userId, itemId: $itemId}){
+                    id
+                  }
+                }
+              `,
+      variables: {
+        userId: user.data?.id,
+        itemId,
+      },
+    };
+
+    axios({
+      url: keys.GRAPHQL_REQUEST_URL,
+      method: 'POST',
+      data: graphqlQuery,
+    });
+  };
 
   const deleteClickHandler = (itemId: string) => {
     if (user.data) {
@@ -16,7 +38,7 @@ const EditUserItems: FC = () => {
       user.setUser(newUser);
 
       // update db data
-      deleteItem();
+      deleteDbItem(itemId);
     }
   };
 
