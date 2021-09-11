@@ -6,7 +6,7 @@ import useUser from '../hooks/use-user';
 import keys from '../util/keys';
 
 const EditUserItems: FC = () => {
-  const user = useUser();
+  const { user, setUser } = useUser();
 
   const deleteDbItem = async (itemId: string) => {
     const graphqlQuery = {
@@ -18,7 +18,7 @@ const EditUserItems: FC = () => {
                 }
               `,
       variables: {
-        userId: user.data?.id,
+        userId: user?.id,
         itemId,
       },
     };
@@ -31,11 +31,11 @@ const EditUserItems: FC = () => {
   };
 
   const deleteClickHandler = (itemId: string) => {
-    if (user.data) {
+    if (user) {
       // update user state
-      const newUser = { ...user.data };
+      const newUser = { ...user };
       newUser.items = newUser.items?.filter((item) => item.id !== itemId);
-      user.setUser(newUser);
+      setUser(newUser);
 
       // update db data
       deleteDbItem(itemId);
@@ -43,10 +43,10 @@ const EditUserItems: FC = () => {
   };
 
   let registeredItems;
-  if (user.data) {
+  if (user) {
     registeredItems = (
       <RegisteredItems
-        items={user.data.items}
+        items={user.items}
         onDeleteRegistedItem={deleteClickHandler}
       />
     );

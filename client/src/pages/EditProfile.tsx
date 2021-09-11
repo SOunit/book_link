@@ -4,13 +4,13 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserEditForm from '../components/userEditForm/UserEditForm';
 
 const EditProfile: FC = () => {
-  const user = useUser();
+  const { user } = useUser();
 
   let userInfo;
   let userEditForm;
-  if (user.data) {
-    userInfo = <UserInfo user={user.data} />;
-    userEditForm = <UserEditForm user={user.data} />;
+  if (user) {
+    userInfo = <UserInfo user={user} />;
+    userEditForm = <UserEditForm user={user} />;
   }
 
   return (
