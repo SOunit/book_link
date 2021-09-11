@@ -16,6 +16,10 @@ const Home: FC<HomeProps> = (props) => {
     history.push(`/users/edit`);
   };
 
+  const editUserItemsClickHandler = () => {
+    history.push(`/users/items/edit`);
+  };
+
   let userInfo = null;
   let userItems = null;
   if (user) {
@@ -35,7 +39,7 @@ const Home: FC<HomeProps> = (props) => {
         <Button
           buttonText='Edit Items'
           buttonType={ButtonTypes.NORMAL}
-          onButtonClick={() => {}}
+          onButtonClick={editUserItemsClickHandler}
         ></Button>
       </Buttons>
       {userItems}
