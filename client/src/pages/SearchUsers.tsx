@@ -27,9 +27,6 @@ const SearchUsers = () => {
   };
 
   const deleteRegisteredItemHandler = (id: string) => {
-    console.log('delete registered item');
-    console.log('item id', id);
-
     setRegisteredItems((prevState) => {
       const updatedRegisteredItems = [...prevState].filter(
         (elm) => elm.id !== id
@@ -39,14 +36,11 @@ const SearchUsers = () => {
   };
 
   const addRegisteredItemHandler = (item: Item) => {
-    console.log('add registered item');
-
     setRegisteredItems((prevState) => {
       const updatedRegisteredItems = [...prevState];
 
       const match = updatedRegisteredItems.some((elem) => elem.id === item.id);
       if (match) {
-        console.log('Item already exists');
         return prevState;
       }
 
@@ -83,9 +77,6 @@ const SearchUsers = () => {
       method: 'post',
       data: graphqlQuery,
     });
-    console.log(result.data.data.getUsersByItems);
-
-    console.log('user search!');
 
     setSearchedUsers(result.data.data.getUsersByItems);
   };
