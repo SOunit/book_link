@@ -2,7 +2,7 @@ import { FC, Fragment } from 'react';
 import User from '../../models/User';
 import DispCard from '../ui/DispCard/DispCard';
 import UserCardDetails from '../ui/DispCard/UserCardDetails';
-import classes from './SearchedUsers.module.css';
+import SectionTitle from '../ui/SectionTitle/SectionTitle';
 
 type SearchedUsersProps = {
   users: User[];
@@ -23,7 +23,7 @@ const SearchedUsers: FC<SearchedUsersProps> = (props) => {
 
   return (
     <Fragment>
-      {dispUsers.length > 0 && <h2 className={classes.heading}>Users</h2>}
+      {dispUsers.length > 0 && <SectionTitle>Users</SectionTitle>}
       {dispUsers}
     </Fragment>
   );
