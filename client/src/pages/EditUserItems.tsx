@@ -8,6 +8,7 @@ import useUser from '../hooks/use-user';
 import keys from '../util/keys';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
+import SearchedItems from '../components/searchedItems/SearchedItems';
 
 const EditUserItems: FC = () => {
   const { user, setUser } = useUser();
@@ -40,6 +41,8 @@ const EditUserItems: FC = () => {
     });
   };
 
+  const addClickHandler = () => {};
+
   const deleteClickHandler = (itemId: string) => {
     if (user) {
       // update user state
@@ -62,6 +65,20 @@ const EditUserItems: FC = () => {
     );
   }
 
+  let searchedItemsSection;
+  if (user) {
+    searchedItemsSection = (
+      <section>
+        <SearchedItems
+          items={searchedItems}
+          registeredItems={user.items}
+          isItemSearched={isItemSearched}
+          onAddClick={addClickHandler}
+        />
+      </section>
+    );
+  }
+
   return (
     <Fragment>
       <SectionTitle>Your items</SectionTitle>
@@ -77,6 +94,7 @@ const EditUserItems: FC = () => {
           {'Create New Item >'}
         </Link>
       </section>
+      {searchedItemsSection}
     </Fragment>
   );
 };

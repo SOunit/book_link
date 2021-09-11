@@ -117,7 +117,7 @@ const SearchUsers = () => {
           items={searchedItems}
           registeredItems={registeredItems}
           isItemSearched={isItemSearched}
-          onAddRegisteredItem={addRegisteredItemHandler}
+          onAddClick={addRegisteredItemHandler}
         />
       </section>
       {registeredItemsSection}
