@@ -120,8 +120,8 @@ const SearchUsers = () => {
       <section className={classes['serach-bar']}>
         <SearchBar
           placeholder={'Search item'}
-          onUpdateIsItemSearched={updateIsItemSearchedHandler}
-          onUpdateSearchedItems={updateSearchedItemsHandler}
+          onSetIsSearched={updateIsItemSearchedHandler}
+          onSetSearchResult={updateSearchedItemsHandler}
         />
       </section>
       <section>

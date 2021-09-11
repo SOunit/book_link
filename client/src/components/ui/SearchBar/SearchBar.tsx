@@ -5,8 +5,8 @@ import classes from './SearchBar.module.css';
 
 const SearchBar: React.FC<{
   placeholder: string;
-  onUpdateSearchedItems: (searchedItems: Item[]) => void;
-  onUpdateIsItemSearched: () => void;
+  onSetSearchResult: (searchedItems: Item[]) => void;
+  onSetIsSearched: () => void;
 }> = (props) => {
   const [enteredText, setEnteredText] = useState('');
 
@@ -19,8 +19,8 @@ const SearchBar: React.FC<{
     console.log('submit!');
 
     if (enteredText.length < 1) {
-      props.onUpdateSearchedItems([]);
-      props.onUpdateIsItemSearched();
+      props.onSetSearchResult([]);
+      props.onSetIsSearched();
       return;
     }
 
@@ -46,8 +46,8 @@ const SearchBar: React.FC<{
       data: graphqlQuery,
     });
 
-    props.onUpdateSearchedItems(result.data.data.itemsByTitle);
-    props.onUpdateIsItemSearched();
+    props.onSetSearchResult(result.data.data.itemsByTitle);
+    props.onSetIsSearched();
   };
 
   return (
