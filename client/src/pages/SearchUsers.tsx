@@ -10,21 +10,18 @@ import classes from './SearchUsers.module.css';
 import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import useSearchedItems from '../hooks/use-searched-items';
 
 const SearchUsers = () => {
-  const [searchedItems, setSearchedItems] = useState<Item[]>([]);
-  const [isItemSearched, setIsItemSearched] = useState(false);
+  const {
+    searchedItems,
+    isItemSearched,
+    updateSearchedItemsHandler,
+    updateIsItemSearchedHandler,
+  } = useSearchedItems();
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
   const authCtx = useContext(AuthContext);
-
-  const updateSearchedItemsHandler = (searchedItems: Item[]) => {
-    setSearchedItems(searchedItems);
-  };
-
-  const updateIsItemSearchedHandler = () => {
-    setIsItemSearched(true);
-  };
 
   const deleteRegisteredItemHandler = (id: string) => {
     setRegisteredItems((prevState) => {
