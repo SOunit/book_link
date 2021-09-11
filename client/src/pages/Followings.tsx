@@ -4,6 +4,7 @@ import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useUser from '../hooks/use-user';
 import axios from 'axios';
 import keys from '../util/keys';
+import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 
 type FollowingsProps = {};
 
@@ -51,17 +52,21 @@ const Followings: FC<FollowingsProps> = (props) => {
             items: [],
           })
         );
-      });
 
-      setFollowings(users);
+        setFollowings(users);
+      });
     }
   }, [user]);
 
-  console.log(followings);
+  let searchedUsersSection = null;
+  if (followings && followings.length > 0) {
+    searchedUsersSection = <SearchedUsers users={followings} />;
+  }
 
   return (
     <Fragment>
       <SectionTitle>Followings</SectionTitle>
+      {searchedUsersSection}
     </Fragment>
   );
 };
