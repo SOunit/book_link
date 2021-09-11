@@ -1,4 +1,5 @@
 import { FC, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import UserType from '../../models/User';
 import classes from './UserInfo.module.css';
 
@@ -34,6 +35,14 @@ const UserInfo: FC<UserInfoProps> = (props) => {
         {userImage}
         <div className={classes['user-info__details']}>
           <p className={classes['user-info__name']}>{props.user.name}</p>
+          <Link
+            className={classes['user-info__link']}
+            to='/users/followings'
+          >{`Followings >`}</Link>
+          <Link
+            className={classes['user-info__link']}
+            to='/users/followings'
+          >{`Followed by >`}</Link>
         </div>
       </div>
       <p className={classes['user-about']}>{aboutText}</p>

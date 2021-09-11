@@ -30,7 +30,7 @@ app.use(
 
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
-User.belongsToMany(User, { as: 'target', through: Following });
+User.belongsToMany(User, { as: 'targets', through: Following });
 
 // create table using model by sync command
 sequelize
