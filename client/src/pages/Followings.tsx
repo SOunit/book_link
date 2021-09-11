@@ -4,7 +4,7 @@ import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useUser from '../hooks/use-user';
 import axios from 'axios';
 import keys from '../util/keys';
-import SearchedUsers from '../components/seachedUsers/SearchedUsers';
+import DispCards from '../components/ui/DispCards/DispCards';
 
 type FollowingsProps = {};
 
@@ -13,7 +13,6 @@ const Followings: FC<FollowingsProps> = (props) => {
   const [followings, setFollowings] = useState<UserType[]>();
 
   const fetchFollowings = async (userId: string) => {
-    console.log(userId);
     const graphqlQuery = {
       query: `
               query GetFollowings($userId: ID!){
@@ -60,7 +59,7 @@ const Followings: FC<FollowingsProps> = (props) => {
 
   let searchedUsersSection = null;
   if (followings && followings.length > 0) {
-    searchedUsersSection = <SearchedUsers users={followings} />;
+    searchedUsersSection = <DispCards users={followings} />;
   }
 
   return (
