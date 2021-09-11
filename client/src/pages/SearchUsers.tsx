@@ -3,7 +3,7 @@ import axios from 'axios';
 import Item from './../models/Item';
 import User from './../models/User';
 import SearchedItems from '../components/searchedItems/SearchedItems';
-import SearchBar from '../components/ui/SearchBar';
+import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';

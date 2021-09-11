@@ -54,8 +54,9 @@ const EditUserItems: FC = () => {
 
   return (
     <Fragment>
-      <SectionTitle>Your Items</SectionTitle>
+      <SectionTitle>Your items</SectionTitle>
       {registeredItems}
+      <SectionTitle>Add new items</SectionTitle>
     </Fragment>
   );
 };
