@@ -74,7 +74,7 @@ const resolvers = {
     };
   },
 
-  updateUserItems: async (args: {
+  deleteUserItem: async (args: {
     data: { userId: string; itemId: string };
   }) => {
     const userItemInstance = await UserItem.findAll({

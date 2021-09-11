@@ -12,7 +12,7 @@ const EditUserItems: FC = () => {
     const graphqlQuery = {
       query: `
                 mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
-                  updateUserItems(data: {userId: $userId, itemId: $itemId}){
+                  deleteUserItem(data: {userId: $userId, itemId: $itemId}){
                     id
                   }
                 }
