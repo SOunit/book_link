@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import Item from '../../models/Item';
+import Item from '../../../models/Item';
 import classes from './SearchBar.module.css';
 
 const SearchBar: React.FC<{
