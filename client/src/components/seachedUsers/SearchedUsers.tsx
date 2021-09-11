@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import User from '../../models/User';
-import DispCard from '../ui/DispCard/DispCard';
-import UserCardDetails from '../ui/DispCard/UserCardDetails';
+import DispCard from '../ui/DispCards/DispCard';
+import UserCardDetails from '../ui/DispCards/UserCardDetails';
 import SectionTitle from '../ui/SectionTitle/SectionTitle';
 
 type SearchedUsersProps = {
