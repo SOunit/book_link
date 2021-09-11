@@ -11,6 +11,7 @@ import User from './models/sequelize/user';
 import Item from './models/sequelize/item';
 import UserItem from './models/sequelize/userItem';
 import { setupDummyData } from './setup';
+import Following from './models/sequelize/following';
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use(
 
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
+User.belongsToMany(User, { as: 'target', through: Following });
 
 // create table using model by sync command
 sequelize
