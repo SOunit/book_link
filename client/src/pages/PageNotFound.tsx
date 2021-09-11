@@ -1,7 +1,9 @@
+import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+
 const PageNotFound = () => {
   return (
     <section>
-      <h2>Page Not Found</h2>
+      <SectionTitle>Page Not Found</SectionTitle>
     </section>
   );
 };

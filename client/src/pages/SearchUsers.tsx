@@ -9,6 +9,7 @@ import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
 import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
+import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 
 const SearchUsers = () => {
   const [searchedItems, setSearchedItems] = useState<Item[]>([]);
@@ -93,7 +94,7 @@ const SearchUsers = () => {
   if (registeredItems.length > 0) {
     registeredItemsSection = (
       <section>
-        <h2 className={classes['section-title']}>Registered items</h2>
+        <SectionTitle>Registered items</SectionTitle>
         <RegisteredItems
           items={registeredItems}
           onDeleteRegistedItem={deleteRegisteredItemHandler}
