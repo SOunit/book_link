@@ -74,6 +74,29 @@ const resolvers = {
     };
   },
 
+  addUserItem: async (args: { data: { userId: string; itemId: string } }) => {
+    // FIXME: check if user and item exists
+
+    await UserItem.create({
+      userId: args.data.userId,
+      itemId: args.data.itemId,
+    });
+
+    // create return value
+    const userInstance = await User.findAll({
+      where: { id: args.data.userId },
+      include: Item,
+    });
+
+    return {
+      id: userInstance[0].id,
+      name: userInstance[0].name,
+      about: userInstance[0].about,
+      imageUrl: userInstance[0].imageUrl,
+      items: userInstance[0].items,
+    };
+  },
+
   deleteUserItem: async (args: {
     data: { userId: string; itemId: string };
   }) => {

@@ -14,11 +14,17 @@ export default buildSchema(`
         createUser(id: ID!): User!
         updateUser(data: UpdateUserInput!): User!
         deleteUserItem(data: DeleteUserItemInput!): User!
+        addUserItem(data: AddUserItemInput!): User!
     }
 
     schema {
         query: RootQuery
         mutation: RootMutation
+    }
+
+    input AddUserItemInput {
+        userId: ID!
+        itemId: ID!
     }
 
     input DeleteUserItemInput {
