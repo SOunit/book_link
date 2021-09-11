@@ -22,9 +22,9 @@ const Home: FC<HomeProps> = (props) => {
 
   let userInfo = null;
   let userItems = null;
-  if (user) {
-    userInfo = <UserInfo user={user} />;
-    userItems = <UserItems items={user.items} />;
+  if (user.data) {
+    userInfo = <UserInfo user={user.data} />;
+    userItems = <UserItems items={user.data.items} />;
   }
 
   return (

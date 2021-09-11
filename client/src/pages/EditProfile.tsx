@@ -8,9 +8,9 @@ const EditProfile: FC = () => {
 
   let userInfo;
   let userEditForm;
-  if (user) {
-    userInfo = <UserInfo user={user} />;
-    userEditForm = <UserEditForm user={user} />;
+  if (user.data) {
+    userInfo = <UserInfo user={user.data} />;
+    userEditForm = <UserEditForm user={user.data} />;
   }
 
   return (

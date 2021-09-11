@@ -7,9 +7,12 @@ const EditUserItems: FC = () => {
   const user = useUser();
 
   let registeredItems;
-  if (user) {
+  if (user.data) {
     registeredItems = (
-      <RegisteredItems items={user.items} onDeleteRegistedItem={() => {}} />
+      <RegisteredItems
+        items={user.data.items}
+        onDeleteRegistedItem={() => {}}
+      />
     );
   }
 
