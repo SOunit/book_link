@@ -10,8 +10,8 @@ import FollowButton from '../Buttons/FollowButton';
 type UserCardDetailsProps = {
   user: FollowingType;
   loginUser: User;
-  onUpdateUsers: any;
-  followings: FollowingType[];
+  onFollowClick: any;
+  onFollowingClick: any;
 };
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
@@ -33,8 +33,8 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
         <FollowButton
           user={props.user}
           loginUser={props.loginUser}
-          onUpdateUsers={props.onUpdateUsers}
-          followings={props.followings}
+          onFollowClick={props.onFollowClick}
+          onFollowingClick={props.onFollowingClick}
         />
       </Buttons>
     </Fragment>

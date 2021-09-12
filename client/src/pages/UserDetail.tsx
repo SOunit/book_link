@@ -7,6 +7,7 @@ import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import useLoginUser from '../hooks/use-login-user';
+import FollowButton from '../components/ui/Buttons/FollowButton';
 
 type UserDetailParams = {
   userId: string;
@@ -53,15 +54,16 @@ const UserDetail = () => {
   }, [fetchUser]);
 
   let dispUser = null;
-  if (user) {
+  if (user && loginUser) {
     dispUser = (
       <Fragment>
         <UserInfo user={user} />
         <Buttons>
-          <Button
-            buttonText='Follow'
-            buttonType={ButtonTypes.FOLLOW}
-            onButtonClick={() => {}}
+          <FollowButton
+            loginUser={loginUser}
+            user={{ ...user, isFollowing: following }}
+            onFollowClick={() => {}}
+            onFollowingClick={() => {}}
           />
           <Button
             buttonText='Message'

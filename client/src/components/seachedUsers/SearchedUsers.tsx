@@ -7,7 +7,8 @@ import DispCards from '../ui/DispCards/DispCards';
 type SearchedUsersProps = {
   users: FollowingType[];
   loginUser: UserType;
-  onUpdateUsers: any;
+  onFollowClick: any;
+  onFollowingClick: any;
 };
 
 const SearchedUsers: FC<SearchedUsersProps> = (props) => {
@@ -17,7 +18,8 @@ const SearchedUsers: FC<SearchedUsersProps> = (props) => {
       <DispCards
         users={props.users}
         loginUser={props.loginUser}
-        onUpdateUsers={props.onUpdateUsers}
+        onFollowClick={props.onFollowClick}
+        onFollowingClick={props.onFollowingClick}
       />
     </Fragment>
   );

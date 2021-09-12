@@ -8,8 +8,8 @@ import keys from '../../../util/keys';
 type FollowButtonProps = {
   user: FollowingType;
   loginUser: UserType;
-  onUpdateUsers: any;
-  followings: FollowingType[];
+  onFollowClick: any;
+  onFollowingClick: any;
 };
 
 const FollowButton: FC<FollowButtonProps> = (props) => {
@@ -60,29 +60,15 @@ const FollowButton: FC<FollowButtonProps> = (props) => {
     createFollowing();
 
     // update state
-    const newFollowings = props.followings.map((following) => {
-      if (following.id === props.user.id) {
-        following.isFollowing = true;
-        return following;
-      }
-      return following;
-    });
-
-    props.onUpdateUsers(newFollowings);
+    props.onFollowClick();
   };
 
   const followingClickHandler = () => {
-    // update state
-    const newFollowings = props.followings.map((user) => {
-      if (user.id === props.user.id) {
-        user.isFollowing = false;
-      }
-      return user;
-    });
-    props.onUpdateUsers(newFollowings);
-
     // delete db
     deleteFollowing();
+
+    // update state
+    props.onFollowingClick();
   };
 
   let FollowButton = (

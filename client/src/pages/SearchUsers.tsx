@@ -89,6 +89,29 @@ const SearchUsers = () => {
     setIsUserSearched(true);
   };
 
+  const followClickHandler = (targetUserId: string) => {
+    // update state
+    const newFollowings = searchedUsers.map((user) => {
+      if (user.id === targetUserId) {
+        user.isFollowing = true;
+      }
+      return user;
+    });
+
+    setSearchedUsers(newFollowings);
+  };
+
+  const followingClickHandler = (targetUserId: string) => {
+    // update state
+    const newFollowings = searchedUsers.map((user) => {
+      if (user.id === targetUserId) {
+        user.isFollowing = false;
+      }
+      return user;
+    });
+    setSearchedUsers(newFollowings);
+  };
+
   let registeredItemsSection = null;
   if (registeredItems.length > 0) {
     registeredItemsSection = (
@@ -121,7 +144,8 @@ const SearchUsers = () => {
           imageUrl: 'dummy',
           items: [],
         }}
-        onUpdateUsers={setSearchedUsers}
+        onFollowClick={followClickHandler}
+        onFollowingClick={followingClickHandler}
       />
     );
   } else if (isUserSearched && searchedUsers && searchedUsers.length <= 0) {

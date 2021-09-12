@@ -67,7 +67,8 @@ const Followings: FC<FollowingsProps> = (props) => {
       <DispCards
         users={followings}
         loginUser={loginUser!}
-        onUpdateUsers={setFollowings}
+        onFollowClick={() => {}}
+        onFollowingClick={() => {}}
       />
     );
   } else {
