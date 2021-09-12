@@ -61,14 +61,41 @@ const Followings: FC<FollowingsProps> = (props) => {
     });
   }, [params.userId]);
 
+  const followClickHandler = (targetUserId: string) => {
+    // update state
+    if (followings) {
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = true;
+        }
+        return user;
+      });
+
+      setFollowings(newFollowings);
+    }
+  };
+
+  const followingClickHandler = (targetUserId: string) => {
+    // update state
+    if (followings) {
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+      setFollowings(newFollowings);
+    }
+  };
+
   let followingUsersSection = null;
   if (followings && followings.length > 0) {
     followingUsersSection = (
       <DispCards
         users={followings}
         loginUser={loginUser!}
-        onFollowClick={() => {}}
-        onFollowingClick={() => {}}
+        onFollowClick={followClickHandler}
+        onFollowingClick={followingClickHandler}
       />
     );
   } else {
