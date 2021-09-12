@@ -14,7 +14,7 @@ type UserDetailParams = {
 };
 
 const UserDetail = () => {
-  const { loginUser, setLoginUser } = useLoginUser();
+  const { loginUser } = useLoginUser();
   const params = useParams<UserDetailParams>();
   const [user, setUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean>(false);
@@ -46,12 +46,52 @@ const UserDetail = () => {
       method: 'post',
       data: graphqlQuery,
     });
+
     setUser(result.data.data.user);
   }, [params.userId]);
 
+  const fetchFollowing = useCallback(async () => {
+    if (loginUser) {
+      const graphqlQuery = {
+        query: `
+              query fetchFollowing($userId: ID!, $targetId: ID!){
+                following(userId: $userId, targetId: $targetId){
+                  userId
+                  targetId
+                }
+              }
+            `,
+        variables: {
+          userId: loginUser.id,
+          targetId: params.userId,
+        },
+      };
+
+      const result = await axios({
+        url: '/api/graphql',
+        method: 'post',
+        data: graphqlQuery,
+      });
+
+      const targetId = result.data.data.following.targetId;
+      if (targetId) {
+        setFollowing(true);
+      }
+    }
+  }, [loginUser]);
+
   useEffect(() => {
     fetchUser();
-  }, [fetchUser]);
+    fetchFollowing();
+  }, [fetchUser, fetchFollowing]);
+
+  const followClickHandler = () => {
+    setFollowing(true);
+  };
+
+  const followingClickHandler = () => {
+    setFollowing(false);
+  };
 
   let dispUser = null;
   if (user && loginUser) {
@@ -62,8 +102,8 @@ const UserDetail = () => {
           <FollowButton
             loginUser={loginUser}
             user={{ ...user, isFollowing: following }}
-            onFollowClick={() => {}}
-            onFollowingClick={() => {}}
+            onFollowClick={followClickHandler}
+            onFollowingClick={followingClickHandler}
           />
           <Button
             buttonText='Message'
