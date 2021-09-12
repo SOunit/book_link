@@ -17,7 +17,7 @@ const UserDetail = () => {
   const { loginUser } = useLoginUser();
   const params = useParams<UserDetailParams>();
   const [user, setUser] = useState<UserType>();
-  const [following, setFollowing] = useState<boolean>(false);
+  const [following, setFollowing] = useState<boolean | null>(null);
 
   const fetchUser = useCallback(async () => {
     const graphqlQuery = {
@@ -76,9 +76,11 @@ const UserDetail = () => {
       const targetId = result.data.data.following.targetId;
       if (targetId) {
         setFollowing(true);
+      } else {
+        setFollowing(false);
       }
     }
-  }, [loginUser]);
+  }, [loginUser, params.userId]);
 
   useEffect(() => {
     fetchUser();
@@ -93,18 +95,25 @@ const UserDetail = () => {
     setFollowing(false);
   };
 
+  let followButton = null;
+  if (user && loginUser && following !== null) {
+    followButton = (
+      <FollowButton
+        loginUser={loginUser}
+        user={{ ...user, isFollowing: following }}
+        onFollowClick={followClickHandler}
+        onFollowingClick={followingClickHandler}
+      />
+    );
+  }
+
   let dispUser = null;
   if (user && loginUser) {
     dispUser = (
       <Fragment>
         <UserInfo user={user} />
         <Buttons>
-          <FollowButton
-            loginUser={loginUser}
-            user={{ ...user, isFollowing: following }}
-            onFollowClick={followClickHandler}
-            onFollowingClick={followingClickHandler}
-          />
+          {followButton}
           <Button
             buttonText='Message'
             buttonType={ButtonTypes.NORMAL}
