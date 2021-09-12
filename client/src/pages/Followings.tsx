@@ -6,6 +6,7 @@ import keys from '../util/keys';
 import DispCards from '../components/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
+import useUser from '../hooks/use-user';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -13,6 +14,7 @@ type FollowingsParams = {
 };
 
 const Followings: FC<FollowingsProps> = (props) => {
+  const { user } = useUser();
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<UserType[]>();
 
@@ -59,11 +61,11 @@ const Followings: FC<FollowingsProps> = (props) => {
     });
   }, [params.userId]);
 
-  let searchedUsersSection = null;
+  let followingUsersSection = null;
   if (followings && followings.length > 0) {
-    searchedUsersSection = <DispCards users={followings} />;
+    followingUsersSection = <DispCards users={followings} loginUser={user!} />;
   } else {
-    searchedUsersSection = (
+    followingUsersSection = (
       <p className={classes['text-no-following']}>You are following nobody!</p>
     );
   }
@@ -71,7 +73,7 @@ const Followings: FC<FollowingsProps> = (props) => {
   return (
     <Fragment>
       <SectionTitle>Followings</SectionTitle>
-      {searchedUsersSection}
+      {followingUsersSection}
     </Fragment>
   );
 };

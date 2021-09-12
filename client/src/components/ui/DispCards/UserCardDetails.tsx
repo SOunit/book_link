@@ -7,6 +7,7 @@ import classes from './UserCardDetails.module.css';
 
 type UserCardDetailsProps = {
   user: User;
+  loginUser: User;
 };
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
@@ -14,6 +15,11 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
 
   const detailClickHandler = () => {
     history.push(`/users/${props.user.id}`);
+  };
+
+  const followClickHandler = () => {
+    console.log('props.user.id', props.user.id);
+    console.log('props.loginUser.id', props.loginUser.id);
   };
 
   return (
@@ -28,7 +34,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
         <Button
           buttonText={'Follow'}
           buttonType={ButtonTypes.TWITTER}
-          onButtonClick={() => {}}
+          onButtonClick={followClickHandler}
         />
       </Buttons>
     </Fragment>

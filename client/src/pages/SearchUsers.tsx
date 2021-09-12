@@ -100,7 +100,18 @@ const SearchUsers = () => {
 
   let searchedUsersSection = null;
   if (searchedUsers.length > 0) {
-    searchedUsersSection = <SearchedUsers users={searchedUsers} />;
+    searchedUsersSection = (
+      <SearchedUsers
+        users={searchedUsers}
+        loginUser={{
+          id: authCtx.token!,
+          name: 'dummy',
+          about: 'dummy',
+          imageUrl: 'dummy',
+          items: [],
+        }}
+      />
+    );
   }
 
   return (
