@@ -249,12 +249,21 @@ const resolvers = {
   },
 
   createFollowing: async (args: { userId: string; targetId: string }) => {
-    const result = await Following.create({
+    await Following.create({
       userId: args.userId,
       targetId: args.targetId,
     });
 
-    return true;
+    const result = await User.findByPk(args.targetId);
+
+    const newUser = {
+      id: result.id,
+      name: result.name,
+      imageUrl: result.imageUrl,
+      isFollowing: true,
+    };
+
+    return newUser;
   },
 
   deleteFollowing: async (args: { userId: string; targetId: string }) => {

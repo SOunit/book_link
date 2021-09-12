@@ -22,6 +22,7 @@ const DispCards: FC<DispCardsProps> = (props) => {
           user={user}
           loginUser={props.loginUser}
           onUpdateUsers={props.onUpdateUsers}
+          followings={props.users}
         />
       </DispCard>
     );

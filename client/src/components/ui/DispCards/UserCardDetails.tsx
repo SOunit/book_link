@@ -12,6 +12,7 @@ type UserCardDetailsProps = {
   user: FollowUserType;
   loginUser: User;
   onUpdateUsers: any;
+  followings: FollowUserType[];
 };
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
@@ -37,11 +38,11 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
     });
   };
 
-  const fetchFollowings = async () => {
+  const createFollowing = async () => {
     const graphqlQuery = {
       query: `
-              query GetFollowings($userId: ID!){
-                getFollowings(userId: $userId){
+              mutation CreateFollowing($userId: ID!, $targetId: ID!){
+                createFollowing(userId: $userId, targetId: $targetId){
                   id
                   name
                   imageUrl
@@ -51,6 +52,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
               `,
       variables: {
         userId: props.loginUser.id,
+        targetId: props.user.id,
       },
     };
 
@@ -60,17 +62,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
       data: graphqlQuery,
     });
 
-    const users: FollowUserType[] = [];
-    result.data.data.getFollowings.map((user: any) => {
-      return users.push({
-        id: user.id,
-        name: user.name,
-        imageUrl: user.imageUrl,
-        isFollowing: user.isFollowing,
-      });
-    });
-
-    return users;
+    return result.data.data.createFollowing;
   };
 
   const detailClickHandler = () => {
@@ -78,22 +70,30 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
   };
 
   const followClickHandler = () => {
-    console.log('props.user.id', props.user.id);
-    console.log('props.loginUser.id', props.loginUser.id);
-    // props.onUpdateUsers(props.user);
+    // update db
+    createFollowing();
+
+    // update state
+    const newFollowings = props.followings.map((following) => {
+      if (following.id === props.user.id) {
+        following.isFollowing = true;
+        return following;
+      }
+      return following;
+    });
+
+    props.onUpdateUsers(newFollowings);
   };
 
   const followingClickHandler = () => {
     // update state
-    fetchFollowings().then((followUsers) => {
-      const newFollowings = followUsers.map((user) => {
-        if (user.id === props.user.id) {
-          user.isFollowing = false;
-        }
-        return user;
-      });
-      props.onUpdateUsers(newFollowings);
+    const newFollowings = props.followings.map((user) => {
+      if (user.id === props.user.id) {
+        user.isFollowing = false;
+      }
+      return user;
     });
+    props.onUpdateUsers(newFollowings);
 
     // delete db
     deleteFollowing();

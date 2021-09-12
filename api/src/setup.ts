@@ -193,8 +193,8 @@ export const setupDummyData = async () => {
     targetId: '4',
   });
 
-  // await Following.create({
-  //   userId: '2',
-  //   targetId: '4',
-  // });
+  await Following.create({
+    userId: '2',
+    targetId: '4',
+  });
 };
