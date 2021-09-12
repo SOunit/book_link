@@ -14,6 +14,7 @@ type UserDetailParams = {
 const UserDetail = () => {
   const params = useParams<UserDetailParams>();
   const [user, setUser] = useState<UserType>();
+  const [following, setFollowing] = useState<boolean>(false);
 
   const fetchUser = useCallback(async () => {
     const graphqlQuery = {

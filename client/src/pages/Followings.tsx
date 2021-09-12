@@ -21,8 +21,8 @@ const Followings: FC<FollowingsProps> = (props) => {
   const fetchFollowings = async (userId: string) => {
     const graphqlQuery = {
       query: `
-              query GetFollowings($userId: ID!){
-                getFollowings(userId: $userId){
+              query GetFollowingUsers($userId: ID!){
+                getFollowingUsers(userId: $userId){
                   id
                   name
                   imageUrl
@@ -41,7 +41,7 @@ const Followings: FC<FollowingsProps> = (props) => {
       data: graphqlQuery,
     });
 
-    return result.data.data.getFollowings;
+    return result.data.data.getFollowingUsers;
   };
 
   useEffect(() => {
