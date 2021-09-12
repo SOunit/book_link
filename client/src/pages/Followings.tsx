@@ -63,7 +63,13 @@ const Followings: FC<FollowingsProps> = (props) => {
 
   let followingUsersSection = null;
   if (followings && followings.length > 0) {
-    followingUsersSection = <DispCards users={followings} loginUser={user!} />;
+    followingUsersSection = (
+      <DispCards
+        users={followings}
+        loginUser={user!}
+        onUpdateUsers={setFollowings}
+      />
+    );
   } else {
     followingUsersSection = (
       <p className={classes['text-no-following']}>You are following nobody!</p>

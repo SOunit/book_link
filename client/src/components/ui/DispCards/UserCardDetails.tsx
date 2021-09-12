@@ -9,6 +9,7 @@ import classes from './UserCardDetails.module.css';
 type UserCardDetailsProps = {
   user: FollowUserType;
   loginUser: User;
+  onUpdateUsers: any;
 };
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
@@ -21,11 +22,13 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
   const followClickHandler = () => {
     console.log('props.user.id', props.user.id);
     console.log('props.loginUser.id', props.loginUser.id);
+    // props.onUpdateUsers(props.user);
   };
 
   const followingClickHandler = () => {
     console.log('props.user.id', props.user.id);
     console.log('props.loginUser.id', props.loginUser.id);
+    // props.onUpdateUsers(props.user);
   };
 
   let twitterButton = (

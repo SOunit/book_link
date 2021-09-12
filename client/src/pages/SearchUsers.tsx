@@ -110,6 +110,7 @@ const SearchUsers = () => {
           imageUrl: 'dummy',
           items: [],
         }}
+        onUpdateUsers={setSearchedUsers}
       />
     );
   }

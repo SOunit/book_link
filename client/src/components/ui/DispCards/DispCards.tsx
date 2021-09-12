@@ -7,6 +7,7 @@ import UserCardDetails from './UserCardDetails';
 type DispCardsProps = {
   users: FollowUserType[];
   loginUser: UserType;
+  onUpdateUsers: any;
 };
 
 const DispCards: FC<DispCardsProps> = (props) => {
@@ -17,7 +18,11 @@ const DispCards: FC<DispCardsProps> = (props) => {
         imageUrl={user.imageUrl}
         imageName={`${user.name}_${user.id}`}
       >
-        <UserCardDetails user={user} loginUser={props.loginUser} />
+        <UserCardDetails
+          user={user}
+          loginUser={props.loginUser}
+          onUpdateUsers={props.onUpdateUsers}
+        />
       </DispCard>
     );
   });
