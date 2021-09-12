@@ -5,6 +5,8 @@ import User from '../../../models/User';
 import Buttons from '../Buttons/Buttons';
 import Button, { ButtonTypes } from '../Buttons/Button';
 import classes from './UserCardDetails.module.css';
+import axios from 'axios';
+import keys from '../../../util/keys';
 
 type UserCardDetailsProps = {
   user: FollowUserType;
@@ -14,6 +16,62 @@ type UserCardDetailsProps = {
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
   const history = useHistory();
+
+  const deleteFollowing = async () => {
+    const graphqlQuery = {
+      query: `
+              mutation DeleteFollowing($userId: ID!, $targetId: ID!){
+                deleteFollowing(userId: $userId, targetId: $targetId)
+              }
+              `,
+      variables: {
+        userId: props.loginUser.id,
+        targetId: props.user.id,
+      },
+    };
+
+    await axios({
+      url: keys.GRAPHQL_REQUEST_URL,
+      method: 'POST',
+      data: graphqlQuery,
+    });
+  };
+
+  const fetchFollowings = async () => {
+    const graphqlQuery = {
+      query: `
+              query GetFollowings($userId: ID!){
+                getFollowings(userId: $userId){
+                  id
+                  name
+                  imageUrl
+                  isFollowing
+                }
+              }
+              `,
+      variables: {
+        userId: props.loginUser.id,
+      },
+    };
+
+    const result = await axios({
+      url: keys.GRAPHQL_REQUEST_URL,
+      method: 'POST',
+      data: graphqlQuery,
+    });
+
+    const users: FollowUserType[] = [];
+    result.data.data.getFollowings.map((user: any) => {
+      return users.push({
+        id: user.id,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        isFollowing: user.isFollowing,
+      });
+    });
+
+    return users;
+  };
 
   const detailClickHandler = () => {
     history.push(`/users/${props.user.id}`);
@@ -26,9 +84,19 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
   };
 
   const followingClickHandler = () => {
-    console.log('props.user.id', props.user.id);
-    console.log('props.loginUser.id', props.loginUser.id);
-    // props.onUpdateUsers(props.user);
+    // update state
+    fetchFollowings().then((followUsers) => {
+      const newFollowings = followUsers.map((user) => {
+        if (user.id === props.user.id) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+      props.onUpdateUsers(newFollowings);
+    });
+
+    // delete db
+    deleteFollowing();
   };
 
   let twitterButton = (
