@@ -9,3 +9,7 @@
   display: flex;
   justify-content: center;
 }
+
+.text--user-not-found {
+  text-align: center;
+}

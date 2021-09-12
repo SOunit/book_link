@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import EditProfile from './pages/EditProfile';
 import EditUserItems from './pages/EditUserItems';
+import Followings from './pages/Followings';
 import './App.css';
 
 function App() {
@@ -35,6 +36,10 @@ function App() {
         </Route>
         <Route path='/users/items/edit'>
           {isLoggedIn && <EditUserItems />}
+          {!isLoggedIn && <Redirect to='/login' />}
+        </Route>
+        <Route path='/users/:userId/followings'>
+          {isLoggedIn && <Followings />}
           {!isLoggedIn && <Redirect to='/login' />}
         </Route>
         <Route path='/users/:userId'>

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import Item from '../../models/Item';
-import DispCard from '../ui/DispCard/DispCard';
-import ItemCardDetail from '../ui/DispCard/ItemCardDetails';
+import DispCard from '../ui/DispCards/DispCard';
+import ItemCardDetail from '../ui/DispCards/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
 import classes from './SearchedItems.module.css';

@@ -11,6 +11,7 @@ import User from './models/sequelize/user';
 import Item from './models/sequelize/item';
 import UserItem from './models/sequelize/userItem';
 import { setupDummyData } from './setup';
+import Following from './models/sequelize/following';
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,7 @@ app.use(
 
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
+User.belongsToMany(User, { as: 'targets', through: Following });
 
 // create table using model by sync command
 sequelize
@@ -40,8 +42,8 @@ sequelize
     if (!user) {
       return User.create({
         id: '1',
-        name: 'Jack',
-        about: `hi, I'm jack.`,
+        name: 'Jack For Test',
+        about: `hi, I'm jack. Jack for test play!! You can edit my profile. My profile will be re-created when this app start. This is only for me, because I'm a test user!`,
         imageUrl:
           'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80',
       });

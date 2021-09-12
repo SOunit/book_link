@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState } from 'react';
 import axios from 'axios';
 import Item from './../models/Item';
-import User from './../models/User';
+import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
@@ -20,8 +20,14 @@ const SearchUsers = () => {
     updateIsItemSearchedHandler,
   } = useSearchedItems();
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
-  const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
+  const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
+  const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
+
+  const itemSearchHandler = (searchedItems: Item[]) => {
+    updateSearchedItemsHandler(searchedItems);
+    setIsUserSearched(false);
+  };
 
   const deleteRegisteredItemHandler = (id: string) => {
     setRegisteredItems((prevState) => {
@@ -30,6 +36,8 @@ const SearchUsers = () => {
       );
       return updatedRegisteredItems;
     });
+
+    setIsUserSearched(false);
   };
 
   const addRegisteredItemHandler = (item: Item) => {
@@ -44,6 +52,8 @@ const SearchUsers = () => {
       updatedRegisteredItems.push(item);
       return updatedRegisteredItems;
     });
+
+    setIsUserSearched(false);
   };
 
   const userSearchHandler = async () => {
@@ -76,6 +86,7 @@ const SearchUsers = () => {
     });
 
     setSearchedUsers(result.data.data.getUsersByItems);
+    setIsUserSearched(true);
   };
 
   let registeredItemsSection = null;
@@ -99,8 +110,24 @@ const SearchUsers = () => {
   }
 
   let searchedUsersSection = null;
-  if (searchedUsers.length > 0) {
-    searchedUsersSection = <SearchedUsers users={searchedUsers} />;
+  if (searchedUsers && searchedUsers.length > 0) {
+    searchedUsersSection = (
+      <SearchedUsers
+        users={searchedUsers}
+        loginUser={{
+          id: authCtx.token!,
+          name: 'dummy',
+          about: 'dummy',
+          imageUrl: 'dummy',
+          items: [],
+        }}
+        onUpdateUsers={setSearchedUsers}
+      />
+    );
+  } else if (isUserSearched && searchedUsers && searchedUsers.length <= 0) {
+    searchedUsersSection = (
+      <p className={classes['text--user-not-found']}>No new user found!</p>
+    );
   }
 
   return (
@@ -109,7 +136,7 @@ const SearchUsers = () => {
         <SearchBar
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
-          onSetSearchResult={updateSearchedItemsHandler}
+          onSetSearchResult={itemSearchHandler}
         />
       </section>
       <section>

@@ -7,6 +7,7 @@ import sequelize from '../util/database';
 import User from '../models/sequelize/user';
 import ItemType from '../models/ts/Item';
 import UserItem from '../models/sequelize/userItem';
+import Following from '../models/sequelize/following';
 
 const resolvers = {
   // FIXME: any type to something
@@ -124,26 +125,42 @@ const resolvers = {
 
   getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
-      `select
+      `
+      select
         id
         , name
         , about
         , "imageUrl"
-        from
+      from
         (
           select
-          "userId"
-          , count("itemId")
-          from "userItems"
+            "userId"
+            , count("itemId")
+          from 
+            "userItems"
           where
-          "itemId" in (:itemIds)
-          group by "userItems"."userId"
-          having count("itemId") = :itemIdsLength
+            "itemId" in (:itemIds)
+          group by 
+            "userItems"."userId"
+          having 
+            count("itemId") = :itemIdsLength
         ) as "targetUsers"
-        join users
-        on users.id = "targetUsers"."userId"
-        where users.id <> :userId
-        `,
+      join
+        users
+      on 
+        users.id = "targetUsers"."userId"
+      where 
+        users.id <> :userId
+      and
+        users.id not in (
+          select
+            "targetId"
+          from
+            followings
+          where
+            followings."userId" = :userId
+        )
+      `,
       {
         replacements: {
           itemIds: args.itemIds,
@@ -211,6 +228,56 @@ const resolvers = {
   getUserCount: async (args: { id: string }) => {
     const amount = await User.count({ where: { id: args.id } });
     return amount;
+  },
+
+  getFollowings: async (args: { userId: string }) => {
+    const users = await sequelize.query(
+      `
+      select
+        users.id
+        , users.name
+        , users."imageUrl"
+        , true as "isFollowing"
+      from
+        followings
+      join
+        users
+      on 
+        followings."targetId" = users.id
+      where
+        followings."userId" = :userId
+    `,
+      {
+        replacements: {
+          userId: args.userId,
+        },
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    return users;
+  },
+
+  createFollowing: async (args: { userId: string; targetId: string }) => {
+    await Following.create({
+      userId: args.userId,
+      targetId: args.targetId,
+    });
+
+    return true;
+  },
+
+  deleteFollowing: async (args: { userId: string; targetId: string }) => {
+    const followingInstance = await Following.findAll({
+      where: {
+        userId: args.userId,
+        targetId: args.targetId,
+      },
+    });
+
+    followingInstance[0].destroy();
+
+    return true;
   },
 };
 

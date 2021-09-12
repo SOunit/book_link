@@ -7,12 +7,10 @@ const DemoAuth: FC = () => {
   const authCtx = useContext(AuthContext);
 
   const playButtonClickHandler = () => {
-    console.log('play around!');
     authCtx.login('1');
   };
 
   const logoutButtonClickHandler = () => {
-    console.log('logout');
     authCtx.logout();
   };
 

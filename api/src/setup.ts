@@ -1,3 +1,4 @@
+import Following from './models/sequelize/following';
 import User from './models/sequelize/user';
 import UserItem from './models/sequelize/userItem';
 
@@ -175,5 +176,15 @@ export const setupDummyData = async () => {
   await UserItem.create({
     userId: '1',
     itemId: '30',
+  });
+
+  await Following.create({
+    userId: '1',
+    targetId: '4',
+  });
+
+  await Following.create({
+    userId: '2',
+    targetId: '4',
   });
 };

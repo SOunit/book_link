@@ -1,30 +1,24 @@
 import { FC, Fragment } from 'react';
-import User from '../../models/User';
-import DispCard from '../ui/DispCard/DispCard';
-import UserCardDetails from '../ui/DispCard/UserCardDetails';
+import UserType from '../../models/User';
+import FollowingType from '../../models/Following';
 import SectionTitle from '../ui/SectionTitle/SectionTitle';
+import DispCards from '../ui/DispCards/DispCards';
 
 type SearchedUsersProps = {
-  users: User[];
+  users: FollowingType[];
+  loginUser: UserType;
+  onUpdateUsers: any;
 };
 
 const SearchedUsers: FC<SearchedUsersProps> = (props) => {
-  const dispUsers = props.users.map((user) => {
-    return (
-      <DispCard
-        key={user.id}
-        imageUrl={user.imageUrl}
-        imageName={`${user.name}_${user.id}`}
-      >
-        <UserCardDetails user={user} />
-      </DispCard>
-    );
-  });
-
   return (
     <Fragment>
-      {dispUsers.length > 0 && <SectionTitle>Users</SectionTitle>}
-      {dispUsers}
+      {props.users.length > 0 && <SectionTitle>Users</SectionTitle>}
+      <DispCards
+        users={props.users}
+        loginUser={props.loginUser}
+        onUpdateUsers={props.onUpdateUsers}
+      />
     </Fragment>
   );
 };
