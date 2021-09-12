@@ -1,5 +1,5 @@
 import { FC, Fragment, useEffect, useState } from 'react';
-import FollowUserType from '../models/FollowUser';
+import FollowingType from '../models/Following';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import axios from 'axios';
 import keys from '../util/keys';
@@ -16,7 +16,7 @@ type FollowingsParams = {
 const Followings: FC<FollowingsProps> = (props) => {
   const { user } = useUser();
   const params = useParams<FollowingsParams>();
-  const [followings, setFollowings] = useState<FollowUserType[]>();
+  const [followings, setFollowings] = useState<FollowingType[]>();
 
   const fetchFollowings = async (userId: string) => {
     const graphqlQuery = {
@@ -45,7 +45,7 @@ const Followings: FC<FollowingsProps> = (props) => {
   };
 
   useEffect(() => {
-    const users: FollowUserType[] = [];
+    const users: FollowingType[] = [];
 
     fetchFollowings(params.userId).then((res) => {
       res.map((user: any) =>

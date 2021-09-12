@@ -7,7 +7,7 @@ export default buildSchema(`
         user(id: ID!): User!
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
-        getFollowings(userId: ID!): [FollowUser!]!
+        getFollowings(userId: ID!): [Following!]!
     }
 
     type RootMutation {
@@ -16,7 +16,7 @@ export default buildSchema(`
         updateUser(data: UpdateUserInput!): User!
         deleteUserItem(data: DeleteUserItemInput!): User!
         addUserItem(data: AddUserItemInput!): User!
-        createFollowing(userId: ID!, targetId: ID!): FollowUser!
+        createFollowing(userId: ID!, targetId: ID!): Following!
         deleteFollowing(userId: ID!, targetId: ID!): Boolean
     }
 
@@ -64,7 +64,7 @@ export default buildSchema(`
         items: [Item]
     }
 
-    type FollowUser {
+    type Following {
         id: ID!
         name: String!
         imageUrl: String

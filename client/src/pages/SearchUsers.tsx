@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState } from 'react';
 import axios from 'axios';
 import Item from './../models/Item';
-import FollowUserType from './../models/FollowUser';
+import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
@@ -20,7 +20,7 @@ const SearchUsers = () => {
     updateIsItemSearchedHandler,
   } = useSearchedItems();
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
-  const [searchedUsers, setSearchedUsers] = useState<FollowUserType[]>([]);
+  const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
   const authCtx = useContext(AuthContext);
 
   const deleteRegisteredItemHandler = (id: string) => {

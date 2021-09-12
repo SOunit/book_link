@@ -1,11 +1,11 @@
 import { FC, Fragment } from 'react';
 import UserType from '../../models/User';
-import FollowUserType from '../../models/FollowUser';
+import FollowingType from '../../models/Following';
 import SectionTitle from '../ui/SectionTitle/SectionTitle';
 import DispCards from '../ui/DispCards/DispCards';
 
 type SearchedUsersProps = {
-  users: FollowUserType[];
+  users: FollowingType[];
   loginUser: UserType;
   onUpdateUsers: any;
 };

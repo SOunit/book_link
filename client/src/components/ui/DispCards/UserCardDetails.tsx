@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
-import FollowUserType from '../../../models/FollowUser';
+import FollowingType from '../../../models/Following';
 import User from '../../../models/User';
 import Buttons from '../Buttons/Buttons';
 import Button, { ButtonTypes } from '../Buttons/Button';
@@ -9,10 +9,10 @@ import axios from 'axios';
 import keys from '../../../util/keys';
 
 type UserCardDetailsProps = {
-  user: FollowUserType;
+  user: FollowingType;
   loginUser: User;
   onUpdateUsers: any;
-  followings: FollowUserType[];
+  followings: FollowingType[];
 };
 
 const UserCardDetails: FC<UserCardDetailsProps> = (props) => {

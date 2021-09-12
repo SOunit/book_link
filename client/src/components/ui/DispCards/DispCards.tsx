@@ -1,11 +1,11 @@
 import { FC, Fragment } from 'react';
-import FollowUserType from '../../../models/FollowUser';
+import FollowingType from '../../../models/Following';
 import UserType from '../../../models/User';
 import DispCard from './DispCard';
 import UserCardDetails from './UserCardDetails';
 
 type DispCardsProps = {
-  users: FollowUserType[];
+  users: FollowingType[];
   loginUser: UserType;
   onUpdateUsers: any;
 };

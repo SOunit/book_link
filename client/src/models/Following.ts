@@ -1,4 +1,4 @@
-class FollowUser {
+class Following {
   id: string;
   name: string;
   imageUrl: string;
@@ -12,4 +12,4 @@ class FollowUser {
   }
 }
 
-export default FollowUser;
+export default Following;
