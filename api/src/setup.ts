@@ -180,16 +180,6 @@ export const setupDummyData = async () => {
 
   await Following.create({
     userId: '1',
-    targetId: '2',
-  });
-
-  await Following.create({
-    userId: '1',
-    targetId: '3',
-  });
-
-  await Following.create({
-    userId: '1',
     targetId: '4',
   });
 

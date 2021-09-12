@@ -21,7 +21,13 @@ const SearchUsers = () => {
   } = useSearchedItems();
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
   const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
+  const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
+
+  const itemSeachHandler = (searchedItems: Item[]) => {
+    updateSearchedItemsHandler(searchedItems);
+    setIsUserSearched(false);
+  };
 
   const deleteRegisteredItemHandler = (id: string) => {
     setRegisteredItems((prevState) => {
@@ -30,6 +36,8 @@ const SearchUsers = () => {
       );
       return updatedRegisteredItems;
     });
+
+    setIsUserSearched(false);
   };
 
   const addRegisteredItemHandler = (item: Item) => {
@@ -44,6 +52,8 @@ const SearchUsers = () => {
       updatedRegisteredItems.push(item);
       return updatedRegisteredItems;
     });
+
+    setIsUserSearched(false);
   };
 
   const userSearchHandler = async () => {
@@ -76,6 +86,7 @@ const SearchUsers = () => {
     });
 
     setSearchedUsers(result.data.data.getUsersByItems);
+    setIsUserSearched(true);
   };
 
   let registeredItemsSection = null;
@@ -99,7 +110,7 @@ const SearchUsers = () => {
   }
 
   let searchedUsersSection = null;
-  if (searchedUsers.length > 0) {
+  if (searchedUsers && searchedUsers.length > 0) {
     searchedUsersSection = (
       <SearchedUsers
         users={searchedUsers}
@@ -113,6 +124,10 @@ const SearchUsers = () => {
         onUpdateUsers={setSearchedUsers}
       />
     );
+  } else if (isUserSearched && searchedUsers && searchedUsers.length <= 0) {
+    searchedUsersSection = (
+      <p className={classes['text--user-not-found']}>No new user found!</p>
+    );
   }
 
   return (
@@ -121,7 +136,7 @@ const SearchUsers = () => {
         <SearchBar
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
-          onSetSearchResult={updateSearchedItemsHandler}
+          onSetSearchResult={itemSeachHandler}
         />
       </section>
       <section>
