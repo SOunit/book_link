@@ -58,7 +58,7 @@ const UserDetail = () => {
         <Buttons>
           <Button
             buttonText='Follow'
-            buttonType={ButtonTypes.TWITTER}
+            buttonType={ButtonTypes.FOLLOW}
             onButtonClick={() => {}}
           />
           <Button

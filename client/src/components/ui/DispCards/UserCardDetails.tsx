@@ -5,7 +5,7 @@ import User from '../../../models/User';
 import Buttons from '../Buttons/Buttons';
 import Button, { ButtonTypes } from '../Buttons/Button';
 import classes from './UserCardDetails.module.css';
-import TwitterButton from '../Buttons/TwitterButton';
+import FollowButton from '../Buttons/FollowButton';
 
 type UserCardDetailsProps = {
   user: FollowingType;
@@ -30,7 +30,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
           buttonType={ButtonTypes.NORMAL}
           onButtonClick={detailClickHandler}
         />
-        <TwitterButton
+        <FollowButton
           user={props.user}
           loginUser={props.loginUser}
           onUpdateUsers={props.onUpdateUsers}

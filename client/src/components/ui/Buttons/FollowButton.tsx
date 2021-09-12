@@ -5,14 +5,14 @@ import Button, { ButtonTypes } from './Button';
 import UserType from '../../../models/User';
 import keys from '../../../util/keys';
 
-type TwitterButtonProps = {
+type FollowButtonProps = {
   user: FollowingType;
   loginUser: UserType;
   onUpdateUsers: any;
   followings: FollowingType[];
 };
 
-const TwitterButton: FC<TwitterButtonProps> = (props) => {
+const FollowButton: FC<FollowButtonProps> = (props) => {
   const deleteFollowing = async () => {
     const graphqlQuery = {
       query: `
@@ -85,15 +85,15 @@ const TwitterButton: FC<TwitterButtonProps> = (props) => {
     deleteFollowing();
   };
 
-  let twitterButton = (
+  let FollowButton = (
     <Button
       buttonText={'Follow'}
-      buttonType={ButtonTypes.TWITTER}
+      buttonType={ButtonTypes.FOLLOW}
       onButtonClick={followClickHandler}
     />
   );
   if (props.user.isFollowing) {
-    twitterButton = (
+    FollowButton = (
       <Button
         buttonText={'Following'}
         buttonType={ButtonTypes.FOLLOWING}
@@ -102,7 +102,7 @@ const TwitterButton: FC<TwitterButtonProps> = (props) => {
     );
   }
 
-  return twitterButton;
+  return FollowButton;
 };
 
-export default TwitterButton;
+export default FollowButton;
