@@ -125,7 +125,8 @@ const resolvers = {
 
   getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
-      `select
+      `
+      select
         id
         , name
         , about
@@ -150,7 +151,16 @@ const resolvers = {
         users.id = "targetUsers"."userId"
       where 
         users.id <> :userId
-        `,
+      and
+        users.id not in (
+          select
+            "targetId"
+          from
+            followings
+          where
+            followings."userId" = :userId
+        )
+      `,
       {
         replacements: {
           itemIds: args.itemIds,
