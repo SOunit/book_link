@@ -227,6 +227,7 @@ const resolvers = {
         users.id
         , users.name
         , users."imageUrl"
+        , true as "isFollowing"
       from
         followings
       join
