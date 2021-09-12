@@ -38,7 +38,7 @@ function App() {
           {isLoggedIn && <EditUserItems />}
           {!isLoggedIn && <Redirect to='/login' />}
         </Route>
-        <Route path='/users/followings'>
+        <Route path='/users/:userId/followings'>
           {isLoggedIn && <Followings />}
           {!isLoggedIn && <Redirect to='/login' />}
         </Route>

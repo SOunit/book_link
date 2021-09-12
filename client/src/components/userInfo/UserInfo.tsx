@@ -37,11 +37,11 @@ const UserInfo: FC<UserInfoProps> = (props) => {
           <p className={classes['user-info__name']}>{props.user.name}</p>
           <Link
             className={classes['user-info__link']}
-            to='/users/followings'
+            to={`/users/${props.user.id}/followings`}
           >{`Followings >`}</Link>
           <Link
             className={classes['user-info__link']}
-            to='/users/followings'
+            to={`/users/${props.user.id}/followed-by`}
           >{`Followed by >`}</Link>
         </div>
       </div>
