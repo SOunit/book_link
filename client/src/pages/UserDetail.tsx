@@ -6,12 +6,14 @@ import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
+import useLoginUser from '../hooks/use-login-user';
 
 type UserDetailParams = {
   userId: string;
 };
 
 const UserDetail = () => {
+  const { loginUser, setLoginUser } = useLoginUser();
   const params = useParams<UserDetailParams>();
   const [user, setUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean>(false);

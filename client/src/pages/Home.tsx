@@ -4,12 +4,12 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
-import useUser from '../hooks/use-user';
+import useLoginUser from '../hooks/use-login-user';
 
 type HomeProps = {};
 
 const Home: FC<HomeProps> = (props) => {
-  const { user } = useUser();
+  const { loginUser } = useLoginUser();
   const history = useHistory();
 
   const editProfileClickHandler = () => {
@@ -22,9 +22,9 @@ const Home: FC<HomeProps> = (props) => {
 
   let userInfo = null;
   let userItems = null;
-  if (user) {
-    userInfo = <UserInfo user={user} />;
-    userItems = <UserItems items={user.items} />;
+  if (loginUser) {
+    userInfo = <UserInfo user={loginUser} />;
+    userItems = <UserItems items={loginUser.items} />;
   }
 
   return (

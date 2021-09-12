@@ -6,7 +6,7 @@ import keys from '../util/keys';
 import DispCards from '../components/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
-import useUser from '../hooks/use-user';
+import useLoginUser from '../hooks/use-login-user';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -14,7 +14,7 @@ type FollowingsParams = {
 };
 
 const Followings: FC<FollowingsProps> = (props) => {
-  const { user } = useUser();
+  const { loginUser } = useLoginUser();
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<FollowingType[]>();
 
@@ -66,7 +66,7 @@ const Followings: FC<FollowingsProps> = (props) => {
     followingUsersSection = (
       <DispCards
         users={followings}
-        loginUser={user!}
+        loginUser={loginUser!}
         onUpdateUsers={setFollowings}
       />
     );

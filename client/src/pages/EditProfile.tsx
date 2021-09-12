@@ -1,16 +1,16 @@
 import { FC, Fragment } from 'react';
-import useUser from '../hooks/use-user';
+import useLoginUser from '../hooks/use-login-user';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserEditForm from '../components/userEditForm/UserEditForm';
 
 const EditProfile: FC = () => {
-  const { user } = useUser();
+  const { loginUser } = useLoginUser();
 
   let userInfo;
   let userEditForm;
-  if (user) {
-    userInfo = <UserInfo user={user} />;
-    userEditForm = <UserEditForm user={user} />;
+  if (loginUser) {
+    userInfo = <UserInfo user={loginUser} />;
+    userEditForm = <UserEditForm user={loginUser} />;
   }
 
   return (

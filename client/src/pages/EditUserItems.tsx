@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
-import useUser from '../hooks/use-user';
+import useLoginUser from '../hooks/use-login-user';
 import keys from '../util/keys';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
@@ -12,7 +12,7 @@ import SearchedItems from '../components/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
 
 const EditUserItems: FC = () => {
-  const { user, setUser } = useUser();
+  const { loginUser, setLoginUser } = useLoginUser();
   const {
     searchedItems,
     isItemSearched,
@@ -30,7 +30,7 @@ const EditUserItems: FC = () => {
                 }
               `,
       variables: {
-        userId: user?.id,
+        userId: loginUser?.id,
         itemId,
       },
     };
@@ -52,7 +52,7 @@ const EditUserItems: FC = () => {
               }
               `,
       variables: {
-        userId: user?.id,
+        userId: loginUser?.id,
         itemId,
       },
     };
@@ -65,11 +65,11 @@ const EditUserItems: FC = () => {
   };
 
   const addClickHandler = (item: ItemType) => {
-    if (user) {
+    if (loginUser) {
       // update user state
-      const newUser = { ...user };
+      const newUser = { ...loginUser };
       newUser.items.push(item);
-      setUser(newUser);
+      setLoginUser(newUser);
 
       // update db
       addDbItem(item.id);
@@ -77,11 +77,11 @@ const EditUserItems: FC = () => {
   };
 
   const deleteClickHandler = (itemId: string) => {
-    if (user) {
+    if (loginUser) {
       // update user state
-      const newUser = { ...user };
+      const newUser = { ...loginUser };
       newUser.items = newUser.items?.filter((item) => item.id !== itemId);
-      setUser(newUser);
+      setLoginUser(newUser);
 
       // update db data
       deleteDbItem(itemId);
@@ -89,22 +89,22 @@ const EditUserItems: FC = () => {
   };
 
   let registeredItems;
-  if (user) {
+  if (loginUser) {
     registeredItems = (
       <RegisteredItems
-        items={user.items}
+        items={loginUser.items}
         onDeleteRegistedItem={deleteClickHandler}
       />
     );
   }
 
   let searchedItemsSection;
-  if (user) {
+  if (loginUser) {
     searchedItemsSection = (
       <section>
         <SearchedItems
           items={searchedItems}
-          registeredItems={user.items}
+          registeredItems={loginUser.items}
           isItemSearched={isItemSearched}
           onAddClick={addClickHandler}
         />
