@@ -65,7 +65,6 @@ const EditUserItems: FC = () => {
   };
 
   const addClickHandler = (item: ItemType) => {
-    console.log(item);
     if (user) {
       // update user state
       const newUser = { ...user };

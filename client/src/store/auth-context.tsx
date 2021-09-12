@@ -26,8 +26,6 @@ export const AuthContextProvider: FC = (props) => {
   };
 
   const createNewUser = async (id: string) => {
-    console.log('create new user', id);
-
     const graphqlQuery = {
       query: `
           mutation CreateUser($id: ID!){

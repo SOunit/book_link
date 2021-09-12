@@ -245,8 +245,6 @@ const resolvers = {
       }
     );
 
-    console.log(users);
-
     return users;
   },
 };
