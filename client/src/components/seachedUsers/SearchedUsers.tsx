@@ -1,11 +1,12 @@
 import { FC, Fragment } from 'react';
-import User from '../../models/User';
+import UserType from '../../models/User';
+import FollowUserType from '../../models/FollowUser';
 import SectionTitle from '../ui/SectionTitle/SectionTitle';
 import DispCards from '../ui/DispCards/DispCards';
 
 type SearchedUsersProps = {
-  users: User[];
-  loginUser: User;
+  users: FollowUserType[];
+  loginUser: UserType;
 };
 
 const SearchedUsers: FC<SearchedUsersProps> = (props) => {

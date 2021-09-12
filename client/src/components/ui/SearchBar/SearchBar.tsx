@@ -16,7 +16,6 @@ const SearchBar: React.FC<{
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    console.log('submit!');
 
     if (enteredText.length < 1) {
       props.onSetSearchResult([]);

@@ -1,12 +1,13 @@
 import { FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
+import FollowUserType from '../../../models/FollowUser';
 import User from '../../../models/User';
 import Buttons from '../Buttons/Buttons';
 import Button, { ButtonTypes } from '../Buttons/Button';
 import classes from './UserCardDetails.module.css';
 
 type UserCardDetailsProps = {
-  user: User;
+  user: FollowUserType;
   loginUser: User;
 };
 
@@ -22,6 +23,28 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
     console.log('props.loginUser.id', props.loginUser.id);
   };
 
+  const followingClickHandler = () => {
+    console.log('props.user.id', props.user.id);
+    console.log('props.loginUser.id', props.loginUser.id);
+  };
+
+  let twitterButton = (
+    <Button
+      buttonText={'Follow'}
+      buttonType={ButtonTypes.TWITTER}
+      onButtonClick={followClickHandler}
+    />
+  );
+  if (props.user.isFollowing) {
+    twitterButton = (
+      <Button
+        buttonText={'Following'}
+        buttonType={ButtonTypes.FOLLOWING}
+        onButtonClick={followingClickHandler}
+      />
+    );
+  }
+
   return (
     <Fragment>
       <div className={classes['user-card__name']}>{props.user.name}</div>
@@ -31,11 +54,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
           buttonType={ButtonTypes.NORMAL}
           onButtonClick={detailClickHandler}
         />
-        <Button
-          buttonText={'Follow'}
-          buttonType={ButtonTypes.TWITTER}
-          onButtonClick={followClickHandler}
-        />
+        {twitterButton}
       </Buttons>
     </Fragment>
   );
