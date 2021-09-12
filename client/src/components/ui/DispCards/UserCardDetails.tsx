@@ -42,12 +42,7 @@ const UserCardDetails: FC<UserCardDetailsProps> = (props) => {
     const graphqlQuery = {
       query: `
               mutation CreateFollowing($userId: ID!, $targetId: ID!){
-                createFollowing(userId: $userId, targetId: $targetId){
-                  id
-                  name
-                  imageUrl
-                  isFollowing
-                }
+                createFollowing(userId: $userId, targetId: $targetId)
               }
               `,
       variables: {

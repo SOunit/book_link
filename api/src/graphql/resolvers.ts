@@ -264,16 +264,7 @@ const resolvers = {
       targetId: args.targetId,
     });
 
-    const result = await User.findByPk(args.targetId);
-
-    const newUser = {
-      id: result.id,
-      name: result.name,
-      imageUrl: result.imageUrl,
-      isFollowing: true,
-    };
-
-    return newUser;
+    return true;
   },
 
   deleteFollowing: async (args: { userId: string; targetId: string }) => {
@@ -283,8 +274,6 @@ const resolvers = {
         targetId: args.targetId,
       },
     });
-
-    console.log(followingInstance);
 
     followingInstance[0].destroy();
 

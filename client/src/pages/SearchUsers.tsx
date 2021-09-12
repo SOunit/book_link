@@ -24,7 +24,7 @@ const SearchUsers = () => {
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
 
-  const itemSeachHandler = (searchedItems: Item[]) => {
+  const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
     setIsUserSearched(false);
   };
@@ -136,7 +136,7 @@ const SearchUsers = () => {
         <SearchBar
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
-          onSetSearchResult={itemSeachHandler}
+          onSetSearchResult={itemSearchHandler}
         />
       </section>
       <section>
