@@ -247,6 +247,15 @@ const resolvers = {
 
     return users;
   },
+
+  createFollowing: async (args: { userId: string; targetId: string }) => {
+    const result = await Following.create({
+      userId: args.userId,
+      targetId: args.targetId,
+    });
+
+    return `${result.dataValues.userId}_${result.dataValues.targetId}`;
+  },
 };
 
 export default resolvers;
