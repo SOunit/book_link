@@ -254,7 +254,22 @@ const resolvers = {
       targetId: args.targetId,
     });
 
-    return `${result.dataValues.userId}_${result.dataValues.targetId}`;
+    return true;
+  },
+
+  deleteFollowing: async (args: { userId: string; targetId: string }) => {
+    const followingInstance = await Following.findAll({
+      where: {
+        userId: args.userId,
+        targetId: args.targetId,
+      },
+    });
+
+    console.log(followingInstance);
+
+    followingInstance[0].destroy();
+
+    return true;
   },
 };
 

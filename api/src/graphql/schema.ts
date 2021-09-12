@@ -16,7 +16,8 @@ export default buildSchema(`
         updateUser(data: UpdateUserInput!): User!
         deleteUserItem(data: DeleteUserItemInput!): User!
         addUserItem(data: AddUserItemInput!): User!
-        createFollowing(userId: ID!, targetId: ID!): ID!
+        createFollowing(userId: ID!, targetId: ID!): Boolean
+        deleteFollowing(userId: ID!, targetId: ID!): Boolean
     }
 
     schema {
