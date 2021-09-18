@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Fragment, useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import UserType from '../models/User';

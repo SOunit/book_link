@@ -1,9 +1,8 @@
 import { FC } from 'react';
-import axios from 'axios';
 import FollowingType from '../../../models/Following';
 import Button, { ButtonTypes } from './Button';
 import UserType from '../../../models/User';
-import keys from '../../../util/keys';
+import services from '../../../services/services';
 
 type FollowButtonProps = {
   user: FollowingType;
@@ -13,46 +12,16 @@ type FollowButtonProps = {
 };
 
 const FollowButton: FC<FollowButtonProps> = (props) => {
-  const deleteFollowing = async () => {
-    const graphqlQuery = {
-      query: `
-                  mutation DeleteFollowing($userId: ID!, $targetId: ID!){
-                    deleteFollowing(userId: $userId, targetId: $targetId)
-                  }
-                  `,
-      variables: {
-        userId: props.loginUser.id,
-        targetId: props.user.id,
-      },
-    };
-
-    await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
+  const deleteFollowing = () => {
+    services.deleteFollowing(props.loginUser.id, props.user.id);
   };
 
-  const createFollowing = async () => {
-    const graphqlQuery = {
-      query: `
-                  mutation CreateFollowing($userId: ID!, $targetId: ID!){
-                    createFollowing(userId: $userId, targetId: $targetId)
-                  }
-                  `,
-      variables: {
-        userId: props.loginUser.id,
-        targetId: props.user.id,
-      },
-    };
-
-    const result = await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-
-    return result.data.data.createFollowing;
+  const createFollowing = () => {
+    services
+      .createFollowing(props.loginUser.id, props.user.id)
+      .then((result) => {
+        return result.data.data.createFollowing;
+      });
   };
 
   const followClickHandler = () => {

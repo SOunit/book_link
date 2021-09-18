@@ -52,6 +52,42 @@ const services = {
 
     return result;
   },
+
+  deleteFollowing: async (userId: string, targetId: string) => {
+    const graphqlQuery = {
+      query: `
+                  mutation DeleteFollowing($userId: ID!, $targetId: ID!){
+                    deleteFollowing(userId: $userId, targetId: $targetId)
+                  }
+                  `,
+      variables: {
+        userId,
+        targetId,
+      },
+    };
+
+    await API({
+      data: graphqlQuery,
+    });
+  },
+
+  createFollowing: async (userId: string, targetId: string) => {
+    const graphqlQuery = {
+      query: `
+                  mutation CreateFollowing($userId: ID!, $targetId: ID!){
+                    createFollowing(userId: $userId, targetId: $targetId)
+                  }
+                  `,
+      variables: {
+        userId,
+        targetId,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
 };
 
 export default services;
