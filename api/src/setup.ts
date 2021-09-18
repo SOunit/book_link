@@ -3,6 +3,26 @@ import User from './models/sequelize/user';
 import UserItem from './models/sequelize/userItem';
 
 export const setupDummyData = async () => {
+  User.findByPk('1')
+    .then((user: any) => {
+      if (!user) {
+        return User.create({
+          id: '1',
+          name: 'Jack For Test',
+          about: `hi, I'm jack. Jack for test play!! You can edit my profile. My profile will be re-created when this app start. This is only for me, because I'm a test user!`,
+          imageUrl:
+            'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80',
+        });
+      }
+      return user;
+    })
+    .then((user: any) => {
+      console.log('user', user);
+    })
+    .catch((err: any) => {
+      console.log('err in sync of sequelize', err);
+    });
+
   const rebecca = await User.create({
     id: '2',
     name: 'Rebecca',
