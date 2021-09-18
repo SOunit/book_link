@@ -7,7 +7,8 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import useLoginUser from '../hooks/use-login-user';
 import FollowButton from '../components/ui/Buttons/FollowButton';
-import services from '../services/services';
+import userServices from '../services/userServices';
+import followingServices from '../services/followingServices';
 
 type UserDetailParams = {
   userId: string;
@@ -20,21 +21,23 @@ const UserDetail = () => {
   const [following, setFollowing] = useState<boolean | null>(null);
 
   const fetchUser = useCallback(() => {
-    services.fetchUser(params.userId).then((result) => {
+    userServices.fetchUser(params.userId).then((result) => {
       setUser(result.data.data.user);
     });
   }, [params.userId]);
 
   const fetchFollowing = useCallback(() => {
     if (loginUser) {
-      services.fetchFollowing(loginUser.id, params.userId).then((result) => {
-        const targetId = result.data.data.following.targetId;
-        if (targetId) {
-          setFollowing(true);
-        } else {
-          setFollowing(false);
-        }
-      });
+      followingServices
+        .fetchFollowing(loginUser.id, params.userId)
+        .then((result) => {
+          const targetId = result.data.data.following.targetId;
+          if (targetId) {
+            setFollowing(true);
+          } else {
+            setFollowing(false);
+          }
+        });
     }
   }, [loginUser, params.userId]);
 

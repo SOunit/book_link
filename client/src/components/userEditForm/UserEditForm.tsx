@@ -4,7 +4,7 @@ import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
 import UserType from '../../models/User';
 import { useHistory } from 'react-router';
-import services from '../../services/services';
+import userServices from '../../services/userServices';
 
 type UserEditFromProps = {
   user: UserType;
@@ -17,7 +17,7 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
   const history = useHistory();
 
   const updateUser = async (userData: UserType) => {
-    services.updateUser(
+    userServices.updateUser(
       userData.id,
       userData.name,
       userData.about,

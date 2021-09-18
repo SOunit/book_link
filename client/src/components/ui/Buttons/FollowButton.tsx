@@ -2,7 +2,7 @@ import { FC } from 'react';
 import FollowingType from '../../../models/Following';
 import Button, { ButtonTypes } from './Button';
 import UserType from '../../../models/User';
-import services from '../../../services/services';
+import services from '../../../services/followingServices';
 
 type FollowButtonProps = {
   user: FollowingType;

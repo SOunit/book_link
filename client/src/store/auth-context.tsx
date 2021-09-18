@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import services from '../services/services';
+import userServices from '../services/userServices';
 import keys from '../util/keys';
 
 const AuthContext = React.createContext<{
@@ -26,11 +26,11 @@ export const AuthContextProvider: FC = (props) => {
   };
 
   const createNewUser = async (id: string) => {
-    services.createUser(id);
+    userServices.createUser(id);
   };
 
   const getUserCount = async (id: string) => {
-    return services.getUserCount(id);
+    return userServices.getUserCount(id);
   };
 
   const loginHandler = (token: string | null) => {

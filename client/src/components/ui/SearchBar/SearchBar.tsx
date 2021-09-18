@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Item from '../../../models/Item';
-import services from '../../../services/services';
+import services from '../../../services/itemServices';
 import classes from './SearchBar.module.css';
 
 const SearchBar: React.FC<{

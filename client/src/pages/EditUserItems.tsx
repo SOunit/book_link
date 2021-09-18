@@ -8,7 +8,7 @@ import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
-import services from '../services/services';
+import itemServices from '../services/itemServices';
 
 const EditUserItems: FC = () => {
   const { loginUser, setLoginUser } = useLoginUser();
@@ -27,7 +27,7 @@ const EditUserItems: FC = () => {
       setLoginUser(newUser);
 
       // update db
-      services.addUserItem(loginUser!.id, item.id);
+      itemServices.addUserItem(loginUser!.id, item.id);
     }
   };
 
@@ -39,7 +39,7 @@ const EditUserItems: FC = () => {
       setLoginUser(newUser);
 
       // update db data
-      services.deleteUserItem(loginUser!.id, itemId);
+      itemServices.deleteUserItem(loginUser!.id, itemId);
     }
   };
 

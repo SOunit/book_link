@@ -5,7 +5,7 @@ import DispCards from '../components/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
 import useLoginUser from '../hooks/use-login-user';
-import services from '../services/services';
+import followingServices from '../services/followingServices';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -18,7 +18,7 @@ const Followings: FC<FollowingsProps> = (props) => {
   const [followings, setFollowings] = useState<FollowingType[]>();
 
   const fetchFollowings = async (userId: string) => {
-    const result = await services.fetchFollowingUsers(userId);
+    const result = await followingServices.fetchFollowingUsers(userId);
     return result.data.data.getFollowingUsers;
   };
 

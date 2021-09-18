@@ -1,14 +1,14 @@
 import { useState, useContext, useCallback, useEffect } from 'react';
 import AuthContext from '../store/auth-context';
 import UserType from '../models/User';
-import services from '../services/services';
+import userServices from '../services/userServices';
 
 const useUser = () => {
   const [user, setUser] = useState<UserType>();
   const authCtx = useContext(AuthContext);
 
   const fetchUser = useCallback(() => {
-    services.fetchUser(authCtx.token!).then((result) => {
+    userServices.fetchUser(authCtx.token!).then((result) => {
       setUser(result.data.data.user);
     });
   }, [authCtx.token]);

@@ -10,7 +10,7 @@ import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
-import services from '../services/services';
+import userServices from '../services/userServices';
 
 const SearchUsers = () => {
   const {
@@ -62,10 +62,12 @@ const SearchUsers = () => {
       return itemIdList.push(item.id);
     });
 
-    services.fetchUsersByItems(itemIdList, authCtx.token!).then((result) => {
-      setSearchedUsers(result.data.data.getUsersByItems);
-      setIsUserSearched(true);
-    });
+    userServices
+      .fetchUsersByItems(itemIdList, authCtx.token!)
+      .then((result) => {
+        setSearchedUsers(result.data.data.getUsersByItems);
+        setIsUserSearched(true);
+      });
   };
 
   const followClickHandler = (targetUserId: string) => {
