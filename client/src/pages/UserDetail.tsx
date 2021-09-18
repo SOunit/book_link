@@ -20,41 +20,22 @@ const UserDetail = () => {
   const [user, setUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
 
-  const fetchUser = useCallback(async () => {
+  const fetchUser = useCallback(() => {
     services.fetchUser(params.userId).then((result) => {
       setUser(result.data.data.user);
     });
   }, [params.userId]);
 
-  const fetchFollowing = useCallback(async () => {
+  const fetchFollowing = useCallback(() => {
     if (loginUser) {
-      const graphqlQuery = {
-        query: `
-              query fetchFollowing($userId: ID!, $targetId: ID!){
-                following(userId: $userId, targetId: $targetId){
-                  userId
-                  targetId
-                }
-              }
-            `,
-        variables: {
-          userId: loginUser.id,
-          targetId: params.userId,
-        },
-      };
-
-      const result = await axios({
-        url: '/api/graphql',
-        method: 'post',
-        data: graphqlQuery,
+      services.fetchFollowing(loginUser.id, params.userId).then((result) => {
+        const targetId = result.data.data.following.targetId;
+        if (targetId) {
+          setFollowing(true);
+        } else {
+          setFollowing(false);
+        }
       });
-
-      const targetId = result.data.data.following.targetId;
-      if (targetId) {
-        setFollowing(true);
-      } else {
-        setFollowing(false);
-      }
     }
   }, [loginUser, params.userId]);
 

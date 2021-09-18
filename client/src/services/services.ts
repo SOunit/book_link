@@ -29,6 +29,29 @@ const services = {
 
     return data;
   },
+
+  fetchFollowing: async (userId: string, targetId: string) => {
+    const graphqlQuery = {
+      query: `
+              query fetchFollowing($userId: ID!, $targetId: ID!){
+                following(userId: $userId, targetId: $targetId){
+                  userId
+                  targetId
+                }
+              }
+            `,
+      variables: {
+        userId,
+        targetId,
+      },
+    };
+
+    const result = await API({
+      data: graphqlQuery,
+    });
+
+    return result;
+  },
 };
 
 export default services;
