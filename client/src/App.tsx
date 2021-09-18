@@ -15,7 +15,6 @@ function App() {
   return (
     <Layout>
       <Switch>
-        {/* <ProtectedRoute component={() => <div>loggedIn</div>} path='/' exact /> */}
         <Route path='/login'>
           <Login />
         </Route>
