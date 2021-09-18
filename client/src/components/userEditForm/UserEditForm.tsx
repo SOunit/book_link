@@ -4,8 +4,7 @@ import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
 import UserType from '../../models/User';
 import { useHistory } from 'react-router';
-import axios from 'axios';
-import keys from '../../util/keys';
+import services from '../../services/services';
 
 type UserEditFromProps = {
   user: UserType;
@@ -18,33 +17,12 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
   const history = useHistory();
 
   const updateUser = async (userData: UserType) => {
-    // update user
-    const graphqlQuery = {
-      query: `
-              mutation UpdateUser($id: ID!, $name: String!, $about: String!, $imageUrl: String!){
-                updateUser(data: {
-                  id: $id
-                  name: $name
-                  about: $about
-                  imageUrl: $imageUrl
-                }){
-                  id
-                }
-              }
-            `,
-      variables: {
-        id: userData.id,
-        name: userData.name,
-        about: userData.about,
-        imageUrl: userData.imageUrl,
-      },
-    };
-
-    await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
+    services.updateUser(
+      userData.id,
+      userData.name,
+      userData.about,
+      userData.imageUrl
+    );
   };
 
   const submitHandler = (event: React.SyntheticEvent) => {

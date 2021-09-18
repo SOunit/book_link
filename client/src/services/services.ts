@@ -30,6 +30,38 @@ const services = {
     return data;
   },
 
+  updateUser: async (
+    id: string,
+    name: string,
+    about: string,
+    imageUrl: string
+  ) => {
+    const graphqlQuery = {
+      query: `
+              mutation UpdateUser($id: ID!, $name: String!, $about: String!, $imageUrl: String!){
+                updateUser(data: {
+                  id: $id
+                  name: $name
+                  about: $about
+                  imageUrl: $imageUrl
+                }){
+                  id
+                }
+              }
+            `,
+      variables: {
+        id,
+        name,
+        about,
+        imageUrl,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
   fetchFollowing: async (userId: string, targetId: string) => {
     const graphqlQuery = {
       query: `
