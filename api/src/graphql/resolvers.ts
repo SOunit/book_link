@@ -14,19 +14,19 @@ const resolvers = {
   itemsByTitle: async (args: any, req: any) => {
     const titleQuery = args.title;
 
-    const result = await Item.findAll({
+    const items = await Item.findAll({
       where: { title: { [Op.iLike]: `${titleQuery}%` } },
     });
 
-    const itemList: any[] = [];
-    result.map((elm: any) =>
-      itemList.push({
+    let itemList = [];
+    itemList = items.map((elm: any) => {
+      return {
         id: elm.id,
         title: elm.title,
         author: elm.author,
         imageUrl: elm.imageUrl,
-      })
-    );
+      };
+    });
 
     return itemList;
   },
@@ -58,7 +58,7 @@ const resolvers = {
     }
 
     // update
-    if (args.data.name && args.data.name.length > 0) {
+    if (args.data && args.data.name) {
       userInstance.name = args.data.name;
       userInstance.about = args.data.about;
       userInstance.imageUrl = args.data.imageUrl;
@@ -84,42 +84,42 @@ const resolvers = {
     });
 
     // create return value
-    const userInstance = await User.findAll({
+    const userInstance = await User.findOne({
       where: { id: args.data.userId },
       include: Item,
     });
 
     return {
-      id: userInstance[0].id,
-      name: userInstance[0].name,
-      about: userInstance[0].about,
-      imageUrl: userInstance[0].imageUrl,
-      items: userInstance[0].items,
+      id: userInstance.id,
+      name: userInstance.name,
+      about: userInstance.about,
+      imageUrl: userInstance.imageUrl,
+      items: userInstance.items,
     };
   },
 
   deleteUserItem: async (args: {
     data: { userId: string; itemId: string };
   }) => {
-    const userItemInstance = await UserItem.findAll({
+    const userItemInstance = await UserItem.findOne({
       where: { userId: args.data.userId, itemId: args.data.itemId },
     });
-    if (userItemInstance && userItemInstance.length > 0) {
-      await userItemInstance[0].destroy();
+    if (userItemInstance) {
+      await userItemInstance.destroy();
     }
 
     // create return value
-    const userInstance = await User.findAll({
+    const userInstance = await User.findOne({
       where: { id: args.data.userId },
       include: Item,
     });
 
     return {
-      id: userInstance[0].id,
-      name: userInstance[0].name,
-      about: userInstance[0].about,
-      imageUrl: userInstance[0].imageUrl,
-      items: userInstance[0].items,
+      id: userInstance.id,
+      name: userInstance.name,
+      about: userInstance.about,
+      imageUrl: userInstance.imageUrl,
+      items: userInstance.items,
     };
   },
 
@@ -171,36 +171,31 @@ const resolvers = {
       }
     );
 
-    const users: UserType[] = [];
-    fetchedUsers.map((fetchedUser: UserType) => {
-      users.push(fetchedUser);
-    });
-
-    return users;
+    return fetchedUsers;
   },
 
   user: async (args: { id: string }) => {
     // const result = await User.findByPk(args.id);
-    const result = await User.findAll({
+    const user = await User.findOne({
       where: { id: args.id },
       include: Item,
     });
 
-    if (result.length <= 0) {
+    if (!user) {
       throw new Error('User not found');
     }
 
-    const userData = result[0].dataValues;
+    const userData = user.get({ row: true });
 
-    const items: ItemType[] = [];
-    userData.items.map((elm: any) => {
-      const itemData = elm.dataValues;
-      return items.push({
+    let items: ItemType[] = [];
+    items = userData.items.map((elm: any) => {
+      const itemData = elm.get({ row: true });
+      return {
         id: itemData.id,
         title: itemData.title,
         author: itemData.author,
         imageUrl: itemData.imageUrl,
-      });
+      };
     });
 
     return {
@@ -268,39 +263,37 @@ const resolvers = {
   },
 
   deleteFollowing: async (args: { userId: string; targetId: string }) => {
-    const followingInstance = await Following.findAll({
+    const followingInstance = await Following.findOne({
       where: {
         userId: args.userId,
         targetId: args.targetId,
       },
     });
 
-    followingInstance[0].destroy();
+    followingInstance.destroy();
 
     return true;
   },
 
   following: async (args: { userId: string; targetId: string }) => {
-    const result = await Following.findAll({
+    const following = await Following.findOne({
       where: {
         userId: args.userId,
         targetId: args.targetId,
       },
     });
 
-    if (result && result.length > 0) {
-      const followingData = result[0].dataValues;
-      console.log('followingData', followingData);
-
+    if (!following) {
       return {
-        userId: followingData.userId,
-        targetId: followingData.targetId,
+        userId: null,
+        targetId: null,
       };
     }
 
+    const followingData = following.get({ row: true });
     return {
-      userId: null,
-      targetId: null,
+      userId: followingData.userId,
+      targetId: followingData.targetId,
     };
   },
 };
