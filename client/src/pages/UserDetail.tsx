@@ -8,6 +8,7 @@ import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import useLoginUser from '../hooks/use-login-user';
 import FollowButton from '../components/ui/Buttons/FollowButton';
+import services from '../services/services';
 
 type UserDetailParams = {
   userId: string;
@@ -20,34 +21,9 @@ const UserDetail = () => {
   const [following, setFollowing] = useState<boolean | null>(null);
 
   const fetchUser = useCallback(async () => {
-    const graphqlQuery = {
-      query: `
-            query fetchUser($id: ID!){
-              user(id: $id){
-                id
-                name
-                about
-                imageUrl
-                items{
-                  id
-                  title
-                  imageUrl
-                }
-              }
-            }
-          `,
-      variables: {
-        id: params.userId,
-      },
-    };
-
-    const result = await axios({
-      url: '/api/graphql',
-      method: 'post',
-      data: graphqlQuery,
+    services.fetchUser(params.userId).then((result) => {
+      setUser(result.data.data.user);
     });
-
-    setUser(result.data.data.user);
   }, [params.userId]);
 
   const fetchFollowing = useCallback(async () => {
