@@ -1,18 +1,17 @@
-import axios from 'axios';
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
-import useUser from '../hooks/use-user';
-import keys from '../util/keys';
+import useLoginUser from '../hooks/use-login-user';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
+import itemServices from '../services/itemServices';
 
 const EditUserItems: FC = () => {
-  const { user, setUser } = useUser();
+  const { loginUser, setLoginUser } = useLoginUser();
   const {
     searchedItems,
     isItemSearched,
@@ -20,91 +19,47 @@ const EditUserItems: FC = () => {
     updateIsItemSearchedHandler,
   } = useSearchedItems();
 
-  const deleteDbItem = async (itemId: string) => {
-    const graphqlQuery = {
-      query: `
-                mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
-                  deleteUserItem(data: {userId: $userId, itemId: $itemId}){
-                    id
-                  }
-                }
-              `,
-      variables: {
-        userId: user?.id,
-        itemId,
-      },
-    };
-
-    axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-  };
-
-  const addDbItem = async (itemId: string) => {
-    const graphqlQuery = {
-      query: `
-              mutation AddUserItem($userId: ID!, $itemId: ID!){
-                addUserItem(data: {userId: $userId, itemId: $itemId}){
-                  id
-                }
-              }
-              `,
-      variables: {
-        userId: user?.id,
-        itemId,
-      },
-    };
-
-    await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-  };
-
   const addClickHandler = (item: ItemType) => {
-    if (user) {
+    if (loginUser) {
       // update user state
-      const newUser = { ...user };
+      const newUser = { ...loginUser };
       newUser.items.push(item);
-      setUser(newUser);
+      setLoginUser(newUser);
 
       // update db
-      addDbItem(item.id);
+      itemServices.addUserItem(loginUser!.id, item.id);
     }
   };
 
   const deleteClickHandler = (itemId: string) => {
-    if (user) {
+    if (loginUser) {
       // update user state
-      const newUser = { ...user };
+      const newUser = { ...loginUser };
       newUser.items = newUser.items?.filter((item) => item.id !== itemId);
-      setUser(newUser);
+      setLoginUser(newUser);
 
       // update db data
-      deleteDbItem(itemId);
+      itemServices.deleteUserItem(loginUser!.id, itemId);
     }
   };
 
   let registeredItems;
-  if (user) {
+  if (loginUser) {
     registeredItems = (
       <RegisteredItems
-        items={user.items}
+        items={loginUser.items}
         onDeleteRegistedItem={deleteClickHandler}
       />
     );
   }
 
   let searchedItemsSection;
-  if (user) {
+  if (loginUser) {
     searchedItemsSection = (
       <section>
         <SearchedItems
           items={searchedItems}
-          registeredItems={user.items}
+          registeredItems={loginUser.items}
           isItemSearched={isItemSearched}
           onAddClick={addClickHandler}
         />

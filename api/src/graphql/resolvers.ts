@@ -230,7 +230,7 @@ const resolvers = {
     return amount;
   },
 
-  getFollowings: async (args: { userId: string }) => {
+  getFollowingUsers: async (args: { userId: string }) => {
     const users = await sequelize.query(
       `
       select
@@ -278,6 +278,30 @@ const resolvers = {
     followingInstance[0].destroy();
 
     return true;
+  },
+
+  following: async (args: { userId: string; targetId: string }) => {
+    const result = await Following.findAll({
+      where: {
+        userId: args.userId,
+        targetId: args.targetId,
+      },
+    });
+
+    if (result && result.length > 0) {
+      const followingData = result[0].dataValues;
+      console.log('followingData', followingData);
+
+      return {
+        userId: followingData.userId,
+        targetId: followingData.targetId,
+      };
+    }
+
+    return {
+      userId: null,
+      targetId: null,
+    };
   },
 };
 

@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import Item from '../../../models/Item';
+import services from '../../../services/itemServices';
 import classes from './SearchBar.module.css';
 
 const SearchBar: React.FC<{
@@ -23,30 +23,10 @@ const SearchBar: React.FC<{
       return;
     }
 
-    const graphqlQuery = {
-      query: `
-              query fetchItems ($title: String){
-                itemsByTitle(title: $title){
-                  id
-                  title
-                  author
-                  imageUrl
-                }
-              }
-            `,
-      variables: {
-        title: enteredText,
-      },
-    };
-
-    const result = await axios({
-      url: '/api/graphql',
-      method: 'POST',
-      data: graphqlQuery,
+    services.fetchItemsByTitle(enteredText).then((result) => {
+      props.onSetSearchResult(result.data.data.itemsByTitle);
+      props.onSetIsSearched();
     });
-
-    props.onSetSearchResult(result.data.data.itemsByTitle);
-    props.onSetIsSearched();
   };
 
   return (

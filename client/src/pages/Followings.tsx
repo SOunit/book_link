@@ -1,12 +1,11 @@
 import { FC, Fragment, useEffect, useState } from 'react';
 import FollowingType from '../models/Following';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
-import axios from 'axios';
-import keys from '../util/keys';
 import DispCards from '../components/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
-import useUser from '../hooks/use-user';
+import useLoginUser from '../hooks/use-login-user';
+import followingServices from '../services/followingServices';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -14,40 +13,19 @@ type FollowingsParams = {
 };
 
 const Followings: FC<FollowingsProps> = (props) => {
-  const { user } = useUser();
+  const { loginUser } = useLoginUser();
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<FollowingType[]>();
 
   const fetchFollowings = async (userId: string) => {
-    const graphqlQuery = {
-      query: `
-              query GetFollowings($userId: ID!){
-                getFollowings(userId: $userId){
-                  id
-                  name
-                  imageUrl
-                  isFollowing
-                }
-              }
-              `,
-      variables: {
-        userId,
-      },
-    };
-
-    const result = await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-
-    return result.data.data.getFollowings;
+    const result = await followingServices.fetchFollowingUsers(userId);
+    return result.data.data.getFollowingUsers;
   };
 
   useEffect(() => {
     const users: FollowingType[] = [];
 
-    fetchFollowings(params.userId).then((res) => {
+    fetchFollowings(params.userId).then((res: any) => {
       res.map((user: any) =>
         users.push({
           id: user.id,
@@ -61,13 +39,41 @@ const Followings: FC<FollowingsProps> = (props) => {
     });
   }, [params.userId]);
 
+  const followClickHandler = (targetUserId: string) => {
+    // update state
+    if (followings) {
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = true;
+        }
+        return user;
+      });
+
+      setFollowings(newFollowings);
+    }
+  };
+
+  const followingClickHandler = (targetUserId: string) => {
+    // update state
+    if (followings) {
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+      setFollowings(newFollowings);
+    }
+  };
+
   let followingUsersSection = null;
   if (followings && followings.length > 0) {
     followingUsersSection = (
       <DispCards
         users={followings}
-        loginUser={user!}
-        onUpdateUsers={setFollowings}
+        loginUser={loginUser!}
+        onFollowClick={followClickHandler}
+        onFollowingClick={followingClickHandler}
       />
     );
   } else {

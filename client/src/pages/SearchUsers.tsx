@@ -1,5 +1,4 @@
 import { Fragment, useContext, useState } from 'react';
-import axios from 'axios';
 import Item from './../models/Item';
 import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
@@ -11,6 +10,7 @@ import SearchedUsers from '../components/seachedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
+import userServices from '../services/userServices';
 
 const SearchUsers = () => {
   const {
@@ -62,31 +62,35 @@ const SearchUsers = () => {
       return itemIdList.push(item.id);
     });
 
-    const graphqlQuery = {
-      query: `
-              query fetchUsersByItems($itemIds: [String!]!, $userId: String!){
-                getUsersByItems(itemIds: $itemIds, userId: $userId){
-                  id
-                  name
-                  about
-                  imageUrl
-                }
-              }
-            `,
-      variables: {
-        itemIds: itemIdList,
-        userId: authCtx.token,
-      },
-    };
+    userServices
+      .fetchUsersByItems(itemIdList, authCtx.token!)
+      .then((result) => {
+        setSearchedUsers(result.data.data.getUsersByItems);
+        setIsUserSearched(true);
+      });
+  };
 
-    const result = await axios({
-      url: '/api/graphql',
-      method: 'post',
-      data: graphqlQuery,
+  const followClickHandler = (targetUserId: string) => {
+    // update state
+    const newFollowings = searchedUsers.map((user) => {
+      if (user.id === targetUserId) {
+        user.isFollowing = true;
+      }
+      return user;
     });
 
-    setSearchedUsers(result.data.data.getUsersByItems);
-    setIsUserSearched(true);
+    setSearchedUsers(newFollowings);
+  };
+
+  const followingClickHandler = (targetUserId: string) => {
+    // update state
+    const newFollowings = searchedUsers.map((user) => {
+      if (user.id === targetUserId) {
+        user.isFollowing = false;
+      }
+      return user;
+    });
+    setSearchedUsers(newFollowings);
   };
 
   let registeredItemsSection = null;
@@ -121,7 +125,8 @@ const SearchUsers = () => {
           imageUrl: 'dummy',
           items: [],
         }}
-        onUpdateUsers={setSearchedUsers}
+        onFollowClick={followClickHandler}
+        onFollowingClick={followingClickHandler}
       />
     );
   } else if (isUserSearched && searchedUsers && searchedUsers.length <= 0) {

@@ -7,7 +7,8 @@ import UserCardDetails from './UserCardDetails';
 type DispCardsProps = {
   users: FollowingType[];
   loginUser: UserType;
-  onUpdateUsers: any;
+  onFollowClick: any;
+  onFollowingClick: any;
 };
 
 const DispCards: FC<DispCardsProps> = (props) => {
@@ -21,8 +22,8 @@ const DispCards: FC<DispCardsProps> = (props) => {
         <UserCardDetails
           user={user}
           loginUser={props.loginUser}
-          onUpdateUsers={props.onUpdateUsers}
-          followings={props.users}
+          onFollowClick={() => props.onFollowClick(user.id)}
+          onFollowingClick={() => props.onFollowingClick(user.id)}
         />
       </DispCard>
     );
