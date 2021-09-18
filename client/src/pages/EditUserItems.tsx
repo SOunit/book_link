@@ -1,15 +1,14 @@
-import axios from 'axios';
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
 import useLoginUser from '../hooks/use-login-user';
-import keys from '../util/keys';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
+import services from '../services/services';
 
 const EditUserItems: FC = () => {
   const { loginUser, setLoginUser } = useLoginUser();
@@ -20,50 +19,6 @@ const EditUserItems: FC = () => {
     updateIsItemSearchedHandler,
   } = useSearchedItems();
 
-  const deleteDbItem = async (itemId: string) => {
-    const graphqlQuery = {
-      query: `
-                mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
-                  deleteUserItem(data: {userId: $userId, itemId: $itemId}){
-                    id
-                  }
-                }
-              `,
-      variables: {
-        userId: loginUser?.id,
-        itemId,
-      },
-    };
-
-    axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-  };
-
-  const addDbItem = async (itemId: string) => {
-    const graphqlQuery = {
-      query: `
-              mutation AddUserItem($userId: ID!, $itemId: ID!){
-                addUserItem(data: {userId: $userId, itemId: $itemId}){
-                  id
-                }
-              }
-              `,
-      variables: {
-        userId: loginUser?.id,
-        itemId,
-      },
-    };
-
-    await axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'POST',
-      data: graphqlQuery,
-    });
-  };
-
   const addClickHandler = (item: ItemType) => {
     if (loginUser) {
       // update user state
@@ -72,7 +27,7 @@ const EditUserItems: FC = () => {
       setLoginUser(newUser);
 
       // update db
-      addDbItem(item.id);
+      services.addUserItem(loginUser!.id, item.id);
     }
   };
 
@@ -84,7 +39,7 @@ const EditUserItems: FC = () => {
       setLoginUser(newUser);
 
       // update db data
-      deleteDbItem(itemId);
+      services.deleteUserItem(loginUser!.id, itemId);
     }
   };
 

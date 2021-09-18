@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { FC, useState } from 'react';
+import services from '../services/services';
 import keys from '../util/keys';
 
 const AuthContext = React.createContext<{
@@ -26,45 +26,11 @@ export const AuthContextProvider: FC = (props) => {
   };
 
   const createNewUser = async (id: string) => {
-    const graphqlQuery = {
-      query: `
-          mutation CreateUser($id: ID!){
-            createUser(id: $id){
-              id
-              name
-            }
-          }
-        `,
-      variables: {
-        id,
-      },
-    };
-
-    axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'post',
-      data: graphqlQuery,
-    });
+    services.createUser(id);
   };
 
-  const fetchUser = async (id: string) => {
-    // check user
-    const graphqlQuery = {
-      query: `
-          query FetchUser($id: ID!){
-            getUserCount(id: $id)
-          }
-        `,
-      variables: {
-        id,
-      },
-    };
-
-    return axios({
-      url: keys.GRAPHQL_REQUEST_URL,
-      method: 'post',
-      data: graphqlQuery,
-    });
+  const getUserCount = async (id: string) => {
+    return services.getUserCount(id);
   };
 
   const loginHandler = (token: string | null) => {
@@ -73,7 +39,7 @@ export const AuthContextProvider: FC = (props) => {
       localStorage.setItem(keys.TOKEN_KEY, token);
 
       // check if user exists
-      fetchUser(token).then((result) => {
+      getUserCount(token).then((result) => {
         const amount = result.data.data.getUserCount;
 
         if (amount <= 0) {

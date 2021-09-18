@@ -1,6 +1,44 @@
 import API from './api';
 
 const services = {
+  createUser: async (id: string) => {
+    const graphqlQuery = {
+      query: `
+          mutation CreateUser($id: ID!){
+            createUser(id: $id){
+              id
+              name
+            }
+          }
+        `,
+      variables: {
+        id,
+      },
+    };
+
+    API({
+      data: graphqlQuery,
+    });
+  },
+
+  getUserCount: async (id: string) => {
+    // check user
+    const graphqlQuery = {
+      query: `
+              query GetUserCount($id: ID!){
+                getUserCount(id: $id)
+              }
+            `,
+      variables: {
+        id,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
   fetchUser: async (userId: string) => {
     const graphqlQuery = {
       query: `
@@ -23,11 +61,9 @@ const services = {
       },
     };
 
-    const data = await API({
+    return await API({
       data: graphqlQuery,
     });
-
-    return data;
   },
 
   updateUser: async (
@@ -62,6 +98,91 @@ const services = {
     });
   },
 
+  fetchUsersByItems: async (itemIds: string[], userId: string) => {
+    const graphqlQuery = {
+      query: `
+              query fetchUsersByItems($itemIds: [String!]!, $userId: String!){
+                getUsersByItems(itemIds: $itemIds, userId: $userId){
+                  id
+                  name
+                  about
+                  imageUrl
+                }
+              }
+            `,
+      variables: {
+        itemIds,
+        userId,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
+  deleteUserItem: async (userId: string, itemId: string) => {
+    const graphqlQuery = {
+      query: `
+                mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
+                  deleteUserItem(data: {userId: $userId, itemId: $itemId}){
+                    id
+                  }
+                }
+              `,
+      variables: {
+        userId,
+        itemId,
+      },
+    };
+
+    return API({
+      data: graphqlQuery,
+    });
+  },
+
+  addUserItem: async (userId: string, itemId: string) => {
+    const graphqlQuery = {
+      query: `
+              mutation AddUserItem($userId: ID!, $itemId: ID!){
+                addUserItem(data: {userId: $userId, itemId: $itemId}){
+                  id
+                }
+              }
+              `,
+      variables: {
+        userId,
+        itemId,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
+  fetchItemsByTitle: async (title: string) => {
+    const graphqlQuery = {
+      query: `
+              query fetchItems ($title: String){
+                itemsByTitle(title: $title){
+                  id
+                  title
+                  author
+                  imageUrl
+                }
+              }
+            `,
+      variables: {
+        title,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
   fetchFollowing: async (userId: string, targetId: string) => {
     const graphqlQuery = {
       query: `
@@ -78,11 +199,9 @@ const services = {
       },
     };
 
-    const result = await API({
+    return await API({
       data: graphqlQuery,
     });
-
-    return result;
   },
 
   deleteFollowing: async (userId: string, targetId: string) => {
@@ -121,20 +240,20 @@ const services = {
     });
   },
 
-  fetchItemsByTitle: async (title: string) => {
+  fetchFollowingUsers: async (userId: string) => {
     const graphqlQuery = {
       query: `
-              query fetchItems ($title: String){
-                itemsByTitle(title: $title){
+              query GetFollowingUsers($userId: ID!){
+                getFollowingUsers(userId: $userId){
                   id
-                  title
-                  author
+                  name
                   imageUrl
+                  isFollowing
                 }
               }
-            `,
+              `,
       variables: {
-        title,
+        userId,
       },
     };
 
