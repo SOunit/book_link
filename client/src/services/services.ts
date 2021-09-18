@@ -88,6 +88,28 @@ const services = {
       data: graphqlQuery,
     });
   },
+
+  fetchItemsByTitle: async (title: string) => {
+    const graphqlQuery = {
+      query: `
+              query fetchItems ($title: String){
+                itemsByTitle(title: $title){
+                  id
+                  title
+                  author
+                  imageUrl
+                }
+              }
+            `,
+      variables: {
+        title,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
 };
 
 export default services;
