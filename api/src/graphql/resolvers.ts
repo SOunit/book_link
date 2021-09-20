@@ -16,6 +16,7 @@ const resolvers = {
 
     const items = await Item.findAll({
       where: { title: { [Op.iLike]: `${titleQuery}%` } },
+      limit: 10,
     });
 
     let itemList = [];
@@ -126,40 +127,44 @@ const resolvers = {
   getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
       `
-      select
+      SELECT
         id
         , name
         , about
         , "imageUrl"
-      from
+      FROM
         (
-          select
+          SELECT
             "userId"
             , count("itemId")
-          from 
+          FROM
             "userItems"
-          where
+          WHERE
             "itemId" in (:itemIds)
-          group by 
+          GROUP BY 
             "userItems"."userId"
-          having 
+          HAVING 
             count("itemId") = :itemIdsLength
         ) as "targetUsers"
-      join
+      JOIN
         users
-      on 
+      ON 
         users.id = "targetUsers"."userId"
-      where 
+      WHERE 
         users.id <> :userId
-      and
+      AND
         users.id not in (
-          select
+          SELECT
             "targetId"
-          from
+          FROM
             followings
-          where
+          WHERE
             followings."userId" = :userId
         )
+      LIMIT
+        10
+      OFFSET
+        0
       `,
       {
         replacements: {
@@ -228,20 +233,24 @@ const resolvers = {
   getFollowingUsers: async (args: { userId: string }) => {
     const users = await sequelize.query(
       `
-      select
+      SELECT
         users.id
         , users.name
         , users."imageUrl"
         , true as "isFollowing"
-      from
+      FROM
         followings
-      join
+      JOIN
         users
-      on 
+      ON
         followings."targetId" = users.id
-      where
+      WHERE
         followings."userId" = :userId
-    `,
+      LIMIT
+        10
+      OFFSET
+        0
+      `,
       {
         replacements: {
           userId: args.userId,
