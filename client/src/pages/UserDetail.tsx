@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
@@ -17,6 +17,7 @@ type UserDetailParams = {
 const UserDetail = () => {
   const { loginUser } = useLoginUser();
   const params = useParams<UserDetailParams>();
+  const history = useHistory();
   const [user, setUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
 
@@ -54,6 +55,10 @@ const UserDetail = () => {
     setFollowing(false);
   };
 
+  const messageClickHandler = () => {
+    history.push(`/chat/${user!.id}`);
+  };
+
   let followButton = null;
   if (user && loginUser && following !== null) {
     followButton = (
@@ -76,7 +81,7 @@ const UserDetail = () => {
           <Button
             buttonText='Message'
             buttonType={ButtonTypes.NORMAL}
-            onButtonClick={() => {}}
+            onButtonClick={messageClickHandler}
           />
         </Buttons>
         <UserItems items={user.items} />

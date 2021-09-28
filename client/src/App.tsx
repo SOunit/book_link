@@ -10,6 +10,7 @@ import EditUserItems from './pages/EditUserItems';
 import Followings from './pages/Followings';
 import ProtectedRoute from './components/router/ProtectedRoute';
 import './App.css';
+import Chat from './pages/Chat';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           path='/users/:userId/followings'
         />
         <ProtectedRoute component={UserDetail} path='/users/:userId' />
+        <ProtectedRoute component={Chat} path='/chat/:userId' />
         <ProtectedRoute component={Home} path='/home' />
         <Route path='*'>
           <PageNotFound />
