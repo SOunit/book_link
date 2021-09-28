@@ -9,6 +9,7 @@ import useLoginUser from '../hooks/use-login-user';
 import FollowButton from '../components/ui/Buttons/FollowButton';
 import userServices from '../services/userServices';
 import followingServices from '../services/followingServices';
+import ChatServices from '../services/chatServices';
 
 type UserDetailParams = {
   userId: string;
@@ -56,6 +57,9 @@ const UserDetail = () => {
   };
 
   const messageClickHandler = () => {
+    // get message
+    // ChatServices.fetchChat();
+    // create message if not exist
     history.push(`/chat/${user!.id}`);
   };
 
