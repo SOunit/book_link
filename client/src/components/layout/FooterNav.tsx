@@ -1,20 +1,13 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useLocation } from 'react-router';
 import classes from './FooterNav.module.css';
+import useNavShown from '../../hooks/use-nav-shown';
 
 const FooterNav: FC = () => {
-  const location = useLocation();
-  const [isFooterShown, setIsFooterShown] = useState(true);
-
-  useEffect(() => {
-    const reg = /chats\/\d/;
-    const match = reg.test(location.pathname);
-    match ? setIsFooterShown(false) : setIsFooterShown(true);
-  }, [location.pathname]);
+  const { isNavShown } = useNavShown();
 
   let footerNav = null;
-  if (isFooterShown) {
+  if (isNavShown) {
     footerNav = (
       <nav className={classes['footer-nav']}>
         <ul className={classes['nav-items']}>

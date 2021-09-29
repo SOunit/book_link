@@ -6,11 +6,16 @@
   padding: 1rem;
   text-align: center;
   font-weight: bold;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #1f1f79;
+  color: white;
 }
 
 .image-container {
   max-width: 2rem;
+}
+
+.messages-box {
+  margin-top: 60px;
 }
 
 .message {
