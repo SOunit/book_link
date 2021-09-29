@@ -7,6 +7,11 @@ const ChatServices = {
               query GetUserChat($userIds: [ID!]!){
                 getUserChat(userIds: $userIds){
                   id
+                  users{
+                    id
+                    name
+                    imageUrl
+                  }
                   messages{
                     id
                     chatId

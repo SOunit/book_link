@@ -1,0 +1,43 @@
+.chat-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.image-container {
+  max-width: 2rem;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.message__text {
+  background-color: rgb(220, 246, 255);
+  padding: 0.5rem;
+  border-radius: 12px;
+  margin-bottom: 0.3rem;
+  flex-grow: 1;
+  margin: 0 0.2rem;
+}
+
+.message__text--mine {
+  background-color: rgb(64, 140, 255);
+  color: white;
+}
+
+.message__time {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.image-hidden {
+  visibility: hidden;
+}

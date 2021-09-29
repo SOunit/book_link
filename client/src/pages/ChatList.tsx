@@ -19,15 +19,7 @@ const ChatList: FC = () => {
 
   let chatList = null;
   if (chats && loginUser) {
-    chatList = chats.map((chat) => (
-      <ChatListItem
-        chat={chat}
-        chatUser={
-          chat.users[0].id === loginUser.id ? chat.users[1] : chat.users[0]
-        }
-        key={chat.id}
-      />
-    ));
+    chatList = chats.map((chat) => <ChatListItem chat={chat} key={chat.id} />);
   }
 
   return <div>{chatList}</div>;
