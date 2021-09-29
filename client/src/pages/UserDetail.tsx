@@ -59,8 +59,8 @@ const UserDetail = () => {
   const messageClickHandler = () => {
     // get message
     ChatServices.fetchChat([user!.id, loginUser!.id]).then((res) => {
-      const chats = res.data.data.getUserChats;
-      if (chats.length <= 0) {
+      const chats = res.data.data.getUserChat;
+      if (chats && chats.length <= 0) {
         // create message if not exist
         console.log('create chat');
         history.push(`/chat/${user!.id}`);

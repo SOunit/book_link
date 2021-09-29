@@ -4,8 +4,8 @@ const ChatServices = {
   fetchChat: async (userIds: string[]) => {
     const graphqlQuery = {
       query: `
-              query GetUserChats($userIds: [ID!]!){
-                getUserChats(userIds: $userIds){
+              query GetUserChat($userIds: [ID!]!){
+                getUserChat(userIds: $userIds){
                   id
                   messages{
                     id
