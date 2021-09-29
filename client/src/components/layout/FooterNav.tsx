@@ -1,10 +1,21 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import classes from './FooterNav.module.css';
 
 const FooterNav: FC = () => {
-  return (
-    <footer className={classes['footer']}>
+  const location = useLocation();
+  const [isFooterShown, setIsFooterShown] = useState(true);
+
+  useEffect(() => {
+    const reg = /chat\/\d/;
+    const match = reg.test(location.pathname);
+    match ? setIsFooterShown(false) : setIsFooterShown(true);
+  });
+
+  let footerNav = null;
+  if (isFooterShown) {
+    footerNav = (
       <nav className={classes['footer-nav']}>
         <ul className={classes['nav-items']}>
           <li className={classes['nav-item']}>
@@ -45,8 +56,10 @@ const FooterNav: FC = () => {
           </li>
         </ul>
       </nav>
-    </footer>
-  );
+    );
+  }
+
+  return <footer className={classes['footer']}>{footerNav}</footer>;
 };
 
 export default FooterNav;
