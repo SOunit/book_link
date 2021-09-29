@@ -236,7 +236,32 @@ export const setupDummyData = async () => {
     text: 'test message from user 2',
   });
 
-  // another chat
+  // another chat by same user
+  await Chat.create({
+    id: '3',
+  });
+  await UserChat.create({
+    userId: '1',
+    chatId: '3',
+  });
+  await UserChat.create({
+    userId: '3',
+    chatId: '3',
+  });
+  await Message.create({
+    id: '5',
+    chatId: '3',
+    userId: '1',
+    text: 'test message from user 1',
+  });
+  await Message.create({
+    id: '6',
+    chatId: '3',
+    userId: '3',
+    text: 'test message from user 3',
+  });
+
+  // another chat by another user
   await Chat.create({
     id: '2',
   });

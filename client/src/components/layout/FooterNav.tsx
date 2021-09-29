@@ -38,7 +38,7 @@ const FooterNav: FC = () => {
             >
               <div className={classes['nav__icon-box']}>
                 <i className={`far fa-comments ${classes['nav__icon']}`}></i>
-                <p className={classes['nav__text']}>Chat</p>
+                <p className={classes['nav__text']}>Chats</p>
               </div>
             </NavLink>
           </li>
