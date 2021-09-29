@@ -10,6 +10,7 @@ export default buildSchema(`
         getFollowingUsers(userId: ID!): [FollowingUser!]!
         following(userId: ID!, targetId: ID!): Following
         getUserChat(userIds: [ID!]!): Chat
+        getUserChatList(userId: ID!): [Chat]
     }
 
     type RootMutation {
@@ -81,6 +82,7 @@ export default buildSchema(`
 
     type Chat {
         id: ID
+        users: [User]
         messages: [Message]
     }
 

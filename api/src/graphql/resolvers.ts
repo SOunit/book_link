@@ -180,11 +180,11 @@ const resolvers = {
     return fetchedUsers;
   },
 
+  // only for login user
   user: async (args: { id: string }) => {
-    // const result = await User.findByPk(args.id);
     const user = await User.findOne({
       where: { id: args.id },
-      include: [Item, { model: Chat, include: { model: Message } }],
+      include: [{ model: Item }],
     });
 
     if (!user) {
@@ -203,28 +203,12 @@ const resolvers = {
       };
     });
 
-    const chats = userData.chats.map((chat: any) => {
-      const messages = chat.messages.map((message: any) => {
-        return {
-          id: message.id,
-          chatId: message.chatId,
-          userId: message.userId,
-          text: message.text,
-        };
-      });
-      return {
-        id: chat.id,
-        messages,
-      };
-    });
-
     return {
       id: userData.id,
       name: userData.name,
       about: userData.about,
       imageUrl: userData.imageUrl,
       items,
-      chats,
     };
   },
 
@@ -349,6 +333,43 @@ const resolvers = {
     });
 
     return chats[0];
+  },
+
+  getUserChatList: async (args: { userId: string }) => {
+    // fetch data
+    const user = await User.findOne({
+      where: { id: args.userId },
+      include: {
+        model: Chat,
+        include: [
+          { model: Message, order: [['id', 'DESC']], limit: 1 },
+          { model: User },
+        ],
+      },
+    });
+
+    // chage data for return
+    const chats = user.chats.map((chat: any) => {
+      const messages = chat.messages.map((message: any) => {
+        return message;
+      });
+
+      const users = chat.users.map((user: UserType) => {
+        return {
+          id: user.id,
+          name: user.name,
+          imageUrl: user.imageUrl,
+        };
+      });
+
+      return {
+        id: chat.id,
+        users,
+        messages,
+      };
+    });
+
+    return chats;
   },
 };
 
