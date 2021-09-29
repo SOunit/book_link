@@ -326,8 +326,17 @@ const resolvers = {
         return message;
       });
 
+      const users = chat.users.map((user: UserType) => {
+        return {
+          id: user.id,
+          name: user.name,
+          imageUrl: user.imageUrl,
+        };
+      });
+
       return {
         id: chat.id,
+        users,
         messages,
       };
     });
@@ -343,7 +352,7 @@ const resolvers = {
         model: Chat,
         include: [
           { model: Message, order: [['id', 'DESC']], limit: 1 },
-          { model: User },
+          { model: User, where: { [Op.not]: { id: args.userId } } },
         ],
       },
     });
