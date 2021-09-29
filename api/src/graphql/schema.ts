@@ -63,6 +63,7 @@ export default buildSchema(`
         about: String
         imageUrl: String
         items: [Item]
+        chats: [Chat]
     }
 
     type FollowingUser {
@@ -75,5 +76,17 @@ export default buildSchema(`
     type Following {
         userId: ID
         targetId: ID
+    }
+
+    type Chat {
+        id: ID
+        messages: [Message]
+    }
+
+    type Message {
+        id: ID
+        chatId: ID
+        userId: ID
+        text: String
     }
 `);

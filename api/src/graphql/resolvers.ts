@@ -8,6 +8,8 @@ import User from '../models/sequelize/user';
 import ItemType from '../models/ts/Item';
 import UserItem from '../models/sequelize/userItem';
 import Following from '../models/sequelize/following';
+import Chat from '../models/sequelize/chat';
+import Message from '../models/sequelize/message';
 
 const resolvers = {
   // FIXME: any type to something
@@ -183,7 +185,7 @@ const resolvers = {
     // const result = await User.findByPk(args.id);
     const user = await User.findOne({
       where: { id: args.id },
-      include: Item,
+      include: [Item, { model: Chat, include: { model: Message } }],
     });
 
     if (!user) {
@@ -191,9 +193,9 @@ const resolvers = {
     }
 
     const userData = user.get({ row: true });
+    console.log('resolver user userData', userData);
 
-    let items: ItemType[] = [];
-    items = userData.items.map((elm: any) => {
+    const items = userData.items.map((elm: any) => {
       const itemData = elm.get({ row: true });
       return {
         id: itemData.id,
@@ -203,12 +205,28 @@ const resolvers = {
       };
     });
 
+    const chats = userData.chats.map((chat: any) => {
+      const messages = chat.messages.map((message: any) => {
+        return {
+          id: message.id,
+          chatId: message.chatId,
+          userId: message.userId,
+          text: message.text,
+        };
+      });
+      return {
+        id: chat.id,
+        messages,
+      };
+    });
+
     return {
       id: userData.id,
       name: userData.name,
       about: userData.about,
       imageUrl: userData.imageUrl,
       items,
+      chats,
     };
   },
 
