@@ -18,7 +18,6 @@ const Chat: FC<ChatProps> = (props) => {
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
-    console.log('userId1', userId1, 'userId2', userId2);
     return ChatServices.fetchChat([userId1, userId2]);
   };
 
@@ -26,7 +25,6 @@ const Chat: FC<ChatProps> = (props) => {
     if (loginUser) {
       fetchChat([loginUser.id, userId]).then((res) => {
         const chat = res.data.data.getUserChat;
-        console.log(chat);
         setChat(chat);
       });
     }

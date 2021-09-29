@@ -12,7 +12,6 @@ const ChatList: FC = () => {
     if (loginUser) {
       ChatServices.fetchChatList(loginUser.id).then((res) => {
         const chats = res.data.data.getUserChatList;
-        console.log(chats);
         setChats(chats);
       });
     }
