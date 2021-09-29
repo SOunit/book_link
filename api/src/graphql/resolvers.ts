@@ -5,7 +5,6 @@ import Item from '../models/sequelize/item';
 import UserType from '../models/ts/User';
 import sequelize from '../util/database';
 import User from '../models/sequelize/user';
-import ItemType from '../models/ts/Item';
 import UserItem from '../models/sequelize/userItem';
 import Following from '../models/sequelize/following';
 import Chat from '../models/sequelize/chat';
@@ -193,7 +192,6 @@ const resolvers = {
     }
 
     const userData = user.get({ row: true });
-    console.log('resolver user userData', userData);
 
     const items = userData.items.map((elm: any) => {
       const itemData = elm.get({ row: true });
@@ -322,6 +320,35 @@ const resolvers = {
       userId: followingData.userId,
       targetId: followingData.targetId,
     };
+  },
+
+  getUserChats: async (args: { userIds: string[] }) => {
+    // fetch data
+    const [userId1, userId2] = args.userIds;
+    const user = await User.findOne({
+      where: { id: userId1 },
+      include: {
+        model: Chat,
+        include: [
+          { model: Message, limit: 10 },
+          { model: User, where: { id: userId2 } },
+        ],
+      },
+    });
+
+    // chage data for return
+    const chats = user.chats.map((chat: any) => {
+      const messages = chat.messages.map((message: any) => {
+        return message;
+      });
+
+      return {
+        id: chat.id,
+        messages,
+      };
+    });
+
+    return chats;
   },
 };
 

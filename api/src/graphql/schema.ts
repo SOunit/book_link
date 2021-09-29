@@ -9,6 +9,7 @@ export default buildSchema(`
         getUserCount(id: ID!): Int!
         getFollowingUsers(userId: ID!): [FollowingUser!]!
         following(userId: ID!, targetId: ID!): Following
+        getUserChats(userIds: [ID!]!): [Chat]
     }
 
     type RootMutation {

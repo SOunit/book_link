@@ -268,9 +268,5 @@ export const setupDummyData = async () => {
       model: Chat,
       include: [{ model: Message }],
     },
-  }).then((res: any) => {
-    console.log(res);
-    console.log(res.chats);
-    console.log(res.chats[0].messages);
-  });
+  }).then((res: any) => {});
 };
