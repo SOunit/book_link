@@ -1,5 +1,8 @@
+import Chat from './models/sequelize/chat';
 import Following from './models/sequelize/following';
+import Message from './models/sequelize/message';
 import User from './models/sequelize/user';
+import UserChat from './models/sequelize/userChat';
 import UserItem from './models/sequelize/userItem';
 
 export const setupDummyData = async () => {
@@ -206,5 +209,43 @@ export const setupDummyData = async () => {
   await Following.create({
     userId: '2',
     targetId: '4',
+  });
+
+  // create data
+  await Chat.create({
+    id: '1',
+  });
+  await UserChat.create({
+    userId: '1',
+    chatId: '1',
+  });
+  await UserChat.create({
+    userId: '2',
+    chatId: '1',
+  });
+  await Message.create({
+    id: '1',
+    chatId: '1',
+    userId: '1',
+    text: 'test message from user 1',
+  });
+  await Message.create({
+    id: '2',
+    chatId: '1',
+    userId: '2',
+    text: 'test message from user 2',
+  });
+
+  // fetch user including chats, messages
+  User.findOne({
+    where: { id: '1' },
+    include: {
+      model: Chat,
+      include: [{ model: Message }],
+    },
+  }).then((res: any) => {
+    console.log(res);
+    console.log(res.chats);
+    console.log(res.chats[0].messages);
   });
 };
