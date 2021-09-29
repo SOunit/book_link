@@ -322,7 +322,7 @@ const resolvers = {
     };
   },
 
-  getUserChats: async (args: { userIds: string[] }) => {
+  getUserChat: async (args: { userIds: string[] }) => {
     // fetch data
     const [userId1, userId2] = args.userIds;
     const user = await User.findOne({
@@ -348,7 +348,7 @@ const resolvers = {
       };
     });
 
-    return chats;
+    return chats[0];
   },
 };
 
