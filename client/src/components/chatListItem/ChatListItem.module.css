@@ -1,0 +1,27 @@
+.chatListItem {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.image-wrapper {
+  max-width: 3rem;
+}
+
+.chatListItem__details {
+  margin: 0 0.5rem;
+  flex-grow: 1;
+}
+
+.chatListItem__name {
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.chatListItem__text {
+  margin-top: 0;
+}
+
+.chatListItem__time {
+  font-size: 0.8rem;
+}
