@@ -8,10 +8,10 @@ const FooterNav: FC = () => {
   const [isFooterShown, setIsFooterShown] = useState(true);
 
   useEffect(() => {
-    const reg = /chat\/\d/;
+    const reg = /chats\/\d/;
     const match = reg.test(location.pathname);
     match ? setIsFooterShown(false) : setIsFooterShown(true);
-  });
+  }, [location.pathname]);
 
   let footerNav = null;
   if (isFooterShown) {
@@ -32,7 +32,7 @@ const FooterNav: FC = () => {
           </li>
           <li className={classes['nav-item']}>
             <NavLink
-              to='/chat'
+              to='/chats'
               className={classes['nav__link']}
               activeClassName={classes['nav__link--active']}
             >

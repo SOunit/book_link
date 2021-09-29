@@ -1,5 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/layout/Layout';
+import ProtectedRoute from './components/router/ProtectedRoute';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
@@ -8,9 +9,9 @@ import Login from './pages/Login';
 import EditProfile from './pages/EditProfile';
 import EditUserItems from './pages/EditUserItems';
 import Followings from './pages/Followings';
-import ProtectedRoute from './components/router/ProtectedRoute';
-import './App.css';
 import Chat from './pages/Chat';
+import ChatList from './pages/ChatList';
+import './App.css';
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
           path='/users/:userId/followings'
         />
         <ProtectedRoute component={UserDetail} path='/users/:userId' />
-        <ProtectedRoute component={Chat} path='/chat/:userId' />
+        <ProtectedRoute component={ChatList} path='/chats' exact />
+        <ProtectedRoute component={Chat} path='/chats/:userId' />
         <ProtectedRoute component={Home} path='/home' />
         <Route path='*'>
           <PageNotFound />

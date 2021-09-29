@@ -63,10 +63,10 @@ const UserDetail = () => {
       if (chats && chats.length <= 0) {
         // create message if not exist
         console.log('create chat');
-        history.push(`/chat/${user!.id}`);
+        history.push(`/chats/${user!.id}`);
       }
       console.log('chat exist');
-      history.push(`/chat/${user!.id}`);
+      history.push(`/chats/${user!.id}`);
     });
   };
 
