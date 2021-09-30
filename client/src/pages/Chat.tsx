@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState, FormEvent } from 'react';
 import { useHistory, useParams } from 'react-router';
 import useLoginUser from '../hooks/use-login-user';
 import ChatServices from '../services/chatServices';
@@ -18,6 +18,7 @@ const Chat: FC<ChatProps> = (props) => {
   const { loginUser } = useLoginUser();
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
+  const messageInputRef = useRef<HTMLInputElement>(null);
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
@@ -70,12 +71,28 @@ const Chat: FC<ChatProps> = (props) => {
     history.push('/chats');
   };
 
+  const sendMessageHandler = (event: FormEvent) => {
+    event.preventDefault();
+    messageInputRef.current!.value = '';
+  };
+
   return (
     <div>
       <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
         {`< ${chat?.users[0].name}`}
       </div>
       <div className={classes['messages-box']}>{messages}</div>
+      <form
+        onSubmit={(event) => sendMessageHandler(event)}
+        className={classes['message-form']}
+      >
+        <input
+          ref={messageInputRef}
+          className={classes['message-input']}
+          type='text'
+          placeholder='Enter a message'
+        />
+      </form>
     </div>
   );
 };
