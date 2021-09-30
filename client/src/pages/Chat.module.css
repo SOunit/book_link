@@ -13,6 +13,7 @@
 
 .image-container {
   max-width: 2rem;
+  min-width: 2rem;
 }
 
 .messages-box {
@@ -21,6 +22,7 @@
 
 .message {
   display: flex;
+  justify-content: space-around;
   margin-bottom: 0.5rem;
 }
 
@@ -31,6 +33,8 @@
   margin-bottom: 0.3rem;
   flex-grow: 1;
   margin: 0 0.2rem;
+  overflow-wrap: break-word;
+  max-width: 75%;
 }
 
 .message__text--mine {

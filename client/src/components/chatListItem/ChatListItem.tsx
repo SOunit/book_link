@@ -15,9 +15,37 @@ const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
     history.push(`/chats/${chat.users[0].id}`);
   };
 
+  const getLatestMessage = (text: string) => {
+    let latestMessage = text;
+
+    const words = text.split(' ');
+    let changed = false;
+
+    let maxCount = 10;
+    if (words.length > maxCount) {
+      words.splice(maxCount);
+      latestMessage = words.join(' ');
+      changed = true;
+    }
+    console.log(latestMessage.length);
+
+    maxCount = 50;
+    if (latestMessage.length > maxCount) {
+      latestMessage = text.substr(0, maxCount);
+      changed = true;
+    }
+    console.log(latestMessage.length);
+
+    if (changed) {
+      latestMessage += '...';
+    }
+
+    return latestMessage;
+  };
+
   let latestMessage = null;
   if (chat.messages && chat.messages.length > 0) {
-    latestMessage = chat.messages[0].text;
+    latestMessage = getLatestMessage(chat.messages[0].text);
   }
 
   return (
@@ -26,8 +54,10 @@ const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
         <ImageContainer src={chat.users[0].imageUrl} alt={chat.users[0].name} />
       </div>
       <div className={classes['chatListItem__details']}>
-        <p className={classes['chatListItem__name']}>{chat.users[0].name}</p>
-        <p className={classes['chatListItem__text']}>{latestMessage}</p>
+        <div className={classes['chatListItem__name']}>
+          {chat.users[0].name}
+        </div>
+        <div className={classes['chatListItem__text']}>{latestMessage}</div>
       </div>
       <div className={classes['chatListItem__time']}>9:47 PM</div>
     </div>

@@ -235,6 +235,24 @@ export const setupDummyData = async () => {
     userId: '2',
     text: 'test message from user 2',
   });
+  await Message.create({
+    id: '7',
+    chatId: '1',
+    userId: '1',
+    text: 'user1!!! Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia voluptate illum provident alias eius quam quod dolor nobis tenetur aperiam, voluptates nesciunt debitis at molestiae ex cum? Aspernatur, porro est?',
+  });
+  await Message.create({
+    id: '8',
+    chatId: '1',
+    userId: '2',
+    text: 'user2!!! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis quis atque, voluptas enim dolorem optio quos minima ad facere sunt voluptatem cupiditate excepturi aliquid quibusdam cumque nobis mollitia blanditiis corrupti!',
+  });
+  await Message.create({
+    id: '9',
+    chatId: '1',
+    userId: '2',
+    text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
+  });
 
   // another chat by same user
   await Chat.create({
