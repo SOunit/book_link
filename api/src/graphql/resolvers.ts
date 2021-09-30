@@ -5,28 +5,29 @@ import Item from '../models/sequelize/item';
 import UserType from '../models/ts/User';
 import sequelize from '../util/database';
 import User from '../models/sequelize/user';
-import ItemType from '../models/ts/Item';
 import UserItem from '../models/sequelize/userItem';
 import Following from '../models/sequelize/following';
+import Chat from '../models/sequelize/chat';
+import Message from '../models/sequelize/message';
 
 const resolvers = {
   // FIXME: any type to something
   itemsByTitle: async (args: any, req: any) => {
     const titleQuery = args.title;
 
-    const result = await Item.findAll({
+    const items = await Item.findAll({
       where: { title: { [Op.iLike]: `${titleQuery}%` } },
+      limit: 10,
     });
 
-    const itemList: any[] = [];
-    result.map((elm: any) =>
-      itemList.push({
+    const itemList = items.map((elm: any) => {
+      return {
         id: elm.id,
         title: elm.title,
         author: elm.author,
         imageUrl: elm.imageUrl,
-      })
-    );
+      };
+    });
 
     return itemList;
   },
@@ -58,7 +59,7 @@ const resolvers = {
     }
 
     // update
-    if (args.data.name && args.data.name.length > 0) {
+    if (args.data && args.data.name) {
       userInstance.name = args.data.name;
       userInstance.about = args.data.about;
       userInstance.imageUrl = args.data.imageUrl;
@@ -84,82 +85,86 @@ const resolvers = {
     });
 
     // create return value
-    const userInstance = await User.findAll({
+    const userInstance = await User.findOne({
       where: { id: args.data.userId },
       include: Item,
     });
 
     return {
-      id: userInstance[0].id,
-      name: userInstance[0].name,
-      about: userInstance[0].about,
-      imageUrl: userInstance[0].imageUrl,
-      items: userInstance[0].items,
+      id: userInstance.id,
+      name: userInstance.name,
+      about: userInstance.about,
+      imageUrl: userInstance.imageUrl,
+      items: userInstance.items,
     };
   },
 
   deleteUserItem: async (args: {
     data: { userId: string; itemId: string };
   }) => {
-    const userItemInstance = await UserItem.findAll({
+    const userItemInstance = await UserItem.findOne({
       where: { userId: args.data.userId, itemId: args.data.itemId },
     });
-    if (userItemInstance && userItemInstance.length > 0) {
-      await userItemInstance[0].destroy();
+    if (userItemInstance) {
+      await userItemInstance.destroy();
     }
 
     // create return value
-    const userInstance = await User.findAll({
+    const userInstance = await User.findOne({
       where: { id: args.data.userId },
       include: Item,
     });
 
     return {
-      id: userInstance[0].id,
-      name: userInstance[0].name,
-      about: userInstance[0].about,
-      imageUrl: userInstance[0].imageUrl,
-      items: userInstance[0].items,
+      id: userInstance.id,
+      name: userInstance.name,
+      about: userInstance.about,
+      imageUrl: userInstance.imageUrl,
+      items: userInstance.items,
     };
   },
 
   getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
     const fetchedUsers = await sequelize.query(
       `
-      select
+      SELECT
         id
         , name
         , about
         , "imageUrl"
-      from
+      FROM
         (
-          select
+          SELECT
             "userId"
             , count("itemId")
-          from 
+          FROM
             "userItems"
-          where
+          WHERE
             "itemId" in (:itemIds)
-          group by 
+          GROUP BY 
             "userItems"."userId"
-          having 
+          HAVING 
             count("itemId") = :itemIdsLength
         ) as "targetUsers"
-      join
+      JOIN
         users
-      on 
+      ON 
         users.id = "targetUsers"."userId"
-      where 
+      WHERE 
         users.id <> :userId
-      and
+      AND
         users.id not in (
-          select
+          SELECT
             "targetId"
-          from
+          FROM
             followings
-          where
+          WHERE
             followings."userId" = :userId
         )
+      LIMIT
+        10
+      OFFSET
+        0
       `,
       {
         replacements: {
@@ -171,36 +176,30 @@ const resolvers = {
       }
     );
 
-    const users: UserType[] = [];
-    fetchedUsers.map((fetchedUser: UserType) => {
-      users.push(fetchedUser);
-    });
-
-    return users;
+    return fetchedUsers;
   },
 
+  // only for login user
   user: async (args: { id: string }) => {
-    // const result = await User.findByPk(args.id);
-    const result = await User.findAll({
+    const user = await User.findOne({
       where: { id: args.id },
-      include: Item,
+      include: [{ model: Item }],
     });
 
-    if (result.length <= 0) {
+    if (!user) {
       throw new Error('User not found');
     }
 
-    const userData = result[0].dataValues;
+    const userData = user.get({ row: true });
 
-    const items: ItemType[] = [];
-    userData.items.map((elm: any) => {
-      const itemData = elm.dataValues;
-      return items.push({
+    const items = userData.items.map((elm: any) => {
+      const itemData = elm.get({ row: true });
+      return {
         id: itemData.id,
         title: itemData.title,
         author: itemData.author,
         imageUrl: itemData.imageUrl,
-      });
+      };
     });
 
     return {
@@ -233,20 +232,24 @@ const resolvers = {
   getFollowingUsers: async (args: { userId: string }) => {
     const users = await sequelize.query(
       `
-      select
+      SELECT
         users.id
         , users.name
         , users."imageUrl"
         , true as "isFollowing"
-      from
+      FROM
         followings
-      join
+      JOIN
         users
-      on 
+      ON
         followings."targetId" = users.id
-      where
+      WHERE
         followings."userId" = :userId
-    `,
+      LIMIT
+        10
+      OFFSET
+        0
+      `,
       {
         replacements: {
           userId: args.userId,
@@ -268,40 +271,113 @@ const resolvers = {
   },
 
   deleteFollowing: async (args: { userId: string; targetId: string }) => {
-    const followingInstance = await Following.findAll({
+    const followingInstance = await Following.findOne({
       where: {
         userId: args.userId,
         targetId: args.targetId,
       },
     });
 
-    followingInstance[0].destroy();
+    followingInstance.destroy();
 
     return true;
   },
 
   following: async (args: { userId: string; targetId: string }) => {
-    const result = await Following.findAll({
+    const following = await Following.findOne({
       where: {
         userId: args.userId,
         targetId: args.targetId,
       },
     });
 
-    if (result && result.length > 0) {
-      const followingData = result[0].dataValues;
-      console.log('followingData', followingData);
-
+    if (!following) {
       return {
-        userId: followingData.userId,
-        targetId: followingData.targetId,
+        userId: null,
+        targetId: null,
       };
     }
 
+    const followingData = following.get({ row: true });
     return {
-      userId: null,
-      targetId: null,
+      userId: followingData.userId,
+      targetId: followingData.targetId,
     };
+  },
+
+  getUserChat: async (args: { userIds: string[] }) => {
+    // fetch data
+    const [userId1, userId2] = args.userIds;
+    const user = await User.findOne({
+      where: { id: userId1 },
+      include: {
+        model: Chat,
+        include: [
+          { model: Message, limit: 10 },
+          { model: User, where: { id: userId2 } },
+        ],
+      },
+    });
+
+    // chage data for return
+    const chats = user.chats.map((chat: any) => {
+      const messages = chat.messages.map((message: any) => {
+        return message;
+      });
+
+      const users = chat.users.map((user: UserType) => {
+        return {
+          id: user.id,
+          name: user.name,
+          imageUrl: user.imageUrl,
+        };
+      });
+
+      return {
+        id: chat.id,
+        users,
+        messages,
+      };
+    });
+
+    return chats[0];
+  },
+
+  getUserChatList: async (args: { userId: string }) => {
+    // fetch data
+    const user = await User.findOne({
+      where: { id: args.userId },
+      include: {
+        model: Chat,
+        include: [
+          { model: Message, order: [['id', 'DESC']], limit: 1 },
+          { model: User, where: { [Op.not]: { id: args.userId } } },
+        ],
+      },
+    });
+
+    // chage data for return
+    const chats = user.chats.map((chat: any) => {
+      const messages = chat.messages.map((message: any) => {
+        return message;
+      });
+
+      const users = chat.users.map((user: UserType) => {
+        return {
+          id: user.id,
+          name: user.name,
+          imageUrl: user.imageUrl,
+        };
+      });
+
+      return {
+        id: chat.id,
+        users,
+        messages,
+      };
+    });
+
+    return chats;
   },
 };
 

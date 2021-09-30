@@ -1,0 +1,17 @@
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
+
+const useNavShown = () => {
+  const [isNavShown, setIsNavShown] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    const reg = /chats\/\d/;
+    const match = reg.test(location.pathname);
+    match ? setIsNavShown(false) : setIsNavShown(true);
+  }, [location.pathname]);
+
+  return { isNavShown };
+};
+
+export default useNavShown;

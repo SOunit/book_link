@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
@@ -9,6 +9,7 @@ import useLoginUser from '../hooks/use-login-user';
 import FollowButton from '../components/ui/Buttons/FollowButton';
 import userServices from '../services/userServices';
 import followingServices from '../services/followingServices';
+import ChatServices from '../services/chatServices';
 
 type UserDetailParams = {
   userId: string;
@@ -17,6 +18,7 @@ type UserDetailParams = {
 const UserDetail = () => {
   const { loginUser } = useLoginUser();
   const params = useParams<UserDetailParams>();
+  const history = useHistory();
   const [user, setUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
 
@@ -54,6 +56,20 @@ const UserDetail = () => {
     setFollowing(false);
   };
 
+  const messageClickHandler = () => {
+    // get message
+    ChatServices.fetchChat([user!.id, loginUser!.id]).then((res) => {
+      const chats = res.data.data.getUserChat;
+      if (chats && chats.length <= 0) {
+        // create message if not exist
+        console.log('create chat');
+        history.push(`/chats/${user!.id}`);
+      }
+      console.log('chat exist');
+      history.push(`/chats/${user!.id}`);
+    });
+  };
+
   let followButton = null;
   if (user && loginUser && following !== null) {
     followButton = (
@@ -76,7 +92,7 @@ const UserDetail = () => {
           <Button
             buttonText='Message'
             buttonType={ButtonTypes.NORMAL}
-            onButtonClick={() => {}}
+            onButtonClick={messageClickHandler}
           />
         </Buttons>
         <UserItems items={user.items} />

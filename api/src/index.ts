@@ -12,6 +12,9 @@ import Item from './models/sequelize/item';
 import UserItem from './models/sequelize/userItem';
 import { setupDummyData } from './setup';
 import Following from './models/sequelize/following';
+import Chat from './models/sequelize/chat';
+import UserChat from './models/sequelize/userChat';
+import Message from './models/sequelize/message';
 
 const app = express();
 app.use(cors());
@@ -28,9 +31,15 @@ app.use(
   })
 );
 
+// setup association, add functions
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
 User.belongsToMany(User, { as: 'targets', through: Following });
+Chat.belongsToMany(User, { through: UserChat });
+User.belongsToMany(Chat, { through: UserChat });
+Message.belongsTo(Chat);
+Chat.hasMany(Message);
+Message.belongsTo(User);
 
 // create table using model by sync command
 sequelize

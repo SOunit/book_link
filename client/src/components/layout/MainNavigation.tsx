@@ -1,10 +1,16 @@
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import useNavShown from '../../hooks/use-nav-shown';
 import AuthContext from '../../store/auth-context';
 import classes from './MainNavigation.module.css';
 
-const MainNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
+type MainNavigationProps = {
+  onSideMenuToggle: () => void;
+};
+
+const MainNavigation: React.FC<MainNavigationProps> = (props) => {
   const authCtx = useContext(AuthContext);
+  const { isNavShown } = useNavShown();
 
   const headerNav = (
     <nav className={classes['main-header__nav']}>
@@ -62,13 +68,17 @@ const MainNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
 
   return (
     <header className={classes['main-header']}>
-      <h1 className={classes['main-header__title']}>
-        <NavLink to='/' className={classes['main-header__title-link']}>
-          book-link
-        </NavLink>
-      </h1>
-      {authCtx.isLoggedIn && headerNav}
-      {authCtx.isLoggedIn && sideNavButton}
+      {isNavShown && (
+        <Fragment>
+          <h1 className={classes['main-header__title']}>
+            <NavLink to='/' className={classes['main-header__title-link']}>
+              book-link
+            </NavLink>
+          </h1>
+          {authCtx.isLoggedIn && headerNav}
+          {authCtx.isLoggedIn && sideNavButton}
+        </Fragment>
+      )}
     </header>
   );
 };

@@ -1,10 +1,14 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './FooterNav.module.css';
+import useNavShown from '../../hooks/use-nav-shown';
 
 const FooterNav: FC = () => {
-  return (
-    <footer className={classes['footer']}>
+  const { isNavShown } = useNavShown();
+
+  let footerNav = null;
+  if (isNavShown) {
+    footerNav = (
       <nav className={classes['footer-nav']}>
         <ul className={classes['nav-items']}>
           <li className={classes['nav-item']}>
@@ -21,13 +25,13 @@ const FooterNav: FC = () => {
           </li>
           <li className={classes['nav-item']}>
             <NavLink
-              to='/chat'
+              to='/chats'
               className={classes['nav__link']}
               activeClassName={classes['nav__link--active']}
             >
               <div className={classes['nav__icon-box']}>
                 <i className={`far fa-comments ${classes['nav__icon']}`}></i>
-                <p className={classes['nav__text']}>Chat</p>
+                <p className={classes['nav__text']}>Chats</p>
               </div>
             </NavLink>
           </li>
@@ -45,8 +49,10 @@ const FooterNav: FC = () => {
           </li>
         </ul>
       </nav>
-    </footer>
-  );
+    );
+  }
+
+  return <footer className={classes['footer']}>{footerNav}</footer>;
 };
 
 export default FooterNav;
