@@ -3,11 +3,12 @@
   top: 0;
   left: 0;
   width: 100%;
-  padding: 1rem;
+  padding: 0.8rem;
   text-align: center;
   font-weight: bold;
   background-color: #1f1f79;
   color: white;
+  cursor: pointer;
 }
 
 .image-container {
