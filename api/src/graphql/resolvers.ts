@@ -20,8 +20,7 @@ const resolvers = {
       limit: 10,
     });
 
-    let itemList = [];
-    itemList = items.map((elm: any) => {
+    const itemList = items.map((elm: any) => {
       return {
         id: elm.id,
         title: elm.title,
