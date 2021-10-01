@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Op, QueryTypes } from 'sequelize';
+import { Op, QueryTypes, literal } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
 import Item from '../models/sequelize/item';
 import UserType from '../models/ts/User';
@@ -9,6 +9,7 @@ import UserItem from '../models/sequelize/userItem';
 import Following from '../models/sequelize/following';
 import Chat from '../models/sequelize/chat';
 import Message from '../models/sequelize/message';
+import UserChat from '../models/sequelize/userChat';
 
 const resolvers = {
   // FIXME: any type to something
@@ -379,6 +380,60 @@ const resolvers = {
     });
 
     return chats;
+  },
+
+  createChat: async (args: { userId: string; targetId: string }) => {
+    if (args.userId === args.targetId) {
+      throw new Error('both user ids are same!');
+    }
+
+    const existingChat = await Chat.count({
+      where: {
+        '$users.id$': { [Op.in]: [args.userId, args.targetId] },
+      },
+      include: {
+        model: User,
+        as: 'users',
+      },
+      group: 'chat.id',
+      having: literal('count(chat.id) = 2'),
+    });
+
+    if (existingChat.length === 1) {
+      throw new Error('Chat already exists');
+    }
+
+    const transaction = await sequelize.transaction();
+    try {
+      const chat = await Chat.create({ id: uuidv4() }, { transaction });
+      const chatId = chat.get({ row: true }).id;
+
+      await UserChat.create(
+        {
+          id: uuidv4(),
+          chatId,
+          userId: args.userId,
+        },
+        { transaction }
+      );
+
+      await UserChat.create(
+        {
+          id: uuidv4(),
+          chatId,
+          userId: args.targetId,
+        },
+        { transaction }
+      );
+
+      await transaction.commit();
+    } catch (err: any) {
+      await transaction.rollback();
+      console.log({ status: 'Error', message: err.message });
+      return false;
+    }
+
+    return true;
   },
 
   createMessage: async (args: {
