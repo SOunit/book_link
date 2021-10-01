@@ -82,17 +82,19 @@ const Chat: FC<ChatProps> = (props) => {
         {`< ${chat?.users[0].name}`}
       </div>
       <div className={classes['messages-box']}>{messages}</div>
-      <form
-        onSubmit={(event) => sendMessageHandler(event)}
-        className={classes['message-form']}
-      >
-        <input
-          ref={messageInputRef}
-          className={classes['message-input']}
-          type='text'
-          placeholder='Enter a message'
-        />
-      </form>
+      <div className={classes['form-wrapper']}>
+        <form
+          onSubmit={(event) => sendMessageHandler(event)}
+          className={classes['message-form']}
+        >
+          <input
+            ref={messageInputRef}
+            className={classes['message-input']}
+            type='text'
+            placeholder='Enter a message'
+          />
+        </form>
+      </div>
     </div>
   );
 };
