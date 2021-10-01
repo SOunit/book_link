@@ -254,56 +254,6 @@ export const setupDummyData = async () => {
     text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
   });
 
-  // another chat by same user
-  await Chat.create({
-    id: '3',
-  });
-  await UserChat.create({
-    userId: '1',
-    chatId: '3',
-  });
-  await UserChat.create({
-    userId: '3',
-    chatId: '3',
-  });
-  await Message.create({
-    id: '5',
-    chatId: '3',
-    userId: '1',
-    text: 'test message from user 1',
-  });
-  await Message.create({
-    id: '6',
-    chatId: '3',
-    userId: '3',
-    text: 'test message from user 3',
-  });
-
-  // another chat by another user
-  await Chat.create({
-    id: '2',
-  });
-  await UserChat.create({
-    userId: '3',
-    chatId: '2',
-  });
-  await UserChat.create({
-    userId: '4',
-    chatId: '2',
-  });
-  await Message.create({
-    id: '3',
-    chatId: '2',
-    userId: '3',
-    text: 'test message from user 3',
-  });
-  await Message.create({
-    id: '4',
-    chatId: '2',
-    userId: '4',
-    text: 'test message from user 4',
-  });
-
   // fetch user including chats, messages
   User.findOne({
     where: { id: '1' },
