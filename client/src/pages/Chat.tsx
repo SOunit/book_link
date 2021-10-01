@@ -71,7 +71,28 @@ const Chat: FC<ChatProps> = (props) => {
 
   const sendMessageHandler = (event: FormEvent) => {
     event.preventDefault();
-    messageInputRef.current!.value = '';
+
+    if (chat && loginUser) {
+      const text = messageInputRef.current!.value;
+      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
+        const message = res.data.data.createMessage;
+
+        setChat((prevState: any) => {
+          // create new chat
+          const newChat = { ...prevState };
+
+          // create new messages
+          const newMessages = [...newChat.messages];
+          newMessages.push(message);
+
+          // update new chat
+          newChat.messages = newMessages;
+          return newChat;
+        });
+
+        messageInputRef.current!.value = '';
+      });
+    }
   };
 
   return (

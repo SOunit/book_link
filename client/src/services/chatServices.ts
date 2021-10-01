@@ -59,6 +59,30 @@ const ChatServices = {
       data: graphqlQuery,
     });
   },
+
+  createMessage: async (chatId: string, userId: string, text: string) => {
+    const graphqlQuery = {
+      query: `
+              mutation CreateMessage($chatId: ID!, $userId: ID!, $text: String!){
+                createMessage(chatId: $chatId, userId: $userId, text: $text){
+                  id
+                  chatId
+                  userId
+                  text
+                }
+              }
+            `,
+      variables: {
+        chatId,
+        userId,
+        text,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
 };
 
 export default ChatServices;

@@ -313,7 +313,7 @@ const resolvers = {
       include: {
         model: Chat,
         include: [
-          { model: Message, limit: 10 },
+          { model: Message, limit: 10, order: [['createdAt', 'DESC']] },
           { model: User, where: { id: userId2 } },
         ],
       },
@@ -324,6 +324,7 @@ const resolvers = {
       const messages = chat.messages.map((message: any) => {
         return message;
       });
+      messages.reverse();
 
       const users = chat.users.map((user: UserType) => {
         return {
