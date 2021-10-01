@@ -27,14 +27,12 @@ const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
       latestMessage = words.join(' ');
       changed = true;
     }
-    console.log(latestMessage.length);
 
     maxCount = 50;
     if (latestMessage.length > maxCount) {
       latestMessage = text.substr(0, maxCount);
       changed = true;
     }
-    console.log(latestMessage.length);
 
     if (changed) {
       latestMessage += '...';

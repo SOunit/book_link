@@ -350,7 +350,7 @@ const resolvers = {
       include: {
         model: Chat,
         include: [
-          { model: Message, order: [['id', 'DESC']], limit: 1 },
+          { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
           { model: User, where: { [Op.not]: { id: args.userId } } },
         ],
       },
@@ -378,6 +378,21 @@ const resolvers = {
     });
 
     return chats;
+  },
+
+  createMessage: async (args: {
+    chatId: string;
+    userId: string;
+    text: string;
+  }) => {
+    const result = await Message.create({
+      id: uuidv4(),
+      chatId: args.chatId,
+      userId: args.userId,
+      text: args.text,
+    });
+
+    return result;
   },
 };
 

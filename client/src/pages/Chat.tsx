@@ -30,8 +30,6 @@ const Chat: FC<ChatProps> = (props) => {
       fetchChat([loginUser.id, userId]).then((res) => {
         const chat = res.data.data.getUserChat;
         setChat(chat);
-
-        console.log(chat);
       });
     }
   }, [loginUser, userId]);
