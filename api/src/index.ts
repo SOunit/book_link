@@ -41,13 +41,18 @@ Message.belongsTo(Chat);
 Chat.hasMany(Message);
 Message.belongsTo(User);
 
+const http = require('http');
+const server = http.createServer(app);
+const SocketServer = require('./socket');
+SocketServer(server);
+
 // create table using model by sync command
 sequelize
   .sync({ force: true })
   .then(() => {
     setupDummyData();
 
-    app.listen(5000, () => {
+    server.listen(5000, () => {
       console.log('Listening on port 5000');
     });
   })
