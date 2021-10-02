@@ -60,6 +60,24 @@ const ChatServices = {
     });
   },
 
+  createChat: async (userId: string, targetId: string) => {
+    const graphqlQuery = {
+      query: `
+              mutation CreateChat($targetId: ID!, $userId: ID!){
+                createChat(targetId: $targetId, userId: $userId)
+              }
+            `,
+      variables: {
+        userId,
+        targetId,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
   createMessage: async (chatId: string, userId: string, text: string) => {
     const graphqlQuery = {
       query: `
