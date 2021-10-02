@@ -6,6 +6,7 @@ import ChatType from '../models/Chat';
 import MessageType from '../models/Message';
 import classes from './Chat.module.css';
 import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
+import useSocket from '../hooks/use-socket';
 
 type ChatProps = {};
 
@@ -19,6 +20,7 @@ const Chat: FC<ChatProps> = (props) => {
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  useSocket();
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
