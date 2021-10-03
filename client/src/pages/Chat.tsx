@@ -20,7 +20,7 @@ const Chat: FC<ChatProps> = (props) => {
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
-  useSocket();
+  const { socket } = useSocket();
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
@@ -93,6 +93,8 @@ const Chat: FC<ChatProps> = (props) => {
         });
 
         messageInputRef.current!.value = '';
+
+        socket.emit('create:message');
       });
     }
   };
