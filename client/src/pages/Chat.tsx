@@ -7,7 +7,9 @@ import MessageType from '../models/Message';
 import classes from './Chat.module.css';
 import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
 
-type ChatProps = {};
+type ChatProps = {
+  socket: any;
+};
 
 type UserDetailParams = {
   userId: string;
@@ -22,19 +24,27 @@ const Chat: FC<ChatProps> = (props) => {
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
-    return ChatServices.fetchChat([userId1, userId2]);
+    ChatServices.fetchChat([userId1, userId2]).then((res) => {
+      const chat = res.data.data.getUserChat;
+      setChat(chat);
+    });
   };
 
   useEffect(() => {
     if (loginUser) {
-      fetchChat([loginUser.id, userId]).then((res) => {
-        const chat = res.data.data.getUserChat;
-        setChat(chat);
-
-        console.log(chat);
-      });
+      fetchChat([loginUser.id, userId]);
     }
   }, [loginUser, userId]);
+
+  useEffect(() => {
+    if (props.socket) {
+      props.socket.on('update:chat', () => {
+        if (loginUser) {
+          fetchChat([loginUser.id, userId]);
+        }
+      });
+    }
+  }, [props.socket, loginUser, userId]);
 
   let messages;
   if (chat && loginUser) {
@@ -73,7 +83,18 @@ const Chat: FC<ChatProps> = (props) => {
 
   const sendMessageHandler = (event: FormEvent) => {
     event.preventDefault();
-    messageInputRef.current!.value = '';
+
+    if (chat && loginUser) {
+      const text = messageInputRef.current!.value;
+      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
+        messageInputRef.current!.value = '';
+
+        props.socket.emit('create:message', {
+          loginUserId: loginUser.id,
+          userId,
+        });
+      });
+    }
   };
 
   return (
@@ -82,17 +103,19 @@ const Chat: FC<ChatProps> = (props) => {
         {`< ${chat?.users[0].name}`}
       </div>
       <div className={classes['messages-box']}>{messages}</div>
-      <form
-        onSubmit={(event) => sendMessageHandler(event)}
-        className={classes['message-form']}
-      >
-        <input
-          ref={messageInputRef}
-          className={classes['message-input']}
-          type='text'
-          placeholder='Enter a message'
-        />
-      </form>
+      <div className={classes['form-wrapper']}>
+        <form
+          onSubmit={(event) => sendMessageHandler(event)}
+          className={classes['message-form']}
+        >
+          <input
+            ref={messageInputRef}
+            className={classes['message-input']}
+            type='text'
+            placeholder='Enter a message'
+          />
+        </form>
+      </div>
     </div>
   );
 };

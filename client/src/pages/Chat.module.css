@@ -52,12 +52,15 @@
   visibility: hidden;
 }
 
-.message-form {
+.form-wrapper {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 1rem;
+}
+
+.message-form {
+  padding: 0.8rem;
   background-color: rgb(240, 240, 240);
 }
 
@@ -66,4 +69,11 @@
   border: none;
   padding: 0.4rem;
   border-radius: 10px;
+}
+
+@media (min-width: 40rem) {
+  .message-form {
+    max-width: 40rem;
+    margin: 0 auto;
+  }
 }

@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react';
 import userServices from '../services/userServices';
 import keys from '../util/keys';
 
+// fetch token from local strage
+// save it in context so that other component can use token
 const AuthContext = React.createContext<{
   token: string | null;
   isLoggedIn: boolean;

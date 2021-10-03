@@ -56,17 +56,21 @@ const UserDetail = () => {
     setFollowing(false);
   };
 
-  const messageClickHandler = () => {
+  const chatClickHandler = () => {
     // get message
     ChatServices.fetchChat([user!.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
+
       if (chats && chats.length <= 0) {
         // create message if not exist
-        console.log('create chat');
         history.push(`/chats/${user!.id}`);
+      } else {
+        if (loginUser && user) {
+          ChatServices.createChat(loginUser?.id, user.id).then((res) => {
+            history.push(`/chats/${user!.id}`);
+          });
+        }
       }
-      console.log('chat exist');
-      history.push(`/chats/${user!.id}`);
     });
   };
 
@@ -90,9 +94,9 @@ const UserDetail = () => {
         <Buttons>
           {followButton}
           <Button
-            buttonText='Message'
+            buttonText='Chat'
             buttonType={ButtonTypes.NORMAL}
-            onButtonClick={messageClickHandler}
+            onButtonClick={chatClickHandler}
           />
         </Buttons>
         <UserItems items={user.items} />

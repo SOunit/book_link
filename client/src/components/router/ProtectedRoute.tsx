@@ -6,6 +6,7 @@ type ProtectedRouteProps = {
   component: FC<any>;
   path: string;
   exact?: any;
+  socket?: any;
 };
 
 const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
