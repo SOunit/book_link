@@ -23,11 +23,6 @@ const socketServer = (server: any) => {
   };
 
   io.on('connection', (socket: any) => {
-    socket.on('client:connect', () => {
-      console.log('client:connect');
-      io.to(socket.id).emit('notify:api:accept:client:connect');
-    });
-
     socket.on('join', (loginUserId: string) => {
       console.log('loginUserId', loginUserId);
 
