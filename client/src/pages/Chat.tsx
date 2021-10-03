@@ -6,7 +6,6 @@ import ChatType from '../models/Chat';
 import MessageType from '../models/Message';
 import classes from './Chat.module.css';
 import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
-import useSocket from '../hooks/use-socket';
 
 type ChatProps = {
   socket: any;
@@ -22,23 +21,30 @@ const Chat: FC<ChatProps> = (props) => {
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
-  const { socket } = useSocket();
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
-    return ChatServices.fetchChat([userId1, userId2]);
+    ChatServices.fetchChat([userId1, userId2]).then((res) => {
+      const chat = res.data.data.getUserChat;
+      setChat(chat);
+    });
   };
 
   useEffect(() => {
-    console.log('props.socket', props.socket);
-
     if (loginUser) {
-      fetchChat([loginUser.id, userId]).then((res) => {
-        const chat = res.data.data.getUserChat;
-        setChat(chat);
-      });
+      fetchChat([loginUser.id, userId]);
     }
   }, [loginUser, userId]);
+
+  useEffect(() => {
+    if (props.socket) {
+      props.socket.on('update:chat', () => {
+        if (loginUser) {
+          fetchChat([loginUser.id, userId]);
+        }
+      });
+    }
+  }, [props.socket, loginUser, userId]);
 
   let messages;
   if (chat && loginUser) {
@@ -81,24 +87,12 @@ const Chat: FC<ChatProps> = (props) => {
     if (chat && loginUser) {
       const text = messageInputRef.current!.value;
       ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
-        const message = res.data.data.createMessage;
-
-        setChat((prevState: any) => {
-          // create new chat
-          const newChat = { ...prevState };
-
-          // create new messages
-          const newMessages = [...newChat.messages];
-          newMessages.push(message);
-
-          // update new chat
-          newChat.messages = newMessages;
-          return newChat;
-        });
-
         messageInputRef.current!.value = '';
 
-        socket.emit('create:message');
+        props.socket.emit('create:message', {
+          loginUserId: loginUser.id,
+          userId,
+        });
       });
     }
   };

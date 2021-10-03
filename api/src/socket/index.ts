@@ -8,6 +8,20 @@ const socketIdToLoginUserId = new Map();
 
 const socketServer = (server: any) => {
   const io = socketIo(server);
+
+  const emitUpdateChat = (userId: string) => {
+    if (loginUserIdToUserIdWithSockets.has(userId)) {
+      console.log('userId is in map');
+      const userSockets = loginUserIdToUserIdWithSockets.get(userId).sockets;
+      userSockets.forEach((socketId: any) => {
+        console.log('emit "update:chat" to', socketId);
+        io.to(socketId).emit('update:chat');
+      });
+    } else {
+      console.log('no socket is open');
+    }
+  };
+
   io.on('connection', (socket: any) => {
     socket.on('client:connect', () => {
       console.log('client:connect');
@@ -90,6 +104,17 @@ const socketServer = (server: any) => {
       );
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
     });
+
+    socket.on(
+      'create:message',
+      ({ loginUserId, userId }: { loginUserId: string; userId: string }) => {
+        // update login user chat screen
+        emitUpdateChat(loginUserId);
+
+        // update chat user chat screen
+        emitUpdateChat(userId);
+      }
+    );
   });
 };
 
