@@ -1,3 +1,4 @@
+import { useContext, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/router/ProtectedRoute';
@@ -12,8 +13,20 @@ import Followings from './pages/Followings';
 import Chat from './pages/Chat';
 import ChatList from './pages/ChatList';
 import './App.css';
+import useSocket from './hooks/use-socket';
+import AuthContext from './store/auth-context';
 
 function App() {
+  const { socket } = useSocket();
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    if (socket) {
+      console.log('create socket');
+      socket.emit('join', authCtx.token);
+    }
+  }, [authCtx.token, socket]);
+
   return (
     <Layout>
       <Switch>
@@ -30,7 +43,11 @@ function App() {
         />
         <ProtectedRoute component={UserDetail} path='/users/:userId' />
         <ProtectedRoute component={ChatList} path='/chats' exact />
-        <ProtectedRoute component={Chat} path='/chats/:userId' />
+        <ProtectedRoute
+          component={Chat}
+          path='/chats/:userId'
+          socket={socket}
+        />
         <ProtectedRoute component={Home} path='/home' />
         <Route path='*'>
           <PageNotFound />
