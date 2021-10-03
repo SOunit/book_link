@@ -18,7 +18,7 @@ const useSocket = () => {
     socket.on('notify:api:accept:client:connect', () => {
       console.log('received from api!');
     });
-  }, []);
+  }, [authCtx.token]);
 
   return { socket };
 };
