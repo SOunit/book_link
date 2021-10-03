@@ -8,7 +8,9 @@ import classes from './Chat.module.css';
 import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
 import useSocket from '../hooks/use-socket';
 
-type ChatProps = {};
+type ChatProps = {
+  socket: any;
+};
 
 type UserDetailParams = {
   userId: string;
@@ -28,6 +30,8 @@ const Chat: FC<ChatProps> = (props) => {
   };
 
   useEffect(() => {
+    console.log('props.socket', props.socket);
+
     if (loginUser) {
       fetchChat([loginUser.id, userId]).then((res) => {
         const chat = res.data.data.getUserChat;
