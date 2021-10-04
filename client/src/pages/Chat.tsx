@@ -36,15 +36,44 @@ const Chat: FC<ChatProps> = (props) => {
     }
   }, [loginUser, userId]);
 
+  const addMessageToChat = (message: MessageType) => {
+    setChat((prevState: any) => {
+      const newChat = { ...prevState };
+      const newMessages = [...newChat.messages!, message];
+      newChat.messages = newMessages;
+      return newChat;
+    });
+  };
+
   useEffect(() => {
     if (props.socket) {
-      props.socket.on('update:chat', () => {
-        if (loginUser) {
-          fetchChat([loginUser.id, userId]);
-        }
+      props.socket.on('update:chat', (message: MessageType) => {
+        addMessageToChat(message);
       });
     }
-  }, [props.socket, loginUser, userId]);
+  }, [props.socket]);
+
+  const chatHeaderClickHandler = () => {
+    history.push('/chats');
+  };
+
+  const sendMessageHandler = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (chat && loginUser) {
+      const text = messageInputRef.current!.value;
+      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
+        const message = res.data.data.createMessage;
+        props.socket.emit('create:message', {
+          loginUserId: loginUser.id,
+          userId,
+          message,
+        });
+
+        messageInputRef.current!.value = '';
+      });
+    }
+  };
 
   let messages;
   if (chat && loginUser) {
@@ -76,26 +105,6 @@ const Chat: FC<ChatProps> = (props) => {
       );
     });
   }
-
-  const chatHeaderClickHandler = () => {
-    history.push('/chats');
-  };
-
-  const sendMessageHandler = (event: FormEvent) => {
-    event.preventDefault();
-
-    if (chat && loginUser) {
-      const text = messageInputRef.current!.value;
-      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
-        messageInputRef.current!.value = '';
-
-        props.socket.emit('create:message', {
-          loginUserId: loginUser.id,
-          userId,
-        });
-      });
-    }
-  };
 
   return (
     <div>
