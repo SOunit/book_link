@@ -31,18 +31,19 @@ const Chat: FC<ChatProps> = (props) => {
     });
   };
 
-  const scrollManual = (value: number) => {
-    document.querySelector('html')!.scrollTop = value;
+  const scrollToBottom = () => {
+    // wait 100 ms to run after rendering
+    setTimeout(() => {
+      document.querySelector('html')!.scrollTop =
+        messagesBoxDivRef.current!.scrollHeight;
+    }, 100);
   };
 
   useEffect(() => {
     if (loginUser) {
       fetchChat([loginUser.id, userId]);
     }
-    // after rendering
-    setTimeout(() => {
-      scrollManual(messagesBoxDivRef.current!.scrollHeight);
-    }, 100);
+    scrollToBottom();
   }, [loginUser, userId]);
 
   const addMessageToChat = (message: MessageType) => {
@@ -58,6 +59,7 @@ const Chat: FC<ChatProps> = (props) => {
     if (props.socket) {
       props.socket.on('update:chat', (message: MessageType) => {
         addMessageToChat(message);
+        scrollToBottom();
       });
     }
   }, [props.socket]);

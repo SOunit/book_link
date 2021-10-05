@@ -36,7 +36,7 @@
   overflow-wrap: break-word;
   max-width: 75%;
   /* to avoid scroll bottom error by image load */
-  min-height: 52px;
+  min-height: 3.25rem;
 }
 
 .message__text--mine {
