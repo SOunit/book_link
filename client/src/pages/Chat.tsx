@@ -21,6 +21,7 @@ const Chat: FC<ChatProps> = (props) => {
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const messagesBoxDivRef = useRef<HTMLDivElement>(null);
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
@@ -30,10 +31,18 @@ const Chat: FC<ChatProps> = (props) => {
     });
   };
 
+  const scrollManual = (value: number) => {
+    document.querySelector('html')!.scrollTop = value;
+  };
+
   useEffect(() => {
     if (loginUser) {
       fetchChat([loginUser.id, userId]);
     }
+    // after rendering
+    setTimeout(() => {
+      scrollManual(messagesBoxDivRef.current!.scrollHeight);
+    }, 100);
   }, [loginUser, userId]);
 
   const addMessageToChat = (message: MessageType) => {
@@ -111,7 +120,9 @@ const Chat: FC<ChatProps> = (props) => {
       <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
         {`< ${chat?.users[0].name}`}
       </div>
-      <div className={classes['messages-box']}>{messages}</div>
+      <div ref={messagesBoxDivRef} className={classes['messages-box']}>
+        {messages}
+      </div>
       <div className={classes['form-wrapper']}>
         <form
           onSubmit={(event) => sendMessageHandler(event)}
