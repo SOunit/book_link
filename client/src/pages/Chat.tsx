@@ -34,16 +34,26 @@ const Chat: FC<ChatProps> = (props) => {
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
     setTimeout(() => {
-      document.querySelector('html')!.scrollTop =
-        messagesBoxDivRef.current!.scrollHeight;
+      const htmlTag = document.querySelector('html');
+      if (
+        htmlTag &&
+        messagesBoxDivRef.current &&
+        messagesBoxDivRef.current.scrollHeight
+      ) {
+        htmlTag.scrollTop = messagesBoxDivRef.current.scrollHeight;
+      }
     }, 100);
   };
 
   useEffect(() => {
     if (loginUser) {
       fetchChat([loginUser.id, userId]);
+      scrollToBottom();
     }
-    scrollToBottom();
+    // return cleanup function to avoid memory leak error
+    return () => {
+      setChat(null);
+    };
   }, [loginUser, userId]);
 
   const addMessageToChat = (message: MessageType) => {
