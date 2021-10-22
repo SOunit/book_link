@@ -69,5 +69,7 @@ http://booklink-env.eba-gkg6bpmv.ca-central-1.elasticbeanstalk.com/login
 - search users
 - follow users
 
+
 ## Infrastructure configuration diagram
 
+<img width="804" alt="book_link_infra" src="https://user-images.githubusercontent.com/38809138/138501492-7745ef23-04cd-48de-a0f9-69141d4b1e7c.png">
