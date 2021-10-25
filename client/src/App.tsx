@@ -21,6 +21,10 @@ function App() {
   const authCtx = useContext(AuthContext);
 
   useEffect(() => {
+    document.title = 'Book Link';
+  });
+
+  useEffect(() => {
     if (socket) {
       console.log('create socket');
       socket.emit('join', authCtx.token);
