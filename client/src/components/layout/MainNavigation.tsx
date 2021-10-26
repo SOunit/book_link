@@ -72,7 +72,7 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
         <Fragment>
           <h1 className={classes['main-header__title']}>
             <NavLink to='/' className={classes['main-header__title-link']}>
-              book-link
+              Book Link
             </NavLink>
           </h1>
           {authCtx.isLoggedIn && headerNav}

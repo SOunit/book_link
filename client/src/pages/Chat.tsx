@@ -21,6 +21,7 @@ const Chat: FC<ChatProps> = (props) => {
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const messagesBoxDivRef = useRef<HTMLDivElement>(null);
 
   const fetchChat = (userIds: string[]) => {
     const [userId1, userId2] = userIds;
@@ -30,21 +31,70 @@ const Chat: FC<ChatProps> = (props) => {
     });
   };
 
+  const scrollToBottom = () => {
+    // wait 100 ms to run after rendering
+    setTimeout(() => {
+      const htmlTag = document.querySelector('html');
+      if (
+        htmlTag &&
+        messagesBoxDivRef.current &&
+        messagesBoxDivRef.current.scrollHeight
+      ) {
+        htmlTag.scrollTop = messagesBoxDivRef.current.scrollHeight;
+      }
+    }, 100);
+  };
+
   useEffect(() => {
     if (loginUser) {
       fetchChat([loginUser.id, userId]);
+      scrollToBottom();
     }
+    // return cleanup function to avoid memory leak error
+    return () => {
+      setChat(null);
+    };
   }, [loginUser, userId]);
+
+  const addMessageToChat = (message: MessageType) => {
+    setChat((prevState: any) => {
+      const newChat = { ...prevState };
+      const newMessages = [...newChat.messages!, message];
+      newChat.messages = newMessages;
+      return newChat;
+    });
+  };
 
   useEffect(() => {
     if (props.socket) {
-      props.socket.on('update:chat', () => {
-        if (loginUser) {
-          fetchChat([loginUser.id, userId]);
-        }
+      props.socket.on('update:chat', (message: MessageType) => {
+        addMessageToChat(message);
+        scrollToBottom();
       });
     }
-  }, [props.socket, loginUser, userId]);
+  }, [props.socket]);
+
+  const chatHeaderClickHandler = () => {
+    history.push('/chats');
+  };
+
+  const sendMessageHandler = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (chat && loginUser) {
+      const text = messageInputRef.current!.value;
+      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
+        const message = res.data.data.createMessage;
+        props.socket.emit('create:message', {
+          loginUserId: loginUser.id,
+          userId,
+          message,
+        });
+
+        messageInputRef.current!.value = '';
+      });
+    }
+  };
 
   let messages;
   if (chat && loginUser) {
@@ -77,32 +127,14 @@ const Chat: FC<ChatProps> = (props) => {
     });
   }
 
-  const chatHeaderClickHandler = () => {
-    history.push('/chats');
-  };
-
-  const sendMessageHandler = (event: FormEvent) => {
-    event.preventDefault();
-
-    if (chat && loginUser) {
-      const text = messageInputRef.current!.value;
-      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
-        messageInputRef.current!.value = '';
-
-        props.socket.emit('create:message', {
-          loginUserId: loginUser.id,
-          userId,
-        });
-      });
-    }
-  };
-
   return (
     <div>
       <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
         {`< ${chat?.users[0].name}`}
       </div>
-      <div className={classes['messages-box']}>{messages}</div>
+      <div ref={messagesBoxDivRef} className={classes['messages-box']}>
+        {messages}
+      </div>
       <div className={classes['form-wrapper']}>
         <form
           onSubmit={(event) => sendMessageHandler(event)}

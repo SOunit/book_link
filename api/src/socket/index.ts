@@ -1,3 +1,4 @@
+import MessageType from '../models/ts/Message';
 const socketIo = require('socket.io');
 
 // to save sockets for login user
@@ -9,13 +10,13 @@ const socketIdToLoginUserId = new Map();
 const socketServer = (server: any) => {
   const io = socketIo(server);
 
-  const emitUpdateChat = (userId: string) => {
+  const emitUpdateChat = (userId: string, message: MessageType) => {
     if (loginUserIdToUserIdWithSockets.has(userId)) {
       console.log('userId is in map');
       const userSockets = loginUserIdToUserIdWithSockets.get(userId).sockets;
       userSockets.forEach((socketId: any) => {
         console.log('emit "update:chat" to', socketId);
-        io.to(socketId).emit('update:chat');
+        io.to(socketId).emit('update:chat', message);
       });
     } else {
       console.log('no socket is open');
@@ -102,12 +103,20 @@ const socketServer = (server: any) => {
 
     socket.on(
       'create:message',
-      ({ loginUserId, userId }: { loginUserId: string; userId: string }) => {
+      ({
+        loginUserId,
+        userId,
+        message,
+      }: {
+        loginUserId: string;
+        userId: string;
+        message: MessageType;
+      }) => {
         // update login user chat screen
-        emitUpdateChat(loginUserId);
+        emitUpdateChat(loginUserId, message);
 
         // update chat user chat screen
-        emitUpdateChat(userId);
+        emitUpdateChat(userId, message);
       }
     );
   });

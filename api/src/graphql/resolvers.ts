@@ -314,7 +314,7 @@ const resolvers = {
       include: {
         model: Chat,
         include: [
-          { model: Message, limit: 10, order: [['createdAt', 'DESC']] },
+          { model: Message, limit: 20, order: [['createdAt', 'DESC']] },
           { model: User, where: { id: userId2 } },
         ],
       },
