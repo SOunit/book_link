@@ -26,6 +26,9 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+      - ACCESSKEYID=
+      - SECRETACCESSKEY=
+      - REGION=
   client:
     stdin_open: true
     build:

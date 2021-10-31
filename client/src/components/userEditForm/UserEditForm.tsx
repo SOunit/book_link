@@ -41,7 +41,6 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
           'Content-Type': image.type,
         },
       });
-      console.log(upload);
 
       imageUrl = keys.AWS_S3_URL + uploadConfig.data.key;
     }

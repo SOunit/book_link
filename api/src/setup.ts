@@ -14,7 +14,7 @@ export const setupDummyData = async () => {
           name: 'Jack For Test',
           about: `hi, I'm jack. Jack for test play!! You can edit my profile. My profile will be re-created when this app start. This is only for me, because I'm a test user!`,
           imageUrl:
-            'https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2734&q=80',
+            'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/9bbe7509-f912-4d08-aa3e-2cf9fd82ec98.jpeg',
         });
       }
       return user;
