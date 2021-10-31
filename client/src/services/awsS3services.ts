@@ -1,6 +1,7 @@
 import API from './api';
 import axios from 'axios';
 
+// FIXME: this object is not used yet!
 const awsS3services = {
   getUrl: async () => {
     const graphqlQuery = ``;
