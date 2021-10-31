@@ -1,4 +1,7 @@
-FROM node:alpine as builder
+# to avoid build error, node v17 has build error
+# https://github.com/facebook/create-react-app/issues/11565
+FROM node:16-alpine as builder
+
 WORKDIR /app
 COPY ./package.json ./
 RUN npm install

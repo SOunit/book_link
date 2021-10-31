@@ -4,6 +4,9 @@ const keys = {
   pgDatabase: process.env.PGDATABASE,
   pgPassword: process.env.PGPASSWORD,
   pgPort: process.env.PGPORT,
+  accessKeyId: process.env.ACCESSKEYID,
+  secretAccessKey: process.env.SECRETACCESSKEY,
+  region: process.env.REGION,
 };
 
 export default keys;
