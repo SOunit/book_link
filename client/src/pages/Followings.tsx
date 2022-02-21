@@ -1,11 +1,11 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import FollowingType from '../models/Following';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import DispCards from '../components/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
-import useLoginUser from '../hooks/use-login-user';
 import followingServices from '../services/followingServices';
+import AuthContext from '../store/auth-context';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -13,7 +13,7 @@ type FollowingsParams = {
 };
 
 const Followings: FC<FollowingsProps> = (props) => {
-  const { loginUser } = useLoginUser();
+  const { loginUser } = useContext(AuthContext);
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<FollowingType[]>();
 
@@ -32,7 +32,7 @@ const Followings: FC<FollowingsProps> = (props) => {
           name: user.name,
           imageUrl: user.imageUrl,
           isFollowing: user.isFollowing,
-        })
+        }),
       );
 
       setFollowings(users);

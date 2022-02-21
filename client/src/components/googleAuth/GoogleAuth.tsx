@@ -51,11 +51,9 @@ const GoogleAuth: FC = () => {
       return (
         <button
           className={`${classes['google-button']} ${classes['google-button--sign-out']}`}
-          onClick={signOutClickHandler}
-        >
+          onClick={signOutClickHandler}>
           <i
-            className={`fab fa-google ${classes['google-button__icon']} ${classes['google-button--sign-out__icon']}`}
-          ></i>
+            className={`fab fa-google ${classes['google-button__icon']} ${classes['google-button--sign-out__icon']}`}></i>
           <p>Sign out</p>
         </button>
       );
@@ -63,8 +61,7 @@ const GoogleAuth: FC = () => {
       return (
         <button
           className={`${classes['google-button']}`}
-          onClick={signInClickHandler}
-        >
+          onClick={signInClickHandler}>
           <i className={`fab fa-google ${classes['google-button__icon']}`}></i>
           <p>Sign in with Google</p>
         </button>

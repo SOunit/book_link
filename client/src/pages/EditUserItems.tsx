@@ -1,17 +1,17 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
-import useLoginUser from '../hooks/use-login-user';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
 import itemServices from '../services/itemServices';
+import AuthContext from '../store/auth-context';
 
 const EditUserItems: FC = () => {
-  const { loginUser, setLoginUser } = useLoginUser();
+  const { loginUser, setLoginUser } = useContext(AuthContext);
   const {
     searchedItems,
     isItemSearched,

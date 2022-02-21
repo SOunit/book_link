@@ -1,15 +1,15 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useContext } from 'react';
 import { useHistory } from 'react-router';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
-import useLoginUser from '../hooks/use-login-user';
+import AuthContext from '../store/auth-context';
 
 type HomeProps = {};
 
-const Home: FC<HomeProps> = (props) => {
-  const { loginUser } = useLoginUser();
+const Home: FC<HomeProps> = () => {
+  const { loginUser } = useContext(AuthContext);
   const history = useHistory();
 
   const editProfileClickHandler = () => {
@@ -32,15 +32,13 @@ const Home: FC<HomeProps> = (props) => {
       {userInfo}
       <Buttons>
         <Button
-          buttonText='Edit Profile'
+          buttonText="Edit Profile"
           buttonType={ButtonTypes.NORMAL}
-          onButtonClick={editProfileClickHandler}
-        ></Button>
+          onButtonClick={editProfileClickHandler}></Button>
         <Button
-          buttonText='Edit Items'
+          buttonText="Edit Items"
           buttonType={ButtonTypes.NORMAL}
-          onButtonClick={editUserItemsClickHandler}
-        ></Button>
+          onButtonClick={editUserItemsClickHandler}></Button>
       </Buttons>
       {userItems}
     </Fragment>
