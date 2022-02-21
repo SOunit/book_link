@@ -137,7 +137,7 @@ const SearchUsers = () => {
 
   return (
     <Fragment>
-      <section className={classes['serach-bar']}>
+      <section className={classes['search-bar']}>
         <SearchBar
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
