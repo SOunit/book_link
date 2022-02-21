@@ -8,10 +8,8 @@ import AuthContext from '../store/auth-context';
 
 type HomeProps = {};
 
-const Home: FC<HomeProps> = (props) => {
-  const authCtx = useContext(AuthContext);
-
-  const loginUser = authCtx.loginUser;
+const Home: FC<HomeProps> = () => {
+  const { loginUser } = useContext(AuthContext);
   const history = useHistory();
 
   const editProfileClickHandler = () => {
