@@ -1,6 +1,5 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 import Item from './../models/Item';
-import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
@@ -12,6 +11,7 @@ import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
 import userServices from '../services/userServices';
 import useRegisteredItems from '../hooks/search-user/use-registered-items';
+import useSearchedUsers from '../hooks/search-user/use-searched-users';
 
 const SearchUsers = () => {
   const {
@@ -25,8 +25,12 @@ const SearchUsers = () => {
     addRegisteredItemHandler,
     deleteRegisteredItemHandler,
   } = useRegisteredItems();
-
-  const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
+  const {
+    searchedUsers,
+    setSearchedUsers,
+    followClickHandler,
+    followingClickHandler,
+  } = useSearchedUsers();
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
 
@@ -51,29 +55,6 @@ const SearchUsers = () => {
         setSearchedUsers(result.data.data.getUsersByItems);
         setIsUserSearched(true);
       });
-  };
-
-  const followClickHandler = (targetUserId: string) => {
-    // update state
-    const newFollowings = searchedUsers.map((user) => {
-      if (user.id === targetUserId) {
-        user.isFollowing = true;
-      }
-      return user;
-    });
-
-    setSearchedUsers(newFollowings);
-  };
-
-  const followingClickHandler = (targetUserId: string) => {
-    // update state
-    const newFollowings = searchedUsers.map((user) => {
-      if (user.id === targetUserId) {
-        user.isFollowing = false;
-      }
-      return user;
-    });
-    setSearchedUsers(newFollowings);
   };
 
   let registeredItemsSection = null;
