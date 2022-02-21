@@ -1,4 +1,4 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import Item from './../models/Item';
 import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
@@ -11,6 +11,7 @@ import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
 import userServices from '../services/userServices';
+import useRegisteredItems from '../hooks/search-user/use-registered-items';
 
 const SearchUsers = () => {
   const {
@@ -19,40 +20,22 @@ const SearchUsers = () => {
     updateSearchedItemsHandler,
     updateIsItemSearchedHandler,
   } = useSearchedItems();
-  const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
+  const {
+    registeredItems,
+    addRegisteredItemHandler,
+    deleteRegisteredItemHandler,
+  } = useRegisteredItems();
+
   const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
 
+  useEffect(() => {
+    setIsUserSearched(false);
+  }, [registeredItems]);
+
   const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
-    setIsUserSearched(false);
-  };
-
-  const deleteRegisteredItemHandler = (id: string) => {
-    setRegisteredItems((prevState) => {
-      const updatedRegisteredItems = [...prevState].filter(
-        (elm) => elm.id !== id,
-      );
-      return updatedRegisteredItems;
-    });
-
-    setIsUserSearched(false);
-  };
-
-  const addRegisteredItemHandler = (item: Item) => {
-    setRegisteredItems((prevState) => {
-      const updatedRegisteredItems = [...prevState];
-
-      const match = updatedRegisteredItems.some((elem) => elem.id === item.id);
-      if (match) {
-        return prevState;
-      }
-
-      updatedRegisteredItems.push(item);
-      return updatedRegisteredItems;
-    });
-
     setIsUserSearched(false);
   };
 
