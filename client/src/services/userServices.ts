@@ -16,7 +16,7 @@ const userServices = {
       },
     };
 
-    API({
+    return await API({
       data: graphqlQuery,
     });
   },
@@ -70,7 +70,7 @@ const userServices = {
     id: string,
     name: string,
     about: string,
-    imageUrl: string
+    imageUrl: string,
   ) => {
     const graphqlQuery = {
       query: `
