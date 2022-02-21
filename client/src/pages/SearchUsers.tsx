@@ -6,7 +6,7 @@ import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
-import SearchedUsers from '../components/seachedUsers/SearchedUsers';
+import SearchedUsers from '../components/searchedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
@@ -32,7 +32,7 @@ const SearchUsers = () => {
   const deleteRegisteredItemHandler = (id: string) => {
     setRegisteredItems((prevState) => {
       const updatedRegisteredItems = [...prevState].filter(
-        (elm) => elm.id !== id
+        (elm) => elm.id !== id,
       );
       return updatedRegisteredItems;
     });
@@ -100,7 +100,7 @@ const SearchUsers = () => {
         <SectionTitle>Registered items</SectionTitle>
         <RegisteredItems
           items={registeredItems}
-          onDeleteRegistedItem={deleteRegisteredItemHandler}
+          onDeleteRegisteredItem={deleteRegisteredItemHandler}
         />
         <div className={classes['button-container']}>
           <Button
