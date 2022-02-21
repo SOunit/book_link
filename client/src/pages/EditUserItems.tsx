@@ -48,7 +48,7 @@ const EditUserItems: FC = () => {
     registeredItems = (
       <RegisteredItems
         items={loginUser.items}
-        onDeleteRegistedItem={deleteClickHandler}
+        onDeleteRegisteredItem={deleteClickHandler}
       />
     );
   }
@@ -78,7 +78,7 @@ const EditUserItems: FC = () => {
           onSetIsSearched={updateIsItemSearchedHandler}
           onSetSearchResult={updateSearchedItemsHandler}
         />
-        <Link to='/' className={classes['new-item-link']}>
+        <Link to="/" className={classes['new-item-link']}>
           {'Create New Item >'}
         </Link>
       </section>

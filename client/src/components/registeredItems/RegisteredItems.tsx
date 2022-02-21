@@ -7,7 +7,7 @@ import Button, { ButtonTypes } from '../ui/Buttons/Button';
 
 type RegisteredItemsProps = {
   items: Item[];
-  onDeleteRegistedItem: any;
+  onDeleteRegisteredItem: any;
 };
 
 const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
@@ -15,9 +15,9 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
     const buttons = (
       <Buttons>
         <Button
-          buttonText='Delete'
+          buttonText="Delete"
           buttonType={ButtonTypes.DELETE}
-          onButtonClick={() => props.onDeleteRegistedItem(item.id)}
+          onButtonClick={() => props.onDeleteRegisteredItem(item.id)}
         />
       </Buttons>
     );

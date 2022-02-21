@@ -1,16 +1,17 @@
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import Item from './../models/Item';
-import FollowingType from '../models/Following';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import classes from './SearchUsers.module.css';
-import SearchedUsers from '../components/seachedUsers/SearchedUsers';
+import SearchedUsers from '../components/searchedUsers/SearchedUsers';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
 import userServices from '../services/userServices';
+import useRegisteredItems from '../hooks/search-user/use-registered-items';
+import useSearchedUsers from '../hooks/search-user/use-searched-users';
 
 const SearchUsers = () => {
   const {
@@ -19,40 +20,26 @@ const SearchUsers = () => {
     updateSearchedItemsHandler,
     updateIsItemSearchedHandler,
   } = useSearchedItems();
-  const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
-  const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
+  const {
+    registeredItems,
+    addRegisteredItemHandler,
+    deleteRegisteredItemHandler,
+  } = useRegisteredItems();
+  const {
+    searchedUsers,
+    setSearchedUsers,
+    followClickHandler,
+    followingClickHandler,
+  } = useSearchedUsers();
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const authCtx = useContext(AuthContext);
 
+  useEffect(() => {
+    setIsUserSearched(false);
+  }, [registeredItems]);
+
   const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
-    setIsUserSearched(false);
-  };
-
-  const deleteRegisteredItemHandler = (id: string) => {
-    setRegisteredItems((prevState) => {
-      const updatedRegisteredItems = [...prevState].filter(
-        (elm) => elm.id !== id
-      );
-      return updatedRegisteredItems;
-    });
-
-    setIsUserSearched(false);
-  };
-
-  const addRegisteredItemHandler = (item: Item) => {
-    setRegisteredItems((prevState) => {
-      const updatedRegisteredItems = [...prevState];
-
-      const match = updatedRegisteredItems.some((elem) => elem.id === item.id);
-      if (match) {
-        return prevState;
-      }
-
-      updatedRegisteredItems.push(item);
-      return updatedRegisteredItems;
-    });
-
     setIsUserSearched(false);
   };
 
@@ -70,29 +57,6 @@ const SearchUsers = () => {
       });
   };
 
-  const followClickHandler = (targetUserId: string) => {
-    // update state
-    const newFollowings = searchedUsers.map((user) => {
-      if (user.id === targetUserId) {
-        user.isFollowing = true;
-      }
-      return user;
-    });
-
-    setSearchedUsers(newFollowings);
-  };
-
-  const followingClickHandler = (targetUserId: string) => {
-    // update state
-    const newFollowings = searchedUsers.map((user) => {
-      if (user.id === targetUserId) {
-        user.isFollowing = false;
-      }
-      return user;
-    });
-    setSearchedUsers(newFollowings);
-  };
-
   let registeredItemsSection = null;
   if (registeredItems.length > 0) {
     registeredItemsSection = (
@@ -100,7 +64,7 @@ const SearchUsers = () => {
         <SectionTitle>Registered items</SectionTitle>
         <RegisteredItems
           items={registeredItems}
-          onDeleteRegistedItem={deleteRegisteredItemHandler}
+          onDeleteRegisteredItem={deleteRegisteredItemHandler}
         />
         <div className={classes['button-container']}>
           <Button
@@ -137,7 +101,7 @@ const SearchUsers = () => {
 
   return (
     <Fragment>
-      <section className={classes['serach-bar']}>
+      <section className={classes['search-bar']}>
         <SearchBar
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}

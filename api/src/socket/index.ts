@@ -11,10 +11,14 @@ const socketServer = (server: any) => {
   const io = socketIo(server);
 
   const emitUpdateChat = (userId: string, message: MessageType) => {
+    console.log('emitUpdateChat');
+
     if (loginUserIdToUserIdWithSockets.has(userId)) {
       console.log('userId is in map');
       const userSockets = loginUserIdToUserIdWithSockets.get(userId).sockets;
-      userSockets.forEach((socketId: any) => {
+      console.log('userSockets', userSockets);
+
+      Object.keys(userSockets).forEach((socketId: any) => {
         console.log('emit "update:chat" to', socketId);
         io.to(socketId).emit('update:chat', message);
       });
@@ -26,6 +30,9 @@ const socketServer = (server: any) => {
   io.on('connection', (socket: any) => {
     socket.on('join', (loginUserId: string) => {
       console.log('loginUserId', loginUserId);
+      if(!loginUserId){
+        return;
+      }
 
       console.log('before join');
       console.log(
@@ -35,18 +42,25 @@ const socketServer = (server: any) => {
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
 
       if (loginUserIdToUserIdWithSockets.has(loginUserId)) {
-        // if user exists(one user login by different browser)
+        // if user exists(one user can login from different browser)
 
-        // update existing user data by adding new socket
-        const existingUser = loginUserIdToUserIdWithSockets.get(loginUserId);
-        existingUser.sockets = [...existingUser.sockets, socket.id];
-        loginUserIdToUserIdWithSockets.set(loginUserId, existingUser);
+        // update existing user object by adding new socket
+        const existingUserIdWithSockets =
+          loginUserIdToUserIdWithSockets.get(loginUserId);
+        existingUserIdWithSockets.sockets = {
+          ...existingUserIdWithSockets.sockets,
+          [socket.id]: socket.id,
+        };
+        loginUserIdToUserIdWithSockets.set(
+          loginUserId,
+          existingUserIdWithSockets
+        );
         socketIdToLoginUserId.set(socket.id, loginUserId);
       } else {
         // if user is new
         loginUserIdToUserIdWithSockets.set(loginUserId, {
           loginUserId,
-          sockets: [socket.id],
+          sockets: { [socket.id]: socket.id },
         });
         socketIdToLoginUserId.set(socket.id, loginUserId);
       }
@@ -77,17 +91,9 @@ const socketServer = (server: any) => {
 
         if (userIdWithSockets.sockets.length > 1) {
           // update user sockets
-          userIdWithSockets.sockets = userIdWithSockets.sockets.filter(
-            (socketId: any) => {
-              if (socketId !== socket.id) return true;
-
-              // delete
-              socketIdToLoginUserId.delete(socketId);
-              return false;
-            }
-          );
+          delete userIdWithSockets.sockets[socket.id];
         } else {
-          // delete
+          // delete user info from socket
           loginUserIdToUserIdWithSockets.delete(userIdWithSockets.loginUserId);
           socketIdToLoginUserId.delete(socket.id);
         }
