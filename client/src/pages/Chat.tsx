@@ -1,11 +1,11 @@
-import { FC, useEffect, useRef, useState, FormEvent } from 'react';
+import { FC, useEffect, useRef, useState, FormEvent, useContext } from 'react';
 import { useHistory, useParams } from 'react-router';
-import useLoginUser from '../hooks/use-login-user';
 import ChatServices from '../services/chatServices';
 import ChatType from '../models/Chat';
 import MessageType from '../models/Message';
 import classes from './Chat.module.css';
 import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
+import AuthContext from '../store/auth-context';
 
 type ChatProps = {
   socket: any;
@@ -17,7 +17,7 @@ type UserDetailParams = {
 
 const Chat: FC<ChatProps> = (props) => {
   const history = useHistory();
-  const { loginUser } = useLoginUser();
+  const { loginUser } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messageInputRef = useRef<HTMLInputElement>(null);
@@ -117,8 +117,7 @@ const Chat: FC<ChatProps> = (props) => {
               message.userId === loginUser.id
                 ? `${classes['message__text']} ${classes['message__text--mine']}`
                 : classes['message__text']
-            }
-          >
+            }>
             {message.text}
           </div>
           <div className={classes['message__time']}>12:00PM</div>
@@ -138,13 +137,12 @@ const Chat: FC<ChatProps> = (props) => {
       <div className={classes['form-wrapper']}>
         <form
           onSubmit={(event) => sendMessageHandler(event)}
-          className={classes['message-form']}
-        >
+          className={classes['message-form']}>
           <input
             ref={messageInputRef}
             className={classes['message-input']}
-            type='text'
-            placeholder='Enter a message'
+            type="text"
+            placeholder="Enter a message"
           />
         </form>
       </div>

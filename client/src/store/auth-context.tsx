@@ -11,12 +11,14 @@ const AuthContext = React.createContext<{
   login: (token: string | null) => void;
   logout: () => void;
   loginUser: User | null;
+  setLoginUser: any;
 }>({
   token: '',
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
   loginUser: null,
+  setLoginUser: () => {},
 });
 
 export const AuthContextProvider: FC = (props) => {
@@ -71,6 +73,7 @@ export const AuthContextProvider: FC = (props) => {
     loginUser,
     login: loginHandler,
     logout: logoutHandler,
+    setLoginUser,
   };
 
   // auto login

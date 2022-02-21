@@ -1,22 +1,22 @@
-import { Fragment, useEffect, useState, useCallback } from 'react';
+import { Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserItems from '../components/userItems/UserItems';
-import useLoginUser from '../hooks/use-login-user';
 import FollowButton from '../components/ui/Buttons/FollowButton';
 import userServices from '../services/userServices';
 import followingServices from '../services/followingServices';
 import ChatServices from '../services/chatServices';
+import AuthContext from '../store/auth-context';
 
 type UserDetailParams = {
   userId: string;
 };
 
 const UserDetail = () => {
-  const { loginUser } = useLoginUser();
+  const { loginUser } = useContext(AuthContext);
   const params = useParams<UserDetailParams>();
   const history = useHistory();
   const [user, setUser] = useState<UserType>();
@@ -94,7 +94,7 @@ const UserDetail = () => {
         <Buttons>
           {followButton}
           <Button
-            buttonText='Chat'
+            buttonText="Chat"
             buttonType={ButtonTypes.NORMAL}
             onButtonClick={chatClickHandler}
           />
