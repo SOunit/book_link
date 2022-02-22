@@ -1,6 +1,6 @@
 import API from './api';
 
-const userServices = {
+const itemServices = {
   addUserItem: async (userId: string, itemId: string) => {
     const graphqlQuery = {
       query: `
@@ -62,6 +62,25 @@ const userServices = {
       data: graphqlQuery,
     });
   },
+
+  fetchRandomItems: async () => {
+    const graphqlQuery = {
+      query: `
+              query FetchRandomItems {
+                fetchRandomItems {
+                  id
+                  title
+                  author
+                  imageUrl
+                }
+              }
+            `,
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
 };
 
-export default userServices;
+export default itemServices;
