@@ -67,11 +67,12 @@ const SearchUsers = () => {
 
     if (defaultItems.length === 0) {
       itemServices.fetchRandomItems().then((response) => {
-        console.log(response);
+        defaultItems = response.data.data.fetchRandomItems;
+        initItemsHandler(defaultItems);
       });
+    } else {
+      initItemsHandler(defaultItems);
     }
-
-    initItemsHandler(defaultItems);
   }, [loginUser, initItemsHandler]);
 
   useEffect(() => {

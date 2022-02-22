@@ -66,8 +66,8 @@ const itemServices = {
   fetchRandomItems: async () => {
     const graphqlQuery = {
       query: `
-              query fetchItems ($title: String){
-                itemsByTitle(title: $title){
+              query FetchRandomItems {
+                fetchRandomItems {
                   id
                   title
                   author
