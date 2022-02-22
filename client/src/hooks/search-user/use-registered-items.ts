@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Item from '../../models/Item';
 
 const useRegisteredItems = () => {
@@ -12,6 +12,10 @@ const useRegisteredItems = () => {
       return updatedRegisteredItems;
     });
   };
+
+  const initItemsHandler = useCallback((items: Item[]) => {
+    setRegisteredItems(items);
+  }, []);
 
   const addRegisteredItemHandler = (item: Item) => {
     setRegisteredItems((prevState) => {
@@ -29,6 +33,7 @@ const useRegisteredItems = () => {
 
   return {
     registeredItems,
+    initItemsHandler,
     deleteRegisteredItemHandler,
     addRegisteredItemHandler,
   };
