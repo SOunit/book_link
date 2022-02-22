@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react';
-import useLoginUser from '../hooks/use-login-user';
+import { FC, useContext, useEffect, useState } from 'react';
 import ChatServices from '../services/chatServices';
 import ChatType from '../models/Chat';
 import ChatListItem from '../components/chatListItem/ChatListItem';
+import AuthContext from '../store/auth-context';
 
 const ChatList: FC = () => {
-  const { loginUser } = useLoginUser();
+  const { loginUser } = useContext(AuthContext);
   const [chats, setChats] = useState<ChatType[]>([]);
 
   useEffect(() => {

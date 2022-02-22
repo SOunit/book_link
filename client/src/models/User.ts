@@ -12,7 +12,7 @@ class User {
     name: string,
     about: string,
     imageUrl: string,
-    items: Item[]
+    items: Item[],
     // createdAt: Date
   ) {
     this.id = Math.random().toString();

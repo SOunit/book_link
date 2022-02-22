@@ -1,10 +1,10 @@
-import { FC, Fragment } from 'react';
-import useLoginUser from '../hooks/use-login-user';
+import { FC, Fragment, useContext } from 'react';
 import UserInfo from '../components/userInfo/UserInfo';
 import UserEditForm from '../components/userEditForm/UserEditForm';
+import AuthContext from '../store/auth-context';
 
 const EditProfile: FC = () => {
-  const { loginUser } = useLoginUser();
+  const { loginUser } = useContext(AuthContext);
 
   let userInfo;
   let userEditForm;

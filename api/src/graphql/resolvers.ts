@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidV4 } from 'uuid';
 import { Op, QueryTypes, literal } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
 import Item from '../models/sequelize/item';
@@ -34,7 +34,7 @@ const resolvers = {
   },
 
   createItem: async (args: { data: CreateItemInput }) => {
-    const id = uuidv4();
+    const id = uuidV4();
     const { title, author, imageUrl } = args.data;
     const newItem = { id, title, author, imageUrl };
 
@@ -174,7 +174,7 @@ const resolvers = {
           userId: args.userId,
         },
         type: QueryTypes.SELECT,
-      }
+      },
     );
 
     return fetchedUsers;
@@ -256,7 +256,7 @@ const resolvers = {
           userId: args.userId,
         },
         type: QueryTypes.SELECT,
-      }
+      },
     );
 
     return users;
@@ -320,7 +320,7 @@ const resolvers = {
       },
     });
 
-    // chage data for return
+    // change data for return
     const chats = user.chats.map((chat: any) => {
       const messages = chat.messages.map((message: any) => {
         return message;
@@ -358,7 +358,7 @@ const resolvers = {
       },
     });
 
-    // chage data for return
+    // change data for return
     const chats = user.chats.map((chat: any) => {
       const messages = chat.messages.map((message: any) => {
         return message;
@@ -405,25 +405,25 @@ const resolvers = {
 
     const transaction = await sequelize.transaction();
     try {
-      const chat = await Chat.create({ id: uuidv4() }, { transaction });
+      const chat = await Chat.create({ id: uuidV4() }, { transaction });
       const chatId = chat.get({ row: true }).id;
 
       await UserChat.create(
         {
-          id: uuidv4(),
+          id: uuidV4(),
           chatId,
           userId: args.userId,
         },
-        { transaction }
+        { transaction },
       );
 
       await UserChat.create(
         {
-          id: uuidv4(),
+          id: uuidV4(),
           chatId,
           userId: args.targetId,
         },
-        { transaction }
+        { transaction },
       );
 
       await transaction.commit();
@@ -442,13 +442,28 @@ const resolvers = {
     text: string;
   }) => {
     const result = await Message.create({
-      id: uuidv4(),
+      id: uuidV4(),
       chatId: args.chatId,
       userId: args.userId,
       text: args.text,
     });
 
     return result;
+  },
+
+  fetchRandomItems: async (args: any, req: any) => {
+    const items = await Item.findAll({
+      limit: 3,
+    });
+
+    const itemList = items.map((elm: any) => ({
+      id: elm.id,
+      title: elm.title,
+      author: elm.author,
+      imageUrl: elm.imageUrl,
+    }));
+
+    return itemList;
   },
 };
 

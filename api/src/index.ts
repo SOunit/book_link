@@ -42,7 +42,7 @@ app.get('/upload', (req, res, next) => {
       ContentType: 'image/jpeg',
       Key: key,
     },
-    (err: any, url: string) => res.send({ key, url })
+    (err: any, url: string) => res.send({ key, url }),
   );
 });
 
@@ -54,7 +54,7 @@ app.use(
     rootValue: graphqlResolver,
     // http://localhost:3050/api/graphql
     graphiql: true,
-  })
+  }),
 );
 
 // setup association, add functions

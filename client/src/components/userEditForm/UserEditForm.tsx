@@ -23,7 +23,7 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
       userData.id,
       userData.name,
       userData.about,
-      userData.imageUrl
+      userData.imageUrl,
     );
   };
 
@@ -65,36 +65,35 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
 
   return (
     <form className={classes['user-edit-form']} onSubmit={submitHandler}>
-      <label htmlFor='name'>Name</label>
+      <label htmlFor="name">Name</label>
       <input
         className={classes['user-edit__input']}
-        type='text'
-        id='name'
+        type="text"
+        id="name"
         defaultValue={props.user.name}
         ref={nameInputRef}
       />
       {/* FIXME: change image url to image file */}
-      <label htmlFor='imageUrl'>Profile Image</label>
+      <label htmlFor="imageUrl">Profile Image</label>
       <input
         onChange={(event) => imageChangeHandler(event)}
         className={classes['user-edit__input']}
-        type='file'
-        id='imageUrl'
+        type="file"
+        id="imageUrl"
         // defaultValue={props.user.imageUrl}
       />
-      <label htmlFor='about'>About</label>
+      <label htmlFor="about">About</label>
       <textarea
         className={classes['user-edit__textarea']}
-        id='about'
+        id="about"
         defaultValue={props.user.about}
         ref={aboutTextAreaRef}
       />
       <Buttons>
         <Button
-          buttonText='Update'
+          buttonText="Update"
           buttonType={ButtonTypes.NORMAL}
-          onButtonClick={() => {}}
-        ></Button>
+          onButtonClick={() => {}}></Button>
       </Buttons>
     </form>
   );
