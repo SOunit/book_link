@@ -12,6 +12,7 @@ import useSearchedItems from '../hooks/use-searched-items';
 import userServices from '../services/userServices';
 import useRegisteredItems from '../hooks/search-user/use-registered-items';
 import useSearchedUsers from '../hooks/search-user/use-searched-users';
+import itemServices from '../services/itemServices';
 
 const SearchUsers = () => {
   const {
@@ -62,6 +63,12 @@ const SearchUsers = () => {
       if (loginUser.items[i]) {
         defaultItems.push(loginUser.items[i]);
       }
+    }
+
+    if (defaultItems.length === 0) {
+      itemServices.fetchRandomItems().then((response) => {
+        console.log(response);
+      });
     }
 
     initItemsHandler(defaultItems);

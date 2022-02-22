@@ -6,22 +6,22 @@ import Buttons from '../ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../ui/Buttons/Button';
 import classes from './SearchedItems.module.css';
 
-type SearchdItemsProps = {
+type SearchedItemsProps = {
   items: Item[];
   registeredItems: Item[];
   isItemSearched: boolean;
   onAddClick: (item: Item) => void;
 };
 
-const SearchedItems: React.FC<SearchdItemsProps> = (props) => {
+const SearchedItems: React.FC<SearchedItemsProps> = (props) => {
   const createButtons = (item: Item) => {
     const buttonDisabled = props.registeredItems.some(
-      (elem) => elem.id === item.id
+      (elem) => elem.id === item.id,
     );
     const buttons = (
       <Buttons>
         <Button
-          buttonText='add'
+          buttonText="add"
           onButtonClick={() => props.onAddClick(item)}
           buttonType={
             buttonDisabled ? ButtonTypes.IN_ACTIVE : ButtonTypes.NORMAL
