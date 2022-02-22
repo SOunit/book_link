@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import Item from './../models/Item';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
@@ -22,6 +22,7 @@ const SearchUsers = () => {
   } = useSearchedItems();
   const {
     registeredItems,
+    initItemsHandler,
     addRegisteredItemHandler,
     deleteRegisteredItemHandler,
   } = useRegisteredItems();
@@ -32,11 +33,7 @@ const SearchUsers = () => {
     followingClickHandler,
   } = useSearchedUsers();
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
-  const authCtx = useContext(AuthContext);
-
-  useEffect(() => {
-    setIsUserSearched(false);
-  }, [registeredItems]);
+  const { loginUser, token } = useContext(AuthContext);
 
   const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
@@ -49,13 +46,34 @@ const SearchUsers = () => {
       return itemIdList.push(item.id);
     });
 
-    userServices
-      .fetchUsersByItems(itemIdList, authCtx.token!)
-      .then((result) => {
-        setSearchedUsers(result.data.data.getUsersByItems);
-        setIsUserSearched(true);
-      });
+    userServices.fetchUsersByItems(itemIdList, token!).then((result) => {
+      setSearchedUsers(result.data.data.getUsersByItems);
+      setIsUserSearched(true);
+    });
   };
+
+  const setDefaultItems = useCallback(() => {
+    if (!loginUser) {
+      return;
+    }
+
+    let defaultItems = [];
+    for (let i = 0; i < 3; i++) {
+      if (loginUser.items[i]) {
+        defaultItems.push(loginUser.items[i]);
+      }
+    }
+
+    initItemsHandler(defaultItems);
+  }, [loginUser, initItemsHandler]);
+
+  useEffect(() => {
+    setDefaultItems();
+  }, [setDefaultItems, loginUser]);
+
+  useEffect(() => {
+    setIsUserSearched(false);
+  }, [registeredItems]);
 
   let registeredItemsSection = null;
   if (registeredItems.length > 0) {
@@ -78,17 +96,11 @@ const SearchUsers = () => {
   }
 
   let searchedUsersSection = null;
-  if (searchedUsers && searchedUsers.length > 0) {
+  if (searchedUsers && searchedUsers.length > 0 && loginUser) {
     searchedUsersSection = (
       <SearchedUsers
         users={searchedUsers}
-        loginUser={{
-          id: authCtx.token!,
-          name: 'dummy',
-          about: 'dummy',
-          imageUrl: 'dummy',
-          items: [],
-        }}
+        loginUser={loginUser}
         onFollowClick={followClickHandler}
         onFollowingClick={followingClickHandler}
       />
