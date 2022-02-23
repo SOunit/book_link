@@ -4,6 +4,7 @@ import Buttons from '../ui/Buttons/Buttons';
 import classes from './SearchedItems.module.css';
 import SearchItemCard from '../organisms/search-item-card';
 import IconButton from '../atoms/icon-button';
+import NotFoundMessage from '../organisms/not-found-message';
 
 type SearchedItemsProps = {
   items: Item[];
@@ -41,7 +42,12 @@ const SearchedItems: React.FC<SearchedItemsProps> = (props) => {
     (!searchItemCardList || searchItemCardList.length === 0) &&
     props.isItemSearched
   ) {
-    searchItemCardList = <p className={classes['message']}>Item not found!</p>;
+    searchItemCardList = (
+      <NotFoundMessage
+        title="Item not found!"
+        text="Please search by another keyword."
+      />
+    );
   }
 
   return <Fragment>{searchItemCardList}</Fragment>;
