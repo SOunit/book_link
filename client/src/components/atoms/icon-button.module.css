@@ -5,4 +5,22 @@
   width: 2.2rem;
   height: 2.2rem;
   border-radius: 50%;
+  cursor: pointer;
+}
+
+/* best break point */
+/* https://stackoverflow.com/questions/6370690/media-queries-how-to-target-desktop-tablet-and-mobile */
+
+/* for tablet */
+@media (min-width: 40rem) {
+  .icon-button {
+    /* background-color: red; */
+  }
+}
+
+/* for pc */
+@media (min-width: 60rem) {
+  .icon-button {
+    /* background-color: blue; */
+  }
 }
