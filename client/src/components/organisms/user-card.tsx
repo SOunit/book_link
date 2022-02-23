@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import User from '../../models/User';
 import Image from '../atoms/image';
-import classes from './item-card.module.css';
+import classes from './user-card.module.css';
 
 type Props = {
   user: User;
@@ -11,7 +11,7 @@ type Props = {
 
 const UserCard: FC<Props> = ({ user, className, actions }) => {
   return (
-    <div className={className}>
+    <div className={`${classes['user-card']} ${className}`}>
       <Image
         src={user.imageUrl}
         alt={user.name}
