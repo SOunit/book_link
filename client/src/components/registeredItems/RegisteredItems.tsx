@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import Item from '../../models/Item';
 import Buttons from '../ui/Buttons/Buttons';
-import Button, { ButtonTypes } from '../ui/Buttons/Button';
-import ItemCard from '../organisms/Item-card';
+import ItemCard from '../organisms/item-card';
 import classes from './RegisteredItems.module.css';
 import IconButton from '../atoms/icon-button';
 

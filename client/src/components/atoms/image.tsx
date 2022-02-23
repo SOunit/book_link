@@ -4,7 +4,7 @@ import classes from './image.module.css';
 type Props = {
   src: string;
   alt: string;
-  className: string;
+  className?: string;
 };
 
 const Image: FC<Props> = ({ src, alt, className }) => {
