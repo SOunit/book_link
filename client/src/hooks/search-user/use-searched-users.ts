@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import FollowingType from '../../models/Following';
+import User from '../../models/User';
 
 const useSearchedUsers = () => {
-  const [searchedUsers, setSearchedUsers] = useState<FollowingType[]>([]);
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
 
   const followClickHandler = (targetUserId: string) => {
     // update state

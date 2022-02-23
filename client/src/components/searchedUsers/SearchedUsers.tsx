@@ -1,26 +1,82 @@
 import { FC, Fragment } from 'react';
-import UserType from '../../models/User';
-import FollowingType from '../../models/Following';
 import SectionTitle from '../ui/SectionTitle/SectionTitle';
-import DispCards from '../ui/DispCards/DispCards';
+import UserCard from '../organisms/user-card';
+import User from '../../models/User';
+import Buttons from '../ui/Buttons/Buttons';
+import { useHistory } from 'react-router-dom';
+import IconButton from '../atoms/icon-button';
+import followingServices from '../../services/followingServices';
 
-type SearchedUsersProps = {
-  users: FollowingType[];
-  loginUser: UserType;
+type Props = {
+  users: User[];
+  loginUser: User;
   onFollowClick: any;
   onFollowingClick: any;
 };
 
-const SearchedUsers: FC<SearchedUsersProps> = (props) => {
+const SearchedUsers: FC<Props> = ({
+  users,
+  loginUser,
+  onFollowClick,
+  onFollowingClick,
+}) => {
+  const history = useHistory();
+
+  const detailClickHandler = (user: User) => {
+    history.push(`/users/${user.id}`);
+  };
+
   return (
     <Fragment>
-      {props.users.length > 0 && <SectionTitle>Users</SectionTitle>}
-      <DispCards
-        users={props.users}
-        loginUser={props.loginUser}
-        onFollowClick={props.onFollowClick}
-        onFollowingClick={props.onFollowingClick}
-      />
+      {users.length > 0 && <SectionTitle>Users</SectionTitle>}
+      {users.map((user) => {
+        const deleteFollowing = () => {
+          followingServices.deleteFollowing(loginUser.id, user.id);
+        };
+
+        const createFollowing = () => {
+          followingServices
+            .createFollowing(loginUser.id, user.id)
+            .then((result) => {
+              return result.data.data.createFollowing;
+            });
+        };
+
+        const followClickHandler = () => {
+          // update db
+          createFollowing();
+
+          // update state
+          onFollowClick(user.id);
+        };
+
+        const followingClickHandler = () => {
+          // delete db
+          deleteFollowing();
+
+          // update state
+          onFollowingClick(user.id);
+        };
+
+        const actions = (
+          <Buttons>
+            <IconButton
+              iconName="fa fa-info"
+              onClick={() => detailClickHandler(user)}
+            />
+            <IconButton
+              iconName={
+                user.isFollowing ? 'fa fa-user-plus' : 'fa fa-user-minus'
+              }
+              onClick={
+                user.isFollowing ? followingClickHandler : followClickHandler
+              }
+            />
+          </Buttons>
+        );
+
+        return <UserCard key={user.id} user={user} actions={actions} />;
+      })}
     </Fragment>
   );
 };
