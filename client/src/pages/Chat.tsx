@@ -59,7 +59,13 @@ const Chat: FC<ChatProps> = (props) => {
   const addMessageToChat = (message: MessageType) => {
     setChat((prevState: any) => {
       const newChat = { ...prevState };
-      const newMessages = [...newChat.messages!, message];
+      const messages = newChat.messages!;
+
+      if (messages.find((msg: MessageType) => msg.id === message.id)) {
+        return prevState;
+      }
+
+      const newMessages = [...messages, message];
       newChat.messages = newMessages;
       return newChat;
     });
