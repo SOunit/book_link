@@ -7,6 +7,7 @@ class User {
   imageUrl: string;
   // createdAt: Date;
   items: Item[];
+  isFollowing?: boolean;
 
   constructor(
     name: string,
