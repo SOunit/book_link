@@ -5,6 +5,7 @@ import UserItems from '../components/userItems/UserItems';
 import Buttons from '../components/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
 import AuthContext from '../store/auth-context';
+import { Link } from 'react-router-dom';
 
 type HomeProps = {};
 
@@ -30,6 +31,7 @@ const Home: FC<HomeProps> = () => {
   return (
     <Fragment>
       {userInfo}
+      <Link to="/login">Sign out</Link>
       <Buttons>
         <Button
           buttonText="Edit Profile"
