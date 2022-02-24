@@ -1,6 +1,8 @@
 import { FC, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
+import useModal from '../../hooks/use-modal';
 import UserType from '../../models/User';
+import LogoutModal from '../organisms/logout-modal';
 import Backdrop from '../ui/Backdrop/Backdrop';
 import classes from './UserInfo.module.css';
 
@@ -9,13 +11,7 @@ type UserInfoProps = {
 };
 
 const UserInfo: FC<UserInfoProps> = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const modalOpenHandler = () => {
-    setIsModalOpen(true);
-  };
-  const modalCloseHandler = () => {
-    setIsModalOpen(false);
-  };
+  const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
 
   let aboutText = 'No comment yet!';
   if (props.user.about && props.user.about.length > 0) {
@@ -40,6 +36,14 @@ const UserInfo: FC<UserInfoProps> = (props) => {
   return (
     <Fragment>
       {isModalOpen && <Backdrop onSideMenuToggle={modalCloseHandler} />}
+      {isModalOpen && (
+        <LogoutModal
+          onConfirm={() => {}}
+          onCancel={modalCloseHandler}
+          title="Logout"
+          text="Do you logout?"
+        />
+      )}
       <div className={classes['user-info']}>
         {userImage}
         <div className={classes['user-info__details']}>
@@ -50,7 +54,9 @@ const UserInfo: FC<UserInfoProps> = (props) => {
           <Link
             className={classes['user-info__link']}
             to={`/users/${props.user.id}/followed-by`}>{`Followed by >`}</Link>
-          <p className={classes['user-info__link']} onClick={modalOpenHandler}>
+          <p
+            className={classes['user-info__logout']}
+            onClick={modalOpenHandler}>
             Logout
           </p>
         </div>
