@@ -1,5 +1,4 @@
 import { FC, Fragment } from 'react';
-import SectionTitle from '../ui/SectionTitle/SectionTitle';
 import UserCard from '../organisms/user-card';
 import User from '../../models/User';
 import Buttons from '../ui/Buttons/Buttons';
