@@ -1,5 +1,6 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import useGoogleAuth from '../../hooks/use-google-auth';
 import useModal from '../../hooks/use-modal';
 import UserType from '../../models/User';
 import LogoutModal from '../organisms/logout-modal';
@@ -12,6 +13,7 @@ type UserInfoProps = {
 
 const UserInfo: FC<UserInfoProps> = (props) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
+  const { signOutClickHandler } = useGoogleAuth();
 
   let aboutText = 'No comment yet!';
   if (props.user.about && props.user.about.length > 0) {
@@ -38,7 +40,7 @@ const UserInfo: FC<UserInfoProps> = (props) => {
       {isModalOpen && <Backdrop onSideMenuToggle={modalCloseHandler} />}
       {isModalOpen && (
         <LogoutModal
-          onConfirm={() => {}}
+          onConfirm={signOutClickHandler}
           onCancel={modalCloseHandler}
           title="Logout"
           text="Do you logout?"
