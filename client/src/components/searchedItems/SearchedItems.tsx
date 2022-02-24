@@ -1,7 +1,6 @@
 import { Fragment } from 'react';
 import Item from '../../models/Item';
 import Buttons from '../ui/Buttons/Buttons';
-import classes from './SearchedItems.module.css';
 import SearchItemCard from '../organisms/search-item-card';
 import IconButton from '../atoms/icon-button';
 import NotFoundMessage from '../organisms/not-found-message';

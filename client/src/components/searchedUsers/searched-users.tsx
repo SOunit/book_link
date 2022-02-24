@@ -29,7 +29,6 @@ const SearchedUsers: FC<Props> = ({
 
   return (
     <Fragment>
-      {users.length > 0 && <SectionTitle>Users</SectionTitle>}
       {users.map((user) => {
         const deleteFollowing = () => {
           followingServices.deleteFollowing(loginUser.id, user.id);
