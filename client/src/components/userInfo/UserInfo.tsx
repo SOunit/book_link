@@ -1,6 +1,7 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserType from '../../models/User';
+import Backdrop from '../ui/Backdrop/Backdrop';
 import classes from './UserInfo.module.css';
 
 type UserInfoProps = {
@@ -8,6 +9,14 @@ type UserInfoProps = {
 };
 
 const UserInfo: FC<UserInfoProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const modalOpenHandler = () => {
+    setIsModalOpen(true);
+  };
+  const modalCloseHandler = () => {
+    setIsModalOpen(false);
+  };
+
   let aboutText = 'No comment yet!';
   if (props.user.about && props.user.about.length > 0) {
     aboutText = props.user.about;
@@ -18,8 +27,7 @@ const UserInfo: FC<UserInfoProps> = (props) => {
   if (props.user.imageUrl && props.user.imageUrl.length > 0) {
     userImage = (
       <div
-        className={`${classes['image-container']} ${classes['user-image-container']}`}
-      >
+        className={`${classes['image-container']} ${classes['user-image-container']}`}>
         <img
           className={`${classes['image']} ${classes['user-info__image']}`}
           src={props.user.imageUrl}
@@ -31,18 +39,20 @@ const UserInfo: FC<UserInfoProps> = (props) => {
 
   return (
     <Fragment>
+      {isModalOpen && <Backdrop onSideMenuToggle={modalCloseHandler} />}
       <div className={classes['user-info']}>
         {userImage}
         <div className={classes['user-info__details']}>
           <p className={classes['user-info__name']}>{props.user.name}</p>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followings`}
-          >{`Followings >`}</Link>
+            to={`/users/${props.user.id}/followings`}>{`Followings >`}</Link>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followed-by`}
-          >{`Followed by >`}</Link>
+            to={`/users/${props.user.id}/followed-by`}>{`Followed by >`}</Link>
+          <p className={classes['user-info__link']} onClick={modalOpenHandler}>
+            Logout
+          </p>
         </div>
       </div>
       <p className={classes['user-about']}>{aboutText}</p>
