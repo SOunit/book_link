@@ -1,49 +1,38 @@
 import { NavLink } from 'react-router-dom';
 import classes from './SideNavigation.module.css';
 
-const SideNavigation: React.FC<{ onSideMenuToggle: () => void }> = (props) => {
+type Props = { onSideMenuToggle: () => void; className: string };
+
+const SideNavigation: React.FC<Props> = ({ onSideMenuToggle, className }) => {
   return (
-    <div className={classes['side-navigation']}>
+    <div className={`${classes['side-navigation']} ${className}`}>
       <nav className={classes['side-navigation__nav']}>
         <ul className={classes['side-navigation__items']}>
           <li className={classes['side-navigation__item']}>
             <NavLink
-              to='/search'
+              to="/search"
               className={classes['side-navigation__link']}
               activeClassName={classes['side-navigation__link--active']}
-              onClick={props.onSideMenuToggle}
-            >
+              onClick={onSideMenuToggle}>
               Search
             </NavLink>
           </li>
           <li className={classes['side-navigation__item']}>
             <NavLink
-              to='/chats'
+              to="/chats"
               className={classes['side-navigation__link']}
               activeClassName={classes['side-navigation__link--active']}
-              onClick={props.onSideMenuToggle}
-            >
+              onClick={onSideMenuToggle}>
               Chats
             </NavLink>
           </li>
           <li className={classes['side-navigation__item']}>
             <NavLink
-              to='/home'
+              to="/home"
               className={classes['side-navigation__link']}
               activeClassName={classes['side-navigation__link--active']}
-              onClick={props.onSideMenuToggle}
-            >
+              onClick={onSideMenuToggle}>
               Home
-            </NavLink>
-          </li>
-          <li className={classes['side-navigation__item']}>
-            <NavLink
-              to='/login'
-              className={classes['side-navigation__link']}
-              activeClassName={classes['side-navigation__link--active']}
-              onClick={props.onSideMenuToggle}
-            >
-              Sign out
             </NavLink>
           </li>
         </ul>

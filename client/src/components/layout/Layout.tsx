@@ -20,9 +20,10 @@ const Layout: React.FC = (props) => {
     <Fragment>
       <MainNavigation onSideMenuToggle={sideMenuToggleHandler} />
       {isSideMenuOpen && <Backdrop onSideMenuToggle={sideMenuToggleHandler} />}
-      {isSideMenuOpen && (
-        <SideNavigation onSideMenuToggle={sideMenuToggleHandler} />
-      )}
+      <SideNavigation
+        onSideMenuToggle={sideMenuToggleHandler}
+        className={isSideMenuOpen ? classes['side-navigation--active'] : ''}
+      />
       <main className={classes.main}>{props.children}</main>
       {authCtx.isLoggedIn && <FooterNav />}
     </Fragment>
