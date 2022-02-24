@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import ProtectedRoute from './components/router/ProtectedRoute';
 import SearchUsers from './pages/SearchUsers';
@@ -34,26 +34,26 @@ function App() {
   return (
     <Layout>
       <Switch>
-        <Route path='/login'>
-          <Login />
+        <Route path="/login">
+          {authCtx.isLoggedIn ? <Redirect to="/" /> : <Login />}
         </Route>
-        <ProtectedRoute component={SearchUsers} path='/' exact />
-        <ProtectedRoute component={SearchUsers} path='/search' />
-        <ProtectedRoute component={EditProfile} path='/users/edit' />
-        <ProtectedRoute component={EditUserItems} path='/users/items/edit' />
+        <ProtectedRoute component={SearchUsers} path="/" exact />
+        <ProtectedRoute component={SearchUsers} path="/search" />
+        <ProtectedRoute component={EditProfile} path="/users/edit" />
+        <ProtectedRoute component={EditUserItems} path="/users/items/edit" />
         <ProtectedRoute
           component={Followings}
-          path='/users/:userId/followings'
+          path="/users/:userId/followings"
         />
-        <ProtectedRoute component={UserDetail} path='/users/:userId' />
-        <ProtectedRoute component={ChatList} path='/chats' exact />
+        <ProtectedRoute component={UserDetail} path="/users/:userId" />
+        <ProtectedRoute component={ChatList} path="/chats" exact />
         <ProtectedRoute
           component={Chat}
-          path='/chats/:userId'
+          path="/chats/:userId"
           socket={socket}
         />
-        <ProtectedRoute component={Home} path='/home' />
-        <Route path='*'>
+        <ProtectedRoute component={Home} path="/home" />
+        <Route path="*">
           <PageNotFound />
         </Route>
       </Switch>
