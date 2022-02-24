@@ -1,9 +1,9 @@
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import Item from '../../models/Item';
-import DispCard from '../ui/DispCards/DispCard';
-import ItemCardDetail from '../ui/DispCards/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
-import Button, { ButtonTypes } from '../ui/Buttons/Button';
+import ItemCard from '../organisms/item-card';
+import classes from './RegisteredItems.module.css';
+import IconButton from '../atoms/icon-button';
 
 type RegisteredItemsProps = {
   items: Item[];
@@ -14,10 +14,9 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
   const createButtons = (item: Item) => {
     const buttons = (
       <Buttons>
-        <Button
-          buttonText="Delete"
-          buttonType={ButtonTypes.DELETE}
-          onButtonClick={() => props.onDeleteRegisteredItem(item.id)}
+        <IconButton
+          iconName="fas fa-trash"
+          onClick={() => props.onDeleteRegisteredItem(item.id)}
         />
       </Buttons>
     );
@@ -25,17 +24,20 @@ const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
     return buttons;
   };
 
-  const items = props.items.map((el) => {
-    const buttons = createButtons(el);
+  const items = props.items.map((item) => {
+    const buttons = createButtons(item);
 
     return (
-      <DispCard imageUrl={el.imageUrl} imageName={el.title} key={el.id}>
-        <ItemCardDetail item={el} buttons={buttons} />
-      </DispCard>
+      <ItemCard
+        key={item.id}
+        item={item}
+        className={classes[`registered-item`]}
+        actions={buttons}
+      />
     );
   });
 
-  return <Fragment>{items}</Fragment>;
+  return <div className={classes['registered-items']}>{items}</div>;
 };
 
 export default RegisteredItems;

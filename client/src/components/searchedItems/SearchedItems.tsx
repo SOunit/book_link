@@ -1,10 +1,9 @@
 import { Fragment } from 'react';
 import Item from '../../models/Item';
-import DispCard from '../ui/DispCards/DispCard';
-import ItemCardDetail from '../ui/DispCards/ItemCardDetails';
 import Buttons from '../ui/Buttons/Buttons';
-import Button, { ButtonTypes } from '../ui/Buttons/Button';
-import classes from './SearchedItems.module.css';
+import SearchItemCard from '../organisms/search-item-card';
+import IconButton from '../atoms/icon-button';
+import NotFoundMessage from '../organisms/not-found-message';
 
 type SearchedItemsProps = {
   items: Item[];
@@ -18,35 +17,39 @@ const SearchedItems: React.FC<SearchedItemsProps> = (props) => {
     const buttonDisabled = props.registeredItems.some(
       (elem) => elem.id === item.id,
     );
+
     const buttons = (
       <Buttons>
-        <Button
-          buttonText="add"
-          onButtonClick={() => props.onAddClick(item)}
-          buttonType={
-            buttonDisabled ? ButtonTypes.IN_ACTIVE : ButtonTypes.NORMAL
-          }
-        />
+        {!buttonDisabled && (
+          <IconButton
+            iconName="fa fa-plus"
+            onClick={() => props.onAddClick(item)}
+          />
+        )}
       </Buttons>
     );
 
     return buttons;
   };
 
-  let dispItems: any = props.items.map((item) => {
+  let searchItemCardList: any = props.items.map((item) => {
     const buttons = createButtons(item);
-    return (
-      <DispCard key={item.id} imageUrl={item.imageUrl} imageName={item.title}>
-        <ItemCardDetail item={item} buttons={buttons} />
-      </DispCard>
-    );
+    return <SearchItemCard key={item.id} item={item} actions={buttons} />;
   });
 
-  if ((!dispItems || dispItems.length === 0) && props.isItemSearched) {
-    dispItems = <p className={classes['message']}>Item not found!</p>;
+  if (
+    (!searchItemCardList || searchItemCardList.length === 0) &&
+    props.isItemSearched
+  ) {
+    searchItemCardList = (
+      <NotFoundMessage
+        title="Item not found!"
+        text="Please search by another keyword."
+      />
+    );
   }
 
-  return <Fragment>{dispItems}</Fragment>;
+  return <Fragment>{searchItemCardList}</Fragment>;
 };
 
 export default SearchedItems;

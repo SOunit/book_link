@@ -3,9 +3,9 @@ import Item from './../models/Item';
 import SearchedItems from '../components/searchedItems/SearchedItems';
 import SearchBar from '../components/ui/SearchBar/SearchBar';
 import RegisteredItems from '../components/registeredItems/RegisteredItems';
-import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
+
 import classes from './SearchUsers.module.css';
-import SearchedUsers from '../components/searchedUsers/SearchedUsers';
+import SearchedUsers from '../components/searchedUsers/searched-users';
 import AuthContext from '../store/auth-context';
 import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
@@ -13,6 +13,8 @@ import userServices from '../services/userServices';
 import useRegisteredItems from '../hooks/search-user/use-registered-items';
 import useSearchedUsers from '../hooks/search-user/use-searched-users';
 import itemServices from '../services/itemServices';
+import Button from '../components/atoms/button';
+import NotFoundMessage from '../components/organisms/not-found-message';
 
 const SearchUsers = () => {
   const {
@@ -93,11 +95,7 @@ const SearchUsers = () => {
           onDeleteRegisteredItem={deleteRegisteredItemHandler}
         />
         <div className={classes['button-container']}>
-          <Button
-            buttonText={'Search users'}
-            buttonType={ButtonTypes.NORMAL}
-            onButtonClick={userSearchHandler}
-          />
+          <Button title="Search Users" onClick={userSearchHandler} />
         </div>
       </section>
     );
@@ -115,7 +113,10 @@ const SearchUsers = () => {
     );
   } else if (isUserSearched && searchedUsers && searchedUsers.length <= 0) {
     searchedUsersSection = (
-      <p className={classes['text--user-not-found']}>No new user found!</p>
+      <NotFoundMessage
+        title="No user found!"
+        text="Please change items to search user."
+      />
     );
   }
 

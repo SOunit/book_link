@@ -17,37 +17,33 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
       <ul className={classes['main-header__nav-items']}>
         <li className={classes['main-header__nav-item']}>
           <NavLink
-            to='/search'
+            to="/search"
             className={classes['main-header__nav-link']}
-            activeClassName={classes['main-header__nav-link--active']}
-          >
+            activeClassName={classes['main-header__nav-link--active']}>
             Search
           </NavLink>
         </li>
         <li className={classes['main-header__nav-item']}>
           <NavLink
-            to='/chats'
+            to="/chats"
             className={classes['main-header__nav-link']}
-            activeClassName={classes['main-header__nav-link--active']}
-          >
+            activeClassName={classes['main-header__nav-link--active']}>
             Chats
           </NavLink>
         </li>
         <li className={classes['main-header__nav-item']}>
           <NavLink
-            to='/home'
+            to="/home"
             className={classes['main-header__nav-link']}
-            activeClassName={classes['main-header__nav-link--active']}
-          >
+            activeClassName={classes['main-header__nav-link--active']}>
             Home
           </NavLink>
         </li>
         <li className={classes['main-header__nav-item']}>
           <NavLink
-            to='/login'
+            to="/login"
             className={classes['main-header__nav-link']}
-            activeClassName={classes['main-header__nav-link--active']}
-          >
+            activeClassName={classes['main-header__nav-link--active']}>
             Sign out
           </NavLink>
         </li>
@@ -58,8 +54,7 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
   const sideNavButton = (
     <div
       className={classes['side-nav-button']}
-      onClick={props.onSideMenuToggle}
-    >
+      onClick={props.onSideMenuToggle}>
       <div className={classes['side-nav-button__bar']}></div>
       <div className={classes['side-nav-button__bar']}></div>
       <div className={classes['side-nav-button__bar']}></div>
@@ -71,8 +66,8 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
       {isNavShown && (
         <Fragment>
           <h1 className={classes['main-header__title']}>
-            <NavLink to='/' className={classes['main-header__title-link']}>
-              Book Link
+            <NavLink to="/" className={classes['main-header__title-link']}>
+              BookLink
             </NavLink>
           </h1>
           {authCtx.isLoggedIn && headerNav}

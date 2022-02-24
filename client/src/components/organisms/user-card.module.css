@@ -1,0 +1,19 @@
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
+}
+
+.user-image {
+  border-radius: 8px;
+  width: 20%;
+  overflow: hidden;
+}
+
+.actions {
+  margin-top: 0.4rem;
+}
+
+.user-image__image--round {
+  border-radius: 8px;
+}
