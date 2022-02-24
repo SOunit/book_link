@@ -43,6 +43,11 @@
   margin: 1rem 0;
 }
 
+.user-info__logout {
+  color: #888;
+  cursor: pointer;
+}
+
 .user-about {
   background-color: rgb(221, 239, 255);
   padding: 1rem;
