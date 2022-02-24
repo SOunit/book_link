@@ -67,7 +67,7 @@ const SearchedUsers: FC<Props> = ({
             />
             <IconButton
               iconName={
-                user.isFollowing ? 'fa fa-user-plus' : 'fa fa-user-minus'
+                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
               }
               onClick={
                 user.isFollowing ? followingClickHandler : followClickHandler

@@ -16,6 +16,7 @@ const ItemCard: FC<Props> = ({ item, className, actions }) => {
         src={item.imageUrl}
         alt={item.title}
         className={classes['item-image']}
+        imageStyle={classes['item-image__image--round']}
       />
       <div className={classes['actions']}>{actions}</div>
     </div>

@@ -5,3 +5,7 @@
 .image {
   width: 100%;
 }
+
+.image--round {
+  border-radius: 8px;
+}

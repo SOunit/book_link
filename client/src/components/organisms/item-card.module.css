@@ -7,3 +7,7 @@
 .actions {
   margin-top: 0.4rem;
 }
+
+.item-image__image--round {
+  border-radius: 8px;
+}

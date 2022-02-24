@@ -5,12 +5,17 @@ type Props = {
   src: string;
   alt: string;
   className?: string;
+  imageStyle?: string;
 };
 
-const Image: FC<Props> = ({ src, alt, className }) => {
+const Image: FC<Props> = ({ src, alt, className, imageStyle }) => {
   return (
     <div className={`${classes['image-container']} ${className}`}>
-      <img className={classes['image']} src={src} alt={alt} />
+      <img
+        className={`${classes['image']} ${imageStyle}`}
+        src={src}
+        alt={alt}
+      />
     </div>
   );
 };

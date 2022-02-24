@@ -16,7 +16,9 @@ const UserCard: FC<Props> = ({ user, className, actions }) => {
         src={user.imageUrl}
         alt={user.name}
         className={classes['user-image']}
+        imageStyle={classes['user-image__image--round']}
       />
+      <p>{user.name}</p>
       <div className={classes['actions']}>{actions}</div>
     </div>
   );

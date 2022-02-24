@@ -32,7 +32,7 @@ const SearchBar: React.FC<{
   return (
     <form onSubmit={submitHandler} className={classes['search-bar']}>
       <input
-        type='text'
+        type="text"
         className={classes['search-bar__input']}
         placeholder={props.placeholder}
         value={enteredText}
