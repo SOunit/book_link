@@ -39,14 +39,6 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
             Home
           </NavLink>
         </li>
-        <li className={classes['main-header__nav-item']}>
-          <NavLink
-            to="/login"
-            className={classes['main-header__nav-link']}
-            activeClassName={classes['main-header__nav-link--active']}>
-            Sign out
-          </NavLink>
-        </li>
       </ul>
     </nav>
   );
