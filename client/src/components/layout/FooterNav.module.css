@@ -4,14 +4,11 @@
   width: 100%;
 }
 
-.footer-nav {
-}
-
 .nav-items {
   list-style: none;
   display: flex;
   justify-content: space-around;
-  background-color: rgb(240, 240, 240);
+  background-color: #171717;
   padding: 0.5rem;
   margin: 0;
 }
@@ -33,18 +30,18 @@
 
 .nav__icon {
   font-size: 1.2rem;
-  color: #666;
+  color: grey;
 }
 
 .nav__text {
   font-size: 0.5rem;
   margin: 0;
-  color: #666;
+  color: grey;
 }
 
 .nav__link--active .nav__icon,
 .nav__link--active .nav__text {
-  color: #1f1f79;
+  color: #fff;
 }
 
 @media (min-width: 40rem) {
