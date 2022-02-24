@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react';
+import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import useModal from '../../hooks/use-modal';
 import UserType from '../../models/User';
