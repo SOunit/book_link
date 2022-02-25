@@ -6,8 +6,8 @@ import Button, { ButtonTypes } from '../../molecules/ui/Buttons/Button';
 import keys from '../../../util/keys';
 import userServices from '../../../services/userServices';
 import UserType from '../../../models/User';
+import { Input, Textarea } from '../../atoms';
 import classes from './edit-user-form.module.css';
-import { Input } from '../../atoms';
 
 type UserEditFromProps = {
   user: UserType;
@@ -15,13 +15,17 @@ type UserEditFromProps = {
 
 type EditUserFormInput = {
   name: string;
+  about: string;
 };
 
 export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
   const aboutTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const history = useHistory();
   const [image, setImage] = useState<File>();
-  const [input, setInput] = useState<EditUserFormInput>({ name: user.name });
+  const [input, setInput] = useState<EditUserFormInput>({
+    name: user.name,
+    about: user.about,
+  });
 
   const updateUser = async (userData: UserType) => {
     userServices.updateUser(
@@ -76,13 +80,12 @@ export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
     setInput((prevState) => ({ ...prevState, name: e.target.value }));
   };
 
+  const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput((prevState) => ({ ...prevState, about: e.target.value }));
+  };
+
   return (
     <form className={classes['user-edit-form']} onSubmit={submitHandler}>
-      <Input
-        onChange={changeNameHandler}
-        value={input.name}
-        placeholder="Name"
-      />
       {/* FIXME: change image url to image file */}
       <label htmlFor="imageUrl">Profile Image</label>
       <input
@@ -92,12 +95,16 @@ export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
         id="imageUrl"
         // defaultValue={user.imageUrl}
       />
-      <label htmlFor="about">About</label>
-      <textarea
-        className={classes['user-edit__textarea']}
-        id="about"
-        defaultValue={user.about}
-        ref={aboutTextAreaRef}
+      <Input
+        onChange={changeNameHandler}
+        value={input.name}
+        placeholder="Name"
+        className={classes['user-edit-form__name-input']}
+      />
+      <Textarea
+        onChange={changeAboutHandler}
+        placeholder="About"
+        value={input.about}
       />
       <Buttons>
         <Button
