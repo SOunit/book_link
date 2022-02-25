@@ -1,4 +1,4 @@
-import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import SectionTitle from '../components/molecules/ui/SectionTitle/SectionTitle';
 
 const PageNotFound = () => {
   return (

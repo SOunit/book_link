@@ -1,7 +1,7 @@
 import { FC, Fragment, useContext } from 'react';
 import { useHistory } from 'react-router';
-import UserInfo from '../components/userInfo/UserInfo';
-import UserItems from '../components/userItems/UserItems';
+import UserInfo from '../components/organisms/userInfo/UserInfo';
+import UserItems from '../components/molecules/userItems/UserItems';
 import AuthContext from '../store/auth-context';
 import IconTextButton from '../components/molecules/icon-text-button';
 import classes from './home.module.css';

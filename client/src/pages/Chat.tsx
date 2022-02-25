@@ -4,7 +4,7 @@ import ChatServices from '../services/chatServices';
 import ChatType from '../models/Chat';
 import MessageType from '../models/Message';
 import classes from './Chat.module.css';
-import ImageContainer from '../components/ui/ImageContainer/ImageContainer';
+import ImageContainer from '../components/molecules/ui/ImageContainer/ImageContainer';
 import AuthContext from '../store/auth-context';
 
 type ChatProps = {

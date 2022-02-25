@@ -1,11 +1,11 @@
 import { FC, Fragment, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import RegisteredItems from '../components/registeredItems/RegisteredItems';
-import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import RegisteredItems from '../components/molecules/registeredItems/RegisteredItems';
+import SectionTitle from '../components/molecules/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
-import SearchBar from '../components/ui/SearchBar/SearchBar';
+import SearchBar from '../components/molecules/ui/SearchBar/SearchBar';
 import classes from './EditUserItems.module.css';
-import SearchedItems from '../components/searchedItems/SearchedItems';
+import SearchedItems from '../components/molecules/searchedItems/SearchedItems';
 import ItemType from '../models/Item';
 import itemServices from '../services/itemServices';
 import AuthContext from '../store/auth-context';

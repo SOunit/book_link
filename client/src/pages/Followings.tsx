@@ -1,7 +1,7 @@
 import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import FollowingType from '../models/Following';
-import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
-import DispCards from '../components/ui/DispCards/DispCards';
+import SectionTitle from '../components/molecules/ui/SectionTitle/SectionTitle';
+import DispCards from '../components/molecules/ui/DispCards/DispCards';
 import { useParams } from 'react-router';
 import classes from './Followings.module.css';
 import followingServices from '../services/followingServices';

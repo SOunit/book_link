@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import GoogleAuth from '../components/googleAuth/GoogleAuth';
-import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import GoogleAuth from '../components/organisms/googleAuth/GoogleAuth';
+import SectionTitle from '../components/molecules/ui/SectionTitle/SectionTitle';
 import classes from './Login.module.css';
 
 const Login: FC = () => {

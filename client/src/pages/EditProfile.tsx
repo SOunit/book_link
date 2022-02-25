@@ -1,6 +1,6 @@
 import { FC, Fragment, useContext } from 'react';
-import UserInfo from '../components/userInfo/UserInfo';
-import UserEditForm from '../components/userEditForm/UserEditForm';
+import UserInfo from '../components/organisms/userInfo/UserInfo';
+import UserEditForm from '../components/organisms/userEditForm/UserEditForm';
 import AuthContext from '../store/auth-context';
 
 const EditProfile: FC = () => {
