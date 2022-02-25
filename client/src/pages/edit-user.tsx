@@ -1,9 +1,9 @@
 import { FC, Fragment, useContext } from 'react';
 import UserInfo from '../components/organisms/userInfo/UserInfo';
-import UserEditForm from '../components/organisms/userEditForm/UserEditForm';
+import UserEditForm from '../components/organisms/edit-user/edit-user-form';
 import AuthContext from '../store/auth-context';
 
-const EditProfile: FC = () => {
+const EditUser: FC = () => {
   const { loginUser } = useContext(AuthContext);
 
   let userInfo;
@@ -21,4 +21,4 @@ const EditProfile: FC = () => {
   );
 };
 
-export default EditProfile;
+export default EditUser;

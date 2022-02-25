@@ -6,7 +6,7 @@ import Button, { ButtonTypes } from '../../molecules/ui/Buttons/Button';
 import keys from '../../../util/keys';
 import userServices from '../../../services/userServices';
 import UserType from '../../../models/User';
-import classes from './UserEditForm.module.css';
+import classes from './edit-user-form.module.css';
 
 type UserEditFromProps = {
   user: UserType;
