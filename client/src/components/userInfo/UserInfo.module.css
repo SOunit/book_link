@@ -48,8 +48,13 @@
   cursor: pointer;
 }
 
+.user-info__follow-number {
+  font-weight: bold;
+  color: #fff;
+}
+
 .user-about {
-  background-color: rgb(221, 239, 255);
+  background-color: #222;
   padding: 1rem;
   border-radius: 10px;
 }

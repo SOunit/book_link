@@ -19,6 +19,7 @@ const UserInfo: FC<UserInfoProps> = (props) => {
   if (props.user.about && props.user.about.length > 0) {
     aboutText = props.user.about;
   }
+
   let userImage = (
     <div className={classes['user-info__image--no-data']}>No Image</div>
   );
@@ -52,10 +53,16 @@ const UserInfo: FC<UserInfoProps> = (props) => {
           <p className={classes['user-info__name']}>{props.user.name}</p>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followings`}>{`Followings >`}</Link>
+            to={`/users/${props.user.id}/followings`}>
+            <span className={classes['user-info__follow-number']}>4,321</span>{' '}
+            Following
+          </Link>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followed-by`}>{`Followed by >`}</Link>
+            to={`/users/${props.user.id}/followed-by`}>
+            <span className={classes['user-info__follow-number']}>1,234</span>{' '}
+            Followers
+          </Link>
           <p
             className={classes['user-info__logout']}
             onClick={modalOpenHandler}>
