@@ -1,10 +1,10 @@
 import { FC, Fragment, useContext } from 'react';
 import { useHistory } from 'react-router';
-import UserInfo from '../components/organisms/userInfo/UserInfo';
 import UserItems from '../components/molecules/userItems/UserItems';
 import AuthContext from '../store/auth-context';
 import IconTextButton from '../components/molecules/icon-text-button';
 import classes from './home.module.css';
+import { UserInfo } from '../components/molecules';
 
 type HomeProps = {};
 

@@ -12,7 +12,7 @@ type UserEditFromProps = {
   user: UserType;
 };
 
-const UserEditForm: FC<UserEditFromProps> = (props) => {
+export const EditUserForm: FC<UserEditFromProps> = (props) => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const aboutTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const history = useHistory();
@@ -98,5 +98,3 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
     </form>
   );
 };
-
-export default UserEditForm;

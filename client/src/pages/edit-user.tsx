@@ -1,22 +1,15 @@
 import { FC, Fragment, useContext } from 'react';
-import UserInfo from '../components/organisms/userInfo/UserInfo';
-import EditUserForm from '../components/organisms/edit-user/edit-user-form';
+import { UserInfo } from '../components/molecules';
+import { EditUserForm } from '../components/organisms';
 import AuthContext from '../store/auth-context';
 
 const EditUser: FC = () => {
   const { loginUser } = useContext(AuthContext);
 
-  let userInfo;
-  let editUserForm;
-  if (loginUser) {
-    userInfo = <UserInfo user={loginUser} />;
-    editUserForm = <EditUserForm user={loginUser} />;
-  }
-
   return (
     <Fragment>
-      {userInfo}
-      {editUserForm}
+      {loginUser && <UserInfo user={loginUser} />}
+      {loginUser && <EditUserForm user={loginUser} />}
     </Fragment>
   );
 };

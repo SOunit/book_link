@@ -3,13 +3,13 @@ import { useParams, useHistory } from 'react-router-dom';
 import UserType from '../models/User';
 import Buttons from '../components/molecules/ui/Buttons/Buttons';
 import Button, { ButtonTypes } from '../components/molecules/ui/Buttons/Button';
-import UserInfo from '../components/organisms/userInfo/UserInfo';
 import UserItems from '../components/molecules/userItems/UserItems';
 import FollowButton from '../components/molecules/ui/Buttons/FollowButton';
 import userServices from '../services/userServices';
 import followingServices from '../services/followingServices';
 import ChatServices from '../services/chatServices';
 import AuthContext from '../store/auth-context';
+import { UserInfo } from '../components/molecules';
 
 type UserDetailParams = {
   userId: string;
