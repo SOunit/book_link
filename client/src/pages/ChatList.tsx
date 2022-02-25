@@ -1,7 +1,7 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import ChatServices from '../services/chatServices';
 import ChatType from '../models/Chat';
-import ChatListItem from '../components/chatListItem/ChatListItem';
+import ChatListItem from '../components/molecules/chatListItem/ChatListItem';
 import AuthContext from '../store/auth-context';
 
 const ChatList: FC = () => {

@@ -1,13 +1,13 @@
 import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
 import Item from './../models/Item';
-import SearchedItems from '../components/searchedItems/SearchedItems';
-import SearchBar from '../components/ui/SearchBar/SearchBar';
-import RegisteredItems from '../components/registeredItems/RegisteredItems';
+import SearchedItems from '../components/molecules/searchedItems/SearchedItems';
+import SearchBar from '../components/molecules/ui/SearchBar/SearchBar';
+import RegisteredItems from '../components/molecules/registeredItems/RegisteredItems';
 
 import classes from './SearchUsers.module.css';
-import SearchedUsers from '../components/searchedUsers/searched-users';
+import SearchedUsers from '../components/molecules/searchedUsers/searched-users';
 import AuthContext from '../store/auth-context';
-import SectionTitle from '../components/ui/SectionTitle/SectionTitle';
+import SectionTitle from '../components/molecules/ui/SectionTitle/SectionTitle';
 import useSearchedItems from '../hooks/use-searched-items';
 import userServices from '../services/userServices';
 import useRegisteredItems from '../hooks/search-user/use-registered-items';

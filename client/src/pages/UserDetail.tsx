@@ -1,11 +1,11 @@
 import { Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import UserType from '../models/User';
-import Buttons from '../components/ui/Buttons/Buttons';
-import Button, { ButtonTypes } from '../components/ui/Buttons/Button';
-import UserInfo from '../components/userInfo/UserInfo';
-import UserItems from '../components/userItems/UserItems';
-import FollowButton from '../components/ui/Buttons/FollowButton';
+import Buttons from '../components/molecules/ui/Buttons/Buttons';
+import Button, { ButtonTypes } from '../components/molecules/ui/Buttons/Button';
+import UserInfo from '../components/organisms/userInfo/UserInfo';
+import UserItems from '../components/molecules/userItems/UserItems';
+import FollowButton from '../components/molecules/ui/Buttons/FollowButton';
 import userServices from '../services/userServices';
 import followingServices from '../services/followingServices';
 import ChatServices from '../services/chatServices';

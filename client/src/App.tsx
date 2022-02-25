@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import ProtectedRoute from './components/router/ProtectedRoute';
+import Layout from './components/organisms/layout/Layout';
+import ProtectedRoute from './components/molecules/router/ProtectedRoute';
 import SearchUsers from './pages/SearchUsers';
 import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
