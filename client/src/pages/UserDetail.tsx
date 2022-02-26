@@ -99,7 +99,7 @@ const UserDetail = () => {
             onButtonClick={chatClickHandler}
           />
         </Buttons>
-        <UserItems items={user.items} />
+        {user.items && <UserItems items={user.items} />}
       </Fragment>
     );
   }

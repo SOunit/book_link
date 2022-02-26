@@ -35,7 +35,9 @@ const Home: FC<HomeProps> = () => {
           onClick={editUserItemsClickHandler}
         />
       </div>
-      {loginUser && <UserItems items={loginUser.items} />}
+      {loginUser && (
+        <UserItems items={loginUser.items ? loginUser.items : []} />
+      )}
     </Fragment>
   );
 };

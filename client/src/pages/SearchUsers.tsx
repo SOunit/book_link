@@ -56,7 +56,7 @@ const SearchUsers = () => {
   };
 
   const setDefaultItems = useCallback(() => {
-    if (!loginUser) {
+    if (!loginUser || !loginUser.items) {
       return;
     }
 

@@ -9,7 +9,7 @@ const EditUser: FC = () => {
   return (
     <Fragment>
       {loginUser && <UserInfo user={loginUser} />}
-      {loginUser && <EditUserForm user={loginUser} />}
+      {loginUser && <EditUserForm />}
     </Fragment>
   );
 };

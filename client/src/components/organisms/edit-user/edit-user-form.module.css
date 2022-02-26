@@ -1,9 +1,13 @@
-.user-edit-form {
+.edit-user-form {
   display: flex;
   flex-direction: column;
   text-align: center;
 }
 
-.user-edit-form__name-input {
+.edit-user-form__name-input {
   margin-bottom: 1rem;
+}
+
+.edit-user-form__button {
+  margin: 1rem 0;
 }
