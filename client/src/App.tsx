@@ -7,7 +7,7 @@ import PageNotFound from './pages/PageNotFound';
 import UserDetail from './pages/UserDetail';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import EditProfile from './pages/EditProfile';
+import EditProfile from './pages/edit-user';
 import EditUserItems from './pages/EditUserItems';
 import Followings from './pages/Followings';
 import Chat from './pages/Chat';

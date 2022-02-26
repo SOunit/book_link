@@ -4,8 +4,6 @@
   text-align: center;
 }
 
-.user-edit__input,
-.user-edit__textarea {
-  padding: 0.5rem;
-  margin: 0.5rem 0 2rem 0;
+.user-edit-form__name-input {
+  margin-bottom: 1rem;
 }

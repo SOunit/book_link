@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react';
+import { ChangeEvent, FC, useRef, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import Buttons from '../../molecules/ui/Buttons/Buttons';
@@ -6,17 +6,26 @@ import Button, { ButtonTypes } from '../../molecules/ui/Buttons/Button';
 import keys from '../../../util/keys';
 import userServices from '../../../services/userServices';
 import UserType from '../../../models/User';
-import classes from './UserEditForm.module.css';
+import { Input, Textarea } from '../../atoms';
+import classes from './edit-user-form.module.css';
 
 type UserEditFromProps = {
   user: UserType;
 };
 
-const UserEditForm: FC<UserEditFromProps> = (props) => {
-  const nameInputRef = useRef<HTMLInputElement>(null);
+type EditUserFormInput = {
+  name: string;
+  about: string;
+};
+
+export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
   const aboutTextAreaRef = useRef<HTMLTextAreaElement>(null);
   const history = useHistory();
   const [image, setImage] = useState<File>();
+  const [input, setInput] = useState<EditUserFormInput>({
+    name: user.name,
+    about: user.about,
+  });
 
   const updateUser = async (userData: UserType) => {
     userServices.updateUser(
@@ -30,7 +39,11 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
   const submitHandler = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    let imageUrl = props.user.imageUrl;
+    if (!input) {
+      return;
+    }
+
+    let imageUrl = user.imageUrl;
     if (image) {
       // get aws s3 url to upload
       const uploadConfig = await axios.get('/api/upload');
@@ -46,8 +59,8 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
     }
 
     const newUser = {
-      id: props.user.id,
-      name: nameInputRef.current!.value,
+      id: user.id,
+      name: input.name,
       imageUrl: imageUrl,
       about: aboutTextAreaRef.current!.value,
       items: [],
@@ -63,16 +76,16 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
     setImage(event.target.files![0]);
   };
 
+  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput((prevState) => ({ ...prevState, name: e.target.value }));
+  };
+
+  const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setInput((prevState) => ({ ...prevState, about: e.target.value }));
+  };
+
   return (
     <form className={classes['user-edit-form']} onSubmit={submitHandler}>
-      <label htmlFor="name">Name</label>
-      <input
-        className={classes['user-edit__input']}
-        type="text"
-        id="name"
-        defaultValue={props.user.name}
-        ref={nameInputRef}
-      />
       {/* FIXME: change image url to image file */}
       <label htmlFor="imageUrl">Profile Image</label>
       <input
@@ -80,14 +93,18 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
         className={classes['user-edit__input']}
         type="file"
         id="imageUrl"
-        // defaultValue={props.user.imageUrl}
+        // defaultValue={user.imageUrl}
       />
-      <label htmlFor="about">About</label>
-      <textarea
-        className={classes['user-edit__textarea']}
-        id="about"
-        defaultValue={props.user.about}
-        ref={aboutTextAreaRef}
+      <Input
+        onChange={changeNameHandler}
+        value={input.name}
+        placeholder="Name"
+        className={classes['user-edit-form__name-input']}
+      />
+      <Textarea
+        onChange={changeAboutHandler}
+        placeholder="About"
+        value={input.about}
       />
       <Buttons>
         <Button
@@ -98,5 +115,3 @@ const UserEditForm: FC<UserEditFromProps> = (props) => {
     </form>
   );
 };
-
-export default UserEditForm;

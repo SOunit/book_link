@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/use-google-auth';
 import useModal from '../../../hooks/use-modal';
 import UserType from '../../../models/User';
-import LogoutModal from '../logout-modal';
-import Backdrop from '../../molecules/ui/Backdrop/Backdrop';
-import classes from './UserInfo.module.css';
+import LogoutModal from '../../organisms/logout-modal';
+import Backdrop from '../ui/Backdrop/Backdrop';
+import classes from './user-info.module.css';
 
 type UserInfoProps = {
   user: UserType;
 };
 
-const UserInfo: FC<UserInfoProps> = (props) => {
+export const UserInfo: FC<UserInfoProps> = (props) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
   const { signOutClickHandler } = useGoogleAuth();
 
@@ -74,5 +74,3 @@ const UserInfo: FC<UserInfoProps> = (props) => {
     </Fragment>
   );
 };
-
-export default UserInfo;
