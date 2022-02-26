@@ -23,6 +23,11 @@ const EditUserItems: FC = () => {
     if (loginUser) {
       // update user state
       const newUser = { ...loginUser };
+
+      if (!newUser.items) {
+        return;
+      }
+
       newUser.items.push(item);
       setLoginUser(newUser);
 
@@ -44,7 +49,7 @@ const EditUserItems: FC = () => {
   };
 
   let registeredItems;
-  if (loginUser) {
+  if (loginUser && loginUser.items) {
     registeredItems = (
       <RegisteredItems
         items={loginUser.items}
@@ -59,7 +64,7 @@ const EditUserItems: FC = () => {
       <section>
         <SearchedItems
           items={searchedItems}
-          registeredItems={loginUser.items}
+          registeredItems={loginUser.items ? loginUser.items : []}
           isItemSearched={isItemSearched}
           onAddClick={addClickHandler}
         />

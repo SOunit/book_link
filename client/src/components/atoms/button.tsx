@@ -3,7 +3,7 @@ import classes from './button.module.css';
 
 type Props = {
   title: string;
-  onClick: any;
+  onClick?: any;
   className?: string;
 };
 

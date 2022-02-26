@@ -1,34 +1,33 @@
-import { ChangeEvent, FC, useRef, useState } from 'react';
+import { ChangeEvent, FC, Fragment, useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import Buttons from '../../molecules/ui/Buttons/Buttons';
-import Button, { ButtonTypes } from '../../molecules/ui/Buttons/Button';
 import keys from '../../../util/keys';
 import userServices from '../../../services/userServices';
 import UserType from '../../../models/User';
 import { Input, Textarea } from '../../atoms';
 import classes from './edit-user-form.module.css';
+import { EditProfImage } from './edit-prof-image';
+import Button from '../../atoms/button';
+import { useContext } from 'react';
+import AuthContext from '../../../store/auth-context';
+import { useEffect } from 'react';
 
-type UserEditFromProps = {
-  user: UserType;
-};
+type Props = {};
 
 type EditUserFormInput = {
   name: string;
   about: string;
 };
 
-export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
-  const aboutTextAreaRef = useRef<HTMLTextAreaElement>(null);
+export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
+  const { loginUser: user } = useContext(AuthContext);
   const [image, setImage] = useState<File>();
-  const [input, setInput] = useState<EditUserFormInput>({
-    name: user.name,
-    about: user.about,
-  });
+  const [input, setInput] = useState<EditUserFormInput>();
 
   const updateUser = async (userData: UserType) => {
-    userServices.updateUser(
+    await userServices.updateUser(
       userData.id,
       userData.name,
       userData.about,
@@ -39,7 +38,7 @@ export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
   const submitHandler = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    if (!input) {
+    if (!input || !user) {
       return;
     }
 
@@ -62,56 +61,59 @@ export const EditUserForm: FC<UserEditFromProps> = ({ user }) => {
       id: user.id,
       name: input.name,
       imageUrl: imageUrl,
-      about: aboutTextAreaRef.current!.value,
-      items: [],
+      about: input.about,
     };
 
-    updateUser(newUser);
+    await updateUser(newUser);
 
     history.push('/home');
   };
 
-  const imageChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setImage(event.target.files![0]);
-  };
-
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput((prevState) => ({ ...prevState, name: e.target.value }));
+    setInput((prevState) => ({
+      ...prevState!,
+      name: e.target.value,
+    }));
   };
 
   const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput((prevState) => ({ ...prevState, about: e.target.value }));
+    setInput((prevState) => ({ ...prevState!, about: e.target.value }));
   };
 
+  useEffect(() => {
+    if (user) {
+      setInput({ name: user.name, about: user.about });
+    }
+  }, [user]);
+
   return (
-    <form className={classes['user-edit-form']} onSubmit={submitHandler}>
-      {/* FIXME: change image url to image file */}
-      <label htmlFor="imageUrl">Profile Image</label>
-      <input
-        onChange={(event) => imageChangeHandler(event)}
-        className={classes['user-edit__input']}
-        type="file"
-        id="imageUrl"
-        // defaultValue={user.imageUrl}
-      />
-      <Input
-        onChange={changeNameHandler}
-        value={input.name}
-        placeholder="Name"
-        className={classes['user-edit-form__name-input']}
-      />
-      <Textarea
-        onChange={changeAboutHandler}
-        placeholder="About"
-        value={input.about}
-      />
-      <Buttons>
-        <Button
-          buttonText="Update"
-          buttonType={ButtonTypes.NORMAL}
-          onButtonClick={() => {}}></Button>
-      </Buttons>
+    <form className={classes['edit-user-form']} onSubmit={submitHandler}>
+      {user && (
+        <Fragment>
+          <EditProfImage
+            image={image}
+            setImage={setImage}
+            userImageUrl={user.imageUrl}
+          />
+          <Input
+            onChange={changeNameHandler}
+            value={input && input.name}
+            placeholder="Name"
+            className={classes['edit-user-form__name-input']}
+          />
+          <Textarea
+            onChange={changeAboutHandler}
+            placeholder="About"
+            value={input && input.about}
+          />
+          <Buttons>
+            <Button
+              title="Save"
+              className={classes['edit-user-form__button']}
+            />
+          </Buttons>
+        </Fragment>
+      )}
     </form>
   );
 };
