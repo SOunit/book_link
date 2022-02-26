@@ -22,17 +22,26 @@ type EditUserFormInput = {
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
-  const { loginUser: user } = useContext(AuthContext);
+  const { loginUser: user, setLoginUser } = useContext(AuthContext);
   const [image, setImage] = useState<File>();
   const [input, setInput] = useState<EditUserFormInput>();
 
   const updateUser = async (userData: UserType) => {
+    // update db
     await userServices.updateUser(
       userData.id,
       userData.name,
       userData.about,
       userData.imageUrl,
     );
+
+    // update state
+    setLoginUser((prevState) => ({
+      ...prevState!,
+      name: userData.name,
+      about: userData.about,
+      imageUrl: userData.imageUrl,
+    }));
   };
 
   const submitHandler = async (event: React.SyntheticEvent) => {
@@ -60,7 +69,7 @@ export const EditUserForm: FC<Props> = () => {
     const newUser = {
       id: user.id,
       name: input.name,
-      imageUrl: imageUrl,
+      imageUrl,
       about: input.about,
     };
 

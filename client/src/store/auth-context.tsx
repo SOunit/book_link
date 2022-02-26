@@ -11,7 +11,7 @@ const AuthContext = React.createContext<{
   login: (token: string | null) => void;
   logout: () => void;
   loginUser: User | null;
-  setLoginUser: any;
+  setLoginUser: React.Dispatch<React.SetStateAction<User | null>>;
 }>({
   token: '',
   isLoggedIn: false,
