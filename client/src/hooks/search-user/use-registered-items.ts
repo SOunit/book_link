@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
-import Item from '../../models/Item';
+import { Item } from '../../models';
 
-const useRegisteredItems = () => {
+export const useRegisteredItems = () => {
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
 
   const deleteRegisteredItemHandler = (id: string) => {

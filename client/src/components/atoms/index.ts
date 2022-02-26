@@ -1,2 +1,5 @@
-export * from './input';
-export * from './textarea';
+export * from './button/button';
+export * from './icon-button/icon-button';
+export * from './image/image';
+export * from './input/input';
+export * from './textarea/textarea';

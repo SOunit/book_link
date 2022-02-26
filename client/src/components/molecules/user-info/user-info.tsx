@@ -1,10 +1,10 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import useGoogleAuth from '../../../hooks/use-google-auth';
-import useModal from '../../../hooks/use-modal';
-import UserType from '../../../models/User';
-import LogoutModal from '../../organisms/logout-modal';
-import Backdrop from '../ui/Backdrop/Backdrop';
+import useGoogleAuth from '../../../hooks/login/use-google-auth';
+import useModal from '../../../hooks/home/use-modal';
+import { User as UserType } from '../../../models/user';
+import { LogoutModal } from '../../organisms/';
+import { Backdrop } from '../backdrop/backdrop';
 import classes from './user-info.module.css';
 
 type UserInfoProps = {

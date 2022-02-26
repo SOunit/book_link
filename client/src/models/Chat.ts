@@ -1,7 +1,7 @@
-import Message from './Message';
-import User from './User';
+import { User } from './user';
+import { Message } from './message';
 
-class Chat {
+export class Chat {
   id: string;
   users: User[];
   messages: Message[];
@@ -12,5 +12,3 @@ class Chat {
     this.messages = [];
   }
 }
-
-export default Chat;

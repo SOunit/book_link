@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import User from '../../models/User';
+import { User } from '../../models';
 
-const useSearchedUsers = () => {
+export const useSearchedUsers = () => {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
 
   const followClickHandler = (targetUserId: string) => {
@@ -34,5 +34,3 @@ const useSearchedUsers = () => {
     followingClickHandler,
   };
 };
-
-export default useSearchedUsers;
