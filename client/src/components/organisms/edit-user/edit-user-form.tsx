@@ -53,17 +53,23 @@ export const EditUserForm: FC<Props> = () => {
 
     let imageUrl = user.imageUrl;
     if (image) {
-      // get aws s3 url to upload
-      const uploadConfig = await axios.get('/api/upload');
+      try {
+        // get aws s3 url to upload
+        const uploadConfig = await axios.get('/api/upload');
+        console.log('uploadConfig', uploadConfig);
+        console.log(uploadConfig.data.url);
 
-      // put data to aws s3
-      const upload = await axios.put(uploadConfig.data.url, image, {
-        headers: {
-          'Content-Type': image.type,
-        },
-      });
+        // put data to aws s3
+        await axios.put(uploadConfig.data.url, image, {
+          headers: {
+            'Content-Type': image.type,
+          },
+        });
 
-      imageUrl = keys.AWS_S3_URL + uploadConfig.data.key;
+        imageUrl = keys.AWS_S3_URL + uploadConfig.data.key;
+      } catch (err) {
+        console.log(err);
+      }
     }
 
     const newUser = {
