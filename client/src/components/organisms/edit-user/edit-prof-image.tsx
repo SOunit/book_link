@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import Image from '../../atoms/image';
+import { Image } from '../../atoms';
 import classes from './edit-prof-image.module.css';
 
 type Props = {

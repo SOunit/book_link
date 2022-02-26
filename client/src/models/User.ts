@@ -1,6 +1,6 @@
-import Item from './Item';
+import { Item } from './item';
 
-class User {
+export class User {
   id: string;
   name: string;
   about: string;
@@ -24,5 +24,3 @@ class User {
     // this.createdAt = createdAt;
   }
 }
-
-export default User;

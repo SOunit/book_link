@@ -1,17 +1,21 @@
-import { ChangeEvent, FC, Fragment, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  Fragment,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-import Buttons from '../../molecules/ui/Buttons/Buttons';
 import keys from '../../../util/keys';
-import userServices from '../../../services/userServices';
-import UserType from '../../../models/User';
-import { Input, Textarea } from '../../atoms';
-import classes from './edit-user-form.module.css';
+import { userServices } from '../../../services';
+import { User as UserType } from '../../../models';
+import { Input, Textarea, Button } from '../../atoms';
 import { EditProfImage } from './edit-prof-image';
-import Button from '../../atoms/button';
-import { useContext } from 'react';
-import AuthContext from '../../../store/auth-context';
-import { useEffect } from 'react';
+import { AuthContext } from '../../../store/';
+import classes from './edit-user-form.module.css';
+import { Buttons } from '../../molecules';
 
 type Props = {};
 

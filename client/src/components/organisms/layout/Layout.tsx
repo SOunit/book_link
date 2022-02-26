@@ -1,12 +1,12 @@
 import { Fragment, useState, useContext } from 'react';
-import AuthContext from '../../../store/auth-context';
-import MainNavigation from './MainNavigation';
-import SideNavigation from './SideNavigation';
-import FooterNav from './FooterNav';
-import Backdrop from '../../molecules/ui/Backdrop/Backdrop';
-import classes from './Layout.module.css';
+import { AuthContext } from '../../../store';
+import MainNavigation from './main-navigation';
+import SideNavigation from './side-navigation';
+import FooterNav from './footer-nav';
+import { Backdrop } from '../../molecules';
+import classes from './layout.module.css';
 
-const Layout: React.FC = (props) => {
+export const Layout: React.FC = (props) => {
   const authCtx = useContext(AuthContext);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
@@ -29,5 +29,3 @@ const Layout: React.FC = (props) => {
     </Fragment>
   );
 };
-
-export default Layout;

@@ -1,4 +1,4 @@
-class Following {
+export class Following {
   id: string;
   name: string;
   imageUrl: string;
@@ -11,5 +11,3 @@ class Following {
     this.isFollowing = isFollowing;
   }
 }
-
-export default Following;

@@ -1,4 +1,4 @@
-class Message {
+export class Message {
   id: string;
   userId: string;
   chatId: string;
@@ -11,5 +11,3 @@ class Message {
     this.text = text;
   }
 }
-
-export default Message;

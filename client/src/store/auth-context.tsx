@@ -1,11 +1,11 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import User from '../models/User';
-import userServices from '../services/userServices';
+import { User } from '../models';
+import { userServices } from '../services';
 import keys from '../util/keys';
 
 // fetch token from local storage
 // save it in context so that other component can use token
-const AuthContext = React.createContext<{
+export const AuthContext = React.createContext<{
   token: string | null;
   isLoggedIn: boolean;
   login: (token: string | null) => void;
@@ -89,5 +89,3 @@ export const AuthContextProvider: FC = (props) => {
     </AuthContext.Provider>
   );
 };
-
-export default AuthContext;

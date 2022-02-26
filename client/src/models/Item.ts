@@ -1,4 +1,4 @@
-class Item {
+export class Item {
   id: string;
   title: string;
   author: string;
@@ -8,7 +8,7 @@ class Item {
   constructor(
     title: string,
     author: string,
-    imageUrl: string
+    imageUrl: string,
     // createdAt: Date
   ) {
     this.id = Math.random().toString();
@@ -18,5 +18,3 @@ class Item {
     // this.createdAt = createdAt;
   }
 }
-
-export default Item;
