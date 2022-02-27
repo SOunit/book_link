@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router';
-import { ImageContainer } from '..';
 import { Chat as ChatType } from '../../../models';
+import { Image } from '../../atoms';
 import classes from './chat-list-item.module.css';
 
 type ChatListItemProps = {
@@ -10,9 +10,10 @@ type ChatListItemProps = {
 
 export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
   const history = useHistory();
+  const chatPartnerUser = chat.users[0];
 
   const clickHandler = () => {
-    history.push(`/chats/${chat.users[0].id}`);
+    history.push(`/chats/${chatPartnerUser.id}`);
   };
 
   const getLatestMessage = (text: string) => {
@@ -49,11 +50,15 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
   return (
     <div className={classes.chatListItem} onClick={clickHandler}>
       <div className={classes['image-wrapper']}>
-        <ImageContainer src={chat.users[0].imageUrl} alt={chat.users[0].name} />
+        <Image
+          src={chatPartnerUser.imageUrl}
+          alt={chatPartnerUser.name}
+          className={classes['chat-list-item__image']}
+        />
       </div>
       <div className={classes['chatListItem__details']}>
         <div className={classes['chatListItem__name']}>
-          {chat.users[0].name}
+          {chatPartnerUser.name}
         </div>
         <div className={classes['chatListItem__text']}>{latestMessage}</div>
       </div>
