@@ -6,8 +6,8 @@
 }
 
 .image-wrapper {
-  min-width: 3rem;
-  max-width: 3rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 .chatListItem__details {
@@ -30,4 +30,11 @@
 
 .chatListItem__time {
   font-size: 0.8rem;
+}
+
+.chat-list-item__image {
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  overflow: hidden;
 }
