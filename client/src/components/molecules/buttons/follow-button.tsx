@@ -10,17 +10,20 @@ type FollowButtonProps = {
   onFollowingClick: any;
 };
 
-export const FollowButton: FC<FollowButtonProps> = (props) => {
+export const FollowButton: FC<FollowButtonProps> = ({
+  user,
+  loginUser,
+  onFollowClick,
+  onFollowingClick,
+}) => {
   const deleteFollowing = () => {
-    followingServices.deleteFollowing(props.loginUser.id, props.user.id);
+    followingServices.deleteFollowing(loginUser.id, user.id);
   };
 
   const createFollowing = () => {
-    followingServices
-      .createFollowing(props.loginUser.id, props.user.id)
-      .then((result) => {
-        return result.data.data.createFollowing;
-      });
+    followingServices.createFollowing(loginUser.id, user.id).then((result) => {
+      return result.data.data.createFollowing;
+    });
   };
 
   const followClickHandler = () => {
@@ -28,7 +31,7 @@ export const FollowButton: FC<FollowButtonProps> = (props) => {
     createFollowing();
 
     // update state
-    props.onFollowClick();
+    onFollowClick();
   };
 
   const followingClickHandler = () => {
@@ -36,7 +39,7 @@ export const FollowButton: FC<FollowButtonProps> = (props) => {
     deleteFollowing();
 
     // update state
-    props.onFollowingClick();
+    onFollowingClick();
   };
 
   let FollowButton = (
@@ -46,7 +49,7 @@ export const FollowButton: FC<FollowButtonProps> = (props) => {
       onButtonClick={followClickHandler}
     />
   );
-  if (props.user.isFollowing) {
+  if (user.isFollowing) {
     FollowButton = (
       <Button
         buttonText={'Following'}
