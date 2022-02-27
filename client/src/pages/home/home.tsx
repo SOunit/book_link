@@ -24,7 +24,7 @@ export const Home: FC<HomeProps> = () => {
 
   return (
     <Fragment>
-      {loginUser && <UserInfo user={loginUser} />}
+      {loginUser && <UserInfo user={loginUser} isHome />}
       <div className={classes['home__actions']}>
         <IconTextButton
           iconName="far fa-pen"
