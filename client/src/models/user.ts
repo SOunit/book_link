@@ -3,15 +3,15 @@ import { Item } from './item';
 export class User {
   id: string;
   name: string;
-  about: string;
   imageUrl: string;
-  // createdAt: Date;
+  about?: string;
   items?: Item[];
   isFollowing?: boolean;
+  // createdAt: Date;
 
   constructor(
     name: string,
-    about: string,
+    about: string = '',
     imageUrl: string,
     items: Item[],
     // createdAt: Date
