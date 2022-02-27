@@ -1,3 +1,7 @@
 .text-no-following {
   text-align: center;
 }
+
+.followings__info-icon {
+  margin-right: 0.5rem;
+}

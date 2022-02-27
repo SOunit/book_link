@@ -1,9 +1,15 @@
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
 import { Following as FollowingType } from '../../models';
 import { useParams } from 'react-router';
-import { AuthContext } from '../../store';
+import { useHistory } from 'react-router-dom';
 import { followingServices } from '../../services';
-import { DispCards, SectionTitle } from '../../components/molecules';
+import {
+  Buttons,
+  NotFoundMessage,
+  SectionTitle,
+  UserCard,
+} from '../../components/molecules';
+import { IconButton } from '../../components/atoms';
 import classes from './followings.module.css';
 
 type FollowingsProps = {};
@@ -11,32 +17,15 @@ type FollowingsParams = {
   userId: string;
 };
 
-export const Followings: FC<FollowingsProps> = (props) => {
-  const { loginUser } = useContext(AuthContext);
+export const Followings: FC<FollowingsProps> = () => {
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<FollowingType[]>();
+  const history = useHistory();
 
   const fetchFollowings = async (userId: string) => {
     const result = await followingServices.fetchFollowingUsers(userId);
     return result.data.data.getFollowingUsers;
   };
-
-  useEffect(() => {
-    const users: FollowingType[] = [];
-
-    fetchFollowings(params.userId).then((res: any) => {
-      res.map((user: any) =>
-        users.push({
-          id: user.id,
-          name: user.name,
-          imageUrl: user.imageUrl,
-          isFollowing: user.isFollowing,
-        }),
-      );
-
-      setFollowings(users);
-    });
-  }, [params.userId]);
 
   const followClickHandler = (targetUserId: string) => {
     // update state
@@ -65,26 +54,58 @@ export const Followings: FC<FollowingsProps> = (props) => {
     }
   };
 
-  let followingUsersSection = null;
-  if (followings && followings.length > 0) {
-    followingUsersSection = (
-      <DispCards
-        users={followings}
-        loginUser={loginUser!}
-        onFollowClick={followClickHandler}
-        onFollowingClick={followingClickHandler}
-      />
-    );
-  } else {
-    followingUsersSection = (
-      <p className={classes['text-no-following']}>You are following nobody!</p>
-    );
+  const detailClickHandler = (userId: string) => {
+    history.push(`/users/${userId}`);
+  };
+
+  useEffect(() => {
+    const users: FollowingType[] = [];
+
+    fetchFollowings(params.userId).then((res: any) => {
+      res.map((user: any) =>
+        users.push({
+          id: user.id,
+          name: user.name,
+          imageUrl: user.imageUrl,
+          isFollowing: user.isFollowing,
+        }),
+      );
+
+      setFollowings(users);
+    });
+  }, [params.userId]);
+
+  let followingUsers = null;
+  if (followings) {
+    followingUsers = followings.map((user) => {
+      const buttons = (
+        <Buttons>
+          <IconButton
+            iconName="fas fa-info"
+            onClick={() => detailClickHandler(user.id)}
+            className={classes['followings__info-icon']}
+          />
+          <IconButton
+            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
+            onClick={
+              user.isFollowing
+                ? () => followingClickHandler(user.id)
+                : () => followClickHandler(user.id)
+            }
+          />
+        </Buttons>
+      );
+      return <UserCard user={user} actions={buttons} key={user.id} />;
+    });
   }
 
   return (
     <Fragment>
       <SectionTitle>Followings</SectionTitle>
-      {followingUsersSection}
+      {followings && followings.length > 0 && followingUsers}
+      {followings && followings.length <= 0 && (
+        <NotFoundMessage title="" text="You are following nobody!" />
+      )}
     </Fragment>
   );
 };
