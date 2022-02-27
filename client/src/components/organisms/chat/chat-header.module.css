@@ -6,7 +6,15 @@
   padding: 0.8rem;
   text-align: center;
   font-weight: bold;
-  background-color: #1f1f79;
+  background-color: #171717;
   color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.char-header__left-icon {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
 }

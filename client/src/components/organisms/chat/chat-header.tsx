@@ -16,7 +16,9 @@ export const ChatHeader: FC<Props> = ({ partnerUser }) => {
 
   return (
     <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
-      {`< ${partnerUser.name}`}
+      <i
+        className={`far fa-angle-left ${classes['char-header__left-icon']}`}></i>
+      {partnerUser.name}
     </div>
   );
 };
