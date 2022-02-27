@@ -62,7 +62,7 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
         </div>
         <div className={classes['chatListItem__text']}>{latestMessage}</div>
       </div>
-      <div className={classes['chatListItem__time']}>9:47 PM</div>
+      <div className={classes['chatListItem__time']}>19:47</div>
     </div>
   );
 };

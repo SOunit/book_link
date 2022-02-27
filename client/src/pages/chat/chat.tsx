@@ -6,6 +6,7 @@ import { ImageContainer } from '../../components/molecules';
 import { AuthContext } from '../../store';
 import classes from './chat.module.css';
 import { ChatHeader } from '../../components/organisms/chat/chat-header';
+import { MyChatMessage } from '../../components/organisms/chat/my-chat-message';
 
 type ChatProps = {
   socket: any;
@@ -100,29 +101,17 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   let messages;
   if (chat && loginUser) {
     messages = chat.messages.map((message: MessageType) => {
-      let isImageHidden = null;
+      let isImageHidden = '';
       if (loginUser.id === message.userId) {
         isImageHidden = classes['image-hidden'];
       }
-
       return (
-        <div className={classes['message']} key={message.id}>
-          <div className={`${classes['image-container']} ${isImageHidden}`}>
-            <ImageContainer
-              src={chat.users[0].imageUrl}
-              alt={chat.users[0].name}
-            />
-          </div>
-          <div
-            className={
-              message.userId === loginUser.id
-                ? `${classes['message__text']} ${classes['message__text--mine']}`
-                : classes['message__text']
-            }>
-            {message.text}
-          </div>
-          <div className={classes['message__time']}>12:00PM</div>
-        </div>
+        <MyChatMessage
+          chat={chat}
+          className={isImageHidden}
+          loginUserId={loginUser.id}
+          message={message}
+        />
       );
     });
   }
