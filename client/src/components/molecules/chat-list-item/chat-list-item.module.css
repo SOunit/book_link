@@ -3,6 +3,7 @@
   margin-bottom: 0.5rem;
   cursor: pointer;
   justify-content: space-around;
+  min-height: 4.5rem;
 }
 
 .image-wrapper {
