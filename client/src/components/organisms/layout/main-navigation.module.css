@@ -12,7 +12,7 @@
 
 .main-header__title-link {
   text-decoration: none;
-  color: #e50914;
+  color: #d81f26;
 }
 
 .main-header__nav {
@@ -64,6 +64,6 @@
   }
 
   .main-header__nav-link--active {
-    border-bottom: 2px solid #e50914;
+    border-bottom: 2px solid #d81f26;
   }
 }
