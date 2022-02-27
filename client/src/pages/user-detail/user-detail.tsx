@@ -1,15 +1,15 @@
 import { Fragment, useEffect, useState, useCallback, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button } from '../../components/atoms';
 import {
   Buttons,
-  FollowButton,
+  IconTextButton,
   UserInfo,
   UserItems,
 } from '../../components/molecules';
 import { User as UserType } from '../../models';
 import { ChatServices, followingServices, userServices } from '../../services';
 import { AuthContext } from '../../store';
+import classes from './user-detail.module.css';
 
 type UserDetailParams = {
   userId: string;
@@ -19,12 +19,12 @@ export const UserDetail = () => {
   const { loginUser } = useContext(AuthContext);
   const params = useParams<UserDetailParams>();
   const history = useHistory();
-  const [user, setUser] = useState<UserType>();
+  const [partnerUser, setPartnerUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
 
-  const fetchUser = useCallback(() => {
+  const fetchPartnerUser = useCallback(() => {
     userServices.fetchUser(params.userId).then((result) => {
-      setUser(result.data.data.user);
+      setPartnerUser(result.data.data.user);
     });
   }, [params.userId]);
 
@@ -43,62 +43,68 @@ export const UserDetail = () => {
     }
   }, [loginUser, params.userId]);
 
-  useEffect(() => {
-    fetchUser();
-    fetchFollowing();
-  }, [fetchUser, fetchFollowing]);
-
   const followClickHandler = () => {
-    setFollowing(true);
+    if (loginUser && partnerUser) {
+      followingServices.createFollowing(loginUser.id, partnerUser.id);
+      setFollowing(true);
+    }
   };
 
   const followingClickHandler = () => {
-    setFollowing(false);
+    if (loginUser && partnerUser) {
+      followingServices.deleteFollowing(loginUser.id, partnerUser.id);
+      setFollowing(false);
+    }
   };
 
   const chatClickHandler = () => {
+    if (!partnerUser) {
+      return;
+    }
+
     // get message
-    ChatServices.fetchChat([user!.id, loginUser!.id]).then((res) => {
+    ChatServices.fetchChat([partnerUser.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
 
       if (chats && chats.length <= 0) {
         // create message if not exist
-        history.push(`/chats/${user!.id}`);
+        history.push(`/chats/${partnerUser.id}`);
       } else {
-        if (loginUser && user) {
-          ChatServices.createChat(loginUser?.id, user.id).then((res) => {
-            history.push(`/chats/${user!.id}`);
+        if (loginUser && partnerUser) {
+          ChatServices.createChat(loginUser?.id, partnerUser.id).then((res) => {
+            history.push(`/chats/${partnerUser.id}`);
           });
         }
       }
     });
   };
 
-  let followButton = null;
-  if (user && loginUser && following !== null) {
-    followButton = (
-      <FollowButton
-        loginUser={loginUser}
-        user={{ ...user, isFollowing: following }}
-        onFollowClick={followClickHandler}
-        onFollowingClick={followingClickHandler}
-      />
-    );
-  }
+  useEffect(() => {
+    fetchPartnerUser();
+    fetchFollowing();
+  }, [fetchPartnerUser, fetchFollowing]);
 
-  let dispUser = null;
-  if (user && loginUser) {
-    dispUser = (
+  let userDetail = null;
+  if (partnerUser && loginUser) {
+    userDetail = (
       <Fragment>
-        <UserInfo user={user} />
-        <Buttons>
-          {followButton}
-          <Button title="Chat" onClick={chatClickHandler} />
+        <UserInfo user={partnerUser} isHome={false} />
+        <Buttons className={classes['user-detail__buttons']}>
+          <IconTextButton
+            iconName={following ? `fa fa-user-minus` : `fa fa-user-plus`}
+            text={following ? 'Following' : 'Follow'}
+            onClick={following ? followingClickHandler : followClickHandler}
+          />
+          <IconTextButton
+            iconName="far fa-comment"
+            text="Chat"
+            onClick={chatClickHandler}
+          />
         </Buttons>
-        {user.items && <UserItems items={user.items} />}
+        {partnerUser.items && <UserItems items={partnerUser.items} />}
       </Fragment>
     );
   }
 
-  return <Fragment>{dispUser}</Fragment>;
+  return <Fragment>{userDetail}</Fragment>;
 };

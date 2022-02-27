@@ -9,28 +9,29 @@ import classes from './user-info.module.css';
 
 type UserInfoProps = {
   user: UserType;
+  isHome?: boolean;
 };
 
-export const UserInfo: FC<UserInfoProps> = (props) => {
+export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
   const { signOutClickHandler } = useGoogleAuth();
 
   let aboutText = 'No comment yet!';
-  if (props.user.about && props.user.about.length > 0) {
-    aboutText = props.user.about;
+  if (user.about && user.about.length > 0) {
+    aboutText = user.about;
   }
 
   let userImage = (
     <div className={classes['user-info__image--no-data']}>No Image</div>
   );
-  if (props.user.imageUrl && props.user.imageUrl.length > 0) {
+  if (user.imageUrl && user.imageUrl.length > 0) {
     userImage = (
       <div
         className={`${classes['image-container']} ${classes['user-image-container']}`}>
         <img
           className={`${classes['image']} ${classes['user-info__image']}`}
-          src={props.user.imageUrl}
-          alt={props.user.name}
+          src={user.imageUrl}
+          alt={user.name}
         />
       </div>
     );
@@ -50,24 +51,26 @@ export const UserInfo: FC<UserInfoProps> = (props) => {
       <div className={classes['user-info']}>
         {userImage}
         <div className={classes['user-info__details']}>
-          <p className={classes['user-info__name']}>{props.user.name}</p>
+          <p className={classes['user-info__name']}>{user.name}</p>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followings`}>
+            to={`/users/${user.id}/followings`}>
             <span className={classes['user-info__follow-number']}>4,321</span>{' '}
             Following
           </Link>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${props.user.id}/followed-by`}>
+            to={`/users/${user.id}/followed-by`}>
             <span className={classes['user-info__follow-number']}>1,234</span>{' '}
             Followers
           </Link>
-          <p
-            className={classes['user-info__logout']}
-            onClick={modalOpenHandler}>
-            Logout
-          </p>
+          {isHome && (
+            <p
+              className={classes['user-info__logout']}
+              onClick={modalOpenHandler}>
+              Logout
+            </p>
+          )}
         </div>
       </div>
       <p className={classes['user-about']}>{aboutText}</p>
