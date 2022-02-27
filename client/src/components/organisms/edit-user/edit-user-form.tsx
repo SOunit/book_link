@@ -21,7 +21,7 @@ type Props = {};
 
 type EditUserFormInput = {
   name: string;
-  about: string;
+  about?: string;
 };
 
 export const EditUserForm: FC<Props> = () => {
