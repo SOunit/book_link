@@ -1,13 +1,14 @@
 import { FC } from 'react';
 import { Chat, Message } from '../../../models';
-import { ImageContainer } from '../../molecules';
-import classes from './my-chat-message.module.css';
+import { Image } from '../../atoms';
+import classes from './chat-message.module.css';
 
 type Props = {
   message: Message;
-  className: string;
   chat: Chat;
   loginUserId: string;
+  isMine: boolean;
+  className?: string;
 };
 
 export const MyChatMessage: FC<Props> = ({
@@ -15,12 +16,21 @@ export const MyChatMessage: FC<Props> = ({
   className,
   chat,
   loginUserId,
+  isMine,
 }) => {
   return (
-    <div className={classes['message']} key={message.id}>
-      <div className={`${classes['image-container']} ${className}`}>
-        <ImageContainer src={chat.users[0].imageUrl} alt={chat.users[0].name} />
-      </div>
+    <div
+      className={`${classes['message']} ${isMine && classes['message--mine']}`}
+      key={message.id}>
+      {!isMine && (
+        <div className={`${classes['image-container']}`}>
+          <Image
+            src={chat.users[0].imageUrl}
+            alt={chat.users[0].name}
+            className={classes['message__image']}
+          />
+        </div>
+      )}
       <div
         className={
           message.userId === loginUserId

@@ -2,11 +2,10 @@ import { FC, useEffect, useRef, useState, FormEvent, useContext } from 'react';
 import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
-import { ImageContainer } from '../../components/molecules';
 import { AuthContext } from '../../store';
 import classes from './chat.module.css';
 import { ChatHeader } from '../../components/organisms/chat/chat-header';
-import { MyChatMessage } from '../../components/organisms/chat/my-chat-message';
+import { MyChatMessage } from '../../components/organisms/chat/chat-message';
 
 type ChatProps = {
   socket: any;
@@ -101,14 +100,15 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   let messages;
   if (chat && loginUser) {
     messages = chat.messages.map((message: MessageType) => {
-      let isImageHidden = '';
+      let isMine = false;
       if (loginUser.id === message.userId) {
-        isImageHidden = classes['image-hidden'];
+        isMine = true;
       }
       return (
         <MyChatMessage
+          key={message.id}
           chat={chat}
-          className={isImageHidden}
+          isMine={isMine}
           loginUserId={loginUser.id}
           message={message}
         />
