@@ -3,7 +3,7 @@
 }
 
 .user-image-container {
-  max-width: 8rem;
+  max-width: 7rem;
 }
 
 .image {
@@ -30,6 +30,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  font-size: 0.9rem;
 }
 
 .user-info__name {
@@ -41,11 +42,13 @@
   text-decoration: none;
   color: #888;
   margin: 1rem 0;
+  padding: 0.5rem;
 }
 
 .user-info__logout {
   color: #888;
   cursor: pointer;
+  padding: 0.5rem;
 }
 
 .user-info__follow-number {
@@ -57,4 +60,5 @@
   background-color: #222;
   padding: 1rem;
   border-radius: 10px;
+  margin-top: 0;
 }
