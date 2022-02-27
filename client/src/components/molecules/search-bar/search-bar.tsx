@@ -1,31 +1,35 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { Item } from '../../../models';
 import { itemServices } from '../../../services';
 import classes from './search-bar.module.css';
 
-export const SearchBar: React.FC<{
+type Props = {
+  value: string;
   placeholder: string;
   onSetSearchResult: (searchedItems: Item[]) => void;
   onSetIsSearched: () => void;
-}> = (props) => {
-  const [enteredText, setEnteredText] = useState('');
+  onChange: any;
+};
 
-  const changeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEnteredText(e.target.value);
-  };
-
+export const SearchBar: React.FC<Props> = ({
+  value,
+  onChange,
+  placeholder,
+  onSetSearchResult,
+  onSetIsSearched,
+}) => {
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (enteredText.length < 1) {
-      props.onSetSearchResult([]);
-      props.onSetIsSearched();
+    if (value.length < 1) {
+      onSetSearchResult([]);
+      onSetIsSearched();
       return;
     }
 
-    itemServices.fetchItemsByTitle(enteredText).then((result) => {
-      props.onSetSearchResult(result.data.data.itemsByTitle);
-      props.onSetIsSearched();
+    itemServices.fetchItemsByTitle(value).then((result) => {
+      onSetSearchResult(result.data.data.itemsByTitle);
+      onSetIsSearched();
     });
   };
 
@@ -34,9 +38,9 @@ export const SearchBar: React.FC<{
       <input
         type="text"
         className={classes['search-bar__input']}
-        placeholder={props.placeholder}
-        value={enteredText}
-        onChange={changeInputHandler}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
       />
       <i className={`fas fa-search ${classes['search-bar__icon']}`}></i>
     </form>

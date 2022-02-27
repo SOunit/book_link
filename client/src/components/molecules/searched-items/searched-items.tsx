@@ -8,21 +8,23 @@ type SearchedItemsProps = {
   registeredItems: Item[];
   isItemSearched: boolean;
   onAddClick: (item: Item) => void;
+  searchItemInput: string;
 };
 
-export const SearchedItems: React.FC<SearchedItemsProps> = (props) => {
+export const SearchedItems: React.FC<SearchedItemsProps> = ({
+  items,
+  registeredItems,
+  isItemSearched,
+  onAddClick,
+  searchItemInput,
+}) => {
   const createButtons = (item: Item) => {
-    const buttonDisabled = props.registeredItems.some(
-      (elem) => elem.id === item.id,
-    );
+    const buttonDisabled = registeredItems.some((elem) => elem.id === item.id);
 
     const buttons = (
       <Buttons>
         {!buttonDisabled && (
-          <IconButton
-            iconName="fa fa-plus"
-            onClick={() => props.onAddClick(item)}
-          />
+          <IconButton iconName="fa fa-plus" onClick={() => onAddClick(item)} />
         )}
       </Buttons>
     );
@@ -30,22 +32,22 @@ export const SearchedItems: React.FC<SearchedItemsProps> = (props) => {
     return buttons;
   };
 
-  let searchItemCardList: any = props.items.map((item) => {
+  let searchItemCardList = items.map((item) => {
     const buttons = createButtons(item);
     return <SearchItemCard key={item.id} item={item} actions={buttons} />;
   });
 
-  if (
-    (!searchItemCardList || searchItemCardList.length === 0) &&
-    props.isItemSearched
-  ) {
-    searchItemCardList = (
-      <NotFoundMessage
-        title="Item not found!"
-        text="Please search by another keyword."
-      />
-    );
-  }
-
-  return <Fragment>{searchItemCardList}</Fragment>;
+  return (
+    <Fragment>
+      {searchItemCardList.length === 0 && searchItemInput && isItemSearched && (
+        <NotFoundMessage
+          title="Item not found!"
+          text="Please search by another keyword."
+        />
+      )}
+      {searchItemCardList &&
+        searchItemCardList.length !== 0 &&
+        searchItemCardList}
+    </Fragment>
+  );
 };
