@@ -1,10 +1,11 @@
 import { FC, useEffect, useRef, useState, FormEvent, useContext } from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
 import { ImageContainer } from '../../components/molecules';
 import { AuthContext } from '../../store';
 import classes from './chat.module.css';
+import { ChatHeader } from '../../components/organisms/chat/chat-header';
 
 type ChatProps = {
   socket: any;
@@ -14,8 +15,7 @@ type UserDetailParams = {
   userId: string;
 };
 
-export const Chat: FC<ChatProps> = (props) => {
-  const history = useHistory();
+export const Chat: FC<ChatProps> = ({ socket }) => {
   const { loginUser } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
@@ -23,8 +23,8 @@ export const Chat: FC<ChatProps> = (props) => {
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
 
   const fetchChat = (userIds: string[]) => {
-    const [userId1, userId2] = userIds;
-    ChatServices.fetchChat([userId1, userId2]).then((res) => {
+    const [loginUserId, chatPartnerUserId] = userIds;
+    ChatServices.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
       const chat = res.data.data.getUserChat;
       setChat(chat);
     });
@@ -44,17 +44,6 @@ export const Chat: FC<ChatProps> = (props) => {
     }, 100);
   };
 
-  useEffect(() => {
-    if (loginUser) {
-      fetchChat([loginUser.id, userId]);
-      scrollToBottom();
-    }
-    // return cleanup function to avoid memory leak error
-    return () => {
-      setChat(null);
-    };
-  }, [loginUser, userId]);
-
   const addMessageToChat = (message: MessageType) => {
     setChat((prevState: any) => {
       const newChat = { ...prevState };
@@ -70,19 +59,6 @@ export const Chat: FC<ChatProps> = (props) => {
     });
   };
 
-  useEffect(() => {
-    if (props.socket) {
-      props.socket.on('update:chat', (message: MessageType) => {
-        addMessageToChat(message);
-        scrollToBottom();
-      });
-    }
-  }, [props.socket]);
-
-  const chatHeaderClickHandler = () => {
-    history.push('/chats');
-  };
-
   const sendMessageHandler = (event: FormEvent) => {
     event.preventDefault();
 
@@ -90,7 +66,7 @@ export const Chat: FC<ChatProps> = (props) => {
       const text = messageInputRef.current!.value;
       ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
         const message = res.data.data.createMessage;
-        props.socket.emit('create:message', {
+        socket.emit('create:message', {
           loginUserId: loginUser.id,
           userId,
           message,
@@ -100,6 +76,26 @@ export const Chat: FC<ChatProps> = (props) => {
       });
     }
   };
+
+  useEffect(() => {
+    if (loginUser) {
+      fetchChat([loginUser.id, userId]);
+      scrollToBottom();
+    }
+    // return cleanup function to avoid memory leak error
+    return () => {
+      setChat(null);
+    };
+  }, [loginUser, userId]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('update:chat', (message: MessageType) => {
+        addMessageToChat(message);
+        scrollToBottom();
+      });
+    }
+  }, [socket]);
 
   let messages;
   if (chat && loginUser) {
@@ -133,9 +129,7 @@ export const Chat: FC<ChatProps> = (props) => {
 
   return (
     <div>
-      <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
-        {`< ${chat?.users[0].name}`}
-      </div>
+      {chat && <ChatHeader partnerUser={chat.users[0]} />}
       <div ref={messagesBoxDivRef} className={classes['messages-box']}>
         {messages}
       </div>
