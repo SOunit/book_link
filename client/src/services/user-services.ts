@@ -69,7 +69,7 @@ export const userServices = {
   updateUser: async (
     id: string,
     name: string,
-    about: string,
+    about: string = '',
     imageUrl: string,
   ) => {
     const graphqlQuery = {
