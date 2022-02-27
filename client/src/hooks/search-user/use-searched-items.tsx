@@ -9,8 +9,8 @@ export const useSearchedItems = () => {
     setSearchedItems(searchedItems);
   };
 
-  const updateIsItemSearchedHandler = () => {
-    setIsItemSearched(true);
+  const updateIsItemSearchedHandler = (flag: boolean = true) => {
+    setIsItemSearched(flag);
   };
 
   return {

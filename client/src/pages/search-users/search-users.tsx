@@ -1,4 +1,11 @@
-import { Fragment, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  Fragment,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { Button } from '../../components/atoms';
 import {
   NotFoundMessage,
@@ -38,6 +45,12 @@ export const SearchUsers = () => {
     followClickHandler,
     followingClickHandler,
   } = useSearchedUsers();
+
+  const [searchItemInput, setSearchItemInput] = useState<string>('');
+  const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    updateIsItemSearchedHandler(false);
+    setSearchItemInput(e.target.value);
+  };
 
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
@@ -128,6 +141,8 @@ export const SearchUsers = () => {
     <Fragment>
       <section className={classes['search-bar']}>
         <SearchBar
+          value={searchItemInput}
+          onChange={searchItemInputChangeHandler}
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
           onSetSearchResult={itemSearchHandler}
@@ -135,6 +150,7 @@ export const SearchUsers = () => {
       </section>
       <section>
         <SearchedItems
+          searchItemInput={searchItemInput}
           items={searchedItems}
           registeredItems={registeredItems}
           isItemSearched={isItemSearched}

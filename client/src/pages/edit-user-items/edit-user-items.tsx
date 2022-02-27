@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext } from 'react';
+import { ChangeEvent, FC, Fragment, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Item as ItemType } from '../../models';
@@ -21,6 +21,12 @@ export const EditUserItems: FC = () => {
     updateSearchedItemsHandler,
     updateIsItemSearchedHandler,
   } = useSearchedItems();
+  const [itemSearchInput, setItemSearchInput] = useState('');
+  const changeItemSearchInputHandler = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
+    setItemSearchInput(event.target.value);
+  };
 
   const addClickHandler = (item: ItemType) => {
     if (loginUser) {
@@ -66,6 +72,7 @@ export const EditUserItems: FC = () => {
     searchedItemsSection = (
       <section>
         <SearchedItems
+          searchItemInput={itemSearchInput}
           items={searchedItems}
           registeredItems={loginUser.items ? loginUser.items : []}
           isItemSearched={isItemSearched}
@@ -82,6 +89,8 @@ export const EditUserItems: FC = () => {
       <section className={classes['search-bar']}>
         <SectionTitle>Add new items</SectionTitle>
         <SearchBar
+          value={itemSearchInput}
+          onChange={changeItemSearchInputHandler}
           placeholder={'Search item'}
           onSetIsSearched={updateIsItemSearchedHandler}
           onSetSearchResult={updateSearchedItemsHandler}
