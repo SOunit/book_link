@@ -1,10 +1,19 @@
-import { FC, useEffect, useRef, useState, FormEvent, useContext } from 'react';
-import { useHistory, useParams } from 'react-router';
+import {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  FormEvent,
+  useContext,
+  ChangeEvent,
+} from 'react';
+import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
-import { ImageContainer } from '../../components/molecules';
 import { AuthContext } from '../../store';
 import classes from './chat.module.css';
+import { ChatForm, ChatHeader } from '../../components/organisms';
+import { ChatMessage } from '../../components/organisms';
 
 type ChatProps = {
   socket: any;
@@ -14,17 +23,16 @@ type UserDetailParams = {
   userId: string;
 };
 
-export const Chat: FC<ChatProps> = (props) => {
-  const history = useHistory();
+export const Chat: FC<ChatProps> = ({ socket }) => {
   const { loginUser } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
-  const messageInputRef = useRef<HTMLInputElement>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
+  const [messageInput, setMessageInput] = useState('');
 
   const fetchChat = (userIds: string[]) => {
-    const [userId1, userId2] = userIds;
-    ChatServices.fetchChat([userId1, userId2]).then((res) => {
+    const [loginUserId, chatPartnerUserId] = userIds;
+    ChatServices.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
       const chat = res.data.data.getUserChat;
       setChat(chat);
     });
@@ -44,17 +52,6 @@ export const Chat: FC<ChatProps> = (props) => {
     }, 100);
   };
 
-  useEffect(() => {
-    if (loginUser) {
-      fetchChat([loginUser.id, userId]);
-      scrollToBottom();
-    }
-    // return cleanup function to avoid memory leak error
-    return () => {
-      setChat(null);
-    };
-  }, [loginUser, userId]);
-
   const addMessageToChat = (message: MessageType) => {
     setChat((prevState: any) => {
       const newChat = { ...prevState };
@@ -70,87 +67,83 @@ export const Chat: FC<ChatProps> = (props) => {
     });
   };
 
-  useEffect(() => {
-    if (props.socket) {
-      props.socket.on('update:chat', (message: MessageType) => {
-        addMessageToChat(message);
-        scrollToBottom();
-      });
-    }
-  }, [props.socket]);
-
-  const chatHeaderClickHandler = () => {
-    history.push('/chats');
+  const changeMessageInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setMessageInput(event.target.value);
   };
 
   const sendMessageHandler = (event: FormEvent) => {
     event.preventDefault();
+    if (messageInput === '') {
+      return;
+    }
 
     if (chat && loginUser) {
-      const text = messageInputRef.current!.value;
-      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
-        const message = res.data.data.createMessage;
-        props.socket.emit('create:message', {
-          loginUserId: loginUser.id,
-          userId,
-          message,
-        });
+      ChatServices.createMessage(chat.id, loginUser.id, messageInput).then(
+        (res) => {
+          const message = res.data.data.createMessage;
+          socket.emit('create:message', {
+            loginUserId: loginUser.id,
+            userId,
+            message,
+          });
 
-        messageInputRef.current!.value = '';
-      });
+          setMessageInput('');
+        },
+      );
     }
   };
+
+  useEffect(() => {
+    if (loginUser) {
+      fetchChat([loginUser.id, userId]);
+      scrollToBottom();
+    }
+    // return cleanup function to avoid memory leak error
+    return () => {
+      setChat(null);
+    };
+  }, [loginUser, userId]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('update:chat', (message: MessageType) => {
+        addMessageToChat(message);
+        scrollToBottom();
+      });
+    }
+  }, [socket]);
 
   let messages;
   if (chat && loginUser) {
     messages = chat.messages.map((message: MessageType) => {
-      let isImageHidden = null;
+      let isMine = false;
       if (loginUser.id === message.userId) {
-        isImageHidden = classes['image-hidden'];
+        isMine = true;
       }
-
       return (
-        <div className={classes['message']} key={message.id}>
-          <div className={`${classes['image-container']} ${isImageHidden}`}>
-            <ImageContainer
-              src={chat.users[0].imageUrl}
-              alt={chat.users[0].name}
-            />
-          </div>
-          <div
-            className={
-              message.userId === loginUser.id
-                ? `${classes['message__text']} ${classes['message__text--mine']}`
-                : classes['message__text']
-            }>
-            {message.text}
-          </div>
-          <div className={classes['message__time']}>12:00PM</div>
-        </div>
+        <ChatMessage
+          key={message.id}
+          chat={chat}
+          isMine={isMine}
+          loginUserId={loginUser.id}
+          message={message}
+        />
       );
     });
   }
 
   return (
     <div>
-      <div className={classes['chat-header']} onClick={chatHeaderClickHandler}>
-        {`< ${chat?.users[0].name}`}
-      </div>
+      {chat && <ChatHeader partnerUser={chat.users[0]} />}
       <div ref={messagesBoxDivRef} className={classes['messages-box']}>
         {messages}
       </div>
-      <div className={classes['form-wrapper']}>
-        <form
-          onSubmit={(event) => sendMessageHandler(event)}
-          className={classes['message-form']}>
-          <input
-            ref={messageInputRef}
-            className={classes['message-input']}
-            type="text"
-            placeholder="Enter a message"
-          />
-        </form>
-      </div>
+
+      <ChatForm
+        value={messageInput}
+        onChange={changeMessageInputHandler}
+        onSubmit={sendMessageHandler}
+      />
     </div>
   );
 };
