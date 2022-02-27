@@ -11,7 +11,7 @@ type Props = {
   className?: string;
 };
 
-export const MyChatMessage: FC<Props> = ({
+export const ChatMessage: FC<Props> = ({
   message,
   className,
   chat,

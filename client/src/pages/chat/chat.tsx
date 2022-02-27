@@ -1,11 +1,19 @@
-import { FC, useEffect, useRef, useState, FormEvent, useContext } from 'react';
+import {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  FormEvent,
+  useContext,
+  ChangeEvent,
+} from 'react';
 import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
 import { AuthContext } from '../../store';
 import classes from './chat.module.css';
-import { ChatHeader } from '../../components/organisms/chat/chat-header';
-import { MyChatMessage } from '../../components/organisms/chat/chat-message';
+import { ChatForm, ChatHeader } from '../../components/organisms';
+import { ChatMessage } from '../../components/organisms';
 
 type ChatProps = {
   socket: any;
@@ -19,8 +27,8 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   const { loginUser } = useContext(AuthContext);
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
-  const messageInputRef = useRef<HTMLInputElement>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
+  const [messageInput, setMessageInput] = useState('');
 
   const fetchChat = (userIds: string[]) => {
     const [loginUserId, chatPartnerUserId] = userIds;
@@ -59,21 +67,29 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     });
   };
 
+  const changeMessageInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setMessageInput(event.target.value);
+  };
+
   const sendMessageHandler = (event: FormEvent) => {
     event.preventDefault();
+    if (messageInput === '') {
+      return;
+    }
 
     if (chat && loginUser) {
-      const text = messageInputRef.current!.value;
-      ChatServices.createMessage(chat.id, loginUser.id, text).then((res) => {
-        const message = res.data.data.createMessage;
-        socket.emit('create:message', {
-          loginUserId: loginUser.id,
-          userId,
-          message,
-        });
+      ChatServices.createMessage(chat.id, loginUser.id, messageInput).then(
+        (res) => {
+          const message = res.data.data.createMessage;
+          socket.emit('create:message', {
+            loginUserId: loginUser.id,
+            userId,
+            message,
+          });
 
-        messageInputRef.current!.value = '';
-      });
+          setMessageInput('');
+        },
+      );
     }
   };
 
@@ -105,7 +121,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
         isMine = true;
       }
       return (
-        <MyChatMessage
+        <ChatMessage
           key={message.id}
           chat={chat}
           isMine={isMine}
@@ -122,18 +138,12 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
       <div ref={messagesBoxDivRef} className={classes['messages-box']}>
         {messages}
       </div>
-      <div className={classes['form-wrapper']}>
-        <form
-          onSubmit={(event) => sendMessageHandler(event)}
-          className={classes['message-form']}>
-          <input
-            ref={messageInputRef}
-            className={classes['message-input']}
-            type="text"
-            placeholder="Enter a message"
-          />
-        </form>
-      </div>
+
+      <ChatForm
+        value={messageInput}
+        onChange={changeMessageInputHandler}
+        onSubmit={sendMessageHandler}
+      />
     </div>
   );
 };
