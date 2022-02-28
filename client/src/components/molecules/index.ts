@@ -19,3 +19,4 @@ export * from './section-title/section-title';
 export * from './user-card/user-card';
 export * from './user-info/user-info';
 export * from './user-items/user-items';
+export * from './image-slider/image-slider';
