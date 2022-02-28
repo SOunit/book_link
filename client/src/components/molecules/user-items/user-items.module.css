@@ -7,4 +7,9 @@
 
 .user-item {
   max-width: 32%;
+  border-radius: 8px;
+}
+
+.user-item__image {
+  border-radius: 8px;
 }
