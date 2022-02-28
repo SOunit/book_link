@@ -7,15 +7,21 @@ type Props = {
   user: User;
   className?: string;
   actions?: any;
+  imageClassName?: string;
 };
 
-export const UserCard: FC<Props> = ({ user, className, actions }) => {
+export const UserCard: FC<Props> = ({
+  user,
+  className,
+  actions,
+  imageClassName,
+}) => {
   return (
     <div className={`${classes['user-card']} ${className}`}>
       <Image
         src={user.imageUrl}
         alt={user.name}
-        className={classes['user-image']}
+        className={`${classes['user-image']} ${imageClassName}`}
         imageStyle={classes['user-image__image--round']}
       />
       <p>{user.name}</p>

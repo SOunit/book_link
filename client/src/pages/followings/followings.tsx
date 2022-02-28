@@ -1,4 +1,4 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import { Following as FollowingType } from '../../models';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
 import classes from './followings.module.css';
+import { AuthContext } from '../../store';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -21,6 +22,7 @@ export const Followings: FC<FollowingsProps> = () => {
   const params = useParams<FollowingsParams>();
   const [followings, setFollowings] = useState<FollowingType[]>();
   const history = useHistory();
+  const { loginUser } = useContext(AuthContext);
 
   const fetchFollowings = async (userId: string) => {
     const result = await followingServices.fetchFollowingUsers(userId);
@@ -28,22 +30,24 @@ export const Followings: FC<FollowingsProps> = () => {
   };
 
   const followClickHandler = (targetUserId: string) => {
-    // update state
-    if (followings) {
+    if (followings && loginUser) {
+      // update state
       const newFollowings = followings.map((user) => {
         if (user.id === targetUserId) {
           user.isFollowing = true;
         }
         return user;
       });
-
       setFollowings(newFollowings);
+
+      // update db
+      followingServices.createFollowing(loginUser.id, targetUserId);
     }
   };
 
   const followingClickHandler = (targetUserId: string) => {
-    // update state
-    if (followings) {
+    if (followings && loginUser) {
+      // update state
       const newFollowings = followings.map((user) => {
         if (user.id === targetUserId) {
           user.isFollowing = false;
@@ -51,6 +55,9 @@ export const Followings: FC<FollowingsProps> = () => {
         return user;
       });
       setFollowings(newFollowings);
+
+      // update db
+      followingServices.deleteFollowing(loginUser.id, targetUserId);
     }
   };
 
@@ -85,17 +92,28 @@ export const Followings: FC<FollowingsProps> = () => {
             onClick={() => detailClickHandler(user.id)}
             className={classes['followings__info-icon']}
           />
-          <IconButton
-            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
-            onClick={
-              user.isFollowing
-                ? () => followingClickHandler(user.id)
-                : () => followClickHandler(user.id)
-            }
-          />
+          {loginUser && loginUser.id === params.userId && (
+            <IconButton
+              iconName={
+                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
+              }
+              onClick={
+                user.isFollowing
+                  ? () => followingClickHandler(user.id)
+                  : () => followClickHandler(user.id)
+              }
+            />
+          )}
         </Buttons>
       );
-      return <UserCard user={user} actions={buttons} key={user.id} />;
+      return (
+        <UserCard
+          user={user}
+          actions={buttons}
+          key={user.id}
+          imageClassName={classes['followings__image']}
+        />
+      );
     });
   }
 
