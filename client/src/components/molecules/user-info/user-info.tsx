@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/login/use-google-auth';
 import useModal from '../../../hooks/home/use-modal';
@@ -6,6 +6,7 @@ import { User as UserType } from '../../../models/user';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
 import classes from './user-info.module.css';
+import { followingServices } from '../../../services';
 
 type UserInfoProps = {
   user: UserType;
@@ -15,6 +16,18 @@ type UserInfoProps = {
 export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
   const { signOutClickHandler } = useGoogleAuth();
+  const [followings, setFollowings] = useState([]);
+
+  useEffect(() => {
+    const fetchFollowings = async () => {
+      if (user) {
+        const res = await followingServices.fetchFollowingUsers(user.id);
+        setFollowings(res.data.data.getFollowingUsers);
+      }
+    };
+
+    fetchFollowings();
+  }, [user]);
 
   let aboutText = 'No comment yet!';
   if (user.about && user.about.length > 0) {
@@ -55,7 +68,9 @@ export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
           <Link
             className={classes['user-info__link']}
             to={`/users/${user.id}/followings`}>
-            <span className={classes['user-info__follow-number']}>4,321</span>{' '}
+            <span className={classes['user-info__follow-number']}>
+              {followings.length}
+            </span>{' '}
             Following
           </Link>
           <Link
