@@ -1,10 +1,13 @@
 import { FC, Fragment } from 'react';
 import classes from './google-auth.module.css';
-import { DemoAuth } from './demo-auth';
 import useGoogleAuth from '../../../hooks/login/use-google-auth';
 import { useHistory } from 'react-router-dom';
 
-export const GoogleAuth: FC = () => {
+type Props = {
+  className?: string;
+};
+
+export const GoogleAuth: FC<Props> = ({ className }) => {
   const { signInClickHandler } = useGoogleAuth();
   const history = useHistory();
 
@@ -15,11 +18,12 @@ export const GoogleAuth: FC = () => {
 
   return (
     <Fragment>
-      <button className={`${classes['google-button']}`} onClick={clickHandler}>
+      <button
+        className={`${classes['google-button']} ${className}`}
+        onClick={clickHandler}>
         <i className={`fab fa-google ${classes['google-button__icon']}`}></i>
         <p>Sign in with Google</p>
       </button>
-      <DemoAuth />
     </Fragment>
   );
 };

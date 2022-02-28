@@ -1,13 +1,12 @@
 import { FC } from 'react';
-import { SectionTitle } from '../../components/molecules';
-import { GoogleAuth } from '../../components/organisms';
+import { DemoAuth, GoogleAuth } from '../../components/organisms';
 import classes from './login.module.css';
 
 export const Login: FC = () => {
   return (
     <section className={classes.login}>
-      <SectionTitle>Google Auth</SectionTitle>
-      <GoogleAuth />
+      <GoogleAuth className={classes['google-auth-button']} />
+      <DemoAuth className={classes['demo-auth-button']} />
     </section>
   );
 };

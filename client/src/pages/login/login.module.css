@@ -2,4 +2,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 70vh;
+}
+
+.google-auth-button {
+  margin-bottom: 2rem;
+  width: 12rem;
+}
+
+.demo-auth-button {
+  width: 12rem;
 }
