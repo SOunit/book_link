@@ -1,13 +1,20 @@
 .login {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 70vh;
+  align-items: center;
+  height: 60vh;
+}
+
+.slider-wrapper {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .google-auth-button {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   width: 12rem;
 }
 
