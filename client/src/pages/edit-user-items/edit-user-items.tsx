@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, Fragment, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import { Item as ItemType } from '../../models';
 import {
+  NotFoundMessage,
   RegisteredItems,
   SearchBar,
   SearchedItems,
@@ -57,35 +57,17 @@ export const EditUserItems: FC = () => {
     }
   };
 
-  let registeredItems;
-  if (loginUser && loginUser.items) {
-    registeredItems = (
-      <RegisteredItems
-        items={loginUser.items}
-        onDeleteRegisteredItem={deleteClickHandler}
-      />
-    );
-  }
-
-  let searchedItemsSection;
-  if (loginUser) {
-    searchedItemsSection = (
-      <section>
-        <SearchedItems
-          searchItemInput={itemSearchInput}
-          items={searchedItems}
-          registeredItems={loginUser.items ? loginUser.items : []}
-          isItemSearched={isItemSearched}
-          onAddClick={addClickHandler}
-        />
-      </section>
-    );
-  }
-
   return (
     <Fragment>
       <SectionTitle>Your items</SectionTitle>
-      {registeredItems}
+      {loginUser && loginUser.items && loginUser.items.length > 0 ? (
+        <RegisteredItems
+          items={loginUser.items}
+          onDeleteRegisteredItem={deleteClickHandler}
+        />
+      ) : (
+        <NotFoundMessage title="No Item Found" text="Please register items" />
+      )}
       <section className={classes['search-bar']}>
         <SectionTitle>Add new items</SectionTitle>
         <SearchBar
@@ -99,7 +81,17 @@ export const EditUserItems: FC = () => {
           {'Create New Item >'}
         </Link>
       </section>
-      {searchedItemsSection}
+      {loginUser && (
+        <section>
+          <SearchedItems
+            searchItemInput={itemSearchInput}
+            items={searchedItems}
+            registeredItems={loginUser.items ? loginUser.items : []}
+            isItemSearched={isItemSearched}
+            onAddClick={addClickHandler}
+          />
+        </section>
+      )}
     </Fragment>
   );
 };
