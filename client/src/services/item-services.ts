@@ -1,6 +1,32 @@
 import { api as API } from './api';
 
 export const itemServices = {
+  createItem: async (title: string, author: string, imageUrl: string) => {
+    const graphqlQuery = {
+      query: `
+                mutation CreateItem ($data: CreateItemInput) {
+                  createItem(data: $data) {
+                    id
+                    title
+                    author
+                    imageUrl
+                  }
+                }
+              `,
+      variables: {
+        data: {
+          title,
+          author,
+          imageUrl,
+        },
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
   addUserItem: async (userId: string, itemId: string) => {
     const graphqlQuery = {
       query: `
