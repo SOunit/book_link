@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 import { userServices } from '../../../services';
 import { User as UserType } from '../../../models';
 import { Input, Textarea, Button } from '../../atoms';
-import { EditProfImage } from './edit-prof-image';
+import { ImageUpload } from '../../molecules';
 import { AuthContext } from '../../../store/';
 import classes from './edit-user-form.module.css';
 import { Buttons } from '../../molecules';
@@ -93,10 +93,10 @@ export const EditUserForm: FC<Props> = () => {
     <form className={classes['edit-user-form']} onSubmit={submitHandler}>
       {user && (
         <Fragment>
-          <EditProfImage
+          <ImageUpload
             image={image}
             setImage={setImage}
-            userImageUrl={user.imageUrl}
+            imageUrl={user.imageUrl}
           />
           <Input
             onChange={changeNameHandler}

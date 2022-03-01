@@ -1,4 +1,3 @@
-export * from './edit-user/edit-prof-image';
 export * from './edit-user/edit-user-form';
 export * from './home/logout-modal';
 export * from './layout/footer-nav';
