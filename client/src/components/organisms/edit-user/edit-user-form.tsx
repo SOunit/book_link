@@ -96,7 +96,7 @@ export const EditUserForm: FC<Props> = () => {
           <ImageUpload
             image={image}
             setImage={setImage}
-            userImageUrl={user.imageUrl}
+            imageUrl={user.imageUrl}
           />
           <Input
             onChange={changeNameHandler}

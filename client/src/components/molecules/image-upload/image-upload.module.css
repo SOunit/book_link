@@ -1,4 +1,4 @@
-.edit-prof-image {
+.image-upload {
   border-radius: 8px;
   overflow: hidden;
   width: 8.5rem;
@@ -6,10 +6,10 @@
   cursor: pointer;
 }
 
-.edit-prof-image__image-picker {
+.image-upload__image-picker {
   display: none;
 }
 
-.edit-prof-image__image {
+.image-upload__image {
   border-radius: 8px;
 }
