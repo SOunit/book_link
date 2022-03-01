@@ -5,8 +5,9 @@ import useModal from '../../../hooks/home/use-modal';
 import { User as UserType } from '../../../models/user';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
-import classes from './user-info.module.css';
 import { followingServices } from '../../../services';
+import { Image } from '../../atoms';
+import classes from './user-info.module.css';
 
 type UserInfoProps = {
   user: UserType;
@@ -39,14 +40,12 @@ export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
   );
   if (user.imageUrl && user.imageUrl.length > 0) {
     userImage = (
-      <div
-        className={`${classes['image-container']} ${classes['user-image-container']}`}>
-        <img
-          className={`${classes['image']} ${classes['user-info__image']}`}
-          src={user.imageUrl}
-          alt={user.name}
-        />
-      </div>
+      <Image
+        src={user.imageUrl}
+        alt={user.name}
+        className={classes['user-info__image']}
+        imageStyle={classes['user-info__image']}
+      />
     );
   }
 
