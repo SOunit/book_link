@@ -6,9 +6,7 @@ import {
   useEffect,
   useContext,
 } from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router';
-import keys from '../../../util/keys';
 import { userServices } from '../../../services';
 import { User as UserType } from '../../../models';
 import { Input, Textarea, Button } from '../../atoms';
@@ -16,6 +14,7 @@ import { EditProfImage } from './edit-prof-image';
 import { AuthContext } from '../../../store/';
 import classes from './edit-user-form.module.css';
 import { Buttons } from '../../molecules';
+import { useAwsS3 } from '../../../hooks/common/use-aws-s3';
 
 type Props = {};
 
@@ -29,6 +28,7 @@ export const EditUserForm: FC<Props> = () => {
   const { loginUser: user, setLoginUser } = useContext(AuthContext);
   const [image, setImage] = useState<File>();
   const [input, setInput] = useState<EditUserFormInput>();
+  const { uploadImageToS3 } = useAwsS3();
 
   const updateUser = async (userData: UserType) => {
     // update db
@@ -57,23 +57,7 @@ export const EditUserForm: FC<Props> = () => {
 
     let imageUrl = user.imageUrl;
     if (image) {
-      try {
-        // get aws s3 url to upload
-        const uploadConfig = await axios.get('/api/upload');
-        console.log('uploadConfig', uploadConfig);
-        console.log(uploadConfig.data.url);
-
-        // put data to aws s3
-        await axios.put(uploadConfig.data.url, image, {
-          headers: {
-            'Content-Type': image.type,
-          },
-        });
-
-        imageUrl = keys.AWS_S3_URL + uploadConfig.data.key;
-      } catch (err) {
-        console.log(err);
-      }
+      imageUrl = (await uploadImageToS3(image)) || imageUrl;
     }
 
     const newUser = {
