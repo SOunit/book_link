@@ -78,7 +78,7 @@ export const EditUserItems: FC = () => {
           onSetSearchResult={updateSearchedItemsHandler}
         />
         <Link to="/" className={classes['new-item-link']}>
-          {'Create New Item >'}
+          Create New Item
         </Link>
       </section>
       {loginUser && (
