@@ -4,14 +4,14 @@ export const itemServices = {
   createItem: async (title: string, author: string, imageUrl: string) => {
     const graphqlQuery = {
       query: `
-                mutation CreateItem ($data: CreateItemInput) {
+                mutation CreateItem ($data: CreateItemInput!) {
                   createItem(data: $data) {
                     id
                     title
                     author
                     imageUrl
                   }
-                }
+                }      
               `,
       variables: {
         data: {
