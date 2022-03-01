@@ -8,3 +8,4 @@ export * from './login/login';
 export * from './page-not-found/page-not-found';
 export * from './search-users/search-users';
 export * from './user-detail/user-detail';
+export * from './create-item/create-item';

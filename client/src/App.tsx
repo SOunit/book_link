@@ -13,6 +13,7 @@ import {
   Followings,
   Chat,
   ChatList,
+  CreateItem,
 } from './pages';
 import './App.css';
 import { useSocket } from './hooks';
@@ -39,8 +40,11 @@ function App() {
         <Route path="/login">
           {authCtx.isLoggedIn ? <Redirect to="/" /> : <Login />}
         </Route>
+        {/* Search */}
         <ProtectedRoute component={SearchUsers} path="/" exact />
         <ProtectedRoute component={SearchUsers} path="/search" />
+
+        {/* Users */}
         <ProtectedRoute component={EditUser} path="/users/edit" />
         <ProtectedRoute component={EditUserItems} path="/users/items/edit" />
         <ProtectedRoute
@@ -48,13 +52,22 @@ function App() {
           path="/users/:userId/followings"
         />
         <ProtectedRoute component={UserDetail} path="/users/:userId" />
+
+        {/* Chats */}
         <ProtectedRoute component={ChatList} path="/chats" exact />
         <ProtectedRoute
           component={Chat}
           path="/chats/:userId"
           socket={socket}
         />
+
+        {/* Home */}
         <ProtectedRoute component={Home} path="/home" />
+
+        {/* Items */}
+        <ProtectedRoute component={CreateItem} path="/items/new" />
+
+        {/* Page Not Found */}
         <Route path="*">
           <PageNotFound />
         </Route>
