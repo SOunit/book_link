@@ -9,3 +9,14 @@
 .image--round {
   border-radius: 8px;
 }
+
+.image--no-image {
+  padding: 0 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(236, 236, 236);
+  color: rgb(99, 99, 99);
+  border-radius: 8px;
+  font-weight: bold;
+}

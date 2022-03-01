@@ -11,11 +11,17 @@ type Props = {
 export const Image: FC<Props> = ({ src, alt, className, imageStyle }) => {
   return (
     <div className={`${classes['image-container']} ${className}`}>
-      <img
-        className={`${classes['image']} ${imageStyle}`}
-        src={src}
-        alt={alt}
-      />
+      {src ? (
+        <img
+          className={`${classes['image']} ${imageStyle}`}
+          src={src}
+          alt={alt}
+        />
+      ) : (
+        <div className={`${classes['image']} ${classes['image--no-image']}`}>
+          <p>No Image</p>
+        </div>
+      )}
     </div>
   );
 };
