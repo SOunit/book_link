@@ -1,6 +1,3 @@
-// FIXME
-// use backend and proxy
-// no client-id in client side
 const keys = {
   GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   TOKEN_KEY: process.env.REACT_APP_TOKEN_KEY,
