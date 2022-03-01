@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { Image } from '../../atoms';
-import classes from './edit-prof-image.module.css';
+import classes from './image-upload.module.css';
 
 type Props = {
   image?: File;
@@ -8,7 +8,7 @@ type Props = {
   setImage: any;
 };
 
-export const EditProfImage: FC<Props> = ({ image, userImageUrl, setImage }) => {
+export const ImageUpload: FC<Props> = ({ image, userImageUrl, setImage }) => {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>();
 

@@ -21,3 +21,4 @@ export * from './user-info/user-info';
 export * from './user-items/user-items';
 export * from './image-slider/image-slider';
 export * from './image-slider/slider-card';
+export * from './image-upload/image-upload';
