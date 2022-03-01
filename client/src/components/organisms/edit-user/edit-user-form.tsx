@@ -14,7 +14,7 @@ import { ImageUpload } from '../../molecules';
 import { AuthContext } from '../../../store/';
 import classes from './edit-user-form.module.css';
 import { Buttons } from '../../molecules';
-import { useAwsS3 } from '../../../hooks/common/use-aws-s3';
+import { useAwsS3 } from '../../../hooks';
 
 type Props = {};
 

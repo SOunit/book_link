@@ -9,7 +9,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import { Button, Input } from '../../components/atoms';
 import { ImageUpload, SectionTitle } from '../../components/molecules';
-import { useAwsS3 } from '../../hooks/common/use-aws-s3';
+import { useAwsS3 } from '../../hooks/';
 import { itemServices } from '../../services';
 import { AuthContext } from '../../store';
 import classes from './create-item.module.css';
