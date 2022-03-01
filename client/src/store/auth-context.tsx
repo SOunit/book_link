@@ -22,7 +22,7 @@ export const AuthContext = React.createContext<{
 });
 
 export const AuthContextProvider: FC = (props) => {
-  const initialToken = localStorage.getItem(keys.TOKEN_KEY);
+  const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
   const [token, setToken] = useState<string | null>(initialToken);
   const [loginUser, setLoginUser] = useState<User | null>(null);
 
@@ -30,7 +30,7 @@ export const AuthContextProvider: FC = (props) => {
 
   const logoutHandler = () => {
     setToken(null);
-    localStorage.removeItem(keys.TOKEN_KEY);
+    localStorage.removeItem(keys.TOKEN_KEY!);
   };
 
   const createNewUser = async (id: string) => {
@@ -44,7 +44,7 @@ export const AuthContextProvider: FC = (props) => {
   const loginHandler = useCallback((token: string | null) => {
     setToken(token);
     if (token) {
-      localStorage.setItem(keys.TOKEN_KEY, token);
+      localStorage.setItem(keys.TOKEN_KEY!, token);
 
       // check if user exists
       getUserCount(token).then((result) => {
