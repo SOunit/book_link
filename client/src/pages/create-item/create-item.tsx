@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FC,
   Fragment,
   SyntheticEvent,
   useContext,
@@ -7,20 +8,27 @@ import {
 } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Input } from '../../components/atoms';
-import { SectionTitle } from '../../components/molecules';
+import { ImageUpload, SectionTitle } from '../../components/molecules';
+import { useAwsS3 } from '../../hooks/common/use-aws-s3';
 import { itemServices } from '../../services';
 import { AuthContext } from '../../store';
 import classes from './create-item.module.css';
 
-export const CreateItem = () => {
-  const [inputs, setInputs] = useState({
+type Inputs = {
+  title: string;
+  author: string;
+};
+
+export const CreateItem: FC = () => {
+  const [inputs, setInputs] = useState<Inputs>({
     title: '',
     author: '',
-    imageUrl: '',
   });
-  const { title, author, imageUrl } = inputs;
+  const [imageFile, setImageFile] = useState<File>();
+  const { title, author } = inputs;
   const history = useHistory();
   const { loginUser, setLoginUser } = useContext(AuthContext);
+  const { uploadImageToS3 } = useAwsS3();
 
   const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setInputs((prevState) => ({ ...prevState, title: event.target.value }));
@@ -28,18 +36,20 @@ export const CreateItem = () => {
   const changeAuthorHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setInputs((prevState) => ({ ...prevState, author: event.target.value }));
   };
-  const changeImageUrlHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputs((prevState) => ({ ...prevState, imageUrl: event.target.value }));
-  };
   const submitHandler = async (event: SyntheticEvent) => {
-    if (!loginUser || !loginUser.items) {
+    if (!loginUser || !loginUser.items || !imageFile) {
       return;
     }
 
     event.preventDefault();
-    console.log('submit', inputs);
 
     try {
+      // upload image
+      const imageUrl = await uploadImageToS3(imageFile);
+      if (!imageUrl) {
+        return;
+      }
+
       // update db
       const itemRes = await itemServices.createItem(title, author, imageUrl);
       const newItem = itemRes.data.data.createItem;
@@ -71,12 +81,7 @@ export const CreateItem = () => {
           onChange={changeAuthorHandler}
           className={classes['create-item__form-input']}
         />
-        <Input
-          placeholder="ImageUrl"
-          value={imageUrl}
-          onChange={changeImageUrlHandler}
-          className={classes['create-item__form-input']}
-        />
+        <ImageUpload setImage={setImageFile} imageFile={imageFile} />
         <Button title="Create" />
       </form>
     </Fragment>

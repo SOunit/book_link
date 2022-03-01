@@ -3,12 +3,16 @@ import { Image } from '../../atoms';
 import classes from './image-upload.module.css';
 
 type Props = {
-  image?: File;
-  imageUrl: string;
+  imageFile?: File;
+  imageUrl?: string;
   setImage: any;
 };
 
-export const ImageUpload: FC<Props> = ({ image, imageUrl, setImage }) => {
+export const ImageUpload: FC<Props> = ({
+  imageFile,
+  imageUrl = '',
+  setImage,
+}) => {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>();
 
@@ -26,14 +30,14 @@ export const ImageUpload: FC<Props> = ({ image, imageUrl, setImage }) => {
   };
 
   useEffect(() => {
-    if (image) {
+    if (imageFile) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result as string);
       };
-      reader.readAsDataURL(image);
+      reader.readAsDataURL(imageFile);
     }
-  }, [image]);
+  }, [imageFile]);
 
   return (
     <div className={classes['image-upload']} onClick={imageClickHandler}>

@@ -94,7 +94,7 @@ export const EditUserForm: FC<Props> = () => {
       {user && (
         <Fragment>
           <ImageUpload
-            image={image}
+            imageFile={image}
             setImage={setImage}
             imageUrl={user.imageUrl}
           />
