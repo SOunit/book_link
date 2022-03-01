@@ -26,7 +26,7 @@ type EditUserFormInput = {
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
   const { loginUser: user, setLoginUser } = useContext(AuthContext);
-  const [image, setImage] = useState<File>();
+  const [imageFile, setImageFile] = useState<File>();
   const [input, setInput] = useState<EditUserFormInput>();
   const { uploadImageToS3 } = useAwsS3();
 
@@ -56,8 +56,8 @@ export const EditUserForm: FC<Props> = () => {
     }
 
     let imageUrl = user.imageUrl;
-    if (image) {
-      imageUrl = (await uploadImageToS3(image)) || imageUrl;
+    if (imageFile) {
+      imageUrl = (await uploadImageToS3(imageFile)) || imageUrl;
     }
 
     const newUser = {
@@ -94,8 +94,8 @@ export const EditUserForm: FC<Props> = () => {
       {user && (
         <Fragment>
           <ImageUpload
-            imageFile={image}
-            setImage={setImage}
+            imageFile={imageFile}
+            setImageFile={setImageFile}
             imageUrl={user.imageUrl}
           />
           <Input

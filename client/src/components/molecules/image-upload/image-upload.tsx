@@ -5,13 +5,13 @@ import classes from './image-upload.module.css';
 type Props = {
   imageFile?: File;
   imageUrl?: string;
-  setImage: any;
+  setImageFile: any;
 };
 
 export const ImageUpload: FC<Props> = ({
   imageFile,
   imageUrl = '',
-  setImage,
+  setImageFile,
 }) => {
   const imagePickerRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string>();
@@ -21,7 +21,7 @@ export const ImageUpload: FC<Props> = ({
       event.target.files &&
       event.target.files[0].type.substring(0, 5) === 'image'
     ) {
-      setImage(event.target.files[0]);
+      setImageFile(event.target.files[0]);
     }
   };
 

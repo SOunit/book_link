@@ -81,7 +81,7 @@ export const CreateItem: FC = () => {
           onChange={changeAuthorHandler}
           className={classes['create-item__form-input']}
         />
-        <ImageUpload setImage={setImageFile} imageFile={imageFile} />
+        <ImageUpload setImageFile={setImageFile} imageFile={imageFile} />
         <Button title="Create" />
       </form>
     </Fragment>
