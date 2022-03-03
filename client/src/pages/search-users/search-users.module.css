@@ -1,0 +1,15 @@
+.search-bar {
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.button-container {
+  margin: 1rem 0 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.text--user-not-found {
+  text-align: center;
+}

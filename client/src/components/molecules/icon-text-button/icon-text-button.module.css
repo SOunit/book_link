@@ -1,0 +1,18 @@
+.icon-text-button {
+  background-color: #171717;
+  color: #fff;
+  display: flex;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-text-button__icon {
+  margin: 0.4rem 0.2rem 0.2rem 0.2rem;
+}
+
+.icon-text-button__text {
+  margin: 0.2rem;
+}

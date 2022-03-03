@@ -1,0 +1,22 @@
+.image-container {
+  width: 100%;
+}
+
+.image {
+  width: 100%;
+}
+
+.image--round {
+  border-radius: 8px;
+}
+
+.image--no-image {
+  display: flex;
+  height: 10rem;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(236, 236, 236);
+  color: rgb(99, 99, 99);
+  border-radius: 8px;
+  font-weight: bold;
+}
