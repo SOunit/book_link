@@ -1,19 +1,19 @@
 import { api as API } from './api';
 
 export const followingServices = {
-  fetchFollowing: async (userId: string, targetId: string) => {
+  fetchFollowing: async (userId: string, followingUserId: string) => {
     const graphqlQuery = {
       query: `
-              query fetchFollowing($userId: ID!, $targetId: ID!){
-                following(userId: $userId, targetId: $targetId){
+              query fetchFollowing($userId: ID!, $followingUserId: ID!){
+                following(userId: $userId, followingUserId: $followingUserId){
                   userId
-                  targetId
+                  followingUserId
                 }
               }
             `,
       variables: {
         userId,
-        targetId,
+        followingUserId,
       },
     };
 
@@ -22,16 +22,16 @@ export const followingServices = {
     });
   },
 
-  deleteFollowing: async (userId: string, targetId: string) => {
+  deleteFollowing: async (userId: string, followingUserId: string) => {
     const graphqlQuery = {
       query: `
-                  mutation DeleteFollowing($userId: ID!, $targetId: ID!){
-                    deleteFollowing(userId: $userId, targetId: $targetId)
+                  mutation DeleteFollowing($userId: ID!, $followingUserId: ID!){
+                    deleteFollowing(userId: $userId, followingUserId: $followingUserId)
                   }
                   `,
       variables: {
         userId,
-        targetId,
+        followingUserId,
       },
     };
 
@@ -40,16 +40,16 @@ export const followingServices = {
     });
   },
 
-  createFollowing: async (userId: string, targetId: string) => {
+  createFollowing: async (userId: string, followingUserId: string) => {
     const graphqlQuery = {
       query: `
-                  mutation CreateFollowing($userId: ID!, $targetId: ID!){
-                    createFollowing(userId: $userId, targetId: $targetId)
+                  mutation CreateFollowing($userId: ID!, $followingUserId: ID!){
+                    createFollowing(userId: $userId, followingUserId: $followingUserId)
                   }
                   `,
       variables: {
         userId,
-        targetId,
+        followingUserId,
       },
     };
 

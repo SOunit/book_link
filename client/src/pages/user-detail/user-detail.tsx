@@ -33,8 +33,8 @@ export const UserDetail = () => {
       followingServices
         .fetchFollowing(loginUser.id, params.userId)
         .then((result) => {
-          const targetId = result.data.data.following.targetId;
-          if (targetId) {
+          const followingUserId = result.data.data.following.followingUserId;
+          if (followingUserId) {
             setFollowing(true);
           } else {
             setFollowing(false);

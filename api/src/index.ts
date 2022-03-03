@@ -13,11 +13,12 @@ import sequelize from './util/database';
 import User from './models/sequelize/user';
 import Item from './models/sequelize/item';
 import UserItem from './models/sequelize/userItem';
-import { setupDummyData } from './setup';
 import Following from './models/sequelize/following';
+import Follower from './models/sequelize/follower';
 import Chat from './models/sequelize/chat';
 import UserChat from './models/sequelize/userChat';
 import Message from './models/sequelize/message';
+import { setupDummyData } from './setup';
 
 const app = express();
 app.use(cors());
@@ -60,7 +61,8 @@ app.use(
 // setup association, add functions
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
-User.belongsToMany(User, { as: 'targets', through: Following });
+User.belongsToMany(User, { as: 'followingUser', through: Following });
+User.belongsToMany(User, { as: 'followerUser', through: Follower });
 Chat.belongsToMany(User, { through: UserChat });
 User.belongsToMany(Chat, { through: UserChat });
 Message.belongsTo(Chat);

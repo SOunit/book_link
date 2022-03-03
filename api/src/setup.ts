@@ -203,12 +203,12 @@ export const setupDummyData = async () => {
 
   await Following.create({
     userId: '1',
-    targetId: '4',
+    followingUserId: '4',
   });
 
   await Following.create({
     userId: '2',
-    targetId: '4',
+    followingUserId: '4',
   });
 
   // create data
