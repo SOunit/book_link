@@ -89,6 +89,7 @@ export const ChatServices = {
                   chatId
                   userId
                   text
+                  createdAt
                 }
               }
             `,
