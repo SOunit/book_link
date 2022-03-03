@@ -5,10 +5,9 @@ import useModal from '../../../hooks/home/use-modal';
 import { User as UserType } from '../../../models/user';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
-import { followingServices } from '../../../services';
+import { followingServices, followerServices } from '../../../services';
 import { Image } from '../../atoms';
 import classes from './user-info.module.css';
-import { followerServices } from '../../../services/follower-services';
 
 type UserInfoProps = {
   user: UserType;
