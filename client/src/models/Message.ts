@@ -3,6 +3,7 @@ export class Message {
   userId: string;
   chatId: string;
   text: string;
+  createdAt?: string;
 
   constructor(userId: string, chatId: string, text: string) {
     this.id = Math.random().toString();
@@ -10,4 +11,12 @@ export class Message {
     this.chatId = chatId;
     this.text = text;
   }
+
+  static getDisplayTime = (createdAt: string) => {
+    const items = new Date(createdAt).toLocaleTimeString().split(':');
+    items.splice(-1, 1);
+    console.log(items);
+
+    return items.join(':');
+  };
 }

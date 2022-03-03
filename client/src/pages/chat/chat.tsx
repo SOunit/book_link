@@ -11,9 +11,9 @@ import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
 import { AuthContext } from '../../store';
-import classes from './chat.module.css';
 import { ChatForm, ChatHeader } from '../../components/organisms';
 import { ChatMessage } from '../../components/organisms';
+import classes from './chat.module.css';
 
 type ChatProps = {
   socket: any;
@@ -116,6 +116,8 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   let messages;
   if (chat && loginUser) {
     messages = chat.messages.map((message: MessageType) => {
+      console.log('message', message);
+
       let isMine = false;
       if (loginUser.id === message.userId) {
         isMine = true;

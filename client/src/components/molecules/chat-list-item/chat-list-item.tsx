@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router';
-import { Chat as ChatType } from '../../../models';
+import { Chat as ChatType, Message } from '../../../models';
 import { Image } from '../../atoms';
 import classes from './chat-list-item.module.css';
 
@@ -11,13 +11,14 @@ type ChatListItemProps = {
 export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
   const history = useHistory();
   const chatPartnerUser = chat.users[0];
+  const latestMessage = chat.messages[0];
 
   const clickHandler = () => {
     history.push(`/chats/${chatPartnerUser.id}`);
   };
 
-  const getLatestMessage = (text: string) => {
-    let latestMessage = text;
+  const getSummaryMessage = (text: string) => {
+    let summaryMessage = text;
 
     const words = text.split(' ');
     let changed = false;
@@ -25,26 +26,26 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
     let maxCount = 10;
     if (words.length > maxCount) {
       words.splice(maxCount);
-      latestMessage = words.join(' ');
+      summaryMessage = words.join(' ');
       changed = true;
     }
 
     maxCount = 50;
-    if (latestMessage.length > maxCount) {
-      latestMessage = text.substr(0, maxCount);
+    if (summaryMessage.length > maxCount) {
+      summaryMessage = text.substr(0, maxCount);
       changed = true;
     }
 
     if (changed) {
-      latestMessage += '...';
+      summaryMessage += '...';
     }
 
-    return latestMessage;
+    return summaryMessage;
   };
 
-  let latestMessage = null;
+  let messageSummary = null;
   if (chat.messages && chat.messages.length > 0) {
-    latestMessage = getLatestMessage(chat.messages[0].text);
+    messageSummary = getSummaryMessage(latestMessage.text);
   }
 
   return (
@@ -60,9 +61,13 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
         <div className={classes['chatListItem__name']}>
           {chatPartnerUser.name}
         </div>
-        <div className={classes['chatListItem__text']}>{latestMessage}</div>
+        <div className={classes['chatListItem__text']}>{messageSummary}</div>
       </div>
-      <div className={classes['chatListItem__time']}>19:47</div>
+      {latestMessage.createdAt && (
+        <div className={classes['chatListItem__time']}>
+          {Message.getDisplayTime(latestMessage.createdAt)}
+        </div>
+      )}
     </div>
   );
 };
