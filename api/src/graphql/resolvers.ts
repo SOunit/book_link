@@ -7,6 +7,7 @@ import sequelize from '../util/database';
 import User from '../models/sequelize/user';
 import UserItem from '../models/sequelize/userItem';
 import Following from '../models/sequelize/following';
+import Follower from '../models/sequelize/follower';
 import Chat from '../models/sequelize/chat';
 import Message from '../models/sequelize/message';
 import UserChat from '../models/sequelize/userChat';
@@ -246,6 +247,35 @@ const resolvers = {
         followings."followingUserId" = users.id
       WHERE
         followings."userId" = :userId
+      LIMIT
+        10
+      OFFSET
+        0
+      `,
+      {
+        replacements: {
+          userId: args.userId,
+        },
+        type: QueryTypes.SELECT,
+      },
+    );
+
+    return users;
+  },
+
+  getFollowerUsers: async (args: { userId: string }) => {
+    const users = await sequelize.query(
+      `
+      SELECT
+        users.id
+        , users.name
+        , users."imageUrl"
+      FROM
+        followers
+      JOIN
+        users
+      ON
+        followers."userId" = users.id
       LIMIT
         10
       OFFSET

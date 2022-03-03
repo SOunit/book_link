@@ -9,6 +9,7 @@ export default buildSchema(`
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
         getFollowingUsers(userId: ID!): [FollowingUser!]!
+        getFollowerUsers(userId: ID!): [User!]!
         following(userId: ID!, followingUserId: ID!): Following
         getUserChat(userIds: [ID!]!): Chat
         getUserChatList(userId: ID!): [Chat]
@@ -82,7 +83,12 @@ export default buildSchema(`
 
     type Following {
         userId: ID
-        followingUser: ID
+        followingUserId: ID
+    }
+
+    type Follower {
+        userId: ID
+        followerUserId: ID
     }
 
     type Chat {

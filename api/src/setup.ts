@@ -1,4 +1,5 @@
 import Chat from './models/sequelize/chat';
+import Follower from './models/sequelize/follower';
 import Following from './models/sequelize/following';
 import Message from './models/sequelize/message';
 import User from './models/sequelize/user';
@@ -252,6 +253,16 @@ export const setupDummyData = async () => {
     chatId: '1',
     userId: '2',
     text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
+  });
+
+  await Follower.create({
+    userId: '1',
+    followerUserId: '2',
+  });
+
+  await Follower.create({
+    userId: '1',
+    followerUserId: '3',
   });
 
   // fetch user including chats, messages
