@@ -15,7 +15,6 @@ export class Message {
   static getDisplayTime = (createdAt: string) => {
     const items = new Date(createdAt).toLocaleTimeString().split(':');
     items.splice(-1, 1);
-    console.log(items);
 
     return items.join(':');
   };
