@@ -116,8 +116,6 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   let messages;
   if (chat && loginUser) {
     messages = chat.messages.map((message: MessageType) => {
-      console.log('message', message);
-
       let isMine = false;
       if (loginUser.id === message.userId) {
         isMine = true;
