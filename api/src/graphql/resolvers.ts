@@ -276,6 +276,8 @@ const resolvers = {
         users
       ON
         followers."followerUserId" = users.id
+      WHERE
+        followers."userId" = :userId
       LIMIT
         10
       OFFSET
