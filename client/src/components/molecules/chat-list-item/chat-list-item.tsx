@@ -63,7 +63,7 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
         </div>
         <div className={classes['chatListItem__text']}>{messageSummary}</div>
       </div>
-      {latestMessage.createdAt && (
+      {latestMessage && latestMessage.createdAt && (
         <div className={classes['chatListItem__time']}>
           {Message.getDisplayTime(latestMessage.createdAt)}
         </div>
