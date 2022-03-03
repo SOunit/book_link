@@ -275,7 +275,7 @@ const resolvers = {
       JOIN
         users
       ON
-        followers."userId" = users.id
+        followers."followerUserId" = users.id
       LIMIT
         10
       OFFSET
