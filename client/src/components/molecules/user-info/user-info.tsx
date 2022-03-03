@@ -5,7 +5,7 @@ import useModal from '../../../hooks/home/use-modal';
 import { User as UserType } from '../../../models/user';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
-import { followingServices } from '../../../services';
+import { followingServices, followerServices } from '../../../services';
 import { Image } from '../../atoms';
 import classes from './user-info.module.css';
 
@@ -18,12 +18,16 @@ export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
   const { signOutClickHandler } = useGoogleAuth();
   const [followings, setFollowings] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
   useEffect(() => {
     const fetchFollowings = async () => {
       if (user) {
-        const res = await followingServices.fetchFollowingUsers(user.id);
+        let res = await followingServices.fetchFollowingUsers(user.id);
         setFollowings(res.data.data.getFollowingUsers);
+
+        res = await followerServices.fetchFollowerUsers(user.id);
+        setFollowers(res.data.data.getFollowerUsers);
       }
     };
 
@@ -75,7 +79,9 @@ export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
           <Link
             className={classes['user-info__link']}
             to={`/users/${user.id}/followed-by`}>
-            <span className={classes['user-info__follow-number']}>1,234</span>{' '}
+            <span className={classes['user-info__follow-number']}>
+              {followers.length}
+            </span>{' '}
             Followers
           </Link>
           {isHome && (
