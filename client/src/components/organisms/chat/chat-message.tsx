@@ -13,7 +13,6 @@ type Props = {
 
 export const ChatMessage: FC<Props> = ({
   message,
-  className,
   chat,
   loginUserId,
   isMine,
@@ -39,7 +38,11 @@ export const ChatMessage: FC<Props> = ({
         }>
         {message.text}
       </div>
-      <div className={classes['message__time']}>22:00</div>
+      {message.createdAt && (
+        <div className={classes['message__time']}>
+          {Message.getDisplayTime(message.createdAt)}
+        </div>
+      )}
     </div>
   );
 };

@@ -17,6 +17,7 @@ export const ChatServices = {
                     chatId
                     userId
                     text
+                    createdAt
                   }
                 }
               }
@@ -46,6 +47,7 @@ export const ChatServices = {
                     id
                     userId
                     text
+                    createdAt
                   }
                 }
               }
@@ -87,6 +89,7 @@ export const ChatServices = {
                   chatId
                   userId
                   text
+                  createdAt
                 }
               }
             `,

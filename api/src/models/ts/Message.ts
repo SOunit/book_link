@@ -3,6 +3,7 @@ type Message = {
   chatId: string;
   userId: string;
   text: string;
+  createdAt: Date;
 };
 
 export default Message;

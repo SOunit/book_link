@@ -26,6 +26,8 @@ export default buildSchema(`
         createMessage(chatId: ID!, userId: ID!, text: String!): Message
     }
 
+    scalar Date
+
     schema {
         query: RootQuery
         mutation: RootMutation
@@ -94,5 +96,6 @@ export default buildSchema(`
         chatId: ID
         userId: ID
         text: String
+        createdAt: Date
     }
 `);

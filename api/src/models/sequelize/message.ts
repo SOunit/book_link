@@ -27,6 +27,9 @@ const Message = sequelize.define('message', {
     type: Sequelize.TEXT,
     allowNull: false,
   },
+  createdAt: {
+    type: Sequelize.DATE,
+  },
 });
 
 export default Message;

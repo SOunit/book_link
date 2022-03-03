@@ -11,9 +11,9 @@ import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
 import { AuthContext } from '../../store';
-import classes from './chat.module.css';
 import { ChatForm, ChatHeader } from '../../components/organisms';
 import { ChatMessage } from '../../components/organisms';
+import classes from './chat.module.css';
 
 type ChatProps = {
   socket: any;
@@ -57,6 +57,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
       const newChat = { ...prevState };
       const messages = newChat.messages!;
 
+      // stop duplicate id
       if (messages.find((msg: MessageType) => msg.id === message.id)) {
         return prevState;
       }
@@ -80,7 +81,9 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     if (chat && loginUser) {
       ChatServices.createMessage(chat.id, loginUser.id, messageInput).then(
         (res) => {
+          // fetch message from backend
           const message = res.data.data.createMessage;
+
           socket.emit('create:message', {
             loginUserId: loginUser.id,
             userId,
