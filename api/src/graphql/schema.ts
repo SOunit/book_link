@@ -9,7 +9,7 @@ export default buildSchema(`
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
         getFollowingUsers(userId: ID!): [FollowingUser!]!
-        following(userId: ID!, targetId: ID!): Following
+        following(userId: ID!, followingUserId: ID!): Following
         getUserChat(userIds: [ID!]!): Chat
         getUserChatList(userId: ID!): [Chat]
     }
@@ -20,8 +20,8 @@ export default buildSchema(`
         updateUser(data: UpdateUserInput!): User!
         deleteUserItem(data: DeleteUserItemInput!): User!
         addUserItem(data: AddUserItemInput!): User!
-        createFollowing(userId: ID!, targetId: ID!): Boolean
-        deleteFollowing(userId: ID!, targetId: ID!): Boolean
+        createFollowing(userId: ID!, followingUserId: ID!): Boolean
+        deleteFollowing(userId: ID!, followingUserId: ID!): Boolean
         createChat(userId: ID!, targetId: ID!): Boolean
         createMessage(chatId: ID!, userId: ID!, text: String!): Message
     }
@@ -82,7 +82,7 @@ export default buildSchema(`
 
     type Following {
         userId: ID
-        targetId: ID
+        followingUser: ID
     }
 
     type Chat {

@@ -156,7 +156,7 @@ const resolvers = {
       AND
         users.id not in (
           SELECT
-            "targetId"
+            "followingUserId"
           FROM
             followings
           WHERE
@@ -243,7 +243,7 @@ const resolvers = {
       JOIN
         users
       ON
-        followings."targetId" = users.id
+        followings."followingUserId" = users.id
       WHERE
         followings."userId" = :userId
       LIMIT
@@ -262,20 +262,26 @@ const resolvers = {
     return users;
   },
 
-  createFollowing: async (args: { userId: string; targetId: string }) => {
+  createFollowing: async (args: {
+    userId: string;
+    followingUserId: string;
+  }) => {
     await Following.create({
       userId: args.userId,
-      targetId: args.targetId,
+      followingUserId: args.followingUserId,
     });
 
     return true;
   },
 
-  deleteFollowing: async (args: { userId: string; targetId: string }) => {
+  deleteFollowing: async (args: {
+    userId: string;
+    followingUserId: string;
+  }) => {
     const followingInstance = await Following.findOne({
       where: {
         userId: args.userId,
-        targetId: args.targetId,
+        followingUserId: args.followingUserId,
       },
     });
 
@@ -284,25 +290,25 @@ const resolvers = {
     return true;
   },
 
-  following: async (args: { userId: string; targetId: string }) => {
+  following: async (args: { userId: string; followingUserId: string }) => {
     const following = await Following.findOne({
       where: {
         userId: args.userId,
-        targetId: args.targetId,
+        followingUserId: args.followingUserId,
       },
     });
 
     if (!following) {
       return {
         userId: null,
-        targetId: null,
+        followingUserId: null,
       };
     }
 
     const followingData = following.get({ row: true });
     return {
       userId: followingData.userId,
-      targetId: followingData.targetId,
+      followingUserId: followingData.followingUserId,
     };
   },
 
