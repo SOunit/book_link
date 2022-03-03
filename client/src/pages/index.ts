@@ -3,6 +3,7 @@ export * from './chat-list/chat-list';
 export * from './edit-user/edit-user';
 export * from './edit-user-items/edit-user-items';
 export * from './followings/followings';
+export * from './followers/followers';
 export * from './home/home';
 export * from './login/login';
 export * from './page-not-found/page-not-found';

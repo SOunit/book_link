@@ -14,6 +14,7 @@ import {
   Chat,
   ChatList,
   CreateItem,
+  Followers,
 } from './pages';
 import './App.css';
 import { useSocket } from './hooks';
@@ -51,6 +52,7 @@ function App() {
           component={Followings}
           path="/users/:userId/followings"
         />
+        <ProtectedRoute component={Followers} path="/users/:userId/followers" />
         <ProtectedRoute component={UserDetail} path="/users/:userId" />
 
         {/* Chats */}

@@ -78,7 +78,7 @@ export const UserInfo: FC<UserInfoProps> = ({ user, isHome = false }) => {
           </Link>
           <Link
             className={classes['user-info__link']}
-            to={`/users/${user.id}/followed-by`}>
+            to={`/users/${user.id}/followers`}>
             <span className={classes['user-info__follow-number']}>
               {followers.length}
             </span>{' '}
