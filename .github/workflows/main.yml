@@ -62,7 +62,7 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name MyAwesomeApp \
-          --source-bundle S3Bucket="elasticbeanstalk-ca-central-1-106351276515/book_link",S3Key="deploy_package.zip" \
+          --source-bundle S3Bucket="elasticbeanstalk-ca-central-1-106351276515",S3Key="deploy_package.zip" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
 
