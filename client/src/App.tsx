@@ -23,6 +23,7 @@ import { AuthContext } from './store';
 function App() {
   const { socket } = useSocket();
   const authCtx = useContext(AuthContext);
+  console.log('app authCtx', authCtx);
 
   useEffect(() => {
     document.title = 'Book Link';
