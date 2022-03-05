@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 
-const useNavShown = () => {
+export const useNavShown = () => {
   const [isNavShown, setIsNavShown] = useState(true);
   const location = useLocation();
 
@@ -13,5 +13,3 @@ const useNavShown = () => {
 
   return { isNavShown };
 };
-
-export default useNavShown;

@@ -35,7 +35,6 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
 
-      # https://www.youtube.com/watch?v=zf4IvZQZmlA
       - name: docker build
         run: |
           docker build -t hiranokuosaka/book_link_client ./client
