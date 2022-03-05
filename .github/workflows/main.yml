@@ -25,15 +25,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Docker build
-        run: |
-          docker build -t hiranokuosaka/book_link_client ./client
-          docker build -t hiranokuosaka/book_link_nginx ./nginx
-          docker build -t hiranokuosaka/book_link_api ./api
-          echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
-          docker push hiranokuosaka/book_link_client
-          docker push hiranokuosaka/book_link_nginx
-          docker push hiranokuosaka/book_link_api
+      # - name: Docker build
+      #   run: |
+      #     docker build -t hiranokuosaka/book_link_client ./client
+      #     docker build -t hiranokuosaka/book_link_nginx ./nginx
+      #     docker build -t hiranokuosaka/book_link_api ./api
+      #     echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
+      #     docker push hiranokuosaka/book_link_client
+      #     docker push hiranokuosaka/book_link_nginx
+      #     docker push hiranokuosaka/book_link_api
 
       - name: Create ZIP deployment package
         run: zip -r deploy_package.zip ./Dockerrun.aws.json
@@ -51,7 +51,7 @@ jobs:
       - name: Create new ElasticBeanstalk Application Version
         run: |
           aws elasticbeanstalk create-application-version \
-          --application-name MyAwesomeApp \
+          --application-name book_link \
           --source-bundle S3Bucket="elasticbeanstalk-ca-central-1-106351276515",S3Key="deploy_package.zip" \
           --version-label "ver-${{ github.sha }}" \
           --description "commit-sha-${{ github.sha }}"
