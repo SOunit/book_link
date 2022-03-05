@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,3 +34,14 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+
+      # https://www.youtube.com/watch?v=zf4IvZQZmlA
+      - name: docker build
+        run: |
+          docker build -t hiranokuosaka/book_link_client ./client
+          docker build -t hiranokuosaka/book_link_nginx ./nginx
+          docker build -t hiranokuosaka/book_link_api ./api
+          echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
+          docker push hiranokuosaka/book_link_client
+          docker push hiranokuosaka/book_link_nginx
+          docker push hiranokuosaka/book_link_api
