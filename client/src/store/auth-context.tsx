@@ -42,28 +42,34 @@ export const AuthContextProvider: FC = (props) => {
   };
 
   const loginHandler = useCallback((token: string | null) => {
+    console.log('loginHandler');
+
     setToken(token);
     if (token) {
       localStorage.setItem(keys.TOKEN_KEY!, token);
 
       // check if user exists
-      getUserCount(token).then((result) => {
-        const amount = result.data.data.getUserCount;
+      getUserCount(token)
+        .then((result) => {
+          const amount = result.data.data.getUserCount;
 
-        if (amount <= 0) {
-          createNewUser(token).then((response) => {
-            // set new user to state
-            console.log('response', response);
+          if (amount <= 0) {
+            createNewUser(token).then((response) => {
+              // set new user to state
+              console.log('response', response);
 
-            setLoginUser({ ...response.data.data.createUser, items: [] });
-          });
-        } else {
-          // fetch user
-          userServices.fetchUser(token).then((response) => {
-            setLoginUser(response.data.data.user);
-          });
-        }
-      });
+              setLoginUser({ ...response.data.data.createUser, items: [] });
+            });
+          } else {
+            // fetch user
+            userServices.fetchUser(token).then((response) => {
+              setLoginUser(response.data.data.user);
+            });
+          }
+        })
+        .catch((err) => {
+          console.log('loginHandler err', err);
+        });
     }
   }, []);
 
