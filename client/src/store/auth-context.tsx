@@ -38,15 +38,10 @@ export const AuthContextProvider: FC = (props) => {
   };
 
   const getUserCount = async (id: string) => {
-    console.log('getUserCount');
-    console.log('keys.GRAPHQL_REQUEST_URL', keys.GRAPHQL_REQUEST_URL);
-
     return userServices.getUserCount(id);
   };
 
   const loginHandler = useCallback((token: string | null) => {
-    console.log('loginHandler token', token);
-
     setToken(token);
     if (token) {
       localStorage.setItem(keys.TOKEN_KEY!, token);
@@ -59,8 +54,6 @@ export const AuthContextProvider: FC = (props) => {
           if (amount <= 0) {
             createNewUser(token).then((response) => {
               // set new user to state
-              console.log('response', response);
-
               setLoginUser({ ...response.data.data.createUser, items: [] });
             });
           } else {

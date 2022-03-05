@@ -19,8 +19,6 @@ const useGoogleAuth = () => {
   }, [authCtx]);
 
   useEffect(() => {
-    console.log('keys.GOOGLE_CLIENT_ID', keys.GOOGLE_CLIENT_ID);
-
     window.gapi.load('client:auth2', () => {
       window.gapi.client
         .init({

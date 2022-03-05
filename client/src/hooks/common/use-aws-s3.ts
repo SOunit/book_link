@@ -6,8 +6,6 @@ export const useAwsS3 = () => {
     try {
       // get aws s3 url to upload
       const uploadConfig = await axios.get('/api/upload');
-      console.log('uploadConfig', uploadConfig);
-      console.log(uploadConfig.data.url);
 
       // put data to aws s3
       await axios.put(uploadConfig.data.url, image, {
