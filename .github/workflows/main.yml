@@ -35,7 +35,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
 
-      - name: docker build
+      - name: Docker build
         run: |
           docker build -t hiranokuosaka/book_link_client ./client
           docker build -t hiranokuosaka/book_link_nginx ./nginx
