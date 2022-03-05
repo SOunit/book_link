@@ -19,6 +19,10 @@ const useGoogleAuth = () => {
   }, [authCtx]);
 
   useEffect(() => {
+    if (!window.gapi) {
+      return;
+    }
+
     window.gapi.load('client:auth2', () => {
       window.gapi.client
         .init({
