@@ -35,26 +35,29 @@ jobs:
           docker push hiranokuosaka/book_link_nginx
           docker push hiranokuosaka/book_link_api
 
-      - name: Create ZIP deployment package
-        run: zip -r deploy_package.zip ./Dockerrun.aws.json
+      - name: Get Timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Run String Replace
+        uses: frabert/replace-string-action@master
+        id: format-time
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-          aws-region: 'ca-central-1'
+          pattern: '[:\.]+'
+          string: '${{ steps.current-time.outputs.time }}'
+          replace-with: '-'
+          flags: 'g'
 
-      - name: Upload package to S3 bucket
-        run: aws s3 cp deploy_package.zip s3://elasticbeanstalk-ca-central-1-106351276515/
+      - name: Generate Deployment Package
+        run: zip -r deploy_package.zip * -x "**node_modules**"
 
-      - name: Create new ElasticBeanstalk Application Version
-        run: |
-          aws elasticbeanstalk create-application-version \
-          --application-name book_link \
-          --source-bundle S3Bucket="elasticbeanstalk-ca-central-1-106351276515",S3Key="deploy_package.zip" \
-          --version-label "ver-${{ github.sha }}" \
-          --description "commit-sha-${{ github.sha }}"
-
-      - name: Deploy new ElasticBeanstalk Application Version
-        run: aws elasticbeanstalk update-environment --environment-name Booklink-env --version-label "ver-${{ github.sha }}"
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v16
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: book_link
+          environment_name: Booklink-env
+          version_label: 'docker-app-${{ steps.format-time.outputs.replaced }}'
+          region: ca-central-1
+          deployment_package: deploy_package.zip

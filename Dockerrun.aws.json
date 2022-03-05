@@ -3,21 +3,21 @@
   "containerDefinitions": [
     {
       "name": "client",
-      "image": "hiranokuosaka/book_link_client:latest",
+      "image": "hiranokuosaka/book_link_client",
       "hostname": "client",
       "essential": false,
       "memory": 128
     },
     {
       "name": "api",
-      "image": "hiranokuosaka/book_link_api:latest",
+      "image": "hiranokuosaka/book_link_api",
       "hostname": "api",
       "essential": false,
       "memory": 128
     },
     {
       "name": "nginx",
-      "image": "hiranokuosaka/book_link_nginx:latest",
+      "image": "hiranokuosaka/book_link_nginx",
       "hostname": "nginx",
       "essential": true,
       "portMappings": [
