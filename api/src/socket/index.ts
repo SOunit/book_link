@@ -30,14 +30,14 @@ const socketServer = (server: any) => {
   io.on('connection', (socket: any) => {
     socket.on('join', (loginUserId: string) => {
       console.log('loginUserId', loginUserId);
-      if(!loginUserId){
+      if (!loginUserId) {
         return;
       }
 
       console.log('before join');
       console.log(
         'loginUserIdToUserIdWithSockets',
-        loginUserIdToUserIdWithSockets
+        loginUserIdToUserIdWithSockets,
       );
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
 
@@ -53,7 +53,7 @@ const socketServer = (server: any) => {
         };
         loginUserIdToUserIdWithSockets.set(
           loginUserId,
-          existingUserIdWithSockets
+          existingUserIdWithSockets,
         );
         socketIdToLoginUserId.set(socket.id, loginUserId);
       } else {
@@ -68,7 +68,7 @@ const socketServer = (server: any) => {
       console.log('after join');
       console.log(
         'loginUserIdToUserIdWithSockets',
-        loginUserIdToUserIdWithSockets
+        loginUserIdToUserIdWithSockets,
       );
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
     });
@@ -78,18 +78,18 @@ const socketServer = (server: any) => {
       console.log('before disconnect');
       console.log(
         'loginUserIdToUserIdWithSockets',
-        loginUserIdToUserIdWithSockets
+        loginUserIdToUserIdWithSockets,
       );
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
 
       // if socket exists
       if (socketIdToLoginUserId.has(socket.id)) {
         const userIdWithSockets = loginUserIdToUserIdWithSockets.get(
-          socketIdToLoginUserId.get(socket.id)
+          socketIdToLoginUserId.get(socket.id),
         );
         console.log('userIdWithSockets', userIdWithSockets);
 
-        if (userIdWithSockets.sockets.length > 1) {
+        if (userIdWithSockets.sockets && userIdWithSockets.sockets.length > 1) {
           // update user sockets
           delete userIdWithSockets.sockets[socket.id];
         } else {
@@ -102,7 +102,7 @@ const socketServer = (server: any) => {
       console.log('after disconnect');
       console.log(
         'loginUserIdToUserIdWithSockets',
-        loginUserIdToUserIdWithSockets
+        loginUserIdToUserIdWithSockets,
       );
       console.log('socketIdToLoginUserId', socketIdToLoginUserId);
     });
@@ -123,7 +123,7 @@ const socketServer = (server: any) => {
 
         // update chat user chat screen
         emitUpdateChat(userId, message);
-      }
+      },
     );
   });
 };
