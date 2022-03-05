@@ -44,3 +44,27 @@ jobs:
           docker push hiranokuosaka/book_link_client
           docker push hiranokuosaka/book_link_nginx
           docker push hiranokuosaka/book_link_api
+
+      - name: Create ZIP deployment package
+        run: zip -r deploy_package.zip ./Dockerrun.aws.json
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: 'ca-central-1'
+
+      - name: Upload package to S3 bucket
+        run: aws s3 cp deploy_package.zip s3://elasticbeanstalk-ca-central-1-106351276515/book_link
+
+      - name: Create new ElasticBeanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name MyAwesomeApp \
+          --source-bundle S3Bucket="elasticbeanstalk-ca-central-1-106351276515/book_link",S3Key="deploy_package.zip" \
+          --version-label "ver-${{ github.sha }}" \
+          --description "commit-sha-${{ github.sha }}"
+
+      - name: Deploy new ElasticBeanstalk Application Version
+        run: aws elasticbeanstalk update-environment --environment-name Booklink-env --version-label "ver-${{ github.sha }}"
