@@ -326,6 +326,28 @@ const resolvers = {
     return true;
   },
 
+  createFollower: async (args: { userId: string; followerUserId: string }) => {
+    await Follower.create({
+      userId: args.userId,
+      followerUserId: args.followerUserId,
+    });
+
+    return true;
+  },
+
+  deleteFollower: async (args: { userId: string; followerUserId: string }) => {
+    const followerInstance = await Follower.findOne({
+      where: {
+        userId: args.userId,
+        followerUserId: args.followerUserId,
+      },
+    });
+
+    followerInstance.destroy();
+
+    return true;
+  },
+
   following: async (args: { userId: string; followingUserId: string }) => {
     const following = await Following.findOne({
       where: {
