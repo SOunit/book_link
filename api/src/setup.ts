@@ -202,15 +202,15 @@ export const setupDummyData = async () => {
     itemId: '30',
   });
 
-  await Following.create({
-    userId: '1',
-    followingUserId: '4',
-  });
+  // await Following.create({
+  //   userId: '1',
+  //   followingUserId: '4',
+  // });
 
-  await Following.create({
-    userId: '2',
-    followingUserId: '4',
-  });
+  // await Following.create({
+  //   userId: '2',
+  //   followingUserId: '4',
+  // });
 
   // create data
   await Chat.create({
@@ -255,15 +255,15 @@ export const setupDummyData = async () => {
     text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
   });
 
-  await Follower.create({
-    userId: '1',
-    followerUserId: '2',
-  });
+  // await Follower.create({
+  //   userId: '1',
+  //   followerUserId: '2',
+  // });
 
-  await Follower.create({
-    userId: '1',
-    followerUserId: '3',
-  });
+  // await Follower.create({
+  //   userId: '1',
+  //   followerUserId: '3',
+  // });
 
   // fetch user including chats, messages
   User.findOne({
