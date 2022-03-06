@@ -8,7 +8,7 @@ import {
 } from '../../components/molecules';
 import { useFollow } from '../../hooks';
 import { User as UserType } from '../../models';
-import { ChatServices, followingServices, userServices } from '../../services';
+import { ChatServices, followServices, userServices } from '../../services';
 import { AuthContext } from '../../store';
 import classes from './user-detail.module.css';
 
@@ -82,7 +82,7 @@ export const UserDetail: FC<Props> = () => {
 
     const setFollowingState = () => {
       if (loginUser) {
-        followingServices
+        followServices
           .fetchFollowing(loginUser.id, params.userId)
           .then((result) => {
             const followingUserId = result.data.data.following.followingUserId;
