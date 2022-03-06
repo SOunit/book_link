@@ -1,5 +1,5 @@
 import { Fragment, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks';
 import { AuthContext } from '../../../store';
 import classes from './main-navigation.module.css';
@@ -11,6 +11,7 @@ type MainNavigationProps = {
 const MainNavigation: React.FC<MainNavigationProps> = (props) => {
   const authCtx = useContext(AuthContext);
   const { isNavShown } = useNavShown();
+  const { pathname } = useLocation();
 
   const headerNav = (
     <nav className={classes['main-header__nav']}>
@@ -18,7 +19,9 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
         <li className={classes['main-header__nav-item']}>
           <NavLink
             to="/search"
-            className={classes['main-header__nav-link']}
+            className={`${classes['main-header__nav-link']} ${
+              pathname === '/' && classes['main-header__nav-link']
+            }`}
             activeClassName={classes['main-header__nav-link--active']}>
             Search
           </NavLink>

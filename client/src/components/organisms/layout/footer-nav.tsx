@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks';
 import classes from './footer-nav.module.css';
 
 const FooterNav: FC = () => {
   const { isNavShown } = useNavShown();
+  const { pathname } = useLocation();
 
   let footerNav = null;
   if (isNavShown) {
@@ -14,7 +15,9 @@ const FooterNav: FC = () => {
           <li className={classes['nav-item']}>
             <NavLink
               to="/search"
-              className={classes['nav__link']}
+              className={`${classes['nav__link']} ${
+                pathname === '/' && classes['nav__link--active']
+              }`}
               activeClassName={classes['nav__link--active']}>
               <div className={classes['nav__icon-box']}>
                 <i className={`fas fa-search ${classes['nav__icon']}`}></i>
