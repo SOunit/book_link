@@ -2,7 +2,7 @@ import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import { Following as FollowingType } from '../../models';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { followerServices, followingServices } from '../../services';
+import { followerServices } from '../../services';
 import {
   Buttons,
   NotFoundMessage,
@@ -12,6 +12,7 @@ import {
 import { IconButton } from '../../components/atoms';
 import classes from './followers.module.css';
 import { AuthContext } from '../../store';
+import { useFollow } from '../../hooks';
 
 type FollowersProps = {};
 type FollowersParams = {
@@ -23,6 +24,7 @@ export const Followers: FC<FollowersProps> = () => {
   const [followers, setFollowers] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
+  const { followUser, unFollowUser } = useFollow();
 
   const followClickHandler = (targetUserId: string) => {
     if (followers && loginUser) {
@@ -36,7 +38,7 @@ export const Followers: FC<FollowersProps> = () => {
       setFollowers(newFollowers);
 
       // update db
-      followingServices.createFollowing(loginUser.id, targetUserId);
+      followUser(loginUser.id, targetUserId);
     }
   };
 
@@ -52,7 +54,7 @@ export const Followers: FC<FollowersProps> = () => {
       setFollowers(newFollowers);
 
       // update db
-      followingServices.deleteFollowing(loginUser.id, targetUserId);
+      unFollowUser(loginUser.id, targetUserId);
     }
   };
 

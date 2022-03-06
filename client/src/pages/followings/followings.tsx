@@ -12,6 +12,7 @@ import {
 import { IconButton } from '../../components/atoms';
 import classes from './followings.module.css';
 import { AuthContext } from '../../store';
+import { useFollow } from '../../hooks';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -23,6 +24,7 @@ export const Followings: FC<FollowingsProps> = () => {
   const [followings, setFollowings] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
+  const { followUser, unFollowUser } = useFollow();
 
   const fetchFollowings = async (userId: string) => {
     const result = await followingServices.fetchFollowingUsers(userId);
@@ -41,7 +43,7 @@ export const Followings: FC<FollowingsProps> = () => {
       setFollowings(newFollowings);
 
       // update db
-      followingServices.createFollowing(loginUser.id, targetUserId);
+      followUser(loginUser.id, targetUserId);
     }
   };
 
@@ -57,7 +59,7 @@ export const Followings: FC<FollowingsProps> = () => {
       setFollowings(newFollowings);
 
       // update db
-      followingServices.deleteFollowing(loginUser.id, targetUserId);
+      unFollowUser(loginUser.id, targetUserId);
     }
   };
 
