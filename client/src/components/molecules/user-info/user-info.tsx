@@ -11,15 +11,15 @@ import classes from './user-info.module.css';
 type UserInfoProps = {
   user: UserType;
   isHome?: boolean;
-  followingsCount?: number;
-  followersCount?: number;
+  followingsCount: number;
+  followersCount: number;
 };
 
 export const UserInfo: FC<UserInfoProps> = ({
   user,
   isHome = false,
-  followingsCount = 9999,
-  followersCount = 9999,
+  followingsCount,
+  followersCount,
 }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
   const { signOutClickHandler } = useGoogleAuth();
