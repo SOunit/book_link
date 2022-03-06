@@ -2,7 +2,7 @@ import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import { Following as FollowingType } from '../../models';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { followingServices } from '../../services';
+import { followServices } from '../../services';
 import {
   Buttons,
   NotFoundMessage,
@@ -27,7 +27,7 @@ export const Followings: FC<FollowingsProps> = () => {
   const { followUser, unFollowUser } = useFollow();
 
   const fetchFollowings = async (userId: string) => {
-    const result = await followingServices.fetchFollowingUsers(userId);
+    const result = await followServices.fetchFollowingUsers(userId);
     return result.data.data.getFollowingUsers;
   };
 

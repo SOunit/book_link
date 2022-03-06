@@ -13,8 +13,7 @@ import sequelize from './util/database';
 import User from './models/sequelize/user';
 import Item from './models/sequelize/item';
 import UserItem from './models/sequelize/userItem';
-import Following from './models/sequelize/following';
-import Follower from './models/sequelize/follower';
+import Follow from './models/sequelize/follow';
 import Chat from './models/sequelize/chat';
 import UserChat from './models/sequelize/userChat';
 import Message from './models/sequelize/message';
@@ -61,8 +60,7 @@ app.use(
 // setup association, add functions
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
-User.belongsToMany(User, { as: 'followingUser', through: Following });
-User.belongsToMany(User, { as: 'followerUser', through: Follower });
+User.belongsToMany(User, { as: 'followingUser', through: Follow });
 Chat.belongsToMany(User, { through: UserChat });
 User.belongsToMany(Chat, { through: UserChat });
 Message.belongsTo(Chat);

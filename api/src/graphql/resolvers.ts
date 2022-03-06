@@ -6,8 +6,7 @@ import UserType from '../models/ts/User';
 import sequelize from '../util/database';
 import User from '../models/sequelize/user';
 import UserItem from '../models/sequelize/userItem';
-import Following from '../models/sequelize/following';
-import Follower from '../models/sequelize/follower';
+import Follow from '../models/sequelize/follow';
 import Chat from '../models/sequelize/chat';
 import Message from '../models/sequelize/message';
 import UserChat from '../models/sequelize/userChat';
@@ -159,9 +158,9 @@ const resolvers = {
           SELECT
             "followingUserId"
           FROM
-            followings
+            follows
           WHERE
-            followings."userId" = :userId
+            follows."userId" = :userId
         )
       LIMIT
         10
@@ -244,13 +243,13 @@ const resolvers = {
         , users."imageUrl"
         , true as "isFollowing"
       FROM
-        followings
+        follows
       JOIN
         users
       ON
-        followings."followingUserId" = users.id
+        follows."userId" = users.id
       WHERE
-        followings."userId" = :userId
+        follows."followingUserId" = :userId
       LIMIT
         10
       OFFSET
@@ -275,13 +274,13 @@ const resolvers = {
         , users.name
         , users."imageUrl"
       FROM
-        followers
+        follows
       JOIN
         users
       ON
-        followers."followerUserId" = users.id
+        follows."followingUserId" = users.id
       WHERE
-        followers."userId" = :userId
+        follows."userId" = :userId
       LIMIT
         10
       OFFSET
@@ -302,7 +301,7 @@ const resolvers = {
     userId: string;
     followingUserId: string;
   }) => {
-    await Following.create({
+    await Follow.create({
       userId: args.userId,
       followingUserId: args.followingUserId,
     });
@@ -314,7 +313,7 @@ const resolvers = {
     userId: string;
     followingUserId: string;
   }) => {
-    const followingInstance = await Following.findOne({
+    const followingInstance = await Follow.findOne({
       where: {
         userId: args.userId,
         followingUserId: args.followingUserId,
@@ -326,30 +325,8 @@ const resolvers = {
     return true;
   },
 
-  createFollower: async (args: { userId: string; followerUserId: string }) => {
-    await Follower.create({
-      userId: args.userId,
-      followerUserId: args.followerUserId,
-    });
-
-    return true;
-  },
-
-  deleteFollower: async (args: { userId: string; followerUserId: string }) => {
-    const followerInstance = await Follower.findOne({
-      where: {
-        userId: args.userId,
-        followerUserId: args.followerUserId,
-      },
-    });
-
-    followerInstance.destroy();
-
-    return true;
-  },
-
   following: async (args: { userId: string; followingUserId: string }) => {
-    const following = await Following.findOne({
+    const following = await Follow.findOne({
       where: {
         userId: args.userId,
         followingUserId: args.followingUserId,

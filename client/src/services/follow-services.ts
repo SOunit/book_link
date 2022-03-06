@@ -1,6 +1,6 @@
 import { api as API } from './api';
 
-export const followingServices = {
+export const followServices = {
   fetchFollowing: async (userId: string, followingUserId: string) => {
     const graphqlQuery = {
       query: `
@@ -22,7 +22,7 @@ export const followingServices = {
     });
   },
 
-  deleteFollowing: async (userId: string, followingUserId: string) => {
+  deleteFollowing: async (followingUserId: string, userId: string) => {
     const graphqlQuery = {
       query: `
                   mutation DeleteFollowing($userId: ID!, $followingUserId: ID!){
@@ -30,8 +30,8 @@ export const followingServices = {
                   }
                   `,
       variables: {
-        userId,
         followingUserId,
+        userId,
       },
     };
 
@@ -40,7 +40,7 @@ export const followingServices = {
     });
   },
 
-  createFollowing: async (userId: string, followingUserId: string) => {
+  createFollowing: async (followingUserId: string, userId: string) => {
     const graphqlQuery = {
       query: `
                   mutation CreateFollowing($userId: ID!, $followingUserId: ID!){
@@ -48,8 +48,8 @@ export const followingServices = {
                   }
                   `,
       variables: {
-        userId,
         followingUserId,
+        userId,
       },
     };
 
@@ -67,6 +67,27 @@ export const followingServices = {
                   name
                   imageUrl
                   isFollowing
+                }
+              }
+              `,
+      variables: {
+        userId,
+      },
+    };
+
+    return await API({
+      data: graphqlQuery,
+    });
+  },
+
+  fetchFollowerUsers: async (userId: string) => {
+    const graphqlQuery = {
+      query: `
+              query GetFollowerUsers($userId: ID!){
+                getFollowerUsers(userId: $userId){
+                  id
+                  name
+                  imageUrl
                 }
               }
               `,
