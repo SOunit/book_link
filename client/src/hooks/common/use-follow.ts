@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { User } from '../../models';
 import { followerServices, followingServices } from '../../services';
 
-export const useFollow = (targetUser?: User) => {
+export const useFollow = (targetUser?: User | null) => {
   const [followings, setFollowings] = useState<User[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
 

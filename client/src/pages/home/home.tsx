@@ -7,12 +7,14 @@ import {
   UserItems,
 } from '../../components/molecules';
 import classes from './home.module.css';
+import { useFollow } from '../../hooks';
 
 type HomeProps = {};
 
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
+  const { followings, followers } = useFollow(loginUser);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
@@ -24,7 +26,14 @@ export const Home: FC<HomeProps> = () => {
 
   return (
     <Fragment>
-      {loginUser && <UserInfo user={loginUser} isHome />}
+      {loginUser && (
+        <UserInfo
+          user={loginUser}
+          isHome
+          followersCount={followers.length}
+          followingsCount={followings.length}
+        />
+      )}
       <div className={classes['home__actions']}>
         <IconTextButton
           iconName="far fa-pen"
