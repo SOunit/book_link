@@ -8,12 +8,7 @@ import {
 } from '../../components/molecules';
 import { useFollow } from '../../hooks';
 import { User as UserType } from '../../models';
-import {
-  ChatServices,
-  followerServices,
-  followingServices,
-  userServices,
-} from '../../services';
+import { ChatServices, followingServices, userServices } from '../../services';
 import { AuthContext } from '../../store';
 import classes from './user-detail.module.css';
 
@@ -28,10 +23,9 @@ export const UserDetail: FC<Props> = () => {
   const params = useParams<UserDetailParams>();
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<UserType>();
-  const [following, setFollowing] = useState<boolean | null>(null);
-  const { followUser, unFollowUser } = useFollow();
-  const [followings, setFollowings] = useState<UserType[]>([]);
-  const [followers, setFollowers] = useState<UserType[]>([]);
+  const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
+  const { followUser, unFollowUser, followings, followers, setFollowers } =
+    useFollow(targetUser);
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
@@ -39,7 +33,7 @@ export const UserDetail: FC<Props> = () => {
       followUser(loginUser.id, targetUser.id);
 
       // update state
-      setFollowing(true);
+      setIsFollowing(true);
       setFollowers((prevState) => [...prevState, loginUser]);
     }
   };
@@ -50,7 +44,7 @@ export const UserDetail: FC<Props> = () => {
       unFollowUser(loginUser.id, targetUser.id);
 
       // update state
-      setFollowing(false);
+      setIsFollowing(false);
       setFollowers((prevState) =>
         prevState.filter((user) => user.id !== loginUser.id),
       );
@@ -93,9 +87,9 @@ export const UserDetail: FC<Props> = () => {
           .then((result) => {
             const followingUserId = result.data.data.following.followingUserId;
             if (followingUserId) {
-              setFollowing(true);
+              setIsFollowing(true);
             } else {
-              setFollowing(false);
+              setIsFollowing(false);
             }
           });
       }
@@ -105,19 +99,7 @@ export const UserDetail: FC<Props> = () => {
     setFollowingState();
   }, [loginUser, params.userId]);
 
-  useEffect(() => {
-    const fetchFollow = async () => {
-      if (targetUser) {
-        let res = await followingServices.fetchFollowingUsers(targetUser.id);
-        setFollowings(res.data.data.getFollowingUsers);
-
-        res = await followerServices.fetchFollowerUsers(targetUser.id);
-        setFollowers(res.data.data.getFollowerUsers);
-      }
-    };
-
-    fetchFollow();
-  }, [targetUser]);
+  useEffect(() => {}, [loginUser]);
 
   let userDetail = null;
   if (targetUser && loginUser) {
@@ -131,9 +113,9 @@ export const UserDetail: FC<Props> = () => {
         />
         <Buttons className={classes['user-detail__buttons']}>
           <IconTextButton
-            iconName={following ? `fa fa-user-minus` : `fa fa-user-plus`}
-            text={following ? 'Following' : 'Follow'}
-            onClick={following ? followingClickHandler : followClickHandler}
+            iconName={isFollowing ? `fa fa-user-minus` : `fa fa-user-plus`}
+            text={isFollowing ? 'Following' : 'Follow'}
+            onClick={isFollowing ? followingClickHandler : followClickHandler}
           />
           <IconTextButton
             iconName="far fa-comment"
