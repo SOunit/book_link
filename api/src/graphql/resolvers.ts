@@ -156,11 +156,11 @@ const resolvers = {
       AND
         users.id not in (
           SELECT
-            "followingUserId"
+            "userId"
           FROM
             follows
           WHERE
-            follows."userId" = :userId
+            follows."followingUserId" = :userId
         )
       LIMIT
         10
