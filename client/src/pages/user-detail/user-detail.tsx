@@ -22,7 +22,7 @@ export const UserDetail = () => {
   const history = useHistory();
   const [partnerUser, setPartnerUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
-  const { createFollowing, deleteFollowing } = useFollow();
+  const { followUser, unFollowUser } = useFollow();
 
   const fetchPartnerUser = useCallback(() => {
     userServices.fetchUser(params.userId).then((result) => {
@@ -47,14 +47,14 @@ export const UserDetail = () => {
 
   const followClickHandler = () => {
     if (loginUser && partnerUser) {
-      createFollowing(loginUser.id, partnerUser.id);
+      followUser(loginUser.id, partnerUser.id);
       setFollowing(true);
     }
   };
 
   const followingClickHandler = () => {
     if (loginUser && partnerUser) {
-      deleteFollowing(loginUser.id, partnerUser.id);
+      unFollowUser(loginUser.id, partnerUser.id);
       setFollowing(false);
     }
   };

@@ -24,7 +24,7 @@ export const Followings: FC<FollowingsProps> = () => {
   const [followings, setFollowings] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { createFollowing, deleteFollowing } = useFollow();
+  const { followUser, unFollowUser } = useFollow();
 
   const fetchFollowings = async (userId: string) => {
     const result = await followingServices.fetchFollowingUsers(userId);
@@ -43,7 +43,7 @@ export const Followings: FC<FollowingsProps> = () => {
       setFollowings(newFollowings);
 
       // update db
-      createFollowing(loginUser.id, targetUserId);
+      followUser(loginUser.id, targetUserId);
     }
   };
 
@@ -59,7 +59,7 @@ export const Followings: FC<FollowingsProps> = () => {
       setFollowings(newFollowings);
 
       // update db
-      deleteFollowing(loginUser.id, targetUserId);
+      unFollowUser(loginUser.id, targetUserId);
     }
   };
 

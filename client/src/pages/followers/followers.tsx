@@ -2,7 +2,7 @@ import { FC, Fragment, useContext, useEffect, useState } from 'react';
 import { Following as FollowingType } from '../../models';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { followerServices, followingServices } from '../../services';
+import { followerServices } from '../../services';
 import {
   Buttons,
   NotFoundMessage,
@@ -24,7 +24,7 @@ export const Followers: FC<FollowersProps> = () => {
   const [followers, setFollowers] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { createFollowing, deleteFollowing } = useFollow();
+  const { followUser, unFollowUser } = useFollow();
 
   const followClickHandler = (targetUserId: string) => {
     if (followers && loginUser) {
@@ -38,7 +38,7 @@ export const Followers: FC<FollowersProps> = () => {
       setFollowers(newFollowers);
 
       // update db
-      createFollowing(loginUser.id, targetUserId);
+      followUser(loginUser.id, targetUserId);
     }
   };
 
@@ -54,7 +54,7 @@ export const Followers: FC<FollowersProps> = () => {
       setFollowers(newFollowers);
 
       // update db
-      deleteFollowing(loginUser.id, targetUserId);
+      unFollowUser(loginUser.id, targetUserId);
     }
   };
 

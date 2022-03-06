@@ -20,7 +20,7 @@ export const SearchedUsers: FC<Props> = ({
   onFollowingClick,
 }) => {
   const history = useHistory();
-  const { createFollowing, deleteFollowing } = useFollow();
+  const { followUser, unFollowUser } = useFollow();
 
   const detailClickHandler = (user: User) => {
     history.push(`/users/${user.id}`);
@@ -31,7 +31,7 @@ export const SearchedUsers: FC<Props> = ({
       {users.map((user) => {
         const followClickHandler = () => {
           // update db
-          createFollowing(loginUser.id, user.id);
+          followUser(loginUser.id, user.id);
 
           // update state
           onFollowClick(user.id);
@@ -39,7 +39,7 @@ export const SearchedUsers: FC<Props> = ({
 
         const followingClickHandler = () => {
           // delete db
-          deleteFollowing(loginUser.id, user.id);
+          unFollowUser(loginUser.id, user.id);
 
           // update state
           onFollowingClick(user.id);
