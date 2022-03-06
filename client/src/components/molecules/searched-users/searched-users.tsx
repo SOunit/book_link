@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
-import { useFollow } from '../../../hooks/common/use-follow';
+import { useFollow } from '../../../hooks';
 
 type Props = {
   users: User[];

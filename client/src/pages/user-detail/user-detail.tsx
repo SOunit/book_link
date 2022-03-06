@@ -6,6 +6,7 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
+import { useFollow } from '../../hooks';
 import { User as UserType } from '../../models';
 import { ChatServices, followingServices, userServices } from '../../services';
 import { AuthContext } from '../../store';
@@ -21,6 +22,7 @@ export const UserDetail = () => {
   const history = useHistory();
   const [partnerUser, setPartnerUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
+  const { createFollowing, deleteFollowing } = useFollow();
 
   const fetchPartnerUser = useCallback(() => {
     userServices.fetchUser(params.userId).then((result) => {
@@ -45,14 +47,14 @@ export const UserDetail = () => {
 
   const followClickHandler = () => {
     if (loginUser && partnerUser) {
-      followingServices.createFollowing(loginUser.id, partnerUser.id);
+      createFollowing(loginUser.id, partnerUser.id);
       setFollowing(true);
     }
   };
 
   const followingClickHandler = () => {
     if (loginUser && partnerUser) {
-      followingServices.deleteFollowing(loginUser.id, partnerUser.id);
+      deleteFollowing(loginUser.id, partnerUser.id);
       setFollowing(false);
     }
   };
