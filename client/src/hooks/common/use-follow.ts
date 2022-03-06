@@ -6,12 +6,12 @@ export const useFollow = (targetUser?: User | null) => {
   const [followings, setFollowings] = useState<User[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
 
-  const unFollowUser = (loginUserId: string, unFollowingUserId: string) => {
-    followServices.deleteFollowing(loginUserId, unFollowingUserId);
+  const unFollowUser = (followingUserId: string, followerUserId: string) => {
+    followServices.deleteFollowing(followingUserId, followerUserId);
   };
 
-  const followUser = (loginUserId: string, followingUserId: string) => {
-    followServices.createFollowing(loginUserId, followingUserId);
+  const followUser = (followingUserId: string, followerUserId: string) => {
+    followServices.createFollowing(followingUserId, followerUserId);
   };
 
   useEffect(() => {

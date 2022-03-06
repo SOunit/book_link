@@ -22,7 +22,7 @@ export const followServices = {
     });
   },
 
-  deleteFollowing: async (userId: string, followingUserId: string) => {
+  deleteFollowing: async (followingUserId: string, userId: string) => {
     const graphqlQuery = {
       query: `
                   mutation DeleteFollowing($userId: ID!, $followingUserId: ID!){
@@ -30,8 +30,8 @@ export const followServices = {
                   }
                   `,
       variables: {
-        userId,
         followingUserId,
+        userId,
       },
     };
 
@@ -40,7 +40,7 @@ export const followServices = {
     });
   },
 
-  createFollowing: async (userId: string, followingUserId: string) => {
+  createFollowing: async (followingUserId: string, userId: string) => {
     const graphqlQuery = {
       query: `
                   mutation CreateFollowing($userId: ID!, $followingUserId: ID!){
@@ -48,8 +48,8 @@ export const followServices = {
                   }
                   `,
       variables: {
-        userId,
         followingUserId,
+        userId,
       },
     };
 
