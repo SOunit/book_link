@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useCallback, useContext } from 'react';
+import { Fragment, useEffect, useState, useContext, FC } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   Buttons,
@@ -8,7 +8,12 @@ import {
 } from '../../components/molecules';
 import { useFollow } from '../../hooks';
 import { User as UserType } from '../../models';
-import { ChatServices, followingServices, userServices } from '../../services';
+import {
+  ChatServices,
+  followerServices,
+  followingServices,
+  userServices,
+} from '../../services';
 import { AuthContext } from '../../store';
 import classes from './user-detail.module.css';
 
@@ -16,65 +21,58 @@ type UserDetailParams = {
   userId: string;
 };
 
-export const UserDetail = () => {
+type Props = {};
+
+export const UserDetail: FC<Props> = () => {
   const { loginUser } = useContext(AuthContext);
   const params = useParams<UserDetailParams>();
   const history = useHistory();
-  const [partnerUser, setPartnerUser] = useState<UserType>();
+  const [targetUser, setTargetUser] = useState<UserType>();
   const [following, setFollowing] = useState<boolean | null>(null);
   const { followUser, unFollowUser } = useFollow();
-
-  const fetchPartnerUser = useCallback(() => {
-    userServices.fetchUser(params.userId).then((result) => {
-      setPartnerUser(result.data.data.user);
-    });
-  }, [params.userId]);
-
-  const fetchFollowing = useCallback(() => {
-    if (loginUser) {
-      followingServices
-        .fetchFollowing(loginUser.id, params.userId)
-        .then((result) => {
-          const followingUserId = result.data.data.following.followingUserId;
-          if (followingUserId) {
-            setFollowing(true);
-          } else {
-            setFollowing(false);
-          }
-        });
-    }
-  }, [loginUser, params.userId]);
+  const [followings, setFollowings] = useState<UserType[]>([]);
+  const [followers, setFollowers] = useState<UserType[]>([]);
 
   const followClickHandler = () => {
-    if (loginUser && partnerUser) {
-      followUser(loginUser.id, partnerUser.id);
+    if (loginUser && targetUser) {
+      // update db
+      followUser(loginUser.id, targetUser.id);
+
+      // update state
       setFollowing(true);
+      setFollowers((prevState) => [...prevState, loginUser]);
     }
   };
 
   const followingClickHandler = () => {
-    if (loginUser && partnerUser) {
-      unFollowUser(loginUser.id, partnerUser.id);
+    if (loginUser && targetUser) {
+      // update db
+      unFollowUser(loginUser.id, targetUser.id);
+
+      // update state
       setFollowing(false);
+      setFollowers((prevState) =>
+        prevState.filter((user) => user.id !== loginUser.id),
+      );
     }
   };
 
   const chatClickHandler = () => {
-    if (!partnerUser) {
+    if (!targetUser) {
       return;
     }
 
     // get message
-    ChatServices.fetchChat([partnerUser.id, loginUser!.id]).then((res) => {
+    ChatServices.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
 
       if (chats && chats.length <= 0) {
         // create message if not exist
-        history.push(`/chats/${partnerUser.id}`);
+        history.push(`/chats/${targetUser.id}`);
       } else {
-        if (loginUser && partnerUser) {
-          ChatServices.createChat(loginUser?.id, partnerUser.id).then((res) => {
-            history.push(`/chats/${partnerUser.id}`);
+        if (loginUser && targetUser) {
+          ChatServices.createChat(loginUser?.id, targetUser.id).then((res) => {
+            history.push(`/chats/${targetUser.id}`);
           });
         }
       }
@@ -82,15 +80,55 @@ export const UserDetail = () => {
   };
 
   useEffect(() => {
-    fetchPartnerUser();
-    fetchFollowing();
-  }, [fetchPartnerUser, fetchFollowing]);
+    const fetchTargetUser = () => {
+      userServices.fetchUser(params.userId).then((result) => {
+        setTargetUser(result.data.data.user);
+      });
+    };
+
+    const setFollowingState = () => {
+      if (loginUser) {
+        followingServices
+          .fetchFollowing(loginUser.id, params.userId)
+          .then((result) => {
+            const followingUserId = result.data.data.following.followingUserId;
+            if (followingUserId) {
+              setFollowing(true);
+            } else {
+              setFollowing(false);
+            }
+          });
+      }
+    };
+
+    fetchTargetUser();
+    setFollowingState();
+  }, [loginUser, params.userId]);
+
+  useEffect(() => {
+    const fetchFollow = async () => {
+      if (targetUser) {
+        let res = await followingServices.fetchFollowingUsers(targetUser.id);
+        setFollowings(res.data.data.getFollowingUsers);
+
+        res = await followerServices.fetchFollowerUsers(targetUser.id);
+        setFollowers(res.data.data.getFollowerUsers);
+      }
+    };
+
+    fetchFollow();
+  }, [targetUser]);
 
   let userDetail = null;
-  if (partnerUser && loginUser) {
+  if (targetUser && loginUser) {
     userDetail = (
       <Fragment>
-        <UserInfo user={partnerUser} isHome={false} />
+        <UserInfo
+          user={targetUser}
+          isHome={false}
+          followingsCount={followings.length}
+          followersCount={followers.length}
+        />
         <Buttons className={classes['user-detail__buttons']}>
           <IconTextButton
             iconName={following ? `fa fa-user-minus` : `fa fa-user-plus`}
@@ -103,7 +141,7 @@ export const UserDetail = () => {
             onClick={chatClickHandler}
           />
         </Buttons>
-        {partnerUser.items && <UserItems items={partnerUser.items} />}
+        {targetUser.items && <UserItems items={targetUser.items} />}
       </Fragment>
     );
   }
