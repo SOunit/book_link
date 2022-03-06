@@ -23,11 +23,11 @@
 
 .side-navigation__link {
   text-decoration: none;
-  color: #fff;
+  color: #777;
   font-weight: bold;
   padding-bottom: 0.2rem;
 }
 
 .side-navigation__link--active {
-  border-bottom: 2px solid #d81f26;
+  color: #fff;
 }

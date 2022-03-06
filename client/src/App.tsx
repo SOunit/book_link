@@ -54,6 +54,12 @@ function App() {
         <ProtectedRoute component={Followers} path="/users/:userId/followers" />
         <ProtectedRoute component={UserDetail} path="/users/:userId" />
 
+        {/* Home */}
+        <ProtectedRoute component={Home} path="/home" />
+
+        {/* Items */}
+        <ProtectedRoute component={CreateItem} path="/items/new" />
+
         {/* Chats */}
         <ProtectedRoute component={ChatList} path="/chats" exact />
         <ProtectedRoute
@@ -61,12 +67,6 @@ function App() {
           path="/chats/:userId"
           socket={socket}
         />
-
-        {/* Home */}
-        <ProtectedRoute component={Home} path="/home" />
-
-        {/* Items */}
-        <ProtectedRoute component={CreateItem} path="/items/new" />
 
         {/* Page Not Found */}
         <Route path="*">
