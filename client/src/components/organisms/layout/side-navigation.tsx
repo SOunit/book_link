@@ -1,9 +1,12 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { isPathMatch } from '../../../util';
 import classes from './side-navigation.module.css';
 
 type Props = { onSideMenuToggle: () => void; className: string };
 
 const SideNavigation: React.FC<Props> = ({ onSideMenuToggle, className }) => {
+  const { pathname } = useLocation();
+
   return (
     <div className={`${classes['side-navigation']} ${className}`}>
       <nav className={classes['side-navigation__nav']}>
@@ -11,7 +14,9 @@ const SideNavigation: React.FC<Props> = ({ onSideMenuToggle, className }) => {
           <li className={classes['side-navigation__item']}>
             <NavLink
               to="/search"
-              className={classes['side-navigation__link']}
+              className={`${classes['side-navigation__link']} ${
+                '/' === pathname && classes['side-navigation__link--active']
+              }`}
               activeClassName={classes['side-navigation__link--active']}
               onClick={onSideMenuToggle}>
               Search
@@ -29,7 +34,10 @@ const SideNavigation: React.FC<Props> = ({ onSideMenuToggle, className }) => {
           <li className={classes['side-navigation__item']}>
             <NavLink
               to="/home"
-              className={classes['side-navigation__link']}
+              className={`${classes['side-navigation__link']} ${
+                isPathMatch(pathname) &&
+                classes['side-navigation__link--active']
+              }`}
               activeClassName={classes['side-navigation__link--active']}
               onClick={onSideMenuToggle}>
               Home

@@ -2,6 +2,7 @@ import { Fragment, useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks';
 import { AuthContext } from '../../../store';
+import { isPathMatch } from '../../../util';
 import classes from './main-navigation.module.css';
 
 type MainNavigationProps = {
@@ -20,7 +21,7 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
           <NavLink
             to="/search"
             className={`${classes['main-header__nav-link']} ${
-              pathname === '/' && classes['main-header__nav-link']
+              pathname === '/' && classes['main-header__nav-link--active']
             }`}
             activeClassName={classes['main-header__nav-link--active']}>
             Search
@@ -37,7 +38,9 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
         <li className={classes['main-header__nav-item']}>
           <NavLink
             to="/home"
-            className={classes['main-header__nav-link']}
+            className={`${classes['main-header__nav-link']} ${
+              isPathMatch(pathname) && classes['main-header__nav-link--active']
+            }`}
             activeClassName={classes['main-header__nav-link--active']}>
             Home
           </NavLink>
