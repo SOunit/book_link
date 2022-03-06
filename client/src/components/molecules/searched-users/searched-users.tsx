@@ -2,7 +2,7 @@ import { FC, Fragment } from 'react';
 import { User } from '../../../models/user';
 import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
-import { followingServices } from '../../../services';
+import { followerServices, followingServices } from '../../../services';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
 
@@ -30,14 +30,12 @@ export const SearchedUsers: FC<Props> = ({
       {users.map((user) => {
         const deleteFollowing = () => {
           followingServices.deleteFollowing(loginUser.id, user.id);
+          followerServices.deleteFollower(loginUser.id, user.id);
         };
 
         const createFollowing = () => {
-          followingServices
-            .createFollowing(loginUser.id, user.id)
-            .then((result) => {
-              return result.data.data.createFollowing;
-            });
+          followingServices.createFollowing(loginUser.id, user.id);
+          followerServices.createFollower(loginUser.id, user.id);
         };
 
         const followClickHandler = () => {
