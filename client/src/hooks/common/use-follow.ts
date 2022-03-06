@@ -1,28 +1,26 @@
 import { useEffect, useState } from 'react';
 import { User } from '../../models';
-import { followerServices, followingServices } from '../../services';
+import { followServices } from '../../services';
 
 export const useFollow = (targetUser?: User | null) => {
   const [followings, setFollowings] = useState<User[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
 
   const unFollowUser = (loginUserId: string, unFollowingUserId: string) => {
-    followingServices.deleteFollowing(loginUserId, unFollowingUserId);
-    followerServices.deleteFollower(unFollowingUserId, loginUserId);
+    followServices.deleteFollowing(loginUserId, unFollowingUserId);
   };
 
   const followUser = (loginUserId: string, followingUserId: string) => {
-    followingServices.createFollowing(loginUserId, followingUserId);
-    followerServices.createFollower(followingUserId, loginUserId);
+    followServices.createFollowing(loginUserId, followingUserId);
   };
 
   useEffect(() => {
     const initFollow = async () => {
       if (targetUser) {
-        let res = await followingServices.fetchFollowingUsers(targetUser.id);
+        let res = await followServices.fetchFollowingUsers(targetUser.id);
         setFollowings(res.data.data.getFollowingUsers);
 
-        res = await followerServices.fetchFollowerUsers(targetUser.id);
+        res = await followServices.fetchFollowerUsers(targetUser.id);
         setFollowers(res.data.data.getFollowerUsers);
       }
     };
