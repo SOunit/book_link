@@ -2,9 +2,9 @@ import { FC, Fragment } from 'react';
 import { User } from '../../../models/user';
 import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
-import { followerServices, followingServices } from '../../../services';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
+import { useFollow } from '../../../hooks/common/use-follow';
 
 type Props = {
   users: User[];
@@ -20,6 +20,7 @@ export const SearchedUsers: FC<Props> = ({
   onFollowingClick,
 }) => {
   const history = useHistory();
+  const { createFollowing, deleteFollowing } = useFollow();
 
   const detailClickHandler = (user: User) => {
     history.push(`/users/${user.id}`);
@@ -28,19 +29,9 @@ export const SearchedUsers: FC<Props> = ({
   return (
     <Fragment>
       {users.map((user) => {
-        const deleteFollowing = () => {
-          followingServices.deleteFollowing(loginUser.id, user.id);
-          followerServices.deleteFollower(loginUser.id, user.id);
-        };
-
-        const createFollowing = () => {
-          followingServices.createFollowing(loginUser.id, user.id);
-          followerServices.createFollower(loginUser.id, user.id);
-        };
-
         const followClickHandler = () => {
           // update db
-          createFollowing();
+          createFollowing(loginUser.id, user.id);
 
           // update state
           onFollowClick(user.id);
@@ -48,7 +39,7 @@ export const SearchedUsers: FC<Props> = ({
 
         const followingClickHandler = () => {
           // delete db
-          deleteFollowing();
+          deleteFollowing(loginUser.id, user.id);
 
           // update state
           onFollowingClick(user.id);
