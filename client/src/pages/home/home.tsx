@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 import { AuthContext } from '../../store';
 import {
   IconTextButton,
+  Spinner,
   UserInfo,
   UserItems,
 } from '../../components/molecules';
@@ -26,13 +27,15 @@ export const Home: FC<HomeProps> = () => {
 
   return (
     <Fragment>
-      {loginUser && (
+      {loginUser && followers && followings ? (
         <UserInfo
           user={loginUser}
           isHome
           followersCount={followers.length}
           followingsCount={followings.length}
         />
+      ) : (
+        <Spinner />
       )}
       <div className={classes['home__actions']}>
         <IconTextButton

@@ -3,8 +3,8 @@ import { User } from '../../models';
 import { followServices } from '../../services';
 
 export const useFollow = (targetUser?: User | null) => {
-  const [followings, setFollowings] = useState<User[]>([]);
-  const [followers, setFollowers] = useState<User[]>([]);
+  const [followings, setFollowings] = useState<User[]>();
+  const [followers, setFollowers] = useState<User[]>();
 
   const unFollowUser = (followingUserId: string, followerUserId: string) => {
     followServices.deleteFollowing(followingUserId, followerUserId);

@@ -10,7 +10,7 @@ export const EditUser: FC = () => {
 
   return (
     <Fragment>
-      {loginUser && (
+      {loginUser && followers && followings && (
         <UserInfo
           user={loginUser}
           followersCount={followers.length}
