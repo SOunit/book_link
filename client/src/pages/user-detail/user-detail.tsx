@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import {
   Buttons,
   IconTextButton,
+  Spinner,
   UserInfo,
   UserItems,
 } from '../../components/molecules';
@@ -34,7 +35,7 @@ export const UserDetail: FC<Props> = () => {
 
       // update state
       setIsFollowing(true);
-      setFollowers((prevState) => [...prevState, loginUser]);
+      setFollowers((prevState) => [...prevState!, loginUser]);
     }
   };
 
@@ -46,7 +47,7 @@ export const UserDetail: FC<Props> = () => {
       // update state
       setIsFollowing(false);
       setFollowers((prevState) =>
-        prevState.filter((user) => user.id !== loginUser.id),
+        prevState!.filter((user) => user.id !== loginUser.id),
       );
     }
   };
@@ -105,12 +106,16 @@ export const UserDetail: FC<Props> = () => {
   if (targetUser && loginUser) {
     userDetail = (
       <Fragment>
-        <UserInfo
-          user={targetUser}
-          isHome={false}
-          followingsCount={followings.length}
-          followersCount={followers.length}
-        />
+        {followings && followers ? (
+          <UserInfo
+            user={targetUser}
+            isHome={false}
+            followingsCount={followings.length}
+            followersCount={followers.length}
+          />
+        ) : (
+          <Spinner />
+        )}
         <Buttons className={classes['user-detail__buttons']}>
           <IconTextButton
             iconName={isFollowing ? `fa fa-user-minus` : `fa fa-user-plus`}
