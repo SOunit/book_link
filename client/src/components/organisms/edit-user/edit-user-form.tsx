@@ -40,9 +40,8 @@ export const EditUserForm: FC<Props> = () => {
       userData.imageUrl,
     );
 
-    setIsUpdate(true);
-
     // update state
+    setIsUpdate(true);
     setLoginUser((prevState) => ({
       ...prevState!,
       name: userData.name,
