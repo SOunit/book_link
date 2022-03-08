@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .user-info {
   display: flex;
 }
@@ -35,24 +37,24 @@
 
 .user-info__link {
   text-decoration: none;
-  color: #888;
+  color: $base-text-color-4;
   margin: 1rem 0;
   padding: 0.5rem;
 }
 
 .user-info__logout {
-  color: #888;
+  color: $base-text-color-4;
   cursor: pointer;
   padding: 0.5rem;
 }
 
 .user-info__follow-number {
   font-weight: bold;
-  color: #fff;
+  color: $base-text-color;
 }
 
 .user-about {
-  background-color: #222;
+  background-color: $base-background-color-3;
   padding: 1rem;
   border-radius: 10px;
   margin-top: 0;
