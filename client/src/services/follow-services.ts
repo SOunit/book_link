@@ -88,6 +88,7 @@ export const followServices = {
                   id
                   name
                   imageUrl
+                  isFollowing
                 }
               }
               `,

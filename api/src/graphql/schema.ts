@@ -9,7 +9,7 @@ export default buildSchema(`
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
         getFollowingUsers(userId: ID!): [FollowingUser!]!
-        getFollowerUsers(userId: ID!): [User!]!
+        getFollowerUsers(userId: ID!): [FollowingUser!]!
         following(userId: ID!, followingUserId: ID!): Following
         getUserChat(userIds: [ID!]!): Chat
         getUserChatList(userId: ID!): [Chat]
