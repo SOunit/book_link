@@ -269,22 +269,19 @@ const resolvers = {
   getFollowerUsers: async (args: { userId: string }) => {
     const users = await sequelize.query(
       `
-      SELECT
-        users.id
-        , users.name
-        , users."imageUrl"
-      FROM
-        follows
-      JOIN
-        users
-      ON
-        follows."followingUserId" = users.id
-      WHERE
-        follows."userId" = :userId
-      LIMIT
-        10
-      OFFSET
-        0
+        SELECT USERS.ID ,
+          USERS.NAME ,
+          USERS."imageUrl" ,
+          CASE
+                  WHEN FOLLOWINGS."userId" IS NOT NULL THEN TRUE
+                  WHEN FOLLOWINGS."userId" IS NULL THEN FALSE
+          END
+        FROM FOLLOWS
+        JOIN USERS ON FOLLOWS."followingUserId" = USERS.ID
+        LEFT JOIN FOLLOWS AS FOLLOWINGS ON FOLLOWINGS."followingUserId" = :userId
+        WHERE FOLLOWS."userId" = :userId
+        LIMIT 10
+        OFFSET 0
       `,
       {
         replacements: {
