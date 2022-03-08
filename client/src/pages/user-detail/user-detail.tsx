@@ -116,11 +116,13 @@ export const UserDetail: FC<Props> = () => {
             iconName={isFollowing ? `fa fa-user-minus` : `fa fa-user-plus`}
             text={isFollowing ? 'Following' : 'Follow'}
             onClick={isFollowing ? followingClickHandler : followClickHandler}
+            className={classes['user-detail__button']}
           />
           <IconTextButton
             iconName="far fa-comment"
             text="Chat"
             onClick={chatClickHandler}
+            className={classes['user-detail__button']}
           />
         </Buttons>
         {targetUser.items && <UserItems items={targetUser.items} />}
