@@ -42,6 +42,8 @@ export const Followers: FC<FollowersProps> = () => {
     }
   };
 
+  console.log('followers', followers);
+
   const followingClickHandler = (targetUserId: string) => {
     if (followers && loginUser) {
       // update state

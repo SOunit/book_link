@@ -275,7 +275,7 @@ const resolvers = {
           CASE
                   WHEN FOLLOWINGS."userId" IS NOT NULL THEN TRUE
                   WHEN FOLLOWINGS."userId" IS NULL THEN FALSE
-          END
+          END as "isFollowing"
         FROM FOLLOWS
         JOIN USERS ON FOLLOWS."followingUserId" = USERS.ID
         LEFT JOIN FOLLOWS AS FOLLOWINGS ON FOLLOWINGS."followingUserId" = :userId
