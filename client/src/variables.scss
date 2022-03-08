@@ -1,29 +1,60 @@
 ////////////////////////
 // base
 ////////////////////////
+$colors1: #171717;
+$colors2: #222;
+$colors3: #333;
+$colors4: #888;
+$colors5: #ffffffcc;
+$colors6: #fff;
+$colors7: #d81f26;
+
+$colors1: #fff;
+$colors2: #222;
+$colors3: #333;
+$colors4: #888;
+$colors5: #ffffffcc;
+$colors6: #333;
+$colors7: #d81f26;
+
+// $colors1: #f473b9;
+// $colors2: #f790c7;
+// $colors3: #faadd6;
+// $colors4: #ffddee;
+// $colors5: #fde6f2;
+// $colors6: #fff;
+// $colors7: #d81f26;
+
+// $colors1: #ffddee;
+// $colors2: #fff;
+// $colors3: #fde6f2;
+// $colors4: #faadd6;
+// $colors5: #f790c7;
+// $colors6: #f473b9;
+// $colors7: #0e3eda;
 
 // base
-$base-background-color: #171717;
-$base-text-color: #fff;
+$base-background-color: $colors1;
+$base-text-color: $colors6;
 
 // button
-$base-background-color-2: #fff;
-$base-text-color-2: #171717;
+$base-background-color-2: $colors6;
+$base-text-color-2: $colors1;
 
 // search-bar, user-about
-$base-background-color-3: #222;
-$base-text-color-3: rgba(255, 255, 255, 0.8);
+$base-background-color-3: $colors2;
+$base-text-color-3: $colors5;
 
 // follow-text, logout, footer-nav-icon
-$base-text-color-4: #888;
+$base-text-color-4: $colors4;
 
 // login-user-message
-$base-background-color-5: #333;
-$base-text-color-5: #fff;
+$base-background-color-5: $colors3;
+$base-text-color-5: $colors6;
 
 // partner-user-message
-$base-background-color-6: #fff;
-$base-text-color-6: #333;
+$base-background-color-6: $colors6;
+$base-text-color-6: $colors3;
 
 // header logo
-$base-text-color-7: #d81f26;
+$base-text-color-7: $colors7;
