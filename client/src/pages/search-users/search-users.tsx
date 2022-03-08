@@ -24,7 +24,7 @@ import { Item } from '../../models';
 import { itemServices, userServices } from '../../services';
 import { AuthContext } from '../../store';
 
-import classes from './search-users.module.css';
+import classes from './search-users.module.scss';
 
 export const SearchUsers = () => {
   const {

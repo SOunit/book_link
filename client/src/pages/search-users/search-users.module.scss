@@ -1,7 +1,9 @@
+@import '../../variables.scss';
+
 .search-bar {
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  color: #fff;
+  color: $text-color-white;
 }
 
 .button-container {
