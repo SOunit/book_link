@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .search-bar {
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
@@ -15,7 +17,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #333;
+  background-color: $base-background-color-5;
   padding: 0.5rem;
   border-radius: 8px;
 }
