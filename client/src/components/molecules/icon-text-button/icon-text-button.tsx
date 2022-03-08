@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import classes from './icon-text-button.module.css';
+import classes from './icon-text-button.module.scss';
 
 type Props = {
   iconName: string;

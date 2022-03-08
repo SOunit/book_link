@@ -1,6 +1,8 @@
+@import '../../../variables.scss';
+
 .icon-text-button {
-  background-color: #171717;
-  color: #fff;
+  background-color: $base-background-color;
+  color: $base-text-color;
   display: flex;
   border: none;
   cursor: pointer;
