@@ -29,15 +29,18 @@ export const EditUserForm: FC<Props> = () => {
   const [imageFile, setImageFile] = useState<File>();
   const [input, setInput] = useState<EditUserFormInput>();
   const { uploadImageToS3 } = useAwsS3();
+  const [isUpdated, setIsUpdate] = useState(false);
 
-  const updateUser = async (userData: UserType) => {
+  const updateUser = (userData: UserType) => {
     // update db
-    await userServices.updateUser(
+    userServices.updateUser(
       userData.id,
       userData.name,
       userData.about,
       userData.imageUrl,
     );
+
+    setIsUpdate(true);
 
     // update state
     setLoginUser((prevState) => ({
@@ -67,9 +70,7 @@ export const EditUserForm: FC<Props> = () => {
       about: input.about,
     };
 
-    await updateUser(newUser);
-
-    history.push('/home');
+    updateUser(newUser);
   };
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -88,6 +89,14 @@ export const EditUserForm: FC<Props> = () => {
       setInput({ name: user.name, about: user.about });
     }
   }, [user]);
+
+  useEffect(() => {
+    // check if updated or not here in useEffect
+    // to avoid memory leak of updateState after component unmount
+    if (isUpdated) {
+      history.push('/home');
+    }
+  }, [isUpdated, history]);
 
   return (
     <form className={classes['edit-user-form']} onSubmit={submitHandler}>
