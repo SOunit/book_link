@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
 import { User } from '../../../models';
-import classes from './chat-header.module.css';
+import classes from './chat-header.module.scss';
 
 type Props = {
   partnerUser: User;
