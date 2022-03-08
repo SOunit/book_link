@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .image-container {
   width: 2rem;
 }
@@ -25,13 +27,13 @@
   overflow-wrap: break-word;
   max-width: 75%;
   /* to avoid scroll bottom error by image load */
-  background-color: #fff;
-  color: #444;
+  background-color: $base-background-color-5;
+  color: $base-text-color-5;
 }
 
 .message__text--mine {
-  background-color: #333;
-  color: #fff;
+  background-color: $base-background-color-4;
+  color: $base-text-color-4;
 }
 
 .message__time {
