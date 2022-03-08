@@ -28,8 +28,6 @@ export const UserDetail: FC<Props> = () => {
   const { followUser, unFollowUser, followings, followers, setFollowers } =
     useFollow(targetUser);
 
-  console.log('followings, followers', followings, followers);
-
   const followClickHandler = () => {
     if (loginUser && targetUser) {
       // update db
