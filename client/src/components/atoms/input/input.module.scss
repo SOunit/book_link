@@ -1,0 +1,9 @@
+@import '../../../variables.scss';
+
+.input {
+  border: 1px solid $base-background-color-2;
+  background-color: $base-background-color;
+  color: $base-text-color;
+  padding: 0.5rem 1rem;
+  outline: none;
+}
