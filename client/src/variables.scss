@@ -1,37 +1,13 @@
 ////////////////////////
 // base
 ////////////////////////
-$colors1: #171717;
-$colors2: #222;
-$colors3: #333;
-$colors4: #888;
-$colors5: #ffffffcc;
-$colors6: #fff;
-$colors7: #d81f26;
-
 $colors1: #fff;
-$colors2: #222;
+$colors2: #ccc;
 $colors3: #333;
 $colors4: #888;
 $colors5: #ffffffcc;
 $colors6: #333;
-$colors7: #d81f26;
-
-// $colors1: #f473b9;
-// $colors2: #f790c7;
-// $colors3: #faadd6;
-// $colors4: #ffddee;
-// $colors5: #fde6f2;
-// $colors6: #fff;
-// $colors7: #d81f26;
-
-// $colors1: #ffddee;
-// $colors2: #fff;
-// $colors3: #fde6f2;
-// $colors4: #faadd6;
-// $colors5: #f790c7;
-// $colors6: #f473b9;
-// $colors7: #0e3eda;
+$colors7: #c65d7b;
 
 // base
 $base-background-color: $colors1;
@@ -57,4 +33,4 @@ $base-background-color-6: $colors6;
 $base-text-color-6: $colors3;
 
 // header logo
-$base-text-color-7: $colors7;
+$base-background-color-7: $colors7;
