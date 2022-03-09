@@ -1,5 +1,5 @@
 import axios from 'axios';
-import keys from '../../util/keys';
+import { keys } from '../../util';
 
 export const useAwsS3 = () => {
   const uploadImageToS3 = async (image: File) => {

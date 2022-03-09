@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { User } from '../models';
 import { userServices } from '../services';
-import keys from '../util/keys';
+import { keys } from '../util';
 
 // fetch token from local storage
 // save it in context so that other component can use token
