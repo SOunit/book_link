@@ -1,36 +1,9 @@
 ////////////////////////
-// base
+// base colors
 ////////////////////////
 $colors1: #fff;
 $colors2: #ccc;
+$colors4: rgba(255, 255, 255, 0.5);
+$colors5: #888;
 $colors3: #333;
-$colors4: #888;
-$colors5: #ffffffcc;
-$colors6: #333;
 $colors7: #c65d7b;
-
-// base
-$base-background-color: $colors1;
-$base-text-color: $colors6;
-
-// button
-$base-background-color-2: $colors6;
-$base-text-color-2: $colors1;
-
-// search-bar, user-about
-$base-background-color-3: $colors2;
-$base-text-color-3: $colors5;
-
-// follow-text, logout, footer-nav-icon
-$base-text-color-4: $colors4;
-
-// login-user-message
-$base-background-color-5: $colors3;
-$base-text-color-5: $colors6;
-
-// partner-user-message
-$base-background-color-6: $colors6;
-$base-text-color-6: $colors3;
-
-// header logo
-$base-background-color-7: $colors7;

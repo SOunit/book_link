@@ -9,7 +9,7 @@
 
 .message-form {
   padding: 0.8rem;
-  background-color: $base-background-color;
+  background-color: $colors1;
 }
 
 .message-input {
@@ -17,9 +17,9 @@
   border: none;
   padding: 0.5rem 0.8rem;
   border-radius: 10px;
-  background-color: $base-background-color-3;
+  background-color: $colors2;
   outline: none;
-  color: $base-text-color;
+  color: $colors3;
 }
 
 @media (min-width: 40rem) {
