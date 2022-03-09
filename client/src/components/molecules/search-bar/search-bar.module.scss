@@ -10,13 +10,13 @@
   padding-left: 2rem;
   border: none;
   border-radius: 5px;
-  background-color: $base-background-color-3;
-  color: $base-text-color;
+  background-color: $colors2;
+  color: $colors3;
   outline: none;
 }
 
 ::placeholder {
-  color: $base-text-color-3;
+  color: $colors5;
 }
 
 .search-bar__input:active,
@@ -25,7 +25,7 @@
 }
 
 .search-bar__icon {
-  color: $base-text-color-3;
+  color: $colors5;
   position: absolute;
   top: 0.5rem;
   left: 0.5rem;
