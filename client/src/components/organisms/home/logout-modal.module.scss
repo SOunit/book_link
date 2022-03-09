@@ -1,7 +1,9 @@
+@import '../../../variables.scss';
+
 .logout-modal {
   position: fixed;
-  background-color: #242424;
-  color: #fff;
+  background-color: $base-background-color-3;
+  color: $base-text-color;
   border-radius: 8px;
   overflow: hidden;
   z-index: 15;
@@ -22,8 +24,8 @@
 .logout-modal__button {
   width: 50%;
   border-radius: 0;
-  background-color: #242424;
-  color: #fff;
-  border-top: 0.1px solid #fff;
+  background-color: $base-background-color-3;
+  color: $base-text-color;
+  border-top: 0.1px solid $base-text-color;
   padding: 1rem 0;
 }

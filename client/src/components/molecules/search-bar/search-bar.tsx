@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import { Item } from '../../../models';
 import { itemServices } from '../../../services';
-import classes from './search-bar.module.css';
+import classes from './search-bar.module.scss';
 
 type Props = {
   value: string;

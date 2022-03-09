@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import classes from './textarea.module.css';
+import classes from './textarea.module.scss';
 
 type Props = {
   onChange: any;

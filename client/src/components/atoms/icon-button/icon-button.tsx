@@ -1,5 +1,5 @@
 import { FC, MouseEventHandler } from 'react';
-import classes from './icon-button.module.css';
+import classes from './icon-button.module.scss';
 
 type Props = {
   iconName: string;

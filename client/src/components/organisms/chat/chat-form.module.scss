@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 .form-wrapper {
   position: fixed;
   bottom: 0;
@@ -7,7 +9,7 @@
 
 .message-form {
   padding: 0.8rem;
-  background-color: #171717;
+  background-color: $base-background-color;
 }
 
 .message-input {
@@ -15,9 +17,9 @@
   border: none;
   padding: 0.5rem 0.8rem;
   border-radius: 10px;
-  background-color: #1f1f1f;
+  background-color: $base-background-color-3;
   outline: none;
-  color: #fff;
+  color: $base-text-color;
 }
 
 @media (min-width: 40rem) {

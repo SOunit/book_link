@@ -1,6 +1,5 @@
 export * from './backdrop/backdrop';
 export * from './buttons/buttons';
-export * from './buttons/button';
 export * from './chat-list-item/chat-list-item';
 export * from './icon-text-button/icon-text-button';
 export * from './image-container/image-container';
