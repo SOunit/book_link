@@ -29,20 +29,6 @@ export const UserInfo: FC<UserInfoProps> = ({
     aboutText = user.about;
   }
 
-  let userImage = (
-    <div className={classes['user-info__image--no-data']}>No Image</div>
-  );
-  if (user.imageUrl && user.imageUrl.length > 0) {
-    userImage = (
-      <Image
-        src={user.imageUrl}
-        alt={user.name}
-        className={classes['user-info__image']}
-        imageStyle={classes['user-info__image']}
-      />
-    );
-  }
-
   return (
     <Fragment>
       {isModalOpen && <Backdrop onSideMenuToggle={modalCloseHandler} />}
@@ -55,7 +41,12 @@ export const UserInfo: FC<UserInfoProps> = ({
         />
       )}
       <div className={classes['user-info']}>
-        {userImage}
+        <Image
+          src={user.imageUrl}
+          alt={user.name}
+          className={classes['user-info__image']}
+          imageStyle={classes['user-info__image']}
+        />
         <div className={classes['user-info__details']}>
           <p className={classes['user-info__name']}>{user.name}</p>
           <Link
