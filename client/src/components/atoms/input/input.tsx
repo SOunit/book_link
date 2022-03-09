@@ -1,4 +1,4 @@
-import { FC, Fragment, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import classes from './input.module.scss';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 export const Input: FC<Props> = ({
   type = 'text',
-  initialValue = '',
+  initialValue,
   placeholder,
   className,
   onChange,
@@ -23,18 +23,29 @@ export const Input: FC<Props> = ({
     isValid: false,
   });
 
+  const { value, isValid } = inputState;
+
+  const inputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    // update parent state
+    onChange(event);
+
+    // update component state
+    setInputState((prevState) => ({
+      ...prevState,
+      value: event.target.value,
+    }));
+  };
+
   return (
     <div className={`${classes['input-wrapper']} ${className}`}>
       <input
         placeholder={placeholder}
         type={type}
-        value={initialValue}
-        onChange={onChange}
+        value={value}
+        onChange={inputChangeHandler}
         className={`${classes['input']}`}
       />
-      {errorMessage && (
-        <p className={classes['error-message']}>{errorMessage}</p>
-      )}
+      {!isValid && <p className={classes['error-message']}>{errorMessage}</p>}
     </div>
   );
 };
