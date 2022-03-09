@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import classes from './not-found-message.module.css';
+import classes from './not-found-message.module.scss';
 
 type Props = {
   title: string;

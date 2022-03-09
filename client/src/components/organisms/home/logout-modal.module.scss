@@ -2,8 +2,8 @@
 
 .logout-modal {
   position: fixed;
-  background-color: $base-background-color-3;
-  color: $base-text-color;
+  background-color: $colors3;
+  color: $colors1;
   border-radius: 8px;
   overflow: hidden;
   z-index: 15;
@@ -24,8 +24,8 @@
 .logout-modal__button {
   width: 50%;
   border-radius: 0;
-  background-color: $base-background-color-3;
-  color: $base-text-color;
-  border-top: 0.1px solid $base-text-color;
+  background-color: $colors3;
+  color: $colors1;
+  border-top: 0.1px solid $colors1;
   padding: 1rem 0;
 }

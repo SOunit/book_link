@@ -4,8 +4,8 @@
 $colors1: #fff;
 $colors2: #ccc;
 $colors3: #333;
-$colors4: #888;
-$colors5: #ffffffcc;
+$colors4: rgba(255, 255, 255, 0.5);
+$colors5: #888;
 $colors6: #333;
 $colors7: #c65d7b;
 
@@ -25,12 +25,13 @@ $base-text-color-3: $colors5;
 $base-text-color-4: $colors4;
 
 // login-user-message
-$base-background-color-5: $colors3;
-$base-text-color-5: $colors6;
+$base-background-color-5: $colors2;
+$base-text-color-5: $colors3;
 
 // partner-user-message
-$base-background-color-6: $colors6;
-$base-text-color-6: $colors3;
+$base-background-color-6: $colors7;
+$base-text-color-6: $colors1;
 
 // header logo
 $base-background-color-7: $colors7;
+$base-text-color-7: $colors7;
