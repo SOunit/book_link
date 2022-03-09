@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Button } from '../../atoms/';
-import classes from './logout-modal.module.css';
+import classes from './logout-modal.module.scss';
 
 type Props = {
   title: string;

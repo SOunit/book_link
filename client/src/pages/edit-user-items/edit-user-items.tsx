@@ -11,7 +11,7 @@ import {
 import { useSearchedItems } from '../../hooks/';
 import { AuthContext } from '../../store';
 import { itemServices } from '../../services';
-import classes from './edit-user-items.module.css';
+import classes from './edit-user-items.module.scss';
 
 export const EditUserItems: FC = () => {
   const { loginUser, setLoginUser } = useContext(AuthContext);

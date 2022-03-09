@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Chat, Message } from '../../../models';
 import { Image } from '../../atoms';
-import classes from './chat-message.module.css';
+import classes from './chat-message.module.scss';
 
 type Props = {
   message: Message;

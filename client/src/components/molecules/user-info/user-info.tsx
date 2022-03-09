@@ -6,7 +6,7 @@ import { User as UserType } from '../../../models/user';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
 import { Image } from '../../atoms';
-import classes from './user-info.module.css';
+import classes from './user-info.module.scss';
 
 type UserInfoProps = {
   user: UserType;

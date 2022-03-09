@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import classes from './chat-form.module.css';
+import classes from './chat-form.module.scss';
 
 type Props = {
   onSubmit: any;
