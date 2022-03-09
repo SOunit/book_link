@@ -108,9 +108,10 @@ export const EditUserForm: FC<Props> = () => {
           />
           <Input
             onChange={changeNameHandler}
-            value={input && input.name}
+            initialValue={input && input.name}
             placeholder="Name"
             className={classes['edit-user-form__name-input']}
+            errorMessage="test error message"
           />
           <Textarea
             onChange={changeAboutHandler}

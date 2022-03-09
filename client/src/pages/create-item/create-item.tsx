@@ -71,13 +71,13 @@ export const CreateItem: FC = () => {
       <form className={classes['create-item__form']} onSubmit={submitHandler}>
         <Input
           placeholder="Title"
-          value={title}
+          initialValue={title}
           onChange={changeTitleHandler}
           className={classes['create-item__form-input']}
         />
         <Input
           placeholder="Author"
-          value={author}
+          initialValue={author}
           onChange={changeAuthorHandler}
           className={classes['create-item__form-input']}
         />
