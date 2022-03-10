@@ -7,8 +7,12 @@ import {
   useState,
 } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Input } from '../../components/atoms';
-import { ImageUpload, SectionTitle } from '../../components/molecules';
+import { Button } from '../../components/atoms';
+import {
+  ImageUpload,
+  SectionTitle,
+  ValidateInput,
+} from '../../components/molecules';
 import { useAwsS3 } from '../../hooks/';
 import { itemServices } from '../../services';
 import { AuthContext } from '../../store';
@@ -69,17 +73,19 @@ export const CreateItem: FC = () => {
     <Fragment>
       <SectionTitle>New Item</SectionTitle>
       <form className={classes['create-item__form']} onSubmit={submitHandler}>
-        <Input
+        <ValidateInput
           placeholder="Title"
           initialValue={title}
           onChange={changeTitleHandler}
           className={classes['create-item__form-input']}
+          errorMessage="Please put valid title."
         />
-        <Input
+        <ValidateInput
           placeholder="Author"
           initialValue={author}
           onChange={changeAuthorHandler}
           className={classes['create-item__form-input']}
+          errorMessage="Please put valid Author."
         />
         <ImageUpload setImageFile={setImageFile} imageFile={imageFile} />
         <Button title="Create" />

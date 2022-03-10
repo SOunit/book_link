@@ -9,8 +9,8 @@ import {
 import { useHistory } from 'react-router';
 import { userServices } from '../../../services';
 import { User as UserType } from '../../../models';
-import { Input, Textarea, Button } from '../../atoms';
-import { ImageUpload, Buttons } from '../../molecules';
+import { Textarea, Button } from '../../atoms';
+import { ImageUpload, Buttons, ValidateInput } from '../../molecules';
 import { AuthContext } from '../../../store/';
 import { useAwsS3 } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
@@ -131,7 +131,7 @@ export const EditUserForm: FC<Props> = () => {
             setImageFile={setImageFile}
             imageUrl={user.imageUrl}
           />
-          <Input
+          <ValidateInput
             onChange={changeNameHandler}
             initialValue={formInputs && formInputs.name.value}
             placeholder="Name"
