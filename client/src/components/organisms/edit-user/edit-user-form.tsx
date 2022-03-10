@@ -78,14 +78,14 @@ export const EditUserForm: FC<Props> = () => {
     updateUser(newUser);
   };
 
-  const updateFormInputs = (value: string, isValid: boolean) => {
+  const updateFormInputs = (id: string, value: string, isValid: boolean) => {
     let formIsValid = true;
 
     formIsValid = formIsValid && isValid;
 
     setFormInputs((prevState) => ({
       ...prevState!,
-      name: {
+      [id]: {
         value,
         isValid,
       },
@@ -94,17 +94,19 @@ export const EditUserForm: FC<Props> = () => {
   };
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const formInputsId = 'name';
     const nameValue = e.target.value;
     const nameIsValid = validate(nameValue, [VALIDATOR_REQUIRE()]);
 
-    updateFormInputs(nameValue, nameIsValid);
+    updateFormInputs(formInputsId, nameValue, nameIsValid);
   };
 
   const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const formInputsId = 'about';
     const aboutValue = e.target.value;
-    const aboutIsValid = validate(aboutValue, [VALIDATOR_REQUIRE()]);
+    const aboutIsValid = validate(aboutValue, []);
 
-    updateFormInputs(aboutValue, aboutIsValid);
+    updateFormInputs(formInputsId, aboutValue, aboutIsValid);
   };
 
   useEffect(() => {
