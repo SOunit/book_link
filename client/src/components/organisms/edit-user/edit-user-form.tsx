@@ -9,8 +9,13 @@ import {
 import { useHistory } from 'react-router';
 import { userServices } from '../../../services';
 import { User as UserType } from '../../../models';
-import { Textarea, Button } from '../../atoms';
-import { ImageUpload, Buttons, ValidateInput } from '../../molecules';
+import { Button } from '../../atoms';
+import {
+  ImageUpload,
+  Buttons,
+  ValidateInput,
+  ValidateTextarea,
+} from '../../molecules';
 import { AuthContext } from '../../../store/';
 import { useAwsS3 } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
@@ -138,7 +143,7 @@ export const EditUserForm: FC<Props> = () => {
             className={classes['edit-user-form__name-input']}
             errorMessage="Please input valid name."
           />
-          <Textarea
+          <ValidateTextarea
             onChange={changeAboutHandler}
             placeholder="About"
             value={formInputs && formInputs.about && formInputs.about.value}
