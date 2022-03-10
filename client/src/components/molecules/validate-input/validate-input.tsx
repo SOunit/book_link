@@ -40,14 +40,14 @@ export const ValidateInput: FC<Props> = ({
   };
 
   return (
-    <div className={`${classes['input-wrapper']} ${className}`}>
+    <div className={`${className}`}>
       <Input
         placeholder={placeholder}
         type={type}
         initialValue={value}
         onChange={inputChangeHandler}
-        className={`${classes['input']} ${
-          !isValid && classes['input--invalid']
+        className={`${classes['validate-input__input']} ${
+          !isValid && classes['validate-input__input--invalid']
         }`}
       />
       {!isValid && <ErrorText errorMessage={errorMessage} />}
