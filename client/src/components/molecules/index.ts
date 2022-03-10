@@ -20,3 +20,5 @@ export * from './image-slider/image-slider';
 export * from './image-slider/slider-card';
 export * from './image-upload/image-upload';
 export * from './spinner/spinner';
+export * from './validate-input/validate-input';
+export * from './validate-textarea/validate-textarea';

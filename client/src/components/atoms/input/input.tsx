@@ -3,7 +3,7 @@ import classes from './input.module.scss';
 
 type Props = {
   onChange: any;
-  value?: string;
+  initialValue?: string;
   type?: string;
   placeholder?: string;
   className?: string;
@@ -11,7 +11,7 @@ type Props = {
 
 export const Input: FC<Props> = ({
   type = 'text',
-  value = '',
+  initialValue,
   placeholder,
   className,
   onChange,
@@ -20,7 +20,7 @@ export const Input: FC<Props> = ({
     <input
       placeholder={placeholder}
       type={type}
-      value={value}
+      value={initialValue}
       onChange={onChange}
       className={`${classes['input']} ${className}`}
     />
