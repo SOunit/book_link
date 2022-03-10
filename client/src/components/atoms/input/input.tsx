@@ -21,7 +21,7 @@ export const Input: FC<Props> = ({
 }) => {
   const [inputState, setInputState] = useState({
     value: initialValue || '',
-    isValid: false,
+    isValid: true,
   });
 
   const { value, isValid } = inputState;
@@ -45,7 +45,9 @@ export const Input: FC<Props> = ({
         type={type}
         value={value}
         onChange={inputChangeHandler}
-        className={`${classes['input']}`}
+        className={`${classes['input']} ${
+          !isValid && classes['input--invalid']
+        }`}
       />
       {!isValid && <p className={classes['error-message']}>{errorMessage}</p>}
     </div>

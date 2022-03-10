@@ -13,8 +13,8 @@ import { Input, Textarea, Button } from '../../atoms';
 import { ImageUpload, Buttons } from '../../molecules';
 import { AuthContext } from '../../../store/';
 import { useAwsS3 } from '../../../hooks';
-import classes from './edit-user-form.module.css';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
+import classes from './edit-user-form.module.css';
 
 type Props = {};
 
@@ -78,9 +78,7 @@ export const EditUserForm: FC<Props> = () => {
   const updateFormInputs = (value: string, isValid: boolean) => {
     let formIsValid = true;
 
-    for (const formInputsKey in formInputs) {
-      formIsValid = formIsValid && isValid;
-    }
+    formIsValid = formIsValid && isValid;
 
     setFormInputs((prevState) => ({
       ...prevState!,
@@ -110,9 +108,11 @@ export const EditUserForm: FC<Props> = () => {
 
   useEffect(() => {
     if (user) {
+      const { name, about } = user;
+
       setFormInputs({
-        name: { value: user.name, isValid: true },
-        about: { value: user.about ? user.about : '', isValid: true },
+        name: { value: name, isValid: true },
+        about: { value: about ? about : '', isValid: true },
         isValid: true,
       });
     }
@@ -128,7 +128,7 @@ export const EditUserForm: FC<Props> = () => {
 
   return (
     <form className={classes['edit-user-form']} onSubmit={submitHandler}>
-      {user && (
+      {user && formInputs && (
         <Fragment>
           <ImageUpload
             imageFile={imageFile}
