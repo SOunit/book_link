@@ -17,25 +17,19 @@ import {
   ValidateTextarea,
 } from '../../molecules';
 import { AuthContext } from '../../../store/';
-import { useAwsS3 } from '../../../hooks';
+import { useAwsS3, useValidateForm } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
 
 type Props = {};
 
-type EditUserFormInput = {
-  name: { value: string; isValid: boolean };
-  about?: { value: string; isValid: boolean };
-  isValid: boolean;
-};
-
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
   const { loginUser: user, setLoginUser } = useContext(AuthContext);
   const [imageFile, setImageFile] = useState<File>();
-  const [formInputs, setFormInputs] = useState<EditUserFormInput>();
   const { uploadImageToS3 } = useAwsS3();
   const [isUpdated, setIsUpdate] = useState(false);
+  const { formInputs, updateFormInputs, setFormInputs } = useValidateForm();
 
   const updateUser = (userData: UserType) => {
     // update db
@@ -78,21 +72,6 @@ export const EditUserForm: FC<Props> = () => {
     updateUser(newUser);
   };
 
-  const updateFormInputs = (id: string, value: string, isValid: boolean) => {
-    let formIsValid = true;
-
-    formIsValid = formIsValid && isValid;
-
-    setFormInputs((prevState) => ({
-      ...prevState!,
-      [id]: {
-        value,
-        isValid,
-      },
-      isValid: formIsValid,
-    }));
-  };
-
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const formInputsId = 'name';
     const nameValue = e.target.value;
@@ -119,7 +98,7 @@ export const EditUserForm: FC<Props> = () => {
         isValid: true,
       });
     }
-  }, [user]);
+  }, [user, setFormInputs]);
 
   useEffect(() => {
     // check if updated or not here in useEffect
