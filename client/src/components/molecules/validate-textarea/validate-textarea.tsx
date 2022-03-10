@@ -22,7 +22,7 @@ export const ValidateTextarea: FC<Props> = ({
         className={className}
         placeholder={placeholder}
       />
-      {<ErrorText errorMessage="test message" />}
+      {<ErrorText errorMessage="Please input valid message" />}
     </div>
   );
 };
