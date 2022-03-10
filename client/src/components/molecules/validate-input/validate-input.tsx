@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
-import { Input } from '../../atoms';
+import { ErrorText, Input } from '../../atoms';
 import classes from './validate-input.module.scss';
 
 type Props = {
@@ -50,7 +50,7 @@ export const ValidateInput: FC<Props> = ({
           !isValid && classes['input--invalid']
         }`}
       />
-      {!isValid && <p className={classes['error-message']}>{errorMessage}</p>}
+      {!isValid && <ErrorText errorMessage={errorMessage} />}
     </div>
   );
 };
