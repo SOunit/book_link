@@ -32,8 +32,6 @@ export const EditUserForm: FC<Props> = () => {
   const { uploadImageToS3 } = useAwsS3();
   const [isUpdated, setIsUpdate] = useState(false);
 
-  console.log('formInputs', formInputs);
-
   const updateUser = (userData: UserType) => {
     // update db
     userServices.updateUser(
@@ -93,7 +91,6 @@ export const EditUserForm: FC<Props> = () => {
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const nameValue = e.target.value;
     const nameIsValid = validate(nameValue, [VALIDATOR_REQUIRE()]);
-    console.log('nameIsValid', nameIsValid);
 
     updateFormInputs(nameValue, nameIsValid);
   };
@@ -101,7 +98,6 @@ export const EditUserForm: FC<Props> = () => {
   const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const aboutValue = e.target.value;
     const aboutIsValid = validate(aboutValue, [VALIDATOR_REQUIRE()]);
-    console.log('aboutIsValid', aboutIsValid);
 
     updateFormInputs(aboutValue, aboutIsValid);
   };
