@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useState } from 'react';
+import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './input.module.scss';
 
 type Props = {
@@ -33,6 +34,7 @@ export const Input: FC<Props> = ({
     setInputState((prevState) => ({
       ...prevState,
       value: event.target.value,
+      isValid: validate(event.target.value, [VALIDATOR_REQUIRE()]),
     }));
   };
 

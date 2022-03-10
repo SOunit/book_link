@@ -10,26 +10,29 @@ import { useHistory } from 'react-router';
 import { userServices } from '../../../services';
 import { User as UserType } from '../../../models';
 import { Input, Textarea, Button } from '../../atoms';
-import { ImageUpload } from '../../molecules';
+import { ImageUpload, Buttons } from '../../molecules';
 import { AuthContext } from '../../../store/';
-import classes from './edit-user-form.module.css';
-import { Buttons } from '../../molecules';
 import { useAwsS3 } from '../../../hooks';
+import classes from './edit-user-form.module.css';
+import { validate, VALIDATOR_REQUIRE } from '../../../util';
 
 type Props = {};
 
 type EditUserFormInput = {
-  name: string;
-  about?: string;
+  name: { value: string; isValid: boolean };
+  about?: { value: string; isValid: boolean };
+  isValid: boolean;
 };
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
   const { loginUser: user, setLoginUser } = useContext(AuthContext);
   const [imageFile, setImageFile] = useState<File>();
-  const [input, setInput] = useState<EditUserFormInput>();
+  const [formInputs, setFormInputs] = useState<EditUserFormInput>();
   const { uploadImageToS3 } = useAwsS3();
   const [isUpdated, setIsUpdate] = useState(false);
+
+  console.log('formInputs', formInputs);
 
   const updateUser = (userData: UserType) => {
     // update db
@@ -53,7 +56,7 @@ export const EditUserForm: FC<Props> = () => {
   const submitHandler = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    if (!input || !user) {
+    if (!formInputs || !user) {
       return;
     }
 
@@ -64,28 +67,54 @@ export const EditUserForm: FC<Props> = () => {
 
     const newUser = {
       id: user.id,
-      name: input.name,
+      name: formInputs.name.value,
       imageUrl,
-      about: input.about,
+      about: formInputs.about ? formInputs.about.value : '',
     };
 
     updateUser(newUser);
   };
 
-  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput((prevState) => ({
+  const updateFormInputs = (value: string, isValid: boolean) => {
+    let formIsValid = true;
+
+    for (const formInputsKey in formInputs) {
+      formIsValid = formIsValid && isValid;
+    }
+
+    setFormInputs((prevState) => ({
       ...prevState!,
-      name: e.target.value,
+      name: {
+        value,
+        isValid,
+      },
+      isValid: formIsValid,
     }));
   };
 
+  const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const nameValue = e.target.value;
+    const nameIsValid = validate(nameValue, [VALIDATOR_REQUIRE()]);
+    console.log('nameIsValid', nameIsValid);
+
+    updateFormInputs(nameValue, nameIsValid);
+  };
+
   const changeAboutHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput((prevState) => ({ ...prevState!, about: e.target.value }));
+    const aboutValue = e.target.value;
+    const aboutIsValid = validate(aboutValue, [VALIDATOR_REQUIRE()]);
+    console.log('aboutIsValid', aboutIsValid);
+
+    updateFormInputs(aboutValue, aboutIsValid);
   };
 
   useEffect(() => {
     if (user) {
-      setInput({ name: user.name, about: user.about });
+      setFormInputs({
+        name: { value: user.name, isValid: true },
+        about: { value: user.about ? user.about : '', isValid: true },
+        isValid: true,
+      });
     }
   }, [user]);
 
@@ -108,20 +137,21 @@ export const EditUserForm: FC<Props> = () => {
           />
           <Input
             onChange={changeNameHandler}
-            initialValue={input && input.name}
+            initialValue={formInputs && formInputs.name.value}
             placeholder="Name"
             className={classes['edit-user-form__name-input']}
-            errorMessage="test error message"
+            errorMessage="Please input valid name."
           />
           <Textarea
             onChange={changeAboutHandler}
             placeholder="About"
-            value={input && input.about}
+            value={formInputs && formInputs.about && formInputs.about.value}
           />
           <Buttons>
             <Button
               title="Save"
               className={classes['edit-user-form__button']}
+              disabled={!formInputs?.isValid}
             />
           </Buttons>
         </Fragment>
