@@ -18,8 +18,8 @@ export const Image: FC<Props> = ({ src, alt, className, imageStyle }) => {
           alt={alt}
         />
       ) : (
-        <div className={`${classes['image']} ${classes['image--no-image']}`}>
-          <p>No Image</p>
+        <div className={`${classes['image']} ${classes['no-image']}`}>
+          <p className={classes['no-image__text']}>No Image</p>
         </div>
       )}
     </div>
