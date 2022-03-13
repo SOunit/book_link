@@ -9,7 +9,7 @@ type Props = {
 export const Spinner: FC<Props> = ({ className }) => {
   return (
     <div className={`${classes['spinner-wrap']} ${className}`}>
-      <ClipLoader color="#fff" />
+      <ClipLoader color="#c65d7b" />
     </div>
   );
 };

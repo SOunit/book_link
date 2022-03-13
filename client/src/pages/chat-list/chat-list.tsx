@@ -7,7 +7,7 @@ import {
   Spinner,
 } from '../../components/molecules';
 import { AuthContext } from '../../store';
-import classes from './chat-list.module.css';
+import classes from './chat-list.module.scss';
 
 export const ChatList: FC = () => {
   const { loginUser } = useContext(AuthContext);
@@ -19,7 +19,6 @@ export const ChatList: FC = () => {
       ChatServices.fetchChatList(loginUser.id)
         .then((res) => {
           const chats = res.data.data.getUserChatList;
-
           setChats(chats);
           setIsLoading(false);
         })
