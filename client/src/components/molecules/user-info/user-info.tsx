@@ -44,7 +44,9 @@ export const UserInfo: FC<UserInfoProps> = ({
         <Image
           src={user.imageUrl}
           alt={user.name}
-          className={classes['user-info__image']}
+          className={`${classes['user-info__image']} ${
+            !user.imageUrl && classes['user-info__image--no-image']
+          }`}
           imageStyle={classes['user-info__image']}
         />
         <div className={classes['user-info__details']}>
