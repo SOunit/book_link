@@ -38,10 +38,26 @@ export const CreateItem: FC = () => {
 
   const { title, author } = inputs;
 
+  const getFormIsValid = (inputs: Inputs) => {
+    let formIsValid = true;
+
+    for (const value of Object.values(inputs)) {
+      if (typeof value === 'object') {
+        formIsValid = formIsValid && value.isValid;
+      }
+    }
+
+    return formIsValid;
+  };
+
   const changeTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const inputTitle = event.target.value;
     const titleIsValid = validate(inputTitle, [VALIDATOR_REQUIRE()]);
-    const formIsValid = true;
+
+    const formIsValid = getFormIsValid({
+      ...inputs,
+      title: { ...title, isValid: titleIsValid },
+    });
 
     setInputs((prevState) => ({
       ...prevState,
@@ -49,19 +65,29 @@ export const CreateItem: FC = () => {
         value: inputTitle,
         isValid: titleIsValid,
       },
-      isValid: titleIsValid && formIsValid,
+      isValid: formIsValid,
     }));
   };
+
   const changeAuthorHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const inputAuthor = event.target.value;
+    const authorIsValid = validate(inputAuthor, [VALIDATOR_REQUIRE()]);
+
+    const formIsValid = getFormIsValid({
+      ...inputs,
+      author: { ...author, isValid: authorIsValid },
+    });
+
     setInputs((prevState) => ({
       ...prevState,
       author: {
         value: inputAuthor,
-        isValid: validate(inputAuthor, [VALIDATOR_REQUIRE()]),
+        isValid: authorIsValid,
       },
+      isValid: formIsValid,
     }));
   };
+
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
 
@@ -114,7 +140,7 @@ export const CreateItem: FC = () => {
           errorMessage="Please put valid Author."
         />
         <ImageUpload setImageFile={setImageFile} imageFile={imageFile} />
-        <Button title="Create" />
+        <Button title="Create" disabled={!inputs.isValid} />
       </form>
     </Fragment>
   );
