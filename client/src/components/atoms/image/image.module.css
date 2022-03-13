@@ -10,7 +10,7 @@
   border-radius: 8px;
 }
 
-.image--no-image {
+.no-image {
   height: 100%;
   display: flex;
   justify-content: center;
@@ -20,4 +20,8 @@
   border-radius: 8px;
   font-weight: bold;
   text-align: center;
+}
+
+.no-image__text {
+  margin: 2rem 0;
 }
