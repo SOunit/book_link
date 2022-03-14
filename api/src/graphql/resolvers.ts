@@ -234,30 +234,31 @@ const resolvers = {
     }
   },
 
-  getFollowingUsers: async (args: { userId: string }) => {
+  getFollowingUsers: async (args: {
+    targetUserId: string;
+    loginUserId: string;
+  }) => {
     const users = await sequelize.query(
       `
-      SELECT
-        users.id
-        , users.name
-        , users."imageUrl"
-        , true as "isFollowing"
-      FROM
-        follows
-      JOIN
-        users
-      ON
-        follows."userId" = users.id
-      WHERE
-        follows."followingUserId" = :userId
-      LIMIT
-        10
-      OFFSET
-        0
+      SELECT USERS.ID,
+        USERS.NAME,
+        USERS."imageUrl",
+        CASE
+                WHEN LOGIN_USER_FOLLOWS."userId" IS NOT NULL THEN TRUE
+                ELSE FALSE
+        END AS "isFollowing"
+      FROM FOLLOWS
+      JOIN USERS ON FOLLOWS."userId" = USERS.ID
+      LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."userId" = FOLLOWS."userId"
+      AND LOGIN_USER_FOLLOWS."followingUserId" = :loginUserId
+      WHERE FOLLOWS."followingUserId" = :targetUserId
+      LIMIT 10
+      OFFSET 0
       `,
       {
         replacements: {
-          userId: args.userId,
+          targetUserId: args.targetUserId,
+          loginUserId: args.loginUserId,
         },
         type: QueryTypes.SELECT,
       },
@@ -266,27 +267,31 @@ const resolvers = {
     return users;
   },
 
-  getFollowerUsers: async (args: { userId: string }) => {
+  getFollowerUsers: async (args: {
+    targetUserId: string;
+    loginUserId: string;
+  }) => {
     const users = await sequelize.query(
       `
       SELECT USERS.ID,
         USERS.NAME,
         USERS."imageUrl",
         CASE
-                WHEN FOLLOWINGS."followingUserId" = :userId THEN TRUE
-                WHEN FOLLOWINGS."followingUserId" is null THEN FALSE
+                WHEN LOGIN_USER_FOLLOWS."followingUserId" IS NOT NULL THEN TRUE
+                ELSE FALSE
         END AS "isFollowing"
       FROM FOLLOWS
       JOIN USERS ON FOLLOWS."followingUserId" = USERS.ID
-      LEFT JOIN FOLLOWS AS FOLLOWINGS ON FOLLOWINGS."followingUserId" = :userId
-      AND FOLLOWINGS."userId" = USERS.ID
-      WHERE FOLLOWS."userId" = :userId
+      LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."followingUserId" = :loginUserId
+      AND LOGIN_USER_FOLLOWS."userId" = USERS.ID
+      WHERE FOLLOWS."userId" = :targetUserId
       LIMIT 10
       OFFSET 0
       `,
       {
         replacements: {
-          userId: args.userId,
+          targetUserId: args.targetUserId,
+          loginUserId: args.loginUserId,
         },
         type: QueryTypes.SELECT,
       },
