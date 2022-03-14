@@ -8,8 +8,8 @@ export default buildSchema(`
         user(id: ID!): User!
         item(id: ID!): Item!
         getUserCount(id: ID!): Int!
-        getFollowingUsers(userId: ID!): [FollowingUser!]!
-        getFollowerUsers(userId: ID!): [FollowingUser!]!
+        getFollowingUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
+        getFollowerUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
         following(userId: ID!, followingUserId: ID!): Following
         getUserChat(userIds: [ID!]!): Chat
         getUserChatList(userId: ID!): [Chat]

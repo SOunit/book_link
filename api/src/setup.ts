@@ -241,7 +241,7 @@ export const setupDummyData = async () => {
     id: '9',
     chatId: '1',
     userId: '2',
-    text: '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890',
+    text: 'how are you?',
   });
 
   await Follow.create({
@@ -252,6 +252,16 @@ export const setupDummyData = async () => {
   await Follow.create({
     userId: '2',
     followingUserId: '4',
+  });
+
+  await Follow.create({
+    userId: '2',
+    followingUserId: '1',
+  });
+
+  await Follow.create({
+    userId: '3',
+    followingUserId: '1',
   });
 
   // fetch user including chats, messages
