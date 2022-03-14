@@ -56,6 +56,7 @@ export const Followings: FC<FollowingsProps> = () => {
         }
         return user;
       });
+
       setFollowings(newFollowings);
 
       // update db
@@ -71,14 +72,16 @@ export const Followings: FC<FollowingsProps> = () => {
     const users: FollowingType[] = [];
 
     fetchFollowings(params.userId).then((res: any) => {
-      res.map((user: any) =>
+      res.forEach((user: any) => {
+        const { id, name, imageUrl, isFollowing } = user;
+
         users.push({
-          id: user.id,
-          name: user.name,
-          imageUrl: user.imageUrl,
-          isFollowing: user.isFollowing,
-        }),
-      );
+          id,
+          name,
+          imageUrl,
+          isFollowing,
+        });
+      });
 
       setFollowings(users);
     });
@@ -94,18 +97,14 @@ export const Followings: FC<FollowingsProps> = () => {
             onClick={() => detailClickHandler(user.id)}
             className={classes['followings__info-icon']}
           />
-          {loginUser && loginUser.id === params.userId && (
-            <IconButton
-              iconName={
-                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-              }
-              onClick={
-                user.isFollowing
-                  ? () => followingClickHandler(user.id)
-                  : () => followClickHandler(user.id)
-              }
-            />
-          )}
+          <IconButton
+            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
+            onClick={
+              user.isFollowing
+                ? () => followingClickHandler(user.id)
+                : () => followClickHandler(user.id)
+            }
+          />
         </Buttons>
       );
       return (
