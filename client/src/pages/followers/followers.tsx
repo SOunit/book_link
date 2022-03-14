@@ -72,18 +72,14 @@ export const Followers: FC<FollowersProps> = () => {
             onClick={() => detailClickHandler(user.id)}
             className={classes['followers__info-icon']}
           />
-          {loginUser && loginUser.id === params.userId && (
-            <IconButton
-              iconName={
-                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-              }
-              onClick={
-                user.isFollowing
-                  ? () => followingClickHandler(user.id)
-                  : () => followClickHandler(user.id)
-              }
-            />
-          )}
+          <IconButton
+            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
+            onClick={
+              user.isFollowing
+                ? () => followingClickHandler(user.id)
+                : () => followClickHandler(user.id)
+            }
+          />
         </Buttons>
       );
       return (
