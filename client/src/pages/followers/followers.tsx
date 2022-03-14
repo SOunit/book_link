@@ -1,8 +1,6 @@
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
-import { Following as FollowingType } from '../../models';
+import { FC, Fragment, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { followServices } from '../../services';
 import {
   Buttons,
   NotFoundMessage,
@@ -21,10 +19,12 @@ type FollowersParams = {
 
 export const Followers: FC<FollowersProps> = () => {
   const params = useParams<FollowersParams>();
-  const [followers, setFollowers] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { followUser, unFollowUser } = useFollow();
+  const { followUser, unFollowUser, setFollowers, followers } = useFollow(
+    params.userId,
+    loginUser?.id,
+  );
 
   const followClickHandler = (targetUserId: string) => {
     if (followers && loginUser) {
@@ -61,28 +61,6 @@ export const Followers: FC<FollowersProps> = () => {
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
-
-  useEffect(() => {
-    const fetchFollowers = async (userId: string) => {
-      const result = await followServices.fetchFollowerUsers(userId);
-      return result.data.data.getFollowerUsers;
-    };
-
-    const users: FollowingType[] = [];
-
-    fetchFollowers(params.userId).then((res: any) => {
-      res.map((user: any) =>
-        users.push({
-          id: user.id,
-          name: user.name,
-          imageUrl: user.imageUrl,
-          isFollowing: user.isFollowing,
-        }),
-      );
-
-      setFollowers(users);
-    });
-  }, [params.userId]);
 
   let followingUsers = null;
   if (followers) {
@@ -124,7 +102,7 @@ export const Followers: FC<FollowersProps> = () => {
       <SectionTitle>Followers</SectionTitle>
       {followers && followers.length > 0 && followingUsers}
       {followers && followers.length <= 0 && (
-        <NotFoundMessage title="" text="You are following nobody!" />
+        <NotFoundMessage title="" text="Nobody is following you!" />
       )}
     </Fragment>
   );

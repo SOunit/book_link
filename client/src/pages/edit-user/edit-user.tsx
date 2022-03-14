@@ -6,7 +6,7 @@ import { AuthContext } from '../../store';
 
 export const EditUser: FC = () => {
   const { loginUser } = useContext(AuthContext);
-  const { followings, followers } = useFollow(loginUser);
+  const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
 
   return (
     <Fragment>

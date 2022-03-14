@@ -1,8 +1,6 @@
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
-import { Following as FollowingType } from '../../models';
+import { FC, Fragment, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
-import { followServices } from '../../services';
 import {
   Buttons,
   NotFoundMessage,
@@ -21,15 +19,12 @@ type FollowingsParams = {
 
 export const Followings: FC<FollowingsProps> = () => {
   const params = useParams<FollowingsParams>();
-  const [followings, setFollowings] = useState<FollowingType[]>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { followUser, unFollowUser } = useFollow();
-
-  const fetchFollowings = async (userId: string) => {
-    const result = await followServices.fetchFollowingUsers(userId);
-    return result.data.data.getFollowingUsers;
-  };
+  const { followUser, unFollowUser, followings, setFollowings } = useFollow(
+    params.userId,
+    loginUser?.id,
+  );
 
   const followClickHandler = (targetUserId: string) => {
     if (followings && loginUser) {
@@ -67,25 +62,6 @@ export const Followings: FC<FollowingsProps> = () => {
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
-
-  useEffect(() => {
-    const users: FollowingType[] = [];
-
-    fetchFollowings(params.userId).then((res: any) => {
-      res.forEach((user: any) => {
-        const { id, name, imageUrl, isFollowing } = user;
-
-        users.push({
-          id,
-          name,
-          imageUrl,
-          isFollowing,
-        });
-      });
-
-      setFollowings(users);
-    });
-  }, [params.userId]);
 
   let followingUsers = null;
   if (followings) {
