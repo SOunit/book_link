@@ -15,7 +15,7 @@ type HomeProps = {};
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
-  const { followings, followers } = useFollow(loginUser);
+  const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);

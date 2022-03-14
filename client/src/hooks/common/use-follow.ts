@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { User } from '../../models';
 import { followServices } from '../../services';
 
-export const useFollow = (targetUser?: User | null) => {
+export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const [followings, setFollowings] = useState<User[]>();
   const [followers, setFollowers] = useState<User[]>();
 
@@ -16,17 +16,23 @@ export const useFollow = (targetUser?: User | null) => {
 
   useEffect(() => {
     const initFollow = async () => {
-      if (targetUser) {
-        let res = await followServices.fetchFollowingUsers(targetUser.id);
+      if (targetUserId && loginUserId) {
+        let res = await followServices.fetchFollowingUsers(
+          targetUserId,
+          loginUserId,
+        );
         setFollowings(res.data.data.getFollowingUsers);
 
-        res = await followServices.fetchFollowerUsers(targetUser.id);
+        res = await followServices.fetchFollowerUsers(
+          targetUserId,
+          loginUserId,
+        );
         setFollowers(res.data.data.getFollowerUsers);
       }
     };
 
     initFollow();
-  }, [targetUser]);
+  }, [targetUserId, loginUserId]);
 
   return {
     followings,

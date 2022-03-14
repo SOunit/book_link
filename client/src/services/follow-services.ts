@@ -58,11 +58,11 @@ export const followServices = {
     });
   },
 
-  fetchFollowingUsers: async (userId: string) => {
+  fetchFollowingUsers: async (targetUserId: string, loginUserId: string) => {
     const graphqlQuery = {
       query: `
-              query GetFollowingUsers($userId: ID!){
-                getFollowingUsers(userId: $userId){
+              query GetFollowingUsers($targetUserId: ID!, $loginUserId: ID!){
+                getFollowingUsers(targetUserId: $targetUserId, loginUserId: $loginUserId,){
                   id
                   name
                   imageUrl
@@ -71,7 +71,8 @@ export const followServices = {
               }
               `,
       variables: {
-        userId,
+        targetUserId,
+        loginUserId,
       },
     };
 
@@ -80,11 +81,11 @@ export const followServices = {
     });
   },
 
-  fetchFollowerUsers: async (userId: string) => {
+  fetchFollowerUsers: async (targetUserId: string, loginUserId: string) => {
     const graphqlQuery = {
       query: `
-              query GetFollowerUsers($userId: ID!){
-                getFollowerUsers(userId: $userId){
+              query GetFollowerUsers($targetUserId: ID!, $loginUserId: ID!){
+                getFollowerUsers(targetUserId: $targetUserId, loginUserId: $loginUserId){
                   id
                   name
                   imageUrl
@@ -93,7 +94,8 @@ export const followServices = {
               }
               `,
       variables: {
-        userId,
+        targetUserId,
+        loginUserId,
       },
     };
 

@@ -26,7 +26,7 @@ export const UserDetail: FC<Props> = () => {
   const [targetUser, setTargetUser] = useState<UserType>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
   const { followUser, unFollowUser, followings, followers, setFollowers } =
-    useFollow(targetUser);
+    useFollow(targetUser?.id, loginUser?.id);
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
