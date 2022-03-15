@@ -2,6 +2,8 @@
 
 .follow-header {
   display: flex;
+  border-bottom: 1px solid $colors10;
+  margin-bottom: 1rem;
 }
 
 .follow-header__title {
@@ -9,7 +11,7 @@
   text-decoration: none;
   flex: 1;
   text-align: center;
-  padding: 1.5rem 0;
+  padding: 1rem 0;
 }
 
 .follow-header__title--active {
