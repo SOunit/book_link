@@ -79,27 +79,27 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const followUserInFollowings = (targetUser: User) => {
+  const followUserInFollowings = (followingUser: User) => {
     console.log('followUserInfoFollowings');
 
     if (followings && followers && loginUserId) {
       // update state
-      updateFollowingsState(followings, targetUser.id, true);
-      updateFollowersState(followers, targetUser, true);
+      updateFollowingsState(followings, followingUser.id, true);
+      updateFollowersState(followers, followingUser, true);
 
       // update db
-      followUser(loginUserId, targetUser.id);
+      followUser(loginUserId, followingUser.id);
     }
   };
 
-  const unFollowUserInFollowings = (targetUser: User) => {
+  const removeFollowingUserFromFollowings = (followingUser: User) => {
     if (followings && followers && loginUserId) {
       // update state
-      updateFollowingsState(followings, targetUser.id, false);
-      updateFollowersState(followers, targetUser, false);
+      updateFollowingsState(followings, followingUser.id, false);
+      updateFollowersState(followers, followingUser, false);
 
       // update db
-      unFollowUser(loginUserId, targetUser.id);
+      unFollowUser(loginUserId, followingUser.id);
     }
   };
 
@@ -165,6 +165,6 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followUserInFollowers,
     unFollowUserInFollowers,
     followUserInFollowings,
-    unFollowUserInFollowings,
+    removeFollowingUserFromFollowings,
   };
 };

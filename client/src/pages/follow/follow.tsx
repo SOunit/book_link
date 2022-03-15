@@ -27,7 +27,7 @@ export const Follow: FC<FollowProps> = () => {
     followUserInFollowers,
     unFollowUserInFollowers,
     followUserInFollowings,
-    unFollowUserInFollowings,
+    removeFollowingUserFromFollowings,
   } = useFollow(params.userId, loginUser?.id);
   const { user } = useUser(params.userId);
   const { pathname } = useLocation();
@@ -108,7 +108,7 @@ export const Follow: FC<FollowProps> = () => {
               }
               onClick={
                 user.isFollowing
-                  ? () => unFollowUserInFollowings(user)
+                  ? () => removeFollowingUserFromFollowings(user)
                   : () => followUserInFollowings(user)
               }
             />
