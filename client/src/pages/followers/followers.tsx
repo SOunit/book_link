@@ -21,49 +21,17 @@ export const Followers: FC<FollowersProps> = () => {
   const params = useParams<FollowersParams>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { followUser, unFollowUser, setFollowers, followers } = useFollow(
+  const { followers, followClickHandler, followingClickHandler } = useFollow(
     params.userId,
     loginUser?.id,
   );
-
-  const followClickHandler = (targetUserId: string) => {
-    if (followers && loginUser) {
-      // update state
-      const newFollowers = followers.map((user) => {
-        if (user.id === targetUserId) {
-          user.isFollowing = true;
-        }
-        return user;
-      });
-      setFollowers(newFollowers);
-
-      // update db
-      followUser(loginUser.id, targetUserId);
-    }
-  };
-
-  const followingClickHandler = (targetUserId: string) => {
-    if (followers && loginUser) {
-      // update state
-      const newFollowers = followers.map((user) => {
-        if (user.id === targetUserId) {
-          user.isFollowing = false;
-        }
-        return user;
-      });
-      setFollowers(newFollowers);
-
-      // update db
-      unFollowUser(loginUser.id, targetUserId);
-    }
-  };
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
 
   let followingUsers = null;
-  if (followers) {
+  if (followers && loginUser) {
     followingUsers = followers.map((user) => {
       const buttons = (
         <Buttons>
@@ -76,8 +44,9 @@ export const Followers: FC<FollowersProps> = () => {
             iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
             onClick={
               user.isFollowing
-                ? () => followingClickHandler(user.id)
-                : () => followClickHandler(user.id)
+                ? () =>
+                    followingClickHandler(user.id, loginUser.id, params.userId)
+                : () => followClickHandler(user.id, loginUser.id, params.userId)
             }
           />
         </Buttons>

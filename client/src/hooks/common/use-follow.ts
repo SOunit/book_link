@@ -14,6 +14,50 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followServices.createFollowing(followingUserId, followerUserId);
   };
 
+  const followClickHandler = (
+    targetUserId: string,
+    loginUserId: string,
+    pageUserId: string,
+  ) => {
+    const isSelfUpdate = loginUserId === targetUserId;
+
+    if (followers && loginUserId) {
+      // update state
+      const newFollowers = followers.map((user) => {
+        if (isSelfUpdate ? user.id === loginUserId : user.id === targetUserId) {
+          user.isFollowing = true;
+        }
+        return user;
+      });
+      setFollowers(newFollowers);
+
+      // update db
+      followUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
+    }
+  };
+
+  const followingClickHandler = (
+    targetUserId: string,
+    loginUserId: string,
+    pageUserId: string,
+  ) => {
+    const isSelfUpdate = loginUserId === targetUserId;
+
+    if (followers && loginUserId) {
+      // update state
+      const newFollowers = followers.map((user) => {
+        if (isSelfUpdate ? user.id === loginUserId : user.id === targetUserId) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+      setFollowers(newFollowers);
+
+      // update db
+      unFollowUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
+    }
+  };
+
   useEffect(() => {
     const initFollow = async () => {
       if (targetUserId && loginUserId) {
@@ -41,5 +85,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     setFollowers,
     unFollowUser,
     followUser,
+    followClickHandler,
+    followingClickHandler,
   };
 };

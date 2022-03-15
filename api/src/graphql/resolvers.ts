@@ -278,6 +278,7 @@ const resolvers = {
         USERS."imageUrl",
         CASE
                 WHEN LOGIN_USER_FOLLOWS."followingUserId" IS NOT NULL THEN TRUE
+                WHEN FOLLOWS."followingUserId" = :loginUserId THEN TRUE
                 ELSE FALSE
         END AS "isFollowing"
       FROM FOLLOWS
