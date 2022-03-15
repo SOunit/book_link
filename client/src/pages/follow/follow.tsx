@@ -32,17 +32,32 @@ export const Follow: FC<FollowProps> = () => {
   const { user } = useUser(params.userId);
   const { pathname } = useLocation();
   const pathSegments = pathname.split('/');
-  const [isFollowings, setIsFollowings] = useState(
+  const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
   );
+  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
 
   useEffect(() => {
-    setIsFollowings(pathSegments.includes('followings'));
+    setIsFollowingsPage(pathSegments.includes('followings'));
   }, [pathSegments]);
+
+  useEffect(() => {
+    if (followers && loginUser) {
+      const isFollowing = followers.some(
+        (follower) => follower.id === loginUser.id && follower.isFollowing,
+      );
+
+      setIsPageUserFollowing(isFollowing);
+    }
+  }, [loginUser, followers]);
+
+  console.log('isPageUserFollowing', isPageUserFollowing);
+  console.log('followings', followings);
+  console.log('followers', followers);
 
   let followerUsers = null;
   if (followers && loginUser) {
@@ -62,17 +77,9 @@ export const Follow: FC<FollowProps> = () => {
               onClick={
                 user.isFollowing
                   ? () =>
-                      unFollowUserInFollowers(
-                        user.id,
-                        loginUser.id,
-                        params.userId,
-                      )
+                      unFollowUserInFollowers(user.id, loginUser, params.userId)
                   : () =>
-                      followUserInFollowers(
-                        user.id,
-                        loginUser.id,
-                        params.userId,
-                      )
+                      followUserInFollowers(user.id, loginUser, params.userId)
               }
             />
           )}
@@ -137,17 +144,56 @@ export const Follow: FC<FollowProps> = () => {
                 onClick={() => detailClickHandler(user.id)}
                 className={classes['followers__info-icon']}
               />
+              {loginUser && loginUser.id !== user.id && (
+                <IconButton
+                  iconName={
+                    isPageUserFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
+                  }
+                  onClick={
+                    isPageUserFollowing
+                      ? () => {
+                          console.log(
+                            'setIsPageUserFollowing true',
+                            isPageUserFollowing,
+                          );
+                          setIsPageUserFollowing(false);
+
+                          unFollowUserInFollowers(
+                            user.id,
+                            loginUser,
+                            params.userId,
+                          );
+                        }
+                      : () => {
+                          console.log(
+                            'setIsPageUserFollowing false',
+                            isPageUserFollowing,
+                          );
+                          setIsPageUserFollowing(true);
+
+                          followUserInFollowers(
+                            user.id,
+                            loginUser,
+                            params.userId,
+                          );
+                        }
+                  }
+                />
+              )}
             </Buttons>
           }
         />
       )}
       <FollowHeader userId={params.userId} />
-      {!isFollowings && followers && followers.length > 0 && followerUsers}
-      {!isFollowings && followers && followers.length <= 0 && (
+      {!isFollowingsPage && followers && followers.length > 0 && followerUsers}
+      {!isFollowingsPage && followers && followers.length <= 0 && (
         <NotFoundMessage title="" text="Nobody is following you!" />
       )}
-      {isFollowings && followings && followings.length > 0 && followingUsers}
-      {isFollowings && followings && followings.length <= 0 && (
+      {isFollowingsPage &&
+        followings &&
+        followings.length > 0 &&
+        followingUsers}
+      {isFollowingsPage && followings && followings.length <= 0 && (
         <NotFoundMessage title="" text="You are following nobody!" />
       )}
     </Fragment>
