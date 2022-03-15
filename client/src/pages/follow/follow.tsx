@@ -26,7 +26,7 @@ export const Follow: FC<FollowProps> = () => {
     followings,
     followUserInFollowers,
     unFollowUserInFollowers,
-    followUserInFollowings,
+    addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
   } = useFollow(params.userId, loginUser?.id);
   const { user } = useUser(params.userId);
@@ -109,7 +109,7 @@ export const Follow: FC<FollowProps> = () => {
               onClick={
                 user.isFollowing
                   ? () => removeFollowingUserFromFollowings(user)
-                  : () => followUserInFollowings(user)
+                  : () => addFollowingUserToFollowings(user)
               }
             />
           )}

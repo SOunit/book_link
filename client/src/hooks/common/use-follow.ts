@@ -79,7 +79,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const followUserInFollowings = (followingUser: User) => {
+  const addFollowingUserToFollowings = (followingUser: User) => {
     console.log('followUserInfoFollowings');
 
     if (followings && followers && loginUserId) {
@@ -164,7 +164,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     unFollowUser,
     followUserInFollowers,
     unFollowUserInFollowers,
-    followUserInFollowings,
+    addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
   };
 };
