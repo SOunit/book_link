@@ -55,10 +55,6 @@ export const Follow: FC<FollowProps> = () => {
     }
   }, [loginUser, followers]);
 
-  console.log('isPageUserFollowing', isPageUserFollowing);
-  console.log('followings', followings);
-  console.log('followers', followers);
-
   let followerUsers = null;
   if (followers && loginUser) {
     followerUsers = followers.map((user) => {
@@ -151,26 +147,22 @@ export const Follow: FC<FollowProps> = () => {
                   onClick={
                     isPageUserFollowing
                       ? () => {
-                          console.log(
-                            'setIsPageUserFollowing true',
-                            isPageUserFollowing,
-                          );
                           setIsPageUserFollowing(false);
 
                           unFollowUserInFollowers(
-                            user,
+                            loginUser,
                             loginUser,
                             params.userId,
                           );
                         }
                       : () => {
-                          console.log(
-                            'setIsPageUserFollowing false',
-                            isPageUserFollowing,
-                          );
                           setIsPageUserFollowing(true);
 
-                          followUserInFollowers(user, loginUser, params.userId);
+                          followUserInFollowers(
+                            loginUser,
+                            loginUser,
+                            params.userId,
+                          );
                         }
                   }
                 />
