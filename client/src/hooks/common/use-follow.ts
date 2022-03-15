@@ -33,15 +33,9 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followingUser: User,
     toFollowing: boolean,
   ) => {
-    console.log('updateFollowerState');
-    console.log('followingUser', followingUser);
-    console.log('followers', followers);
-    console.log('toFollowing', toFollowing);
-
     const exist = followers.some(
       (follower) => follower.id === followingUser.id,
     );
-    console.log('exist', exist);
 
     let newFollowers;
     if (!exist) {
@@ -54,8 +48,6 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
       }
       return user;
     });
-
-    console.log('newFollowers', newFollowers);
 
     setFollowers(newFollowers);
   };
