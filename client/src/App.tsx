@@ -10,11 +10,10 @@ import {
   Login,
   EditUser,
   EditUserItems,
-  Followings,
   Chat,
   ChatList,
   CreateItem,
-  Followers,
+  Follow,
 } from './pages';
 import './App.css';
 import { useSocket } from './hooks';
@@ -47,11 +46,8 @@ function App() {
         {/* Users */}
         <ProtectedRoute component={EditUser} path="/users/edit" />
         <ProtectedRoute component={EditUserItems} path="/users/items/edit" />
-        <ProtectedRoute
-          component={Followings}
-          path="/users/:userId/followings"
-        />
-        <ProtectedRoute component={Followers} path="/users/:userId/followers" />
+        <ProtectedRoute component={Follow} path="/users/:userId/followings" />
+        <ProtectedRoute component={Follow} path="/users/:userId/followers" />
         <ProtectedRoute component={UserDetail} path="/users/:userId" />
 
         {/* Home */}
