@@ -72,12 +72,12 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   };
 
   const addFollowingUserToFollowings = (followingUser: User) => {
-    console.log('followUserInfoFollowings');
+    const toFollowing = true;
 
     if (followings && followers && loginUserId) {
       // update state
-      updateFollowingsState(followings, followingUser.id, true);
-      updateFollowersState(followers, followingUser, true);
+      updateFollowingsState(followings, followingUser.id, toFollowing);
+      updateFollowersState(followers, followingUser, toFollowing);
 
       // update db
       followUser(loginUserId, followingUser.id);
@@ -85,21 +85,19 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   };
 
   const removeFollowingUserFromFollowings = (followingUser: User) => {
+    const toFollowing = false;
+
     if (followings && followers && loginUserId) {
       // update state
-      updateFollowingsState(followings, followingUser.id, false);
-      updateFollowersState(followers, followingUser, false);
+      updateFollowingsState(followings, followingUser.id, toFollowing);
+      updateFollowersState(followers, followingUser, toFollowing);
 
       // update db
       unFollowUser(loginUserId, followingUser.id);
     }
   };
 
-  const addFollowerUserToFollowers = (
-    targetUser: User,
-    loginUser: User,
-    pageUserId: string,
-  ) => {
+  const addFollowerUserToFollowers = (targetUser: User, loginUser: User) => {
     const toFollowing = true;
 
     if (followers && followings && loginUser.id) {
@@ -116,7 +114,6 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const removeFollowerUserFromFollowers = (
     targetUser: User,
     loginUser: User,
-    pageUserId: string,
   ) => {
     const toFollowing = false;
 
