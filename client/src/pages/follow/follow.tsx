@@ -54,20 +54,28 @@ export const Follow: FC<FollowProps> = () => {
             onClick={() => detailClickHandler(user.id)}
             className={classes['followers__info-icon']}
           />
-          <IconButton
-            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
-            onClick={
-              user.isFollowing
-                ? () =>
-                    unFollowUserInFollowers(
-                      user.id,
-                      loginUser.id,
-                      params.userId,
-                    )
-                : () =>
-                    followUserInFollowers(user.id, loginUser.id, params.userId)
-            }
-          />
+          {loginUser.id !== user.id && (
+            <IconButton
+              iconName={
+                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
+              }
+              onClick={
+                user.isFollowing
+                  ? () =>
+                      unFollowUserInFollowers(
+                        user.id,
+                        loginUser.id,
+                        params.userId,
+                      )
+                  : () =>
+                      followUserInFollowers(
+                        user.id,
+                        loginUser.id,
+                        params.userId,
+                      )
+              }
+            />
+          )}
         </Buttons>
       );
       return (
@@ -91,14 +99,18 @@ export const Follow: FC<FollowProps> = () => {
             onClick={() => detailClickHandler(user.id)}
             className={classes['followers__info-icon']}
           />
-          <IconButton
-            iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
-            onClick={
-              user.isFollowing
-                ? () => unFollowUserInFollowings(user.id)
-                : () => followUserInFollowings(user.id)
-            }
-          />
+          {loginUser.id !== user.id && (
+            <IconButton
+              iconName={
+                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
+              }
+              onClick={
+                user.isFollowing
+                  ? () => unFollowUserInFollowings(user.id)
+                  : () => followUserInFollowings(user.id)
+              }
+            />
+          )}
         </Buttons>
       );
       return (
