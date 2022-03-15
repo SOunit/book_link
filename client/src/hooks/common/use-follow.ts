@@ -30,16 +30,36 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
 
   const updateFollowersState = (
     followers: User[],
-    targetUser: User,
+    followingUser: User,
     isSelfUpdate: boolean,
     toFollowing: boolean,
   ) => {
-    const newFollowers = followers.map((user) => {
-      if (isSelfUpdate ? user.id === loginUserId : user.id === targetUser.id) {
+    console.log('updateFollowerState');
+    console.log('followingUser', followingUser);
+    console.log('followers', followers);
+    console.log('toFollowing', toFollowing);
+
+    const exist = followers.some(
+      (follower) => follower.id === followingUser.id,
+    );
+    console.log('exist', exist);
+
+    let newFollowers;
+    if (!exist) {
+      newFollowers = [...followers, followingUser];
+    }
+
+    newFollowers = followers.map((user) => {
+      if (
+        isSelfUpdate ? user.id === loginUserId : user.id === followingUser.id
+      ) {
         user.isFollowing = toFollowing;
       }
       return user;
     });
+
+    console.log('newFollowers', newFollowers);
+
     setFollowers(newFollowers);
   };
 
