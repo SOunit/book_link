@@ -8,3 +8,4 @@ export * from './search-user/use-searched-users';
 export * from './common/use-aws-s3';
 export * from './common/use-follow';
 export * from './common/use-validate-form';
+export * from './common/use-user';
