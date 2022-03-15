@@ -31,7 +31,6 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const updateFollowersState = (
     followers: User[],
     followingUser: User,
-    isSelfUpdate: boolean,
     toFollowing: boolean,
   ) => {
     console.log('updateFollowerState');
@@ -50,9 +49,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
 
     newFollowers = followers.map((user) => {
-      if (
-        isSelfUpdate ? user.id === loginUserId : user.id === followingUser.id
-      ) {
+      if (user.id === followingUser.id) {
         user.isFollowing = toFollowing;
       }
       return user;
@@ -86,11 +83,9 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     console.log('followUserInfoFollowings');
 
     if (followings && followers && loginUserId) {
-      const isSelfUpdate = loginUserId === targetUserId;
-
       // update state
       updateFollowingsState(followings, targetUser.id, true);
-      updateFollowersState(followers, targetUser, isSelfUpdate, true);
+      updateFollowersState(followers, targetUser, true);
 
       // update db
       followUser(loginUserId, targetUser.id);
@@ -99,11 +94,9 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
 
   const unFollowUserInFollowings = (targetUser: User) => {
     if (followings && followers && loginUserId) {
-      const isSelfUpdate = loginUserId === targetUserId;
-
       // update state
       updateFollowingsState(followings, targetUser.id, false);
-      updateFollowersState(followers, targetUser, isSelfUpdate, false);
+      updateFollowersState(followers, targetUser, false);
 
       // update db
       unFollowUser(loginUserId, targetUser.id);
@@ -115,17 +108,16 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     loginUser: User,
     pageUserId: string,
   ) => {
-    const isSelfUpdate = loginUser.id === targetUser.id;
     const toFollowing = true;
 
     if (followers && followings && loginUser.id) {
       // update state
       addFollowerUserToFollowingsState(followers, followings, targetUser.id);
       updateFollowingsState(followings, targetUser.id, toFollowing);
-      updateFollowersState(followers, targetUser, isSelfUpdate, toFollowing);
+      updateFollowersState(followers, targetUser, toFollowing);
 
       // update db
-      followUser(loginUser.id, isSelfUpdate ? pageUserId : targetUser.id);
+      followUser(loginUser.id, targetUser.id);
     }
   };
 
@@ -134,16 +126,15 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     loginUser: User,
     pageUserId: string,
   ) => {
-    const isSelfUpdate = loginUser.id === targetUserId;
     const toFollowing = false;
 
     if (followers && followings && loginUser.id) {
       // update state
       updateFollowingsState(followings, targetUser.id, toFollowing);
-      updateFollowersState(followers, targetUser, isSelfUpdate, toFollowing);
+      updateFollowersState(followers, targetUser, toFollowing);
 
       // update db
-      unFollowUser(loginUser.id, isSelfUpdate ? pageUserId : targetUser.id);
+      unFollowUser(loginUser.id, targetUser.id);
     }
   };
 
