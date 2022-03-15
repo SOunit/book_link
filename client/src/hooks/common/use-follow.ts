@@ -103,7 +103,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const followUserInFollowers = (
+  const addFollowerUserToFollowers = (
     targetUser: User,
     loginUser: User,
     pageUserId: string,
@@ -121,7 +121,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const unFollowUserInFollowers = (
+  const removeFollowerUserFromFollowers = (
     targetUser: User,
     loginUser: User,
     pageUserId: string,
@@ -162,8 +162,8 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     setFollowers,
     followUser,
     unFollowUser,
-    followUserInFollowers,
-    unFollowUserInFollowers,
+    addFollowerUserToFollowers,
+    removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
   };
