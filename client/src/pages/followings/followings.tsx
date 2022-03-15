@@ -3,14 +3,14 @@ import { useParams } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import {
   Buttons,
+  FollowHeader,
   NotFoundMessage,
-  SectionTitle,
   UserCard,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
 import classes from './followings.module.css';
 import { AuthContext } from '../../store';
-import { useFollow } from '../../hooks';
+import { useFollow, useUser } from '../../hooks';
 
 type FollowingsProps = {};
 type FollowingsParams = {
@@ -25,6 +25,7 @@ export const Followings: FC<FollowingsProps> = () => {
     params.userId,
     loginUser?.id,
   );
+  const { user } = useUser(params.userId);
 
   const followClickHandler = (targetUserId: string) => {
     if (followings && loginUser) {
@@ -96,7 +97,23 @@ export const Followings: FC<FollowingsProps> = () => {
 
   return (
     <Fragment>
-      <SectionTitle>Followings</SectionTitle>
+      {user && (
+        <UserCard
+          user={user}
+          key={user.id}
+          imageClassName={classes['followings__image']}
+          actions={
+            <Buttons>
+              <IconButton
+                iconName="fas fa-info"
+                onClick={() => detailClickHandler(user.id)}
+                className={classes['followings__info-icon']}
+              />
+            </Buttons>
+          }
+        />
+      )}
+      <FollowHeader userId={params.userId} />
       {followings && followings.length > 0 && followingUsers}
       {followings && followings.length <= 0 && (
         <NotFoundMessage title="" text="You are following nobody!" />

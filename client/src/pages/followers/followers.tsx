@@ -4,13 +4,13 @@ import { useHistory } from 'react-router-dom';
 import {
   Buttons,
   NotFoundMessage,
-  SectionTitle,
   UserCard,
+  FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import classes from './followers.module.css';
 import { AuthContext } from '../../store';
-import { useFollow } from '../../hooks';
+import { useFollow, useUser } from '../../hooks';
+import classes from './followers.module.scss';
 
 type FollowersProps = {};
 type FollowersParams = {
@@ -25,6 +25,7 @@ export const Followers: FC<FollowersProps> = () => {
     params.userId,
     loginUser?.id,
   );
+  const { user } = useUser(params.userId);
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
@@ -64,7 +65,22 @@ export const Followers: FC<FollowersProps> = () => {
 
   return (
     <Fragment>
-      <SectionTitle>Followers</SectionTitle>
+      {user && (
+        <UserCard
+          user={user}
+          imageClassName={classes['followers__image']}
+          actions={
+            <Buttons>
+              <IconButton
+                iconName="fas fa-info"
+                onClick={() => detailClickHandler(user.id)}
+                className={classes['followers__info-icon']}
+              />
+            </Buttons>
+          }
+        />
+      )}
+      <FollowHeader userId={params.userId} />
       {followers && followers.length > 0 && followingUsers}
       {followers && followers.length <= 0 && (
         <NotFoundMessage title="" text="Nobody is following you!" />
