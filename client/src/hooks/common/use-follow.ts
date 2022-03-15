@@ -14,7 +14,40 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followServices.createFollowing(followingUserId, followerUserId);
   };
 
-  const followClickHandler = (
+  const followUserInFollowings = (targetUserId: string) => {
+    if (followings && loginUserId) {
+      // update state
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = true;
+        }
+        return user;
+      });
+      setFollowings(newFollowings);
+
+      // update db
+      followUser(loginUserId, targetUserId);
+    }
+  };
+
+  const unFollowUserInFollowings = (targetUserId: string) => {
+    if (followings && loginUserId) {
+      // update state
+      const newFollowings = followings.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+
+      setFollowings(newFollowings);
+
+      // update db
+      unFollowUser(loginUserId, targetUserId);
+    }
+  };
+
+  const followUserInFollowers = (
     targetUserId: string,
     loginUserId: string,
     pageUserId: string,
@@ -36,7 +69,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const followingClickHandler = (
+  const unFollowUserInFollowers = (
     targetUserId: string,
     loginUserId: string,
     pageUserId: string,
@@ -85,7 +118,9 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     setFollowers,
     unFollowUser,
     followUser,
-    followClickHandler,
-    followingClickHandler,
+    followUserInFollowers,
+    unFollowUserInFollowers,
+    followUserInFollowings,
+    unFollowUserInFollowings,
   };
 };

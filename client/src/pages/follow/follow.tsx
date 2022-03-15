@@ -21,8 +21,14 @@ export const Follow: FC<FollowProps> = () => {
   const params = useParams<FollowParams>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
-  const { followers, followings, followClickHandler, followingClickHandler } =
-    useFollow(params.userId, loginUser?.id);
+  const {
+    followers,
+    followings,
+    followUserInFollowers,
+    unFollowUserInFollowers,
+    followUserInFollowings,
+    unFollowUserInFollowings,
+  } = useFollow(params.userId, loginUser?.id);
   const { user } = useUser(params.userId);
   const { pathname } = useLocation();
   const pathSegments = pathname.split('/');
@@ -53,8 +59,13 @@ export const Follow: FC<FollowProps> = () => {
             onClick={
               user.isFollowing
                 ? () =>
-                    followingClickHandler(user.id, loginUser.id, params.userId)
-                : () => followClickHandler(user.id, loginUser.id, params.userId)
+                    unFollowUserInFollowers(
+                      user.id,
+                      loginUser.id,
+                      params.userId,
+                    )
+                : () =>
+                    followUserInFollowers(user.id, loginUser.id, params.userId)
             }
           />
         </Buttons>
@@ -84,9 +95,8 @@ export const Follow: FC<FollowProps> = () => {
             iconName={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
             onClick={
               user.isFollowing
-                ? () =>
-                    followingClickHandler(user.id, loginUser.id, params.userId)
-                : () => followClickHandler(user.id, loginUser.id, params.userId)
+                ? () => unFollowUserInFollowings(user.id)
+                : () => followUserInFollowings(user.id)
             }
           />
         </Buttons>
