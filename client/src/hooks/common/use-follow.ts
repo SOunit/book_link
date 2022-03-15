@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { User } from '../../models';
 import { followServices } from '../../services';
 
@@ -43,10 +43,32 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     setFollowers(newFollowers);
   };
 
+  const addFollowerUserToFollowingsState = (
+    followers: User[],
+    followings: User[],
+    targetUserId: string,
+  ) => {
+    const exists = followings.some(
+      (followings) => followings.id === targetUserId,
+    );
+
+    if (!exists) {
+      const targetUserData = followers.find(
+        (follower) => follower.id === targetUserId,
+      );
+      if (targetUserData) {
+        followings.push(targetUserData);
+      }
+    }
+  };
+
   const followUserInFollowings = (targetUserId: string) => {
-    if (followings && loginUserId) {
+    if (followings && followers && loginUserId) {
+      const isSelfUpdate = loginUserId === targetUserId;
+
       // update state
       updateFollowingsState(followings, targetUserId, true);
+      updateFollowersState(followers, targetUserId, isSelfUpdate, true);
 
       // update db
       followUser(loginUserId, targetUserId);
@@ -54,9 +76,12 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   };
 
   const unFollowUserInFollowings = (targetUserId: string) => {
-    if (followings && loginUserId) {
+    if (followings && followers && loginUserId) {
+      const isSelfUpdate = loginUserId === targetUserId;
+
       // update state
       updateFollowingsState(followings, targetUserId, false);
+      updateFollowersState(followers, targetUserId, isSelfUpdate, false);
 
       // update db
       unFollowUser(loginUserId, targetUserId);
@@ -69,10 +94,13 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     pageUserId: string,
   ) => {
     const isSelfUpdate = loginUserId === targetUserId;
+    const toFollowing = true;
 
     if (followers && followings && loginUserId) {
       // update state
-      updateFollowersState(followers, targetUserId, isSelfUpdate, true);
+      addFollowerUserToFollowingsState(followers, followings, targetUserId);
+      updateFollowingsState(followings, targetUserId, toFollowing);
+      updateFollowersState(followers, targetUserId, isSelfUpdate, toFollowing);
 
       // update db
       followUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
@@ -85,35 +113,34 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     pageUserId: string,
   ) => {
     const isSelfUpdate = loginUserId === targetUserId;
+    const toFollowing = false;
 
-    if (followers && loginUserId) {
+    if (followers && followings && loginUserId) {
       // update state
-      updateFollowersState(followers, targetUserId, isSelfUpdate, false);
+      updateFollowingsState(followings, targetUserId, toFollowing);
+      updateFollowersState(followers, targetUserId, isSelfUpdate, toFollowing);
 
       // update db
       unFollowUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
     }
   };
 
+  const initFollow = useCallback(async () => {
+    if (targetUserId && loginUserId) {
+      let res = await followServices.fetchFollowingUsers(
+        targetUserId,
+        loginUserId,
+      );
+      setFollowings(res.data.data.getFollowingUsers);
+
+      res = await followServices.fetchFollowerUsers(targetUserId, loginUserId);
+      setFollowers(res.data.data.getFollowerUsers);
+    }
+  }, [loginUserId, targetUserId]);
+
   useEffect(() => {
-    const initFollow = async () => {
-      if (targetUserId && loginUserId) {
-        let res = await followServices.fetchFollowingUsers(
-          targetUserId,
-          loginUserId,
-        );
-        setFollowings(res.data.data.getFollowingUsers);
-
-        res = await followServices.fetchFollowerUsers(
-          targetUserId,
-          loginUserId,
-        );
-        setFollowers(res.data.data.getFollowerUsers);
-      }
-    };
-
     initFollow();
-  }, [targetUserId, loginUserId]);
+  }, [initFollow]);
 
   return {
     followings,

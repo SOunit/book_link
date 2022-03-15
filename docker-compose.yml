@@ -14,6 +14,7 @@ services:
     ports:
       - '3050:80'
   api:
+    restart: always
     build:
       dockerfile: Dockerfile.dev
       context: ./api
@@ -30,6 +31,7 @@ services:
       - SECRETACCESSKEY=
       - REGION=
   client:
+    restart: always
     stdin_open: true
     build:
       dockerfile: Dockerfile.dev
