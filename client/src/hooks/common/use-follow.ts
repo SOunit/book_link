@@ -144,11 +144,11 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
 
   return {
     followings,
-    setFollowings,
     followers,
+    setFollowings,
     setFollowers,
-    unFollowUser,
     followUser,
+    unFollowUser,
     followUserInFollowers,
     unFollowUserInFollowers,
     followUserInFollowings,
