@@ -77,9 +77,8 @@ export const Follow: FC<FollowProps> = () => {
               onClick={
                 user.isFollowing
                   ? () =>
-                      unFollowUserInFollowers(user.id, loginUser, params.userId)
-                  : () =>
-                      followUserInFollowers(user.id, loginUser, params.userId)
+                      unFollowUserInFollowers(user, loginUser, params.userId)
+                  : () => followUserInFollowers(user, loginUser, params.userId)
               }
             />
           )}
@@ -113,8 +112,8 @@ export const Follow: FC<FollowProps> = () => {
               }
               onClick={
                 user.isFollowing
-                  ? () => unFollowUserInFollowings(user.id)
-                  : () => followUserInFollowings(user.id)
+                  ? () => unFollowUserInFollowings(user)
+                  : () => followUserInFollowings(user)
               }
             />
           )}
@@ -159,7 +158,7 @@ export const Follow: FC<FollowProps> = () => {
                           setIsPageUserFollowing(false);
 
                           unFollowUserInFollowers(
-                            user.id,
+                            user,
                             loginUser,
                             params.userId,
                           );
@@ -171,11 +170,7 @@ export const Follow: FC<FollowProps> = () => {
                           );
                           setIsPageUserFollowing(true);
 
-                          followUserInFollowers(
-                            user.id,
-                            loginUser,
-                            params.userId,
-                          );
+                          followUserInFollowers(user, loginUser, params.userId);
                         }
                   }
                 />
