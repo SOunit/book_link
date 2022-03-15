@@ -135,8 +135,8 @@ export const Follow: FC<FollowProps> = () => {
         <NotFoundMessage title="" text="Nobody is following you!" />
       )}
       {isFollowings && followings && followings.length > 0 && followingUsers}
-      {isFollowings && followers && followers.length <= 0 && (
-        <NotFoundMessage title="" text="Nobody is following you!" />
+      {isFollowings && followings && followings.length <= 0 && (
+        <NotFoundMessage title="" text="You are following nobody!" />
       )}
     </Fragment>
   );
