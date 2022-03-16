@@ -47,8 +47,9 @@ export const Follow: FC<FollowProps> = () => {
 
   useEffect(() => {
     if (followers && loginUser) {
+      // following is true if login user exist in followers
       const isFollowing = followers.some(
-        (follower) => follower.id === loginUser.id && follower.isFollowing,
+        (follower) => follower.id === loginUser.id,
       );
 
       setIsPageUserFollowing(isFollowing);
