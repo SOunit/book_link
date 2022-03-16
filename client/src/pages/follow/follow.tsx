@@ -24,28 +24,40 @@ export const Follow: FC<FollowProps> = () => {
   const {
     followers,
     followings,
-    followUserInFollowers,
-    unFollowUserInFollowers,
-    followUserInFollowings,
-    unFollowUserInFollowings,
+    addFollowerUserToFollowers,
+    removeFollowerUserFromFollowers,
+    addFollowingUserToFollowings,
+    removeFollowingUserFromFollowings,
   } = useFollow(params.userId, loginUser?.id);
-  const { user } = useUser(params.userId);
+  const { user: pageUser } = useUser(params.userId);
   const { pathname } = useLocation();
   const pathSegments = pathname.split('/');
-  const [isFollowings, setIsFollowings] = useState(
+  const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
   );
+  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
 
   useEffect(() => {
-    setIsFollowings(pathSegments.includes('followings'));
+    setIsFollowingsPage(pathSegments.includes('followings'));
   }, [pathSegments]);
 
+  useEffect(() => {
+    if (followers && loginUser) {
+      // following is true if login user exist in followers
+      const isFollowing = followers.some(
+        (follower) => follower.id === loginUser.id,
+      );
+
+      setIsPageUserFollowing(isFollowing);
+    }
+  }, [loginUser, followers]);
+
   let followerUsers = null;
-  if (followers && loginUser) {
+  if (followers && loginUser && pageUser) {
     followerUsers = followers.map((user) => {
       const buttons = (
         <Buttons>
@@ -61,18 +73,8 @@ export const Follow: FC<FollowProps> = () => {
               }
               onClick={
                 user.isFollowing
-                  ? () =>
-                      unFollowUserInFollowers(
-                        user.id,
-                        loginUser.id,
-                        params.userId,
-                      )
-                  : () =>
-                      followUserInFollowers(
-                        user.id,
-                        loginUser.id,
-                        params.userId,
-                      )
+                  ? () => removeFollowerUserFromFollowers(user, loginUser)
+                  : () => addFollowerUserToFollowers(user, loginUser, pageUser)
               }
             />
           )}
@@ -106,8 +108,8 @@ export const Follow: FC<FollowProps> = () => {
               }
               onClick={
                 user.isFollowing
-                  ? () => unFollowUserInFollowings(user.id)
-                  : () => followUserInFollowings(user.id)
+                  ? () => removeFollowingUserFromFollowings(user)
+                  : () => addFollowingUserToFollowings(user)
               }
             />
           )}
@@ -126,28 +128,53 @@ export const Follow: FC<FollowProps> = () => {
 
   return (
     <Fragment>
-      {user && (
+      {pageUser && (
         <UserCard
-          user={user}
+          user={pageUser}
           imageClassName={classes['followers__image']}
           actions={
             <Buttons>
               <IconButton
                 iconName="fas fa-info"
-                onClick={() => detailClickHandler(user.id)}
+                onClick={() => detailClickHandler(pageUser.id)}
                 className={classes['followers__info-icon']}
               />
+              {loginUser && loginUser.id !== pageUser.id && (
+                <IconButton
+                  iconName={
+                    isPageUserFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
+                  }
+                  onClick={
+                    isPageUserFollowing
+                      ? () => {
+                          setIsPageUserFollowing(false);
+                          removeFollowerUserFromFollowers(pageUser, loginUser);
+                        }
+                      : () => {
+                          setIsPageUserFollowing(true);
+                          addFollowerUserToFollowers(
+                            pageUser,
+                            loginUser,
+                            pageUser,
+                          );
+                        }
+                  }
+                />
+              )}
             </Buttons>
           }
         />
       )}
       <FollowHeader userId={params.userId} />
-      {!isFollowings && followers && followers.length > 0 && followerUsers}
-      {!isFollowings && followers && followers.length <= 0 && (
+      {!isFollowingsPage && followers && followers.length > 0 && followerUsers}
+      {!isFollowingsPage && followers && followers.length <= 0 && (
         <NotFoundMessage title="" text="Nobody is following you!" />
       )}
-      {isFollowings && followings && followings.length > 0 && followingUsers}
-      {isFollowings && followings && followings.length <= 0 && (
+      {isFollowingsPage &&
+        followings &&
+        followings.length > 0 &&
+        followingUsers}
+      {isFollowingsPage && followings && followings.length <= 0 && (
         <NotFoundMessage title="" text="You are following nobody!" />
       )}
     </Fragment>

@@ -15,113 +15,138 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   };
 
   const updateFollowingsState = (
-    followings: User[],
     targetUserId: string,
     isFollowingState: boolean,
   ) => {
-    const newFollowings = followings.map((user) => {
-      if (user.id === targetUserId) {
-        user.isFollowing = isFollowingState;
-      }
-      return user;
+    setFollowings((prevState) => {
+      return prevState!.map((user) => {
+        if (user.id === targetUserId) {
+          user.isFollowing = isFollowingState;
+        }
+        return user;
+      });
     });
-    setFollowings(newFollowings);
   };
 
-  const updateFollowersState = (
-    followers: User[],
-    targetUserId: string,
-    isSelfUpdate: boolean,
+  const updateIsFollowingInFollowers = (
+    followingUser: User,
     toFollowing: boolean,
   ) => {
-    const newFollowers = followers.map((user) => {
-      if (isSelfUpdate ? user.id === loginUserId : user.id === targetUserId) {
-        user.isFollowing = toFollowing;
-      }
-      return user;
+    setFollowers((prevState) => {
+      return prevState!.map((user) => {
+        if (user.id === followingUser.id) {
+          user.isFollowing = toFollowing;
+        }
+        return user;
+      });
     });
-    setFollowers(newFollowers);
   };
 
-  const addFollowerUserToFollowingsState = (
-    followers: User[],
+  const addUserFromFollowersToFollowings = (
     followings: User[],
-    targetUserId: string,
+    followerUser: User,
   ) => {
     const exists = followings.some(
-      (followings) => followings.id === targetUserId,
+      (following) => following.id === followerUser.id,
     );
 
     if (!exists) {
-      const targetUserData = followers.find(
-        (follower) => follower.id === targetUserId,
-      );
-      if (targetUserData) {
-        followings.push(targetUserData);
+      if (followerUser) {
+        setFollowings((prevState) => [...prevState!, followerUser]);
       }
     }
   };
 
-  const followUserInFollowings = (targetUserId: string) => {
-    if (followings && followers && loginUserId) {
-      const isSelfUpdate = loginUserId === targetUserId;
-
-      // update state
-      updateFollowingsState(followings, targetUserId, true);
-      updateFollowersState(followers, targetUserId, isSelfUpdate, true);
-
-      // update db
-      followUser(loginUserId, targetUserId);
-    }
-  };
-
-  const unFollowUserInFollowings = (targetUserId: string) => {
-    if (followings && followers && loginUserId) {
-      const isSelfUpdate = loginUserId === targetUserId;
-
-      // update state
-      updateFollowingsState(followings, targetUserId, false);
-      updateFollowersState(followers, targetUserId, isSelfUpdate, false);
-
-      // update db
-      unFollowUser(loginUserId, targetUserId);
-    }
-  };
-
-  const followUserInFollowers = (
-    targetUserId: string,
-    loginUserId: string,
-    pageUserId: string,
+  const addUserFromFollowingsToFollowers = (
+    followers: User[],
+    followingUser: User,
+    pageUser: User,
   ) => {
-    const isSelfUpdate = loginUserId === targetUserId;
+    const exists = followers.some(
+      (follower) => follower.id === followingUser.id,
+    );
+
+    if (!exists) {
+      if (followingUser) {
+        followers.push(followingUser);
+      }
+    }
+  };
+
+  const removeUserFromFollowers = (followingUser: User) => {
+    setFollowers((prevState) => {
+      return prevState!.filter((follower) => follower.id !== followingUser.id);
+    });
+  };
+
+  const addFollowingUserToFollowings = (followingUser: User) => {
     const toFollowing = true;
 
-    if (followers && followings && loginUserId) {
+    if (followings && followers && loginUserId) {
       // update state
-      addFollowerUserToFollowingsState(followers, followings, targetUserId);
-      updateFollowingsState(followings, targetUserId, toFollowing);
-      updateFollowersState(followers, targetUserId, isSelfUpdate, toFollowing);
+      updateFollowingsState(followingUser.id, toFollowing);
+      updateIsFollowingInFollowers(followingUser, toFollowing);
 
       // update db
-      followUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
+      followUser(loginUserId, followingUser.id);
     }
   };
 
-  const unFollowUserInFollowers = (
-    targetUserId: string,
-    loginUserId: string,
-    pageUserId: string,
-  ) => {
-    const isSelfUpdate = loginUserId === targetUserId;
+  const removeFollowingUserFromFollowings = (followingUser: User) => {
     const toFollowing = false;
 
-    if (followers && followings && loginUserId) {
+    if (followings && followers && loginUserId) {
       // update state
-      updateFollowingsState(followings, targetUserId, toFollowing);
-      updateFollowersState(followers, targetUserId, isSelfUpdate, toFollowing);
+      updateFollowingsState(followingUser.id, toFollowing);
+      updateIsFollowingInFollowers(followingUser, toFollowing);
 
       // update db
-      unFollowUser(loginUserId, isSelfUpdate ? pageUserId : targetUserId);
+      unFollowUser(loginUserId, followingUser.id);
+    }
+  };
+
+  // FIXME: rename logic
+  const addFollowerUserToFollowers = (
+    followerUser: User,
+    followingUser: User,
+    pageUser: User,
+  ) => {
+    const toFollowing = true;
+
+    if (followers && followings && followingUser.id) {
+      if (!(pageUser.id === followerUser.id)) {
+        addUserFromFollowersToFollowings(followings, followerUser);
+      }
+      if (!(pageUser.id === followingUser.id)) {
+        addUserFromFollowingsToFollowers(followers, followingUser, pageUser);
+      }
+
+      // update IsFollowing flag
+      updateFollowingsState(followerUser.id, toFollowing);
+      updateIsFollowingInFollowers(followerUser, toFollowing);
+
+      // update db
+      followUser(followingUser.id, followerUser.id);
+    }
+  };
+
+  const removeFollowerUserFromFollowers = (
+    followerUser: User,
+    followingUser: User,
+  ) => {
+    const toFollowing = false;
+
+    if (followingUser.id) {
+      // remove user from followings / followers if exists
+      removeUserFromFollowers(followingUser);
+      // removeUserFromFollowings(followings, followingUser);
+
+      // update state
+      updateFollowingsState(followerUser.id, toFollowing);
+      updateIsFollowingInFollowers(followerUser, toFollowing);
+
+      // update db
+      unFollowUser(followingUser.id, followerUser.id);
     }
   };
 
@@ -149,9 +174,9 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     setFollowers,
     followUser,
     unFollowUser,
-    followUserInFollowers,
-    unFollowUserInFollowers,
-    followUserInFollowings,
-    unFollowUserInFollowings,
+    addFollowerUserToFollowers,
+    removeFollowerUserFromFollowers,
+    addFollowingUserToFollowings,
+    removeFollowingUserFromFollowings,
   };
 };
