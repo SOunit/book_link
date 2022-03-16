@@ -29,7 +29,7 @@ export const Follow: FC<FollowProps> = () => {
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
   } = useFollow(params.userId, loginUser?.id);
-  const { user } = useUser(params.userId);
+  const { user: pageUser } = useUser(params.userId);
   const { pathname } = useLocation();
   const pathSegments = pathname.split('/');
   const [isFollowingsPage, setIsFollowingsPage] = useState(
@@ -57,7 +57,7 @@ export const Follow: FC<FollowProps> = () => {
   }, [loginUser, followers]);
 
   let followerUsers = null;
-  if (followers && loginUser) {
+  if (followers && loginUser && pageUser) {
     followerUsers = followers.map((user) => {
       const buttons = (
         <Buttons>
@@ -74,7 +74,7 @@ export const Follow: FC<FollowProps> = () => {
               onClick={
                 user.isFollowing
                   ? () => removeFollowerUserFromFollowers(user, loginUser)
-                  : () => addFollowerUserToFollowers(user, loginUser)
+                  : () => addFollowerUserToFollowers(user, loginUser, pageUser)
               }
             />
           )}
@@ -128,18 +128,18 @@ export const Follow: FC<FollowProps> = () => {
 
   return (
     <Fragment>
-      {user && (
+      {pageUser && (
         <UserCard
-          user={user}
+          user={pageUser}
           imageClassName={classes['followers__image']}
           actions={
             <Buttons>
               <IconButton
                 iconName="fas fa-info"
-                onClick={() => detailClickHandler(user.id)}
+                onClick={() => detailClickHandler(pageUser.id)}
                 className={classes['followers__info-icon']}
               />
-              {loginUser && loginUser.id !== user.id && (
+              {loginUser && loginUser.id !== pageUser.id && (
                 <IconButton
                   iconName={
                     isPageUserFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
@@ -148,11 +148,15 @@ export const Follow: FC<FollowProps> = () => {
                     isPageUserFollowing
                       ? () => {
                           setIsPageUserFollowing(false);
-                          removeFollowerUserFromFollowers(user, loginUser);
+                          removeFollowerUserFromFollowers(pageUser, loginUser);
                         }
                       : () => {
                           setIsPageUserFollowing(true);
-                          addFollowerUserToFollowers(user, loginUser);
+                          addFollowerUserToFollowers(
+                            pageUser,
+                            loginUser,
+                            pageUser,
+                          );
                         }
                   }
                 />

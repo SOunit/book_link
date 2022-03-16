@@ -60,6 +60,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const addUserFromFollowingsToFollowers = (
     followers: User[],
     followingUser: User,
+    pageUser: User,
   ) => {
     const exists = followers.some(
       (follower) => follower.id === followingUser.id,
@@ -108,13 +109,17 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const addFollowerUserToFollowers = (
     followerUser: User,
     followingUser: User,
+    pageUser: User,
   ) => {
     const toFollowing = true;
 
     if (followers && followings && followingUser.id) {
-      // add user to followings / followers if not exist
-      addUserFromFollowersToFollowings(followings, followerUser);
-      addUserFromFollowingsToFollowers(followers, followingUser);
+      if (!(pageUser.id === followerUser.id)) {
+        addUserFromFollowersToFollowings(followings, followerUser);
+      }
+      if (!(pageUser.id === followingUser.id)) {
+        addUserFromFollowingsToFollowers(followers, followingUser, pageUser);
+      }
 
       // update IsFollowing flag
       updateFollowingsState(followerUser.id, toFollowing);
