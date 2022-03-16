@@ -97,33 +97,36 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const addFollowerUserToFollowers = (targetUser: User, loginUser: User) => {
+  const addFollowerUserToFollowers = (
+    followerUser: User,
+    followingUser: User,
+  ) => {
     const toFollowing = true;
 
-    if (followers && followings && loginUser.id) {
+    if (followers && followings && followingUser.id) {
       // update state
-      addFollowerUserToFollowingsState(followers, followings, targetUser.id);
-      updateFollowingsState(followings, targetUser.id, toFollowing);
-      updateFollowersState(followers, targetUser, toFollowing);
+      addFollowerUserToFollowingsState(followers, followings, followerUser.id);
+      updateFollowingsState(followings, followerUser.id, toFollowing);
+      updateFollowersState(followers, followerUser, toFollowing);
 
       // update db
-      followUser(loginUser.id, targetUser.id);
+      followUser(followingUser.id, followerUser.id);
     }
   };
 
   const removeFollowerUserFromFollowers = (
-    targetUser: User,
-    loginUser: User,
+    followerUser: User,
+    followingUser: User,
   ) => {
     const toFollowing = false;
 
-    if (followers && followings && loginUser.id) {
+    if (followers && followings && followingUser.id) {
       // update state
-      updateFollowingsState(followings, targetUser.id, toFollowing);
-      updateFollowersState(followers, targetUser, toFollowing);
+      updateFollowingsState(followings, followerUser.id, toFollowing);
+      updateFollowersState(followers, followerUser, toFollowing);
 
       // update db
-      unFollowUser(loginUser.id, targetUser.id);
+      unFollowUser(followingUser.id, followerUser.id);
     }
   };
 

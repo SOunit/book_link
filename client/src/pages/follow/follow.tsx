@@ -147,13 +147,11 @@ export const Follow: FC<FollowProps> = () => {
                     isPageUserFollowing
                       ? () => {
                           setIsPageUserFollowing(false);
-
-                          removeFollowerUserFromFollowers(loginUser, loginUser);
+                          removeFollowerUserFromFollowers(user, loginUser);
                         }
                       : () => {
                           setIsPageUserFollowing(true);
-
-                          addFollowerUserToFollowers(loginUser, loginUser);
+                          addFollowerUserToFollowers(user, loginUser);
                         }
                   }
                 />
