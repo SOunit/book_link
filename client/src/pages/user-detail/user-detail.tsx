@@ -100,7 +100,11 @@ export const UserDetail: FC<Props> = () => {
     setFollowingState();
   }, [loginUser, params.userId]);
 
-  useEffect(() => {}, [loginUser]);
+  useEffect(() => {
+    if (loginUser && loginUser.id === params.userId) {
+      history.push('/home');
+    }
+  }, [loginUser, params.userId, history]);
 
   let userDetail = null;
   if (targetUser && loginUser) {
