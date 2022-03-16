@@ -136,7 +136,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   ) => {
     const toFollowing = false;
 
-    if (followers && followings && followingUser.id) {
+    if (followingUser.id) {
       // remove user from followings / followers if exists
       removeUserFromFollowers(followingUser);
       // removeUserFromFollowings(followings, followingUser);
