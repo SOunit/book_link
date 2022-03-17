@@ -166,6 +166,21 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   }, [loginUserId, targetUserId]);
 
+  const countFollowings = (followings?: User[]) => {
+    if (!followings) {
+      return;
+    }
+
+    let count = 0;
+    followings.forEach((following) => {
+      if (following.isFollowing) {
+        count++;
+      }
+    });
+
+    return count;
+  };
+
   useEffect(() => {
     initFollow();
   }, [initFollow]);
@@ -181,5 +196,6 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
+    countFollowings,
   };
 };

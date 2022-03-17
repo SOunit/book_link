@@ -28,6 +28,7 @@ export const Follow: FC<Props> = () => {
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
+    countFollowings,
   } = useFollow(params.userId, loginUser?.id);
   const { user: pageUser } = useUser(params.userId);
   const { pathname } = useLocation();
@@ -40,6 +41,8 @@ export const Follow: FC<Props> = () => {
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
+
+  console.log('followings', followings);
 
   useEffect(() => {
     setIsFollowingsPage(pathSegments.includes('followings'));
@@ -135,12 +138,16 @@ export const Follow: FC<Props> = () => {
 
   return (
     <Fragment>
-      {pageUser && (
+      {pageUser && loginUser && (
         <UserCard
           user={pageUser}
           imageClassName={classes['followers__image']}
           followersCount={followers?.length}
-          followingsCount={followings?.length}
+          followingsCount={
+            pageUser.id !== loginUser.id
+              ? followings?.length
+              : countFollowings(followings)
+          }
           actions={
             <Buttons>
               <IconButton
