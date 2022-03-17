@@ -42,10 +42,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     });
   };
 
-  const addUserFromFollowersToFollowings = (
-    followings: User[],
-    followerUser: User,
-  ) => {
+  const addUserToFollowings = (followings: User[], followerUser: User) => {
     const exists = followings.some(
       (following) => following.id === followerUser.id,
     );
@@ -57,7 +54,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     }
   };
 
-  const addUserFromFollowingsToFollowers = (
+  const addUserToFollowers = (
     followers: User[],
     followingUser: User,
     pageUser: User,
@@ -68,7 +65,7 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
 
     if (!exists) {
       if (followingUser) {
-        followers.push(followingUser);
+        setFollowers((prevState) => [...prevState!, followingUser]);
       }
     }
   };
@@ -110,15 +107,19 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followerUser: User,
     followingUser: User,
     pageUser: User,
+    loginUser: User,
   ) => {
     const toFollowing = true;
 
     if (followers && followings && followingUser.id) {
-      if (!(pageUser.id === followerUser.id)) {
-        addUserFromFollowersToFollowings(followings, followerUser);
+      // follow follower user, add follower user to followings if not exist
+      if (pageUser.id === loginUser.id) {
+        addUserToFollowings(followings, followerUser);
       }
-      if (!(pageUser.id === followingUser.id)) {
-        addUserFromFollowingsToFollowers(followers, followingUser, pageUser);
+
+      // follow page user, add login user to followers of page user
+      if (pageUser.id === followerUser.id) {
+        addUserToFollowers(followers, followingUser, pageUser);
       }
 
       // update IsFollowing flag
@@ -133,13 +134,15 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
   const removeFollowerUserFromFollowers = (
     followerUser: User,
     followingUser: User,
+    pageUser: User,
   ) => {
     const toFollowing = false;
 
     if (followingUser.id) {
       // remove user from followings / followers if exists
-      removeUserFromFollowers(followingUser);
-      // removeUserFromFollowings(followings, followingUser);
+      if (pageUser.id === followerUser.id) {
+        removeUserFromFollowers(followingUser);
+      }
 
       // update state
       updateFollowingsState(followerUser.id, toFollowing);
