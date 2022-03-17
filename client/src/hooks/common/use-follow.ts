@@ -107,15 +107,17 @@ export const useFollow = (targetUserId?: string, loginUserId?: string) => {
     followerUser: User,
     followingUser: User,
     pageUser: User,
+    loginUser: User,
   ) => {
     const toFollowing = true;
 
     if (followers && followings && followingUser.id) {
-      if (pageUser.id !== followerUser.id) {
+      // follow follower user, add follower user to followings if not exist
+      if (pageUser.id === loginUser.id) {
         addUserToFollowings(followings, followerUser);
       }
 
-      // update screen only if page user is included
+      // follow page user, add login user to followers of page user
       if (pageUser.id === followerUser.id) {
         addUserToFollowers(followers, followingUser, pageUser);
       }

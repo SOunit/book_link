@@ -75,7 +75,13 @@ export const Follow: FC<FollowProps> = () => {
                 user.isFollowing
                   ? () =>
                       removeFollowerUserFromFollowers(user, loginUser, pageUser)
-                  : () => addFollowerUserToFollowers(user, loginUser, pageUser)
+                  : () =>
+                      addFollowerUserToFollowers(
+                        user,
+                        loginUser,
+                        pageUser,
+                        loginUser,
+                      )
               }
             />
           )}
@@ -161,6 +167,7 @@ export const Follow: FC<FollowProps> = () => {
                             pageUser,
                             loginUser,
                             pageUser,
+                            loginUser,
                           );
                         }
                   }
