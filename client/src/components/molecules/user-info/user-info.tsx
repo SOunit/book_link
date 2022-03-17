@@ -55,19 +55,11 @@ export const UserInfo: FC<UserInfoProps> = ({
             className={classes['user-info__link']}
             to={`/users/${user.id}/followings`}>
             <FollowNumber followCount={followingsCount} unitTitle="Following" />
-            {/* <span className={classes['user-info__follow-number']}>
-              {followingsCount}
-            </span>{' '}
-            Following */}
           </Link>
           <Link
             className={classes['user-info__link']}
             to={`/users/${user.id}/followers`}>
             <FollowNumber followCount={followersCount} unitTitle="Followers" />
-            {/* <span className={classes['user-info__follow-number']}>
-              {followersCount}
-            </span>{' '}
-            Followers */}
           </Link>
           {isHome && (
             <p
