@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useModal = () => {
+export const useModal = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const modalOpenHandler = () => {
     setIsModalOpen(true);
@@ -14,5 +14,3 @@ const useModal = () => {
     modalCloseHandler,
   };
 };
-
-export default useModal;

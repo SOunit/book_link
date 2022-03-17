@@ -12,12 +12,12 @@ import { AuthContext } from '../../store';
 import { useFollow, useUser } from '../../hooks';
 import classes from './follow.module.scss';
 
-type FollowProps = {};
+type Props = {};
 type FollowParams = {
   userId: string;
 };
 
-export const Follow: FC<FollowProps> = () => {
+export const Follow: FC<Props> = () => {
   const params = useParams<FollowParams>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
@@ -28,6 +28,7 @@ export const Follow: FC<FollowProps> = () => {
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
+    countFollowings,
   } = useFollow(params.userId, loginUser?.id);
   const { user: pageUser } = useUser(params.userId);
   const { pathname } = useLocation();
@@ -40,6 +41,8 @@ export const Follow: FC<FollowProps> = () => {
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
+
+  console.log('followings', followings);
 
   useEffect(() => {
     setIsFollowingsPage(pathSegments.includes('followings'));
@@ -135,10 +138,16 @@ export const Follow: FC<FollowProps> = () => {
 
   return (
     <Fragment>
-      {pageUser && (
+      {pageUser && loginUser && (
         <UserCard
           user={pageUser}
           imageClassName={classes['followers__image']}
+          followersCount={followers?.length}
+          followingsCount={
+            pageUser.id !== loginUser.id
+              ? followings?.length
+              : countFollowings(followings)
+          }
           actions={
             <Buttons>
               <IconButton

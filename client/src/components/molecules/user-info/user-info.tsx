@@ -1,12 +1,12 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import useGoogleAuth from '../../../hooks/login/use-google-auth';
-import useModal from '../../../hooks/home/use-modal';
-import { User as UserType } from '../../../models/user';
+import { useGoogleAuth, useModal } from '../../../hooks/';
+import { User as UserType } from '../../../models/';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
 import { Image } from '../../atoms';
 import classes from './user-info.module.scss';
+import { FollowNumber } from '../follow-number/follow-number';
 
 type UserInfoProps = {
   user: UserType;
@@ -54,18 +54,12 @@ export const UserInfo: FC<UserInfoProps> = ({
           <Link
             className={classes['user-info__link']}
             to={`/users/${user.id}/followings`}>
-            <span className={classes['user-info__follow-number']}>
-              {followingsCount}
-            </span>{' '}
-            Following
+            <FollowNumber followCount={followingsCount} unitTitle="Following" />
           </Link>
           <Link
             className={classes['user-info__link']}
             to={`/users/${user.id}/followers`}>
-            <span className={classes['user-info__follow-number']}>
-              {followersCount}
-            </span>{' '}
-            Followers
+            <FollowNumber followCount={followersCount} unitTitle="Followers" />
           </Link>
           {isHome && (
             <p

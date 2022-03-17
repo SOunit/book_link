@@ -5,7 +5,7 @@ import { keys } from '../../util';
 // to hold initialized google auth
 let auth: any;
 
-const useGoogleAuth = () => {
+export const useGoogleAuth = () => {
   const authCtx = useContext(AuthContext);
 
   const onAuthChange = useCallback(() => {
@@ -54,5 +54,3 @@ const useGoogleAuth = () => {
     signOutClickHandler,
   };
 };
-
-export default useGoogleAuth;

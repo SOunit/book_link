@@ -7,8 +7,8 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
-import classes from './home.module.css';
 import { useFollow } from '../../hooks';
+import classes from './home.module.css';
 
 type HomeProps = {};
 
