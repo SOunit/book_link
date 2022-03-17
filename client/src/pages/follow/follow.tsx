@@ -12,12 +12,12 @@ import { AuthContext } from '../../store';
 import { useFollow, useUser } from '../../hooks';
 import classes from './follow.module.scss';
 
-type FollowProps = {};
+type Props = {};
 type FollowParams = {
   userId: string;
 };
 
-export const Follow: FC<FollowProps> = () => {
+export const Follow: FC<Props> = () => {
   const params = useParams<FollowParams>();
   const history = useHistory();
   const { loginUser } = useContext(AuthContext);
