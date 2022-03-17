@@ -14,10 +14,8 @@ export const FollowNumber: FC<Props> = ({
 }) => {
   return (
     <p className={`${classes['follow-number']} ${className}`}>
-      <span className={classes['follow-number__number']}>
-        {followCount ? followCount : 0}
-      </span>{' '}
-      {unitTitle}
+      <span className={classes['follow-number__number']}>{followCount}</span>{' '}
+      {followCount || followCount === 0 ? unitTitle : ''}
     </p>
   );
 };
