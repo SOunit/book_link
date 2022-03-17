@@ -139,6 +139,8 @@ export const Follow: FC<Props> = () => {
         <UserCard
           user={pageUser}
           imageClassName={classes['followers__image']}
+          followersCount={followers?.length}
+          followingsCount={followings?.length}
           actions={
             <Buttons>
               <IconButton
