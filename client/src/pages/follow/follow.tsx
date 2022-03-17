@@ -73,7 +73,8 @@ export const Follow: FC<FollowProps> = () => {
               }
               onClick={
                 user.isFollowing
-                  ? () => removeFollowerUserFromFollowers(user, loginUser)
+                  ? () =>
+                      removeFollowerUserFromFollowers(user, loginUser, pageUser)
                   : () => addFollowerUserToFollowers(user, loginUser, pageUser)
               }
             />
@@ -148,7 +149,11 @@ export const Follow: FC<FollowProps> = () => {
                     isPageUserFollowing
                       ? () => {
                           setIsPageUserFollowing(false);
-                          removeFollowerUserFromFollowers(pageUser, loginUser);
+                          removeFollowerUserFromFollowers(
+                            pageUser,
+                            loginUser,
+                            pageUser,
+                          );
                         }
                       : () => {
                           setIsPageUserFollowing(true);
