@@ -1,18 +1,25 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '../../models';
 import { userServices } from '..';
 import { keys } from '../../util';
 
-// fetch token from local storage
-// save it in context so that other component can use token
-export const AuthContext = React.createContext<{
+// 1. this logic is implementation of 3rd party library redux
+// 2. this logic depends on 3rd party library redux
+// so this logic belongs to services
+
+// FIXME
+// 1. review logic
+// 2. make this to reducer?
+type AuthContextType = {
   token: string | null;
   isLoggedIn: boolean;
   login: (token: string | null) => void;
   logout: () => void;
   loginUser: User | null;
   setLoginUser: React.Dispatch<React.SetStateAction<User | null>>;
-}>({
+};
+
+export const AuthContext = React.createContext<AuthContextType>({
   token: '',
   isLoggedIn: false,
   login: () => {},
@@ -20,6 +27,8 @@ export const AuthContext = React.createContext<{
   loginUser: null,
   setLoginUser: () => {},
 });
+
+export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider: FC = (props) => {
   const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
