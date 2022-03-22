@@ -9,7 +9,7 @@ import {
   SectionTitle,
 } from '../../components/molecules';
 import { useSearchedItems } from '../../hooks/';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import { itemServices } from '../../services';
 import classes from './edit-user-items.module.scss';
 

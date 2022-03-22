@@ -22,7 +22,7 @@ import {
 } from '../../hooks';
 import { Item } from '../../models';
 import { itemServices, userServices } from '../../services';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 
 import classes from './search-users.module.scss';
 

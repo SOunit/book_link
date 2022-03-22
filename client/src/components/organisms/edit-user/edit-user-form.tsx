@@ -16,7 +16,7 @@ import {
   ValidateInput,
   ValidateTextarea,
 } from '../../molecules';
-import { AuthContext } from '../../../store/';
+import { AuthContext } from '../../../services/store';
 import { useAwsS3, useValidateForm } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';

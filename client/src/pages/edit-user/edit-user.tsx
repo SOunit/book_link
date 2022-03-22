@@ -2,7 +2,7 @@ import { FC, Fragment, useContext } from 'react';
 import { UserInfo } from '../../components/molecules';
 import { EditUserForm } from '../../components/organisms';
 import { useFollow } from '../../hooks';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 
 export const EditUser: FC = () => {
   const { loginUser } = useContext(AuthContext);

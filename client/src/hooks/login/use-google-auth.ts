@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect } from 'react';
-import { AuthContext } from '../../store/auth-context';
+import { AuthContext } from '../../services/store/auth-context';
 import { keys } from '../../util';
 
 // to hold initialized google auth

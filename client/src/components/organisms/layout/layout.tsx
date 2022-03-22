@@ -1,5 +1,5 @@
 import { Fragment, useState, useContext } from 'react';
-import { AuthContext } from '../../../store';
+import { AuthContext } from '../../../services/store';
 import MainNavigation from './main-navigation';
 import SideNavigation from './side-navigation';
 import FooterNav from './footer-nav';

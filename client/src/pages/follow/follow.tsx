@@ -8,7 +8,7 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import { useFollow, useUser } from '../../hooks';
 import classes from './follow.module.scss';
 

@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
 import { Buttons } from '../../molecules';
-import { AuthContext } from '../../../store/auth-context';
+import { AuthContext } from '../../../services/store/auth-context';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../atoms';
 
