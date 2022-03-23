@@ -1,7 +1,6 @@
 import { FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuthenticate } from '../../../application';
-// import { useGoogleAuth } from '../../../hooks/';
 import classes from './google-auth.module.css';
 
 type Props = {

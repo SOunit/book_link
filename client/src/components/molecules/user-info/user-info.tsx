@@ -23,7 +23,6 @@ export const UserInfo: FC<UserInfoProps> = ({
   followersCount,
 }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
-  // const { signOutClickHandler } = useGoogleAuth();
   const { logout } = useAuthenticate();
 
   let aboutText = 'No comment yet!';
