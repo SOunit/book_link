@@ -16,7 +16,7 @@ type AuthContextType = {
   login: (token: string | null) => void;
   logout: () => void;
   loginUser: User | null;
-  updateLoginUser: React.Dispatch<React.SetStateAction<User | null>>;
+  updateLoginUser: (user: User | null) => void;
 };
 
 export const AuthContext = React.createContext<AuthContextType>({
@@ -80,13 +80,17 @@ export const AuthContextProvider: FC = (props) => {
     }
   }, []);
 
+  const updateLoginUser = (user: User | null) => {
+    setLoginUser((prevState) => ({ ...prevState!, ...user }));
+  };
+
   const contextValue = {
     token,
     isLoggedIn,
     loginUser,
     login: loginHandler,
     logout: logoutHandler,
-    updateLoginUser: setLoginUser,
+    updateLoginUser,
   };
 
   // auto login
