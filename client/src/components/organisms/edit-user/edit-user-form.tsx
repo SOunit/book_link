@@ -7,8 +7,7 @@ import {
   useContext,
 } from 'react';
 import { useHistory } from 'react-router';
-import { userServices } from '../../../services';
-import { User as UserType } from '../../../models';
+import { User } from '../../../models';
 import { Button } from '../../atoms';
 import {
   ImageUpload,
@@ -17,37 +16,25 @@ import {
   ValidateTextarea,
 } from '../../molecules';
 import { AuthContext } from '../../../services/store';
-import { useAwsS3, useValidateForm } from '../../../hooks';
+import { useValidateForm } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
+import { useUpdateUser, useUploadImage } from '../../../application';
 
 type Props = {};
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
-  const { loginUser: user, updateLoginUser } = useContext(AuthContext);
+  const { loginUser: user } = useContext(AuthContext);
   const [imageFile, setImageFile] = useState<File>();
-  const { uploadImageToS3 } = useAwsS3();
+  const { uploadImage } = useUploadImage();
   const [isUpdated, setIsUpdate] = useState(false);
   const { formInputs, updateFormInputs, setFormInputs } = useValidateForm();
+  const { updateUser } = useUpdateUser();
 
-  const updateUser = (userData: UserType) => {
-    // update db
-    userServices.updateUser(
-      userData.id,
-      userData.name,
-      userData.about,
-      userData.imageUrl,
-    );
-
-    // update state
+  const updateUserHandler = (userData: User) => {
+    updateUser(userData);
     setIsUpdate(true);
-    updateLoginUser((prevState) => ({
-      ...prevState!,
-      name: userData.name,
-      about: userData.about,
-      imageUrl: userData.imageUrl,
-    }));
   };
 
   const submitHandler = async (event: React.SyntheticEvent) => {
@@ -59,7 +46,7 @@ export const EditUserForm: FC<Props> = () => {
 
     let imageUrl = user.imageUrl;
     if (imageFile) {
-      imageUrl = (await uploadImageToS3(imageFile)) || imageUrl;
+      imageUrl = (await uploadImage(imageFile)) || imageUrl;
     }
 
     const newUser = {
@@ -69,7 +56,7 @@ export const EditUserForm: FC<Props> = () => {
       about: formInputs.about ? formInputs.about.value : '',
     };
 
-    updateUser(newUser);
+    updateUserHandler(newUser);
   };
 
   const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
