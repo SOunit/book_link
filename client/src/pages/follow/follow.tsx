@@ -8,7 +8,7 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import { useFollow, useUser } from '../../hooks';
 import classes from './follow.module.scss';
 
@@ -41,8 +41,6 @@ export const Follow: FC<Props> = () => {
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
   };
-
-  console.log('followings', followings);
 
   useEffect(() => {
     setIsFollowingsPage(pathSegments.includes('followings'));

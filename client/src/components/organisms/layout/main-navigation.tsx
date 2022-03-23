@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks';
-import { AuthContext } from '../../../store';
+import { AuthContext } from '../../../services/store';
 import { isPathMatch } from '../../../util';
 import classes from './main-navigation.module.scss';
 

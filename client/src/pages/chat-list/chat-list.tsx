@@ -6,7 +6,7 @@ import {
   NotFoundMessage,
   Spinner,
 } from '../../components/molecules';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import classes from './chat-list.module.scss';
 
 export const ChatList: FC = () => {

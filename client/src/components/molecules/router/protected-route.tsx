@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
 import { Redirect, Route } from 'react-router';
-import { AuthContext } from '../../../store';
+import { AuthContext } from '../../../services/store';
 
 type ProtectedRouteProps = {
   component: FC<any>;
@@ -11,7 +11,6 @@ type ProtectedRouteProps = {
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
   const authCtx = useContext(AuthContext);
-
   const Component = props.component;
 
   return (

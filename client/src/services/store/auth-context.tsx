@@ -1,35 +1,45 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { User } from '../models';
-import { userServices } from '../services';
-import { keys } from '../util';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { User } from '../../models';
+import { userServices } from '..';
+import { keys } from '../../util';
 
-// fetch token from local storage
-// save it in context so that other component can use token
-export const AuthContext = React.createContext<{
+// 1. this logic is implementation of 3rd party library redux
+// 2. this logic depends on 3rd party library redux
+// so this logic belongs to services
+
+// FIXME
+// 1. review logic
+// 2. make this to reducer?
+type AuthContextType = {
   token: string | null;
   isLoggedIn: boolean;
   login: (token: string | null) => void;
   logout: () => void;
   loginUser: User | null;
-  setLoginUser: React.Dispatch<React.SetStateAction<User | null>>;
-}>({
+  updateLoginUser: React.Dispatch<React.SetStateAction<User | null>>;
+};
+
+export const AuthContext = React.createContext<AuthContextType>({
   token: '',
   isLoggedIn: false,
   login: () => {},
   logout: () => {},
   loginUser: null,
-  setLoginUser: () => {},
+  updateLoginUser: () => {},
 });
+
+export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider: FC = (props) => {
   const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
   const [token, setToken] = useState<string | null>(initialToken);
   const [loginUser, setLoginUser] = useState<User | null>(null);
-
-  const userIsLoggedIn = !!token;
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const logoutHandler = () => {
     setToken(null);
+    setLoginUser(null);
+    setIsLoggedIn(false);
     localStorage.removeItem(keys.TOKEN_KEY!);
   };
 
@@ -45,6 +55,7 @@ export const AuthContextProvider: FC = (props) => {
     setToken(token);
     if (token) {
       localStorage.setItem(keys.TOKEN_KEY!, token);
+      setIsLoggedIn(true);
 
       // check if user exists
       getUserCount(token)
@@ -71,11 +82,11 @@ export const AuthContextProvider: FC = (props) => {
 
   const contextValue = {
     token,
-    isLoggedIn: userIsLoggedIn,
+    isLoggedIn,
     loginUser,
     login: loginHandler,
     logout: logoutHandler,
-    setLoginUser,
+    updateLoginUser: setLoginUser,
   };
 
   // auto login

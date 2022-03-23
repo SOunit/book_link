@@ -10,7 +10,7 @@ import {
 import { useParams } from 'react-router';
 import { ChatServices } from '../../services';
 import { Message as MessageType, Chat as ChatType } from '../../models';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import { ChatForm, ChatHeader } from '../../components/organisms';
 import { ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';

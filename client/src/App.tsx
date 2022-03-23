@@ -17,7 +17,7 @@ import {
 } from './pages';
 import './App.css';
 import { useSocket } from './hooks';
-import { AuthContext } from './store';
+import { AuthContext } from './services/store';
 
 function App() {
   const { socket } = useSocket();

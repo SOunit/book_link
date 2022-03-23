@@ -16,7 +16,7 @@ import {
   ValidateInput,
   ValidateTextarea,
 } from '../../molecules';
-import { AuthContext } from '../../../store/';
+import { AuthContext } from '../../../services/store';
 import { useAwsS3, useValidateForm } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
@@ -25,7 +25,7 @@ type Props = {};
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
-  const { loginUser: user, setLoginUser } = useContext(AuthContext);
+  const { loginUser: user, updateLoginUser } = useContext(AuthContext);
   const [imageFile, setImageFile] = useState<File>();
   const { uploadImageToS3 } = useAwsS3();
   const [isUpdated, setIsUpdate] = useState(false);
@@ -42,7 +42,7 @@ export const EditUserForm: FC<Props> = () => {
 
     // update state
     setIsUpdate(true);
-    setLoginUser((prevState) => ({
+    updateLoginUser((prevState) => ({
       ...prevState!,
       name: userData.name,
       about: userData.about,

@@ -10,7 +10,7 @@ import {
 import { useFollow } from '../../hooks';
 import { User as UserType } from '../../models';
 import { ChatServices, followServices, userServices } from '../../services';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import classes from './user-detail.module.css';
 
 type UserDetailParams = {

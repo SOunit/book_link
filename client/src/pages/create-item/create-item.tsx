@@ -15,7 +15,7 @@ import {
 } from '../../components/molecules';
 import { useAwsS3 } from '../../hooks/';
 import { itemServices } from '../../services';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import { validate, VALIDATOR_REQUIRE } from '../../util';
 import classes from './create-item.module.css';
 
@@ -33,7 +33,7 @@ export const CreateItem: FC = () => {
   });
   const [imageFile, setImageFile] = useState<File>();
   const history = useHistory();
-  const { loginUser, setLoginUser } = useContext(AuthContext);
+  const { loginUser, updateLoginUser } = useContext(AuthContext);
   const { uploadImageToS3 } = useAwsS3();
 
   const { title, author } = inputs;
@@ -112,7 +112,7 @@ export const CreateItem: FC = () => {
       await itemServices.addUserItem(loginUser.id, newItem.id);
 
       // update state
-      setLoginUser({ ...loginUser, items: [...loginUser.items, newItem] });
+      updateLoginUser({ ...loginUser, items: [...loginUser.items, newItem] });
     } catch (err) {
       console.log('create-item submit');
       console.log(err);

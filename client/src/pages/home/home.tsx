@@ -1,6 +1,6 @@
 import { FC, Fragment, useContext } from 'react';
 import { useHistory } from 'react-router';
-import { AuthContext } from '../../store';
+import { AuthContext } from '../../services/store';
 import {
   IconTextButton,
   Spinner,
