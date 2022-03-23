@@ -1,6 +1,7 @@
 import { FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useGoogleAuth } from '../../../hooks/';
+import { useAuthenticate } from '../../../application';
+// import { useGoogleAuth } from '../../../hooks/';
 import classes from './google-auth.module.css';
 
 type Props = {
@@ -8,11 +9,13 @@ type Props = {
 };
 
 export const GoogleAuth: FC<Props> = ({ className }) => {
-  const { signInClickHandler } = useGoogleAuth();
+  // const { signInClickHandler } = useGoogleAuth();
+  const { authenticate } = useAuthenticate();
   const history = useHistory();
 
   const clickHandler = () => {
-    signInClickHandler();
+    // signInClickHandler();
+    authenticate();
     history.push('/');
   };
 

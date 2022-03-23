@@ -25,7 +25,7 @@ type Props = {};
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
-  const { loginUser: user, setLoginUser } = useContext(AuthContext);
+  const { loginUser: user, updateLoginUser } = useContext(AuthContext);
   const [imageFile, setImageFile] = useState<File>();
   const { uploadImageToS3 } = useAwsS3();
   const [isUpdated, setIsUpdate] = useState(false);
@@ -42,7 +42,7 @@ export const EditUserForm: FC<Props> = () => {
 
     // update state
     setIsUpdate(true);
-    setLoginUser((prevState) => ({
+    updateLoginUser((prevState) => ({
       ...prevState!,
       name: userData.name,
       about: userData.about,

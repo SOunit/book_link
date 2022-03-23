@@ -1,8 +1,13 @@
 export interface UserStorageService {
   token: '';
   isLoggedIn: false;
-  login: () => void;
+  login: (token?: string) => void;
   logout: () => void;
   loginUser: null;
-  setLoginUser: () => void;
+  updateLoginUser: () => void;
+}
+
+export interface AuthenticateService {
+  // auth(name: string, email: string): Promise<User>;
+  auth(): string;
 }

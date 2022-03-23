@@ -14,7 +14,7 @@ import { itemServices } from '../../services';
 import classes from './edit-user-items.module.scss';
 
 export const EditUserItems: FC = () => {
-  const { loginUser, setLoginUser } = useContext(AuthContext);
+  const { loginUser, updateLoginUser } = useContext(AuthContext);
   const {
     searchedItems,
     isItemSearched,
@@ -38,7 +38,7 @@ export const EditUserItems: FC = () => {
       }
 
       newUser.items.push(item);
-      setLoginUser(newUser);
+      updateLoginUser(newUser);
 
       // update db
       itemServices.addUserItem(loginUser!.id, item.id);
@@ -50,7 +50,7 @@ export const EditUserItems: FC = () => {
       // update user state
       const newUser = { ...loginUser };
       newUser.items = newUser.items?.filter((item) => item.id !== itemId);
-      setLoginUser(newUser);
+      updateLoginUser(newUser);
 
       // update db data
       itemServices.deleteUserItem(loginUser!.id, itemId);
