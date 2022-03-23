@@ -42,8 +42,6 @@ export const Follow: FC<Props> = () => {
     history.push(`/users/${userId}`);
   };
 
-  console.log('followings', followings);
-
   useEffect(() => {
     setIsFollowingsPage(pathSegments.includes('followings'));
   }, [pathSegments]);

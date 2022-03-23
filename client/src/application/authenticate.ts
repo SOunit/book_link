@@ -1,17 +1,20 @@
-import { useGoogleAuth } from '../services';
+import { useAuth } from '../services';
 import { useUserStorage } from '../services';
 import { AuthenticateService, UserStorageService } from './ports';
 
 export const useAuthenticate = () => {
   const storage: UserStorageService = useUserStorage();
-  const googleAuth: AuthenticateService = useGoogleAuth();
+  const auth: AuthenticateService = useAuth();
 
   const authenticate = () => {
-    const loginId = googleAuth.auth();
+    const loginId = auth.auth();
     storage.login(loginId);
   };
 
-  const logout = () => {};
+  const logout = () => {
+    auth.logout();
+    storage.logout();
+  };
 
   return {
     authenticate,

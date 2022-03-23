@@ -33,12 +33,13 @@ export const useAuthContext = () => useContext(AuthContext);
 export const AuthContextProvider: FC = (props) => {
   const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
   const [token, setToken] = useState<string | null>(initialToken);
-  const [loginUser, updateLoginUser] = useState<User | null>(null);
-
-  const userIsLoggedIn = !!token;
+  const [loginUser, setLoginUser] = useState<User | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const logoutHandler = () => {
     setToken(null);
+    setLoginUser(null);
+    setIsLoggedIn(false);
     localStorage.removeItem(keys.TOKEN_KEY!);
   };
 
@@ -54,6 +55,7 @@ export const AuthContextProvider: FC = (props) => {
     setToken(token);
     if (token) {
       localStorage.setItem(keys.TOKEN_KEY!, token);
+      setIsLoggedIn(true);
 
       // check if user exists
       getUserCount(token)
@@ -63,12 +65,12 @@ export const AuthContextProvider: FC = (props) => {
           if (amount <= 0) {
             createNewUser(token).then((response) => {
               // set new user to state
-              updateLoginUser({ ...response.data.data.createUser, items: [] });
+              setLoginUser({ ...response.data.data.createUser, items: [] });
             });
           } else {
             // fetch user
             userServices.fetchUser(token).then((response) => {
-              updateLoginUser(response.data.data.user);
+              setLoginUser(response.data.data.user);
             });
           }
         })
@@ -80,11 +82,11 @@ export const AuthContextProvider: FC = (props) => {
 
   const contextValue = {
     token,
-    isLoggedIn: userIsLoggedIn,
+    isLoggedIn,
     loginUser,
     login: loginHandler,
     logout: logoutHandler,
-    updateLoginUser,
+    updateLoginUser: setLoginUser,
   };
 
   // auto login

@@ -1,12 +1,13 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { useGoogleAuth, useModal } from '../../../hooks/';
+import { useModal } from '../../../hooks/';
 import { User as UserType } from '../../../models/';
 import { LogoutModal } from '../../organisms/';
 import { Backdrop } from '../backdrop/backdrop';
 import { Image } from '../../atoms';
 import classes from './user-info.module.scss';
 import { FollowNumber } from '../follow-number/follow-number';
+import { useAuthenticate } from '../../../application';
 
 type UserInfoProps = {
   user: UserType;
@@ -22,19 +23,24 @@ export const UserInfo: FC<UserInfoProps> = ({
   followersCount,
 }) => {
   const { isModalOpen, modalOpenHandler, modalCloseHandler } = useModal();
-  const { signOutClickHandler } = useGoogleAuth();
+  // const { signOutClickHandler } = useGoogleAuth();
+  const { logout } = useAuthenticate();
 
   let aboutText = 'No comment yet!';
   if (user.about && user.about.length > 0) {
     aboutText = user.about;
   }
 
+  const logoutClickHandler = () => {
+    logout();
+  };
+
   return (
     <Fragment>
       {isModalOpen && <Backdrop onSideMenuToggle={modalCloseHandler} />}
       {isModalOpen && (
         <LogoutModal
-          onConfirm={signOutClickHandler}
+          onConfirm={logoutClickHandler}
           onCancel={modalCloseHandler}
           title="Logout"
           text="Do you logout?"

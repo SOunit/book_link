@@ -11,6 +11,7 @@ type ProtectedRouteProps = {
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
   const authCtx = useContext(AuthContext);
+  console.log('ProtectedRoute authCtx', authCtx);
 
   const Component = props.component;
 

@@ -3,7 +3,7 @@ import { keys } from '../util';
 // to hold initialized google auth
 let auth: any;
 
-export const useGoogleAuth = () => {
+export const useAuth = () => {
   const authenticate = (): string => {
     if (!window.gapi) {
       return '';
@@ -29,16 +29,27 @@ export const useGoogleAuth = () => {
   };
 
   const logout = () => {
-    window.gapi.auth2.getAuthInstance().signOut();
-  };
+    if (!window.gapi) {
+      return;
+    }
 
-  const getIsLoggedIn = () => {
-    return auth.isSignedIn.get();
+    window.gapi.load('client:auth2', () => {
+      window.gapi.client
+        .init({
+          clientId: keys.GOOGLE_CLIENT_ID,
+          scope: 'email',
+        })
+        .then(() => {
+          window.gapi.auth2.getAuthInstance().signOut();
+        })
+        .catch((err) => {
+          console.log('use-google-auth', err);
+        });
+    });
   };
 
   return {
     auth: authenticate,
     logout,
-    getIsLoggedIn,
   };
 };
