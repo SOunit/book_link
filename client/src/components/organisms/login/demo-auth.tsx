@@ -1,19 +1,19 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { Buttons } from '../../molecules';
-import { AuthContext } from '../../../services/store/auth-context';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../atoms';
+import { useAuthenticate } from '../../../application';
 
 type Props = {
   className: string;
 };
 
 export const DemoAuth: FC<Props> = ({ className }) => {
-  const authCtx = useContext(AuthContext);
+  const { demoAuth } = useAuthenticate();
   const history = useHistory();
 
   const playButtonClickHandler = () => {
-    authCtx.login('1');
+    demoAuth();
     history.push('/');
   };
 

@@ -22,7 +22,12 @@ export const useAuthenticate = () => {
     storage.logout();
   };
 
+  const demoAuth = () => {
+    storage.login('1');
+  };
+
   return {
+    demoAuth,
     authenticate,
     logout,
   };

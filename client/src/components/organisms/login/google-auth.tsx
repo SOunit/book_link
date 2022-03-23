@@ -9,12 +9,10 @@ type Props = {
 };
 
 export const GoogleAuth: FC<Props> = ({ className }) => {
-  // const { signInClickHandler } = useGoogleAuth();
   const { authenticate } = useAuthenticate();
   const history = useHistory();
 
   const clickHandler = () => {
-    // signInClickHandler();
     authenticate();
     history.push('/');
   };
