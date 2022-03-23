@@ -1,3 +1,4 @@
 export * from './authenticate';
-export * from './user/updateUser';
-export * from './user/uploadImage';
+export * from './user/update-user';
+export * from './user/upload-image';
+export * from './user/update-user-items';

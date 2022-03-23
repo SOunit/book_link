@@ -10,11 +10,11 @@ import {
 } from '../../components/molecules';
 import { useSearchedItems } from '../../hooks/';
 import { AuthContext } from '../../services/store';
-import { itemServices } from '../../services';
 import classes from './edit-user-items.module.scss';
+import { useUpdateUserItems } from '../../application/user/update-user-items';
 
 export const EditUserItems: FC = () => {
-  const { loginUser, updateLoginUser } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
   const {
     searchedItems,
     isItemSearched,
@@ -27,21 +27,18 @@ export const EditUserItems: FC = () => {
   ) => {
     setItemSearchInput(event.target.value);
   };
+  const { addUserItem, removeUserItem } = useUpdateUserItems();
 
   const addClickHandler = (item: ItemType) => {
     if (loginUser) {
       // update user state
       const newUser = { ...loginUser };
-
       if (!newUser.items) {
         return;
       }
-
       newUser.items.push(item);
-      updateLoginUser(newUser);
 
-      // update db
-      itemServices.addUserItem(loginUser!.id, item.id);
+      addUserItem(newUser, item.id);
     }
   };
 
@@ -50,10 +47,8 @@ export const EditUserItems: FC = () => {
       // update user state
       const newUser = { ...loginUser };
       newUser.items = newUser.items?.filter((item) => item.id !== itemId);
-      updateLoginUser(newUser);
 
-      // update db data
-      itemServices.deleteUserItem(loginUser!.id, itemId);
+      removeUserItem(newUser, itemId);
     }
   };
 
