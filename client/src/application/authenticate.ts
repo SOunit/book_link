@@ -7,8 +7,14 @@ export const useAuthenticate = () => {
   const auth: AuthenticateService = useAuth();
 
   const authenticate = () => {
-    const loginId = auth.auth();
-    storage.login(loginId);
+    auth
+      .auth()
+      .then((loginId) => {
+        storage.login(loginId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const logout = () => {

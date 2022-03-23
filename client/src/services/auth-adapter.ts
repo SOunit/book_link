@@ -4,28 +4,27 @@ import { keys } from '../util';
 let auth: any;
 
 export const useAuth = () => {
-  const authenticate = (): string => {
+  const authenticate = (): any => {
     if (!window.gapi) {
-      return '';
+      return;
     }
 
-    window.gapi.load('client:auth2', () => {
-      window.gapi.client
-        .init({
-          clientId: keys.GOOGLE_CLIENT_ID,
-          scope: 'email',
-        })
-        .then(() => {
-          auth = window.gapi.auth2.getAuthInstance();
-          window.gapi.auth2.getAuthInstance().signIn();
-          return auth.currentUser.get().getId();
-        })
-        .catch((err) => {
-          console.log('use-google-auth', err);
-        });
-    });
+    return new Promise((res) => {
+      window.gapi.load('client:auth2', () => {
+        return window.gapi.client
+          .init({
+            clientId: keys.GOOGLE_CLIENT_ID,
+            scope: 'email',
+          })
+          .then(() => {
+            auth = window.gapi.auth2.getAuthInstance();
+            auth.signIn();
 
-    return '';
+            const loginId = auth.currentUser.get().getId();
+            return res(loginId);
+          });
+      });
+    });
   };
 
   const logout = () => {

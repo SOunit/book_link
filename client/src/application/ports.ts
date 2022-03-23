@@ -9,6 +9,6 @@ export interface UserStorageService {
 
 export interface AuthenticateService {
   // auth(name: string, email: string): Promise<User>;
-  auth(): string;
+  auth(): Promise<any>;
   logout(): void;
 }
