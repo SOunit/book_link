@@ -9,6 +9,10 @@ export interface UserStorageService {
   updateLoginUser: (user: User) => void;
 }
 
+export interface ImageStorageService {
+  uploadImage: (image: File) => string | null;
+}
+
 export interface AuthenticateService {
   auth(): Promise<any>;
   logout(): void;
