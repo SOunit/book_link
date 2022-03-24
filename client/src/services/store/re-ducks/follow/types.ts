@@ -4,12 +4,8 @@ export type FollowAction = {
 };
 
 export type FollowState = {
-  loginUser: {
-    followings: any[];
-    followers: any[];
-  };
-  targetUser: {
-    followings: any[];
-    followers: any[];
-  };
+  followings: any[];
+  followers: any[];
+  isFollowingsLoaded: boolean;
+  isFollowersLoaded: boolean;
 };

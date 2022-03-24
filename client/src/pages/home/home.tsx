@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, Fragment, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../../services/store';
 import {
@@ -9,8 +9,7 @@ import {
 } from '../../components/molecules';
 import { useFollow } from '../../hooks';
 import classes from './home.module.css';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/store/store';
+import { useUpdateFollow } from '../../application';
 
 type HomeProps = {};
 
@@ -19,8 +18,13 @@ export const Home: FC<HomeProps> = () => {
   const history = useHistory();
   const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
 
-  const followState = useSelector((state: RootState) => state);
-  console.log(followState);
+  const follow = useUpdateFollow();
+
+  useEffect(() => {
+    if (loginUser) {
+      follow.initData(loginUser.id, loginUser.id);
+    }
+  }, [loginUser, follow]);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);

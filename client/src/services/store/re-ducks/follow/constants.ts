@@ -1,0 +1,2 @@
+export const INIT_FOLLOWINGS = 'INIT_FOLLOWINGS';
+export const INIT_FOLLOWERS = 'INIT_FOLLOWERS';
