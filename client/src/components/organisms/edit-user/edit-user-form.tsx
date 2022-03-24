@@ -19,7 +19,7 @@ import { AuthContext } from '../../../services/store';
 import { useValidateForm } from '../../../hooks';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
-import { useUpdateUser, useUploadImage } from '../../../application';
+import { useUserUseCase, useUploadImage } from '../../../application';
 
 type Props = {};
 
@@ -30,7 +30,7 @@ export const EditUserForm: FC<Props> = () => {
   const { uploadImage } = useUploadImage();
   const [isUpdated, setIsUpdate] = useState(false);
   const { formInputs, updateFormInputs, setFormInputs } = useValidateForm();
-  const { updateUser } = useUpdateUser();
+  const { updateUser } = useUserUseCase();
 
   const updateUserHandler = (userData: User) => {
     updateUser(userData);

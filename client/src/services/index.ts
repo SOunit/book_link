@@ -7,4 +7,4 @@ export * from './item-services';
 export * from './user-services';
 export * from './auth-adapter';
 export * from './storage-adapter';
-export * from './user-adapter';
+export * from './use-user-adapter';

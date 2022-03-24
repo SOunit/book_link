@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext, useEffect, useState } from 'react';
+import { FC, Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
@@ -8,9 +8,10 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { AuthContext } from '../../services/store';
-import { useFollow, useUser } from '../../hooks';
+import { useFollow } from '../../hooks';
 import classes from './follow.module.scss';
+import { useUserUseCase } from '../../application';
+import { User } from '../../domain';
 
 type Props = {};
 type FollowParams = {
@@ -19,8 +20,12 @@ type FollowParams = {
 
 export const Follow: FC<Props> = () => {
   const params = useParams<FollowParams>();
+  const { userId } = params;
   const history = useHistory();
-  const { loginUser } = useContext(AuthContext);
+  const { pathname } = useLocation();
+  const userUseCase = useUserUseCase();
+  const loginUser = userUseCase.getLoginUser();
+  const [pageUser, setPageUser] = useState<User>();
   const {
     followers,
     followings,
@@ -30,8 +35,6 @@ export const Follow: FC<Props> = () => {
     removeFollowingUserFromFollowings,
     countFollowings,
   } = useFollow(params.userId, loginUser?.id);
-  const { user: pageUser } = useUser(params.userId);
-  const { pathname } = useLocation();
   const pathSegments = pathname.split('/');
   const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
@@ -45,6 +48,15 @@ export const Follow: FC<Props> = () => {
   useEffect(() => {
     setIsFollowingsPage(pathSegments.includes('followings'));
   }, [pathSegments]);
+
+  useEffect(() => {
+    if (!pageUser) {
+      userUseCase.getUser(userId).then((res) => {
+        const user = res.data.data.user;
+        setPageUser(user);
+      });
+    }
+  }, [userUseCase, userId, pageUser]);
 
   useEffect(() => {
     if (followers && loginUser) {
