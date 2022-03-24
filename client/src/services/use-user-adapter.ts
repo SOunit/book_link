@@ -7,7 +7,7 @@ type User = {
   imageUrl: string;
 };
 
-export const useUser = () => {
+export const useUserAdapter = () => {
   return {
     createUser: async (id: string) => {
       const graphqlQuery = {

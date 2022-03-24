@@ -1,11 +1,23 @@
+import { useCallback } from 'react';
 import { User } from '../../domain';
-import { useUser, useUserStorage } from '../../services';
+import { useUserAdapter, useUserStorage } from '../../services';
 
 import { UserStorageService } from '../ports';
 
 export const useUserUseCase = () => {
   const storage: UserStorageService = useUserStorage();
-  const userAdapter = useUser();
+  const userAdapter = useUserAdapter();
+
+  const getLoginUser = (): User | null => {
+    return storage.loginUser;
+  };
+
+  const getUser = useCallback(
+    (userId: string) => {
+      return userAdapter.fetchUser(userId);
+    },
+    [userAdapter],
+  );
 
   const updateUser = (user: User): void => {
     userAdapter.updateUser({
@@ -18,5 +30,5 @@ export const useUserUseCase = () => {
     storage.updateLoginUser(user);
   };
 
-  return { updateUser };
+  return { updateUser, getLoginUser, getUser };
 };
