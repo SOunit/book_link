@@ -18,13 +18,14 @@ export const Home: FC<HomeProps> = () => {
   const history = useHistory();
   const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
 
-  const follow = useUpdateFollow();
+  const followUseCase = useUpdateFollow();
+  console.log(followUseCase.getData());
 
   useEffect(() => {
     if (loginUser) {
-      follow.initData(loginUser.id, loginUser.id);
+      followUseCase.initData(loginUser.id, loginUser.id);
     }
-  }, [loginUser, follow]);
+  }, [loginUser, followUseCase]);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
