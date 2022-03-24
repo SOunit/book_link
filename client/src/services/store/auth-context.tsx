@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
-import { User } from '../../models';
+import { User } from '../../domain/models';
 import { userServices } from '..';
-import { keys } from '../../util';
+import { keys } from '../util';
 
 // 1. this logic is implementation of 3rd party library redux
 // 2. this logic depends on 3rd party library redux
