@@ -9,6 +9,8 @@ import {
 } from '../../components/molecules';
 import { useFollow } from '../../hooks';
 import classes from './home.module.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../services/store/store';
 
 type HomeProps = {};
 
@@ -16,6 +18,9 @@ export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
   const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
+
+  const followState = useSelector((state: RootState) => state);
+  console.log(followState);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
@@ -25,7 +30,7 @@ export const Home: FC<HomeProps> = () => {
     history.push(`/users/items/edit`);
   };
 
-  return (
+  const component = (
     <Fragment>
       {loginUser && followers && followings ? (
         <UserInfo
@@ -54,4 +59,6 @@ export const Home: FC<HomeProps> = () => {
       )}
     </Fragment>
   );
+
+  return component;
 };
