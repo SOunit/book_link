@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Layout } from './components/organisms';
-import { ProtectedRoute } from './components/molecules';
+import { Layout } from './presentation/components/organisms';
+import { ProtectedRoute } from './presentation/components/molecules';
 import {
   SearchUsers,
   PageNotFound,
@@ -14,9 +14,9 @@ import {
   ChatList,
   CreateItem,
   Follow,
-} from './pages';
+} from './presentation/pages';
 import './App.css';
-import { useSocket } from './hooks';
+import { useSocket } from './application/hooks';
 import { AuthContext } from './services/store';
 
 function App() {

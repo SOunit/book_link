@@ -1,4 +1,4 @@
-import { keys } from '../util';
+import { keys } from './util';
 
 // to hold initialized google auth
 let auth: any;
