@@ -1,4 +1,4 @@
-import { FC, Fragment, useContext } from 'react';
+import { FC, Fragment, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../../services/store';
 import {
@@ -7,15 +7,22 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
-import { useFollow } from '../../hooks';
 import classes from './home.module.css';
+import { useUpdateFollow } from '../../application';
 
 type HomeProps = {};
 
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
-  const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
+  const followUseCase = useUpdateFollow();
+  const { followings, followers } = followUseCase.getData();
+
+  useEffect(() => {
+    if (loginUser) {
+      followUseCase.initData(loginUser.id, loginUser.id);
+    }
+  }, [loginUser, followUseCase]);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
@@ -25,7 +32,7 @@ export const Home: FC<HomeProps> = () => {
     history.push(`/users/items/edit`);
   };
 
-  return (
+  const component = (
     <Fragment>
       {loginUser && followers && followings ? (
         <UserInfo
@@ -54,4 +61,6 @@ export const Home: FC<HomeProps> = () => {
       )}
     </Fragment>
   );
+
+  return component;
 };

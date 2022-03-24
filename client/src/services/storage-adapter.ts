@@ -2,12 +2,18 @@ import { UserStorageService } from '../application/ports';
 import { useAuthContext } from './store';
 import axios from 'axios';
 import { keys } from '../util';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
 
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
 // application layer can keep independent from service using interface
 export const useUserStorage = (): UserStorageService => {
   return useAuthContext() as UserStorageService;
+};
+
+export const useFollowStorage = () => {
+  return useSelector((state: RootState) => state) as any;
 };
 
 export const useImageStorage = () => {
