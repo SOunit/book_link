@@ -4,6 +4,9 @@ FROM node:16-alpine as builder
 
 WORKDIR /app
 COPY ./package.json ./
+# to solve node-sass install error
+# RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python3
+# RUN npm install --quiet node-gyp -g
 RUN npm install
 COPY . .
 RUN npm run build
