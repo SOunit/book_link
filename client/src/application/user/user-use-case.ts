@@ -3,7 +3,7 @@ import { useUser, useUserStorage } from '../../services';
 
 import { UserStorageService } from '../ports';
 
-export const useUpdateUser = () => {
+export const useUserUseCase = () => {
   const storage: UserStorageService = useUserStorage();
   const userAdapter = useUser();
 
