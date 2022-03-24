@@ -7,7 +7,6 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
-import { useFollow } from '../../hooks';
 import classes from './home.module.css';
 import { useUpdateFollow } from '../../application';
 
@@ -16,10 +15,8 @@ type HomeProps = {};
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
-  const { followings, followers } = useFollow(loginUser?.id, loginUser?.id);
-
   const followUseCase = useUpdateFollow();
-  console.log(followUseCase.getData());
+  const { followings, followers } = followUseCase.getData();
 
   useEffect(() => {
     if (loginUser) {
