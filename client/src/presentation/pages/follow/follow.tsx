@@ -9,9 +9,10 @@ import {
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
 import { useFollow } from '../../../application/hooks';
-import classes from './follow.module.scss';
-import { useUserUseCase } from '../../../application';
+import { useFollowUseCase, useUserUseCase } from '../../../application';
 import { User } from '../../../domain';
+import classes from './follow.module.scss';
+import { useFollowStorage } from '../../../services';
 
 type Props = {};
 type FollowParams = {
@@ -19,13 +20,12 @@ type FollowParams = {
 };
 
 export const Follow: FC<Props> = () => {
+  // hooks
   const params = useParams<FollowParams>();
-  const { userId } = params;
   const history = useHistory();
   const { pathname } = useLocation();
   const userUseCase = useUserUseCase();
   const loginUser = userUseCase.getLoginUser();
-  const [pageUser, setPageUser] = useState<User>();
   const {
     followers,
     followings,
@@ -35,11 +35,19 @@ export const Follow: FC<Props> = () => {
     removeFollowingUserFromFollowings,
     countFollowings,
   } = useFollow(params.userId, loginUser?.id);
+  const { addFollowerUserToFollowers: TESTaddFollowerUserToFollowers } =
+    useFollowUseCase();
+  const followStorage = useFollowStorage();
+  console.log(followStorage);
+
+  // page state
+  const [pageUser, setPageUser] = useState<User>();
   const pathSegments = pathname.split('/');
   const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
   );
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
+  const { userId } = params;
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
@@ -69,6 +77,19 @@ export const Follow: FC<Props> = () => {
     }
   }, [loginUser, followers]);
 
+  const followClickInFollowersHandler = (
+    user: User,
+    loginUser: User,
+    pageUser: User,
+  ) => {
+    if (user.isFollowing) {
+      removeFollowerUserFromFollowers(user, loginUser, pageUser);
+    } else {
+      addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+      TESTaddFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+    }
+  };
+
   let followerUsers = null;
   if (followers && loginUser && pageUser) {
     followerUsers = followers.map((user) => {
@@ -84,17 +105,8 @@ export const Follow: FC<Props> = () => {
               iconName={
                 user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
               }
-              onClick={
-                user.isFollowing
-                  ? () =>
-                      removeFollowerUserFromFollowers(user, loginUser, pageUser)
-                  : () =>
-                      addFollowerUserToFollowers(
-                        user,
-                        loginUser,
-                        pageUser,
-                        loginUser,
-                      )
+              onClick={() =>
+                followClickInFollowersHandler(user, loginUser, pageUser)
               }
             />
           )}

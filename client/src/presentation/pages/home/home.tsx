@@ -8,14 +8,14 @@ import {
   UserItems,
 } from '../../components/molecules';
 import classes from './home.module.css';
-import { useUpdateFollow } from '../../../application';
+import { useFollowUseCase } from '../../../application';
 
 type HomeProps = {};
 
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
-  const followUseCase = useUpdateFollow();
+  const followUseCase = useFollowUseCase();
   const { followings, followers } = followUseCase.getData();
 
   useEffect(() => {
