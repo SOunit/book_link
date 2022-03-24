@@ -33,6 +33,8 @@ jobs:
           architecture: 'x64'
       - name: Get Python version
         run: python -V
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Docker build
         run: |
