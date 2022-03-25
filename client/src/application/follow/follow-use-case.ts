@@ -96,11 +96,6 @@ export const useFollowUseCase = () => {
   ) => {
     const toFollowing = true;
 
-    console.log('followerUser', followerUser);
-    console.log('followingUser', followingUser);
-    console.log('pageUser', pageUser);
-    console.log('loginUser', loginUser);
-
     // follow follower user, add follower user to followings if not exist
     if (pageUser.id === loginUser.id) {
       addUserToFollowings(storage.followings, followerUser);
@@ -144,10 +139,44 @@ export const useFollowUseCase = () => {
     }
   };
 
+  const addFollowingUserToFollowings = (
+    followingUser: User,
+    loginUser: User,
+  ) => {
+    const toFollowing = true;
+
+    if (storage.followings && storage.followers && loginUser.id) {
+      // update state
+      updateFollowingsState(followingUser.id, toFollowing);
+      updateIsFollowingInFollowers(followingUser, toFollowing);
+
+      // update db
+      followAdapter.createFollowing(loginUser.id, followingUser.id);
+    }
+  };
+
+  const removeFollowingUserFromFollowings = (
+    followingUser: User,
+    loginUser: User,
+  ) => {
+    const toFollowing = false;
+
+    if (storage.followings && storage.followers && loginUser.id) {
+      // update state
+      updateFollowingsState(followingUser.id, toFollowing);
+      updateIsFollowingInFollowers(followingUser, toFollowing);
+
+      // update db
+      followAdapter.deleteFollowing(loginUser.id, followingUser.id);
+    }
+  };
+
   return {
     initData,
     getData,
     addFollowerUserToFollowers,
     removeFollowerUserFromFollowers,
+    addFollowingUserToFollowings,
+    removeFollowingUserFromFollowings,
   };
 };
