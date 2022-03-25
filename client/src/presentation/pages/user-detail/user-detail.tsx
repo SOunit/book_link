@@ -14,7 +14,11 @@ import {
   userServices,
 } from '../../../services';
 import { AuthContext } from '../../../services/store';
-import { useFollowUseCase } from '../../../application';
+import {
+  useAddUserToFollowers,
+  useInitFollow,
+  useRemoveUserFromFollowers,
+} from '../../../application';
 import classes from './user-detail.module.css';
 
 type UserDetailParams = {
@@ -29,12 +33,9 @@ export const UserDetail: FC<Props> = () => {
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<UserType>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
-  const {
-    initIsLoaded,
-    initData,
-    addFollowerUserToFollowers,
-    removeFollowerUserFromFollowers,
-  } = useFollowUseCase();
+  const { addFollowerUserToFollowers } = useAddUserToFollowers();
+  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
+  const { initIsLoaded, initFollow } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
 
@@ -80,9 +81,15 @@ export const UserDetail: FC<Props> = () => {
 
   useEffect(() => {
     if (targetUser && loginUser) {
-      initData(targetUser.id, loginUser.id);
+      initFollow(targetUser.id, loginUser.id);
     }
-  }, [targetUser, loginUser, initData, isFollowersLoaded, isFollowingsLoaded]);
+  }, [
+    targetUser,
+    loginUser,
+    initFollow,
+    isFollowersLoaded,
+    isFollowingsLoaded,
+  ]);
 
   useEffect(() => {
     const fetchTargetUser = () => {

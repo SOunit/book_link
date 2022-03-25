@@ -41,7 +41,7 @@ interface AddUserToFollowersAction extends Action {
 interface UpdateIsFollowingInFollowers extends Action {
   type: typeof UPDATE_IS_FOLLOWING_IN_FOLLOWERS;
   payload: {
-    followingUser: User;
+    followerUser: User;
     toFollowing: boolean;
   };
 }

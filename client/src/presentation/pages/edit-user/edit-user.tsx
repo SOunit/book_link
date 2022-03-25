@@ -2,12 +2,12 @@ import { FC, Fragment, useContext, useEffect } from 'react';
 import { UserInfo } from '../../components/molecules';
 import { EditUserForm } from '../../components/organisms';
 import { AuthContext } from '../../../services/store';
-import { useFollowUseCase } from '../../../application';
+import { useInitFollow } from '../../../application';
 import { useFollowStorage } from '../../../services';
 
 export const EditUser: FC = () => {
   const { loginUser } = useContext(AuthContext);
-  const { initData, initIsLoaded } = useFollowUseCase();
+  const { initFollow, initIsLoaded } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
 
@@ -17,9 +17,9 @@ export const EditUser: FC = () => {
 
   useEffect(() => {
     if (loginUser) {
-      initData(loginUser.id, loginUser.id);
+      initFollow(loginUser.id, loginUser.id);
     }
-  }, [loginUser, initData, isFollowersLoaded, isFollowingsLoaded]);
+  }, [loginUser, initFollow, isFollowersLoaded, isFollowingsLoaded]);
 
   return (
     <Fragment>
