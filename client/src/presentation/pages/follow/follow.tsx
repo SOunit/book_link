@@ -8,10 +8,10 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { useFollow } from '../../../application/hooks';
-import classes from './follow.module.scss';
-import { useUserUseCase } from '../../../application';
+import { useFollowUseCase, useUserUseCase } from '../../../application';
 import { User } from '../../../domain';
+import classes from './follow.module.scss';
+import { useFollowStorage } from '../../../services';
 
 type Props = {};
 type FollowParams = {
@@ -19,30 +19,63 @@ type FollowParams = {
 };
 
 export const Follow: FC<Props> = () => {
+  // hooks
   const params = useParams<FollowParams>();
-  const { userId } = params;
   const history = useHistory();
   const { pathname } = useLocation();
-  const userUseCase = useUserUseCase();
-  const loginUser = userUseCase.getLoginUser();
-  const [pageUser, setPageUser] = useState<User>();
+  const { getLoginUser, getUser } = useUserUseCase();
   const {
-    followers,
-    followings,
     addFollowerUserToFollowers,
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
     countFollowings,
-  } = useFollow(params.userId, loginUser?.id);
+  } = useFollowUseCase();
+  const followStorage = useFollowStorage();
+  const [pageUser, setPageUser] = useState<User>();
+  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
+
+  // page state
+  const { followers, followings } = followStorage;
+  const loginUser = getLoginUser();
   const pathSegments = pathname.split('/');
   const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
   );
-  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
+  const { userId } = params;
 
   const detailClickHandler = (userId: string) => {
     history.push(`/users/${userId}`);
+  };
+
+  const followClickHandlerInFollowers = (
+    user: User,
+    loginUser: User,
+    pageUser: User,
+  ) => {
+    if (user.isFollowing) {
+      removeFollowerUserFromFollowers(user, loginUser, pageUser);
+    } else {
+      addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+    }
+  };
+
+  const followClickHandlerInFollowings = (user: User, loginUser: User) => {
+    if (user.isFollowing) {
+      removeFollowingUserFromFollowings(user, loginUser);
+    } else {
+      addFollowingUserToFollowings(user, loginUser);
+    }
+  };
+
+  const followClickHandlerInPageUser = (pageUser: User, loginUser: User) => {
+    if (isPageUserFollowing) {
+      setIsPageUserFollowing(false);
+      removeFollowerUserFromFollowers(pageUser, loginUser, pageUser);
+    } else {
+      setIsPageUserFollowing(true);
+      addFollowerUserToFollowers(pageUser, loginUser, pageUser, loginUser);
+    }
   };
 
   useEffect(() => {
@@ -51,12 +84,12 @@ export const Follow: FC<Props> = () => {
 
   useEffect(() => {
     if (!pageUser) {
-      userUseCase.getUser(userId).then((res) => {
+      getUser(userId).then((res) => {
         const user = res.data.data.user;
         setPageUser(user);
       });
     }
-  }, [userUseCase, userId, pageUser]);
+  }, [getUser, userId, pageUser]);
 
   useEffect(() => {
     if (followers && loginUser) {
@@ -84,17 +117,8 @@ export const Follow: FC<Props> = () => {
               iconName={
                 user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
               }
-              onClick={
-                user.isFollowing
-                  ? () =>
-                      removeFollowerUserFromFollowers(user, loginUser, pageUser)
-                  : () =>
-                      addFollowerUserToFollowers(
-                        user,
-                        loginUser,
-                        pageUser,
-                        loginUser,
-                      )
+              onClick={() =>
+                followClickHandlerInFollowers(user, loginUser, pageUser)
               }
             />
           )}
@@ -126,11 +150,7 @@ export const Follow: FC<Props> = () => {
               iconName={
                 user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
               }
-              onClick={
-                user.isFollowing
-                  ? () => removeFollowingUserFromFollowings(user)
-                  : () => addFollowingUserToFollowings(user)
-              }
+              onClick={() => followClickHandlerInFollowings(user, loginUser)}
             />
           )}
         </Buttons>
@@ -170,25 +190,8 @@ export const Follow: FC<Props> = () => {
                   iconName={
                     isPageUserFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
                   }
-                  onClick={
-                    isPageUserFollowing
-                      ? () => {
-                          setIsPageUserFollowing(false);
-                          removeFollowerUserFromFollowers(
-                            pageUser,
-                            loginUser,
-                            pageUser,
-                          );
-                        }
-                      : () => {
-                          setIsPageUserFollowing(true);
-                          addFollowerUserToFollowers(
-                            pageUser,
-                            loginUser,
-                            pageUser,
-                            loginUser,
-                          );
-                        }
+                  onClick={() =>
+                    followClickHandlerInPageUser(pageUser, loginUser)
                   }
                 />
               )}

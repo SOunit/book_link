@@ -20,6 +20,13 @@ export interface FollowStorageService {
   isFollowingsLoaded: boolean;
 }
 
+export interface FollowAdapterService {
+  fetchFollowingUsers(targetUserId: string, loginUserId: string): Promise<any>;
+  fetchFollowerUsers(targetUserId: string, loginUserId: string): Promise<any>;
+  createFollowing(followingUserId: string, userId: string): Promise<any>;
+  deleteFollowing(followingUserId: string, userId: string): Promise<any>;
+}
+
 export interface AuthenticateService {
   auth(): Promise<any>;
   logout(): void;

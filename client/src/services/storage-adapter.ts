@@ -1,4 +1,4 @@
-import { UserStorageService } from '../application/ports';
+import { FollowStorageService, UserStorageService } from '../application/ports';
 import { useAuthContext } from './store';
 import axios from 'axios';
 import { keys } from './util';
@@ -13,7 +13,7 @@ export const useUserStorage = (): UserStorageService => {
 };
 
 export const useFollowStorage = () => {
-  return useSelector((state: RootState) => state) as any;
+  return useSelector((state: RootState) => state) as FollowStorageService;
 };
 
 export const useImageStorage = () => {
