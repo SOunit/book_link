@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
-import { useFollow } from '../../../../application/hooks';
+import { useFollowAdapter } from '../../../../services';
 
 type Props = {
   users: User[];
@@ -20,7 +20,7 @@ export const SearchedUsers: FC<Props> = ({
   onFollowingClick,
 }) => {
   const history = useHistory();
-  const { followUser, unFollowUser } = useFollow();
+  const { createFollowing, deleteFollowing } = useFollowAdapter();
 
   const detailClickHandler = (user: User) => {
     history.push(`/users/${user.id}`);
@@ -31,7 +31,7 @@ export const SearchedUsers: FC<Props> = ({
       {users.map((user) => {
         const followClickHandler = () => {
           // update db
-          followUser(loginUser.id, user.id);
+          createFollowing(loginUser.id, user.id);
 
           // update state
           onFollowClick(user.id);
@@ -39,7 +39,7 @@ export const SearchedUsers: FC<Props> = ({
 
         const followingClickHandler = () => {
           // delete db
-          unFollowUser(loginUser.id, user.id);
+          deleteFollowing(loginUser.id, user.id);
 
           // update state
           onFollowingClick(user.id);
