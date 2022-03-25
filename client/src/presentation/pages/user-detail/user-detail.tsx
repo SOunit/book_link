@@ -7,10 +7,14 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
-import { useFollow } from '../../../application/hooks';
 import { User as UserType } from '../../../domain/models';
-import { ChatServices, followServices, userServices } from '../../../services';
+import {
+  ChatServices,
+  useFollowStorage,
+  userServices,
+} from '../../../services';
 import { AuthContext } from '../../../services/store';
+import { useFollowUseCase } from '../../../application';
 import classes from './user-detail.module.css';
 
 type UserDetailParams = {
@@ -25,30 +29,26 @@ export const UserDetail: FC<Props> = () => {
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<UserType>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
-  const { followUser, unFollowUser, followings, followers, setFollowers } =
-    useFollow(targetUser?.id, loginUser?.id);
+  const {
+    initIsLoaded,
+    initData,
+    addFollowerUserToFollowers,
+    removeFollowerUserFromFollowers,
+  } = useFollowUseCase();
+  const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
+    useFollowStorage();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
-      // update db
-      followUser(loginUser.id, targetUser.id);
-
-      // update state
       setIsFollowing(true);
-      setFollowers((prevState) => [...prevState!, loginUser]);
+      addFollowerUserToFollowers(targetUser, loginUser, targetUser, loginUser);
     }
   };
 
   const followingClickHandler = () => {
     if (loginUser && targetUser) {
-      // update db
-      unFollowUser(loginUser.id, targetUser.id);
-
-      // update state
       setIsFollowing(false);
-      setFollowers((prevState) =>
-        prevState!.filter((user) => user.id !== loginUser.id),
-      );
+      removeFollowerUserFromFollowers(targetUser, loginUser, targetUser);
     }
   };
 
@@ -75,6 +75,16 @@ export const UserDetail: FC<Props> = () => {
   };
 
   useEffect(() => {
+    initIsLoaded();
+  }, [initIsLoaded]);
+
+  useEffect(() => {
+    if (targetUser && loginUser) {
+      initData(targetUser.id, loginUser.id);
+    }
+  }, [targetUser, loginUser, initData, isFollowersLoaded, isFollowingsLoaded]);
+
+  useEffect(() => {
     const fetchTargetUser = () => {
       userServices.fetchUser(params.userId).then((result) => {
         setTargetUser(result.data.data.user);
@@ -83,22 +93,14 @@ export const UserDetail: FC<Props> = () => {
 
     const setFollowingState = () => {
       if (loginUser) {
-        followServices
-          .fetchFollowing(loginUser.id, params.userId)
-          .then((result) => {
-            const followingUserId = result.data.data.following.followingUserId;
-            if (followingUserId) {
-              setIsFollowing(true);
-            } else {
-              setIsFollowing(false);
-            }
-          });
+        const isFollowing = followers.some((user) => user.id === loginUser.id);
+        setIsFollowing(isFollowing);
       }
     };
 
     fetchTargetUser();
     setFollowingState();
-  }, [loginUser, params.userId]);
+  }, [loginUser, followers, params.userId]);
 
   useEffect(() => {
     if (loginUser && loginUser.id === params.userId) {
