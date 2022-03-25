@@ -7,6 +7,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
+  REMOVE_USER_FROM_FOLLOWERS,
 } from '../../services/store/re-ducks/follow/constants';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
@@ -46,7 +47,7 @@ export const useFollowUseCase = () => {
 
     if (!exists) {
       if (followerUser) {
-        dispatch({ type: ADD_USER_TO_FOLLOWINGS, followerUser });
+        dispatch({ type: ADD_USER_TO_FOLLOWINGS, payload: followerUser });
       }
     }
   };
@@ -56,9 +57,11 @@ export const useFollowUseCase = () => {
       (follower) => follower.id === followingUser.id,
     );
 
+    console.log('followingUser', followingUser);
+
     if (!exists) {
       if (followingUser) {
-        dispatch({ type: ADD_USER_TO_FOLLOWINGS, followingUser });
+        dispatch({ type: ADD_USER_TO_FOLLOWINGS, payload: followingUser });
       }
     }
   };
@@ -69,15 +72,6 @@ export const useFollowUseCase = () => {
     targetUserId: string,
     isFollowingState: boolean,
   ) => {
-    // setFollowings((prevState) => {
-    //   return prevState!.map((user) => {
-    //     if (user.id === targetUserId) {
-    //       user.isFollowing = isFollowingState;
-    //     }
-    //     return user;
-    //   });
-    // });
-
     dispatch({
       type: UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
       payload: { targetUserId, isFollowingState },
@@ -88,15 +82,6 @@ export const useFollowUseCase = () => {
     followingUser: User,
     toFollowing: boolean,
   ) => {
-    // setFollowers((prevState) => {
-    //   return prevState!.map((user) => {
-    //     if (user.id === followingUser.id) {
-    //       user.isFollowing = toFollowing;
-    //     }
-    //     return user;
-    //   });
-    // });
-
     dispatch({
       type: UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
       payload: { followingUser, toFollowing },
@@ -111,7 +96,6 @@ export const useFollowUseCase = () => {
   ) => {
     const toFollowing = true;
 
-    console.log('addFollowerUserToFollowers');
     console.log('followerUser', followerUser);
     console.log('followingUser', followingUser);
     console.log('pageUser', pageUser);
@@ -119,8 +103,6 @@ export const useFollowUseCase = () => {
 
     // follow follower user, add follower user to followings if not exist
     if (pageUser.id === loginUser.id) {
-      console.log('storage.followings', storage.followings);
-
       addUserToFollowings(storage.followings, followerUser);
     }
 
@@ -136,9 +118,36 @@ export const useFollowUseCase = () => {
     followAdapter.createFollowing(loginUser.id, followingUser.id);
   };
 
+  const removeUserFromFollowers = (followingUser: User) => {
+    dispatch({ type: REMOVE_USER_FROM_FOLLOWERS, payload: followingUser.id });
+  };
+
+  const removeFollowerUserFromFollowers = (
+    followerUser: User,
+    followingUser: User,
+    pageUser: User,
+  ) => {
+    const toFollowing = false;
+
+    if (followingUser.id) {
+      // remove user from followings / followers if exists
+      if (pageUser.id === followerUser.id) {
+        removeUserFromFollowers(followingUser);
+      }
+
+      // update state
+      updateFollowingsState(followerUser.id, toFollowing);
+      updateIsFollowingInFollowers(followerUser, toFollowing);
+
+      // update db
+      followAdapter.deleteFollowing(followingUser.id, followerUser.id);
+    }
+  };
+
   return {
     initData,
     getData,
     addFollowerUserToFollowers,
+    removeFollowerUserFromFollowers,
   };
 };

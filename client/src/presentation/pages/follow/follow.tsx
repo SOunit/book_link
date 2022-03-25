@@ -35,8 +35,10 @@ export const Follow: FC<Props> = () => {
     removeFollowingUserFromFollowings,
     countFollowings,
   } = useFollow(params.userId, loginUser?.id);
-  const { addFollowerUserToFollowers: TESTaddFollowerUserToFollowers } =
-    useFollowUseCase();
+  const {
+    addFollowerUserToFollowers: TESTaddFollowerUserToFollowers,
+    removeFollowerUserFromFollowers: TESTremoveFollowerUserFromFollowers,
+  } = useFollowUseCase();
   const followStorage = useFollowStorage();
   console.log(followStorage);
 
@@ -83,9 +85,10 @@ export const Follow: FC<Props> = () => {
     pageUser: User,
   ) => {
     if (user.isFollowing) {
-      removeFollowerUserFromFollowers(user, loginUser, pageUser);
+      // removeFollowerUserFromFollowers(user, loginUser, pageUser);
+      TESTremoveFollowerUserFromFollowers(user, loginUser, pageUser);
     } else {
-      addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+      // addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
       TESTaddFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
     }
   };

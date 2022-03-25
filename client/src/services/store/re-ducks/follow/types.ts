@@ -5,6 +5,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
+  REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
 } from './constants';
@@ -52,10 +53,16 @@ interface UpdateIsFollowingInFollowings extends Action {
   };
 }
 
+interface RemoveUserFromFollowers extends Action {
+  type: typeof REMOVE_USER_FROM_FOLLOWERS;
+  payload: string;
+}
+
 export type FollowActionTypes =
   | InitFollowingsAction
   | InitFollowersAction
   | AddUserToFollowingsAction
   | AddUserToFollowersAction
   | UpdateIsFollowingInFollowers
-  | UpdateIsFollowingInFollowings;
+  | UpdateIsFollowingInFollowings
+  | RemoveUserFromFollowers;

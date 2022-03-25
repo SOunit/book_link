@@ -3,6 +3,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
+  REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
 } from './constants';
@@ -35,6 +36,8 @@ export const followReducer = (
     case ADD_USER_TO_FOLLOWINGS: {
       console.log(ADD_USER_TO_FOLLOWINGS);
       const newUser = action.payload;
+      console.log('newUser', newUser);
+
       return { ...state, followings: [...state.followings, newUser] };
     }
 
@@ -71,6 +74,17 @@ export const followReducer = (
       });
 
       return { ...state, followings: newFollowings };
+    }
+
+    case REMOVE_USER_FROM_FOLLOWERS: {
+      console.log(REMOVE_USER_FROM_FOLLOWERS);
+      const followingUserId = action.payload;
+
+      const newFollowers = state.followers.filter(
+        (follower) => follower.id !== followingUserId,
+      );
+
+      return { ...state, followers: newFollowers };
     }
 
     default: {
