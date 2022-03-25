@@ -10,6 +10,7 @@ import {
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
   REMOVE_USER_FROM_FOLLOWERS,
   INIT_IS_LOADED,
+  ADD_USER_TO_FOLLOWERS,
 } from '../../services/store/re-ducks/follow/constants';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
@@ -45,28 +46,26 @@ export const useFollowUseCase = () => {
     [dispatch, followAdapter, storage],
   );
 
-  const addUserToFollowings = (followings: User[], followerUser: User) => {
+  const addUserToFollowings = (followings: User[], followingUser: User) => {
     const exists = followings.some(
-      (following) => following.id === followerUser.id,
+      (following) => following.id === followingUser.id,
     );
-
-    if (!exists) {
-      if (followerUser) {
-        dispatch({ type: ADD_USER_TO_FOLLOWINGS, payload: followerUser });
-      }
-    }
-  };
-
-  const addUserToFollowers = (followers: User[], followingUser: User) => {
-    const exists = followers.some(
-      (follower) => follower.id === followingUser.id,
-    );
-
-    console.log('followingUser', followingUser);
 
     if (!exists) {
       if (followingUser) {
         dispatch({ type: ADD_USER_TO_FOLLOWINGS, payload: followingUser });
+      }
+    }
+  };
+
+  const addUserToFollowers = (followers: User[], followerUser: User) => {
+    const exists = followers.some(
+      (follower) => follower.id === followerUser.id,
+    );
+
+    if (!exists) {
+      if (followerUser) {
+        dispatch({ type: ADD_USER_TO_FOLLOWERS, payload: followerUser });
       }
     }
   };
@@ -93,15 +92,25 @@ export const useFollowUseCase = () => {
     });
   };
 
+  // FIXME
+  // summarize use-case
+  // 1. receive what, followingUser, followerUser, pageUser, loginUser
+  // 2. do what, add followerUser to followers
+  // name and behavior is different
+
+  // page unique: user detail
   const addFollowerUserToFollowers = (
     followerUser: User,
     followingUser: User,
     pageUser: User,
     loginUser: User,
   ) => {
+    console.log('addFollowerUserToFollowers');
+
     const toFollowing = true;
 
     // follow follower user, add follower user to followings if not exist
+    // FIXME: move to another method
     if (pageUser.id === loginUser.id) {
       addUserToFollowings(storage.followings, followerUser);
     }
@@ -112,10 +121,12 @@ export const useFollowUseCase = () => {
     }
 
     // update IsFollowing flag
-    updateFollowingsState(followerUser.id, toFollowing);
     updateIsFollowingInFollowers(followerUser, toFollowing);
 
-    followAdapter.createFollowing(loginUser.id, followingUser.id);
+    // FIXME: move to another method
+    updateFollowingsState(followerUser.id, toFollowing);
+
+    followAdapter.createFollowing(followingUser.id, loginUser.id);
   };
 
   const removeUserFromFollowers = (followingUser: User) => {
