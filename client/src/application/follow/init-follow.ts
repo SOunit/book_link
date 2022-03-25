@@ -2,10 +2,10 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFollowAdapter, useFollowStorage } from '../../services';
 import {
-  INIT_FOLLOWERS,
-  INIT_FOLLOWINGS,
-  INIT_IS_LOADED,
-} from '../../services/store/re-ducks/follow/constants';
+  initFollowersAction,
+  initFollowingsAction,
+  initFollowIsLoadedAction,
+} from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useInitFollow = () => {
@@ -14,7 +14,7 @@ export const useInitFollow = () => {
   const dispatch = useDispatch();
 
   const initIsLoaded = useCallback(() => {
-    dispatch({ type: INIT_IS_LOADED });
+    dispatch(initFollowIsLoadedAction());
   }, [dispatch]);
 
   const initFollow = useCallback(
@@ -24,7 +24,7 @@ export const useInitFollow = () => {
           .fetchFollowingUsers(targetUserId, loginUserId)
           .then((res) => {
             const followings = res.data.data.getFollowingUsers;
-            dispatch({ type: INIT_FOLLOWINGS, payload: followings });
+            dispatch(initFollowingsAction(followings));
           });
       }
 
@@ -33,7 +33,7 @@ export const useInitFollow = () => {
           .fetchFollowerUsers(targetUserId, loginUserId)
           .then((res) => {
             const followers = res.data.data.getFollowerUsers;
-            dispatch({ type: INIT_FOLLOWERS, payload: followers });
+            dispatch(initFollowersAction(followers));
           });
       }
     },

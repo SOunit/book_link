@@ -2,9 +2,9 @@ import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
 import { useFollowAdapter, useFollowStorage } from '../../services';
 import {
-  ADD_USER_TO_FOLLOWINGS,
-  UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
-} from '../../services/store/re-ducks/follow/constants';
+  addUserToFollowingsAction,
+  updateIsFollowingInFollowingsAction,
+} from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useAddUserToFollowings = () => {
@@ -19,7 +19,7 @@ export const useAddUserToFollowings = () => {
 
     if (!exists) {
       if (followingUser) {
-        dispatch({ type: ADD_USER_TO_FOLLOWINGS, payload: followingUser });
+        dispatch(addUserToFollowingsAction(followingUser));
       }
     }
   };
@@ -32,20 +32,13 @@ export const useAddUserToFollowings = () => {
     const toFollowing = true;
 
     // follow follower user, add follower user to followings if not exist
-    // FIXME: move to another method
     if (pageUser.id === loginUser.id) {
       addUserToFollowings(storage.followings, followingUser);
     }
 
     if (storage.followings && storage.followers && loginUser.id) {
       // update state
-      dispatch({
-        type: UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
-        payload: {
-          targetUserId: followingUser.id,
-          isFollowingState: toFollowing,
-        },
-      });
+      dispatch(updateIsFollowingInFollowingsAction(followingUser, toFollowing));
 
       // update db
       followAdapter.createFollowing(loginUser.id, followingUser.id);

@@ -3,7 +3,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
-  INIT_IS_LOADED,
+  INIT_FOLLOW_IS_LOADED,
   REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
@@ -23,7 +23,7 @@ export const followReducer = (
   action: FollowActionTypes,
 ): FollowState => {
   switch (action.type) {
-    case INIT_IS_LOADED: {
+    case INIT_FOLLOW_IS_LOADED: {
       return { ...state, isFollowersLoaded: false, isFollowingsLoaded: false };
     }
 
@@ -67,13 +67,12 @@ export const followReducer = (
     }
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWINGS: {
-      // FIXME
-      const { targetUserId, isFollowingState } = action.payload;
+      const { followingUser, toFollowing } = action.payload;
       console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWINGS);
 
       const newFollowings = state.followings.map((user) => {
-        if (user.id === targetUserId) {
-          user.isFollowing = isFollowingState;
+        if (user.id === followingUser.id) {
+          user.isFollowing = toFollowing;
         }
         return user;
       });

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
 import { useFollowAdapter, useFollowStorage } from '../../services';
-import { UPDATE_IS_FOLLOWING_IN_FOLLOWINGS } from '../../services/store/re-ducks/follow/constants';
+import { updateIsFollowingInFollowingsAction } from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useRemoveUserFromFollowings = () => {
@@ -17,13 +17,7 @@ export const useRemoveUserFromFollowings = () => {
 
     if (storage.followings && storage.followers && loginUser.id) {
       // update state
-      dispatch({
-        type: UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
-        payload: {
-          targetUserId: followingUser.id,
-          isFollowingState: toFollowing,
-        },
-      });
+      dispatch(updateIsFollowingInFollowingsAction(followingUser, toFollowing));
 
       // update db
       followAdapter.deleteFollowing(loginUser.id, followingUser.id);
