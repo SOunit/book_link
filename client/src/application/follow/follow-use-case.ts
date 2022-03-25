@@ -1,15 +1,11 @@
-import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
 import { useFollowAdapter, useFollowStorage } from '../../services';
 import {
-  INIT_FOLLOWINGS,
-  INIT_FOLLOWERS,
   ADD_USER_TO_FOLLOWINGS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
   REMOVE_USER_FROM_FOLLOWERS,
-  INIT_IS_LOADED,
   ADD_USER_TO_FOLLOWERS,
 } from '../../services/store/re-ducks/follow/constants';
 import { FollowAdapterService, FollowStorageService } from '../ports';
@@ -18,33 +14,6 @@ export const useFollowUseCase = () => {
   const followAdapter: FollowAdapterService = useFollowAdapter();
   const storage: FollowStorageService = useFollowStorage();
   const dispatch = useDispatch();
-
-  const initIsLoaded = useCallback(() => {
-    dispatch({ type: INIT_IS_LOADED });
-  }, [dispatch]);
-
-  const initData = useCallback(
-    (targetUserId: string, loginUserId: string) => {
-      if (!storage.isFollowingsLoaded) {
-        followAdapter
-          .fetchFollowingUsers(targetUserId, loginUserId)
-          .then((res) => {
-            const followings = res.data.data.getFollowingUsers;
-            dispatch({ type: INIT_FOLLOWINGS, payload: followings });
-          });
-      }
-
-      if (!storage.isFollowersLoaded) {
-        followAdapter
-          .fetchFollowerUsers(targetUserId, loginUserId)
-          .then((res) => {
-            const followers = res.data.data.getFollowerUsers;
-            dispatch({ type: INIT_FOLLOWERS, payload: followers });
-          });
-      }
-    },
-    [dispatch, followAdapter, storage],
-  );
 
   const addUserToFollowings = (followings: User[], followingUser: User) => {
     const exists = followings.some(
@@ -203,8 +172,6 @@ export const useFollowUseCase = () => {
   };
 
   return {
-    initIsLoaded,
-    initData,
     addFollowerUserToFollowers,
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,

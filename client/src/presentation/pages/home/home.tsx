@@ -8,7 +8,7 @@ import {
   UserItems,
 } from '../../components/molecules';
 import classes from './home.module.css';
-import { useFollowUseCase } from '../../../application';
+import { useInitFollow } from '../../../application';
 import { useFollowStorage } from '../../../services';
 
 type HomeProps = {};
@@ -16,7 +16,7 @@ type HomeProps = {};
 export const Home: FC<HomeProps> = () => {
   const { loginUser } = useContext(AuthContext);
   const history = useHistory();
-  const { initData, initIsLoaded } = useFollowUseCase();
+  const { initFollow, initIsLoaded } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
 
@@ -26,9 +26,9 @@ export const Home: FC<HomeProps> = () => {
 
   useEffect(() => {
     if (loginUser) {
-      initData(loginUser.id, loginUser.id);
+      initFollow(loginUser.id, loginUser.id);
     }
-  }, [loginUser, initData, isFollowersLoaded, isFollowingsLoaded]);
+  }, [loginUser, initFollow, isFollowersLoaded, isFollowingsLoaded]);
 
   const editProfileClickHandler = () => {
     history.push(`/users/edit`);
