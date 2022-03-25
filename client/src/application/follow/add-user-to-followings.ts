@@ -12,13 +12,6 @@ export const useAddUserToFollowings = () => {
   const storage: FollowStorageService = useFollowStorage();
   const dispatch = useDispatch();
 
-  // FIXME
-  // same with updateIsFollowingInFollowers?
-  const updateFollowingsState = (
-    targetUserId: string,
-    isFollowingState: boolean,
-  ) => {};
-
   const addUserToFollowings = (followings: User[], followingUser: User) => {
     const exists = followings.some(
       (following) => following.id === followingUser.id,

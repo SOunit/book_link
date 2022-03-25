@@ -2,9 +2,9 @@ import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
 import { useFollowAdapter, useFollowStorage } from '../../services';
 import {
-  ADD_USER_TO_FOLLOWERS,
-  UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
-} from '../../services/store/re-ducks/follow/constants';
+  addUserToFollowersAction,
+  UpdateIsFollowingInFollowersAction,
+} from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useAddUserToFollowers = () => {
@@ -19,7 +19,7 @@ export const useAddUserToFollowers = () => {
 
     if (!exists) {
       if (followerUser) {
-        dispatch({ type: ADD_USER_TO_FOLLOWERS, payload: followerUser });
+        dispatch(addUserToFollowersAction(followerUser));
       }
     }
   };
@@ -37,8 +37,6 @@ export const useAddUserToFollowers = () => {
     pageUser: User,
     loginUser: User,
   ) => {
-    console.log('addFollowerUserToFollowers');
-
     const toFollowing = true;
 
     // follow page user, add login user to followers of page user
@@ -47,10 +45,7 @@ export const useAddUserToFollowers = () => {
     }
 
     // update IsFollowing flag
-    dispatch({
-      type: UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
-      payload: { followingUser, toFollowing },
-    });
+    dispatch(UpdateIsFollowingInFollowersAction(followingUser, toFollowing));
 
     followAdapter.createFollowing(followingUser.id, loginUser.id);
   };
