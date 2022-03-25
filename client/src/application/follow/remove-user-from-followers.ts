@@ -2,9 +2,10 @@ import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
 import { useFollowAdapter } from '../../services';
 import {
-  REMOVE_USER_FROM_FOLLOWERS,
-  UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
-} from '../../services/store/re-ducks/follow/constants';
+  removeUserFromFollowersAction,
+  UpdateIsFollowingInFollowersAction,
+} from '../../services/store/re-ducks/follow/actions';
+import { UPDATE_IS_FOLLOWING_IN_FOLLOWERS } from '../../services/store/re-ducks/follow/constants';
 import { FollowAdapterService } from '../ports';
 
 export const useRemoveUserFromFollowers = () => {
@@ -12,7 +13,7 @@ export const useRemoveUserFromFollowers = () => {
   const dispatch = useDispatch();
 
   const removeUserFromFollowers = (followingUser: User) => {
-    dispatch({ type: REMOVE_USER_FROM_FOLLOWERS, payload: followingUser.id });
+    dispatch(removeUserFromFollowersAction(followingUser));
   };
 
   const removeFollowerUserFromFollowers = (
@@ -29,10 +30,7 @@ export const useRemoveUserFromFollowers = () => {
       }
 
       // update state
-      dispatch({
-        type: UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
-        payload: { followerUser, toFollowing },
-      });
+      dispatch(UpdateIsFollowingInFollowersAction(followerUser, toFollowing));
 
       // update db
       followAdapter.deleteFollowing(followingUser.id, followerUser.id);

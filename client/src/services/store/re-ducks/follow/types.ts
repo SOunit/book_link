@@ -5,7 +5,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
-  INIT_IS_LOADED,
+  INIT_FOLLOW_IS_LOADED,
   REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
@@ -49,8 +49,8 @@ interface UpdateIsFollowingInFollowers extends Action {
 interface UpdateIsFollowingInFollowings extends Action {
   type: typeof UPDATE_IS_FOLLOWING_IN_FOLLOWINGS;
   payload: {
-    targetUserId: string;
-    isFollowingState: boolean;
+    followingUser: User;
+    toFollowing: boolean;
   };
 }
 
@@ -59,12 +59,12 @@ interface RemoveUserFromFollowers extends Action {
   payload: string;
 }
 
-interface InitIsLoaded extends Action {
-  type: typeof INIT_IS_LOADED;
+interface InitFollowIsLoaded extends Action {
+  type: typeof INIT_FOLLOW_IS_LOADED;
 }
 
 export type FollowActionTypes =
-  | InitIsLoaded
+  | InitFollowIsLoaded
   | InitFollowingsAction
   | InitFollowersAction
   | AddUserToFollowingsAction
