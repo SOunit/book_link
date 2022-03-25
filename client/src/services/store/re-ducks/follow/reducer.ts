@@ -3,6 +3,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
+  INIT_IS_LOADED,
   REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
@@ -22,6 +23,10 @@ export const followReducer = (
   action: FollowActionTypes,
 ): FollowState => {
   switch (action.type) {
+    case INIT_IS_LOADED: {
+      return { ...state, isFollowersLoaded: false, isFollowingsLoaded: false };
+    }
+
     case INIT_FOLLOWERS: {
       console.log(INIT_FOLLOWERS);
 

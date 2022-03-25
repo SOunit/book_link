@@ -5,6 +5,7 @@ import {
   ADD_USER_TO_FOLLOWINGS,
   INIT_FOLLOWERS,
   INIT_FOLLOWINGS,
+  INIT_IS_LOADED,
   REMOVE_USER_FROM_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
   UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
@@ -58,7 +59,12 @@ interface RemoveUserFromFollowers extends Action {
   payload: string;
 }
 
+interface InitIsLoaded extends Action {
+  type: typeof INIT_IS_LOADED;
+}
+
 export type FollowActionTypes =
+  | InitIsLoaded
   | InitFollowingsAction
   | InitFollowersAction
   | AddUserToFollowingsAction
