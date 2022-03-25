@@ -8,7 +8,6 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { useFollow } from '../../../application/hooks';
 import { useFollowUseCase, useUserUseCase } from '../../../application';
 import { User } from '../../../domain';
 import classes from './follow.module.scss';
@@ -24,25 +23,25 @@ export const Follow: FC<Props> = () => {
   const params = useParams<FollowParams>();
   const history = useHistory();
   const { pathname } = useLocation();
-  const userUseCase = useUserUseCase();
-  const loginUser = userUseCase.getLoginUser();
-  const { countFollowings } = useFollow(params.userId, loginUser?.id);
+  const { getLoginUser, getUser } = useUserUseCase();
   const {
     addFollowerUserToFollowers,
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
+    countFollowings,
   } = useFollowUseCase();
   const followStorage = useFollowStorage();
-  const { followers, followings } = followStorage;
+  const [pageUser, setPageUser] = useState<User>();
+  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
 
   // page state
-  const [pageUser, setPageUser] = useState<User>();
+  const { followers, followings } = followStorage;
+  const loginUser = getLoginUser();
   const pathSegments = pathname.split('/');
   const [isFollowingsPage, setIsFollowingsPage] = useState(
     pathSegments.includes('followings'),
   );
-  const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
   const { userId } = params;
 
   const detailClickHandler = (userId: string) => {
@@ -85,12 +84,12 @@ export const Follow: FC<Props> = () => {
 
   useEffect(() => {
     if (!pageUser) {
-      userUseCase.getUser(userId).then((res) => {
+      getUser(userId).then((res) => {
         const user = res.data.data.user;
         setPageUser(user);
       });
     }
-  }, [userUseCase, userId, pageUser]);
+  }, [getUser, userId, pageUser]);
 
   useEffect(() => {
     if (followers && loginUser) {

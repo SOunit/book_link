@@ -171,6 +171,21 @@ export const useFollowUseCase = () => {
     }
   };
 
+  const countFollowings = (followings?: User[]) => {
+    if (!followings) {
+      return;
+    }
+
+    let count = 0;
+    followings.forEach((following) => {
+      if (following.isFollowing) {
+        count++;
+      }
+    });
+
+    return count;
+  };
+
   return {
     initData,
     getData,
@@ -178,5 +193,6 @@ export const useFollowUseCase = () => {
     removeFollowerUserFromFollowers,
     addFollowingUserToFollowings,
     removeFollowingUserFromFollowings,
+    countFollowings,
   };
 };
