@@ -53,11 +53,11 @@ export const followReducer = (
     }
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWERS: {
-      const { followingUser, toFollowing } = action.payload;
+      const { followerUser, toFollowing } = action.payload;
       console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWERS);
 
       const newFollowers = state.followers.map((user) => {
-        if (user.id === followingUser.id) {
+        if (user.id === followerUser.id) {
           user.isFollowing = toFollowing;
         }
         return user;
