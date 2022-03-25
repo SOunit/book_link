@@ -8,7 +8,14 @@ import {
   FollowHeader,
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
-import { useFollowUseCase, useUserUseCase } from '../../../application';
+import {
+  useAddUserToFollowers,
+  useAddUserToFollowings,
+  useCountFollowings,
+  useRemoveUserFromFollowers,
+  useRemoveUserFromFollowings,
+  useUserUseCase,
+} from '../../../application';
 import { User } from '../../../domain';
 import classes from './follow.module.scss';
 import { useFollowStorage } from '../../../services';
@@ -24,13 +31,11 @@ export const Follow: FC<Props> = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { getLoginUser, getUser } = useUserUseCase();
-  const {
-    addFollowerUserToFollowers,
-    removeFollowerUserFromFollowers,
-    addFollowingUserToFollowings,
-    removeFollowingUserFromFollowings,
-    countFollowings,
-  } = useFollowUseCase();
+  const { addFollowingUserToFollowings } = useAddUserToFollowings();
+  const { addFollowerUserToFollowers } = useAddUserToFollowers();
+  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
+  const { removeFollowingUserFromFollowings } = useRemoveUserFromFollowings();
+  const { countFollowings } = useCountFollowings();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -64,7 +69,7 @@ export const Follow: FC<Props> = () => {
     if (user.isFollowing) {
       removeFollowingUserFromFollowings(user, loginUser);
     } else {
-      addFollowingUserToFollowings(user, loginUser);
+      addFollowingUserToFollowings(user, loginUser, pageUser!);
     }
   };
 

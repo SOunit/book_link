@@ -14,7 +14,11 @@ import {
   userServices,
 } from '../../../services';
 import { AuthContext } from '../../../services/store';
-import { useFollowUseCase, useInitFollow } from '../../../application';
+import {
+  useAddUserToFollowers,
+  useInitFollow,
+  useRemoveUserFromFollowers,
+} from '../../../application';
 import classes from './user-detail.module.css';
 
 type UserDetailParams = {
@@ -29,8 +33,8 @@ export const UserDetail: FC<Props> = () => {
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<UserType>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
-  const { addFollowerUserToFollowers, removeFollowerUserFromFollowers } =
-    useFollowUseCase();
+  const { addFollowerUserToFollowers } = useAddUserToFollowers();
+  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
   const { initIsLoaded, initFollow } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
