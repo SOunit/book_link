@@ -1,6 +1,5 @@
 export * from './api-adapter';
 export * from './chat-adapter';
-export * from './follow-services';
 export * from './item-services';
 export * from './user-services';
 
