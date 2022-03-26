@@ -21,6 +21,7 @@ import classes from './follow.module.scss';
 import { useFollowStorage } from '../../../services';
 import { useFollowUserInFollowers } from '../../../application/follow/follow-user-in-followers';
 import { useUnFollowUserInFollowers } from '../../../application/follow/un-follow-user-in-followers';
+import { useUnFollowUserInFollowings } from '../../../application/follow/un-follow-user-in-followings';
 
 type Props = {};
 type FollowParams = {
@@ -40,6 +41,7 @@ export const Follow: FC<Props> = () => {
   const { countFollowings } = useCountFollowings();
   const { followUserInFollowers } = useFollowUserInFollowers();
   const { unFollowUserInFollowers } = useUnFollowUserInFollowers();
+  const { unFollowUserInFollowings } = useUnFollowUserInFollowings();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -76,7 +78,7 @@ export const Follow: FC<Props> = () => {
 
   const followClickHandlerInFollowings = (user: User, loginUser: User) => {
     if (user.isFollowing) {
-      removeFollowingUserFromFollowings(user, loginUser);
+      unFollowUserInFollowings(loginUser, user);
     } else {
       addFollowingUserToFollowings(user, loginUser, pageUser!);
     }
