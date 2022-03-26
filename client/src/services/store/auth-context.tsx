@@ -26,21 +26,23 @@ export const AuthContext = React.createContext<AuthContextType>({
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider: FC = (props) => {
+  // hooks
   const { getItem, removeItem, setItem } = useAuthTokenStorage();
-  const initialToken = getItem(keys.TOKEN_KEY);
-  const [token, setToken] = useState<string | null>(initialToken);
+  const { createUser, getUserCount, fetchUser } = useUserAdapter();
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { createUser, getUserCount, fetchUser } = useUserAdapter();
 
-  const logoutHandler = () => {
+  const initialToken = getItem(keys.TOKEN_KEY);
+  const [token, setToken] = useState<string | null>(initialToken);
+
+  const logout = () => {
     setToken(null);
     setLoginUser(null);
     setIsLoggedIn(false);
     removeItem(keys.TOKEN_KEY!);
   };
 
-  const loginHandler = useCallback(
+  const login = useCallback(
     (token: string | null) => {
       setToken(token);
       if (token) {
@@ -80,17 +82,17 @@ export const AuthContextProvider: FC = (props) => {
     token,
     isLoggedIn,
     loginUser,
-    login: loginHandler,
-    logout: logoutHandler,
+    login,
+    logout,
     updateLoginUser,
   };
 
   // auto login
   useEffect(() => {
     if (initialToken) {
-      loginHandler(initialToken);
+      login(initialToken);
     }
-  }, [initialToken, loginHandler]);
+  }, [initialToken, login]);
 
   return (
     <AuthContext.Provider value={contextValue}>
