@@ -4,6 +4,7 @@ import { useFollowAdapter } from '../../services';
 import {
   addUserToFollowingsAction,
   UpdateIsFollowingInFollowersAction,
+  updateIsFollowingInFollowingsAction,
 } from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService } from '../ports';
 
@@ -22,6 +23,7 @@ export const useFollowUserInFollowers = () => {
       dispatch(addUserToFollowingsAction(followerUser));
     }
     dispatch(UpdateIsFollowingInFollowersAction(followerUser, true));
+    dispatch(updateIsFollowingInFollowingsAction(followerUser, true));
     followAdapter.createFollowing(followingUser.id, followerUser.id);
   };
 

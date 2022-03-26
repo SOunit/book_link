@@ -76,7 +76,7 @@ export const Follow: FC<Props> = () => {
 
   const followClickHandlerInFollowings = (user: User, loginUser: User) => {
     if (user.isFollowing) {
-      unFollowUserInFollowings(loginUser, user);
+      unFollowUserInFollowings(user);
     } else {
       followUserInFollowings(loginUser, user);
     }
