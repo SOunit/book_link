@@ -4,7 +4,6 @@ import { useUserAdapter } from '..';
 import { keys } from '../../presentation/util';
 import { useAuthTokenStorage } from '../storage-adapter';
 
-// FIXME: move logic to application layer, createUser, getUser etc.
 type AuthContextType = {
   token: string | null;
   isLoggedIn: boolean;
