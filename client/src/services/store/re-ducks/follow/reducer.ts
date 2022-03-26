@@ -41,7 +41,12 @@ export const followReducer = (
     case ADD_USER_TO_FOLLOWINGS: {
       console.log(ADD_USER_TO_FOLLOWINGS);
       const newUser = action.payload;
-      console.log('newUser', newUser);
+
+      const exists = state.followings.find((user) => user.id === newUser.id);
+
+      if (exists) {
+        return state;
+      }
 
       return { ...state, followings: [...state.followings, newUser] };
     }

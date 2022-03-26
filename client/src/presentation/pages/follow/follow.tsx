@@ -19,6 +19,8 @@ import {
 import { User } from '../../../domain';
 import classes from './follow.module.scss';
 import { useFollowStorage } from '../../../services';
+import { useFollowUserInFollowers } from '../../../application/follow/follow-user-in-followers';
+import { useUnFollowUserInFollowers } from '../../../application/follow/un-follow-user-in-followers';
 
 type Props = {};
 type FollowParams = {
@@ -36,6 +38,8 @@ export const Follow: FC<Props> = () => {
   const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
   const { removeFollowingUserFromFollowings } = useRemoveUserFromFollowings();
   const { countFollowings } = useCountFollowings();
+  const { followUserInFollowers } = useFollowUserInFollowers();
+  const { unFollowUserInFollowers } = useUnFollowUserInFollowers();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -64,9 +68,9 @@ export const Follow: FC<Props> = () => {
     console.log('followClickHandlerInFollowers');
 
     if (user.isFollowing) {
-      removeFollowerUserFromFollowers(user, loginUser, pageUser);
+      unFollowUserInFollowers(loginUser, user);
     } else {
-      addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+      followUserInFollowers(loginUser, user, pageUser, loginUser);
     }
   };
 
