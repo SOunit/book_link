@@ -1,6 +1,6 @@
 import { apiAdapter } from './api-adapter';
 
-export const ChatServices = {
+export const ChatAdapter = {
   fetchChat: async (userIds: string[]) => {
     const graphqlQuery = {
       query: `

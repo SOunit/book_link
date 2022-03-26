@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { ChatServices } from '../../../services';
+import { ChatAdapter } from '../../../services';
 import { Chat } from '../../../domain';
 import {
   ChatListItem,
@@ -16,7 +16,7 @@ export const ChatList: FC = () => {
 
   useEffect(() => {
     if (loginUser) {
-      ChatServices.fetchChatList(loginUser.id)
+      ChatAdapter.fetchChatList(loginUser.id)
         .then((res) => {
           const chats = res.data.data.getUserChatList;
           setChats(chats);

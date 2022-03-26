@@ -8,7 +8,7 @@ import {
   ChangeEvent,
 } from 'react';
 import { useParams } from 'react-router';
-import { ChatServices } from '../../../services';
+import { ChatAdapter } from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
 import { AuthContext } from '../../../services/store';
 import { ChatForm, ChatHeader } from '../../components/organisms';
@@ -32,7 +32,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
 
   const fetchChat = (userIds: string[]) => {
     const [loginUserId, chatPartnerUserId] = userIds;
-    ChatServices.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
+    ChatAdapter.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
       const chat = res.data.data.getUserChat;
       setChat(chat);
     });
@@ -79,7 +79,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     }
 
     if (chat && loginUser) {
-      ChatServices.createMessage(chat.id, loginUser.id, messageInput).then(
+      ChatAdapter.createMessage(chat.id, loginUser.id, messageInput).then(
         (res) => {
           // fetch message from backend
           const message = res.data.data.createMessage;

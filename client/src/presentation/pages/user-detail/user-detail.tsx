@@ -8,11 +8,7 @@ import {
   UserItems,
 } from '../../components/molecules';
 import { User } from '../../../domain/';
-import {
-  ChatServices,
-  useFollowStorage,
-  userServices,
-} from '../../../services';
+import { ChatAdapter, useFollowStorage, userServices } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import {
   useAddUserToFollowers,
@@ -59,7 +55,7 @@ export const UserDetail: FC<Props> = () => {
     }
 
     // get message
-    ChatServices.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
+    ChatAdapter.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
 
       if (chats && chats.length <= 0) {
@@ -67,7 +63,7 @@ export const UserDetail: FC<Props> = () => {
         history.push(`/chats/${targetUser.id}`);
       } else {
         if (loginUser && targetUser) {
-          ChatServices.createChat(loginUser?.id, targetUser.id).then((res) => {
+          ChatAdapter.createChat(loginUser?.id, targetUser.id).then((res) => {
             history.push(`/chats/${targetUser.id}`);
           });
         }
