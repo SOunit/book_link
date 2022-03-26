@@ -8,7 +8,11 @@ import {
   UserItems,
 } from '../../components/molecules';
 import { User } from '../../../domain/';
-import { ChatAdapter, useFollowStorage, userServices } from '../../../services';
+import {
+  ChatAdapter,
+  useFollowStorage,
+  useUserAdapter,
+} from '../../../services';
 import { AuthContext } from '../../../services/store';
 import {
   useAddUserToFollowers,
@@ -34,6 +38,7 @@ export const UserDetail: FC<Props> = () => {
   const { initIsLoaded, initFollow } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
+  const { fetchUser } = useUserAdapter();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
@@ -89,7 +94,7 @@ export const UserDetail: FC<Props> = () => {
 
   useEffect(() => {
     const fetchTargetUser = () => {
-      userServices.fetchUser(params.userId).then((result) => {
+      fetchUser(params.userId).then((result) => {
         setTargetUser(result.data.data.user);
       });
     };
@@ -103,7 +108,7 @@ export const UserDetail: FC<Props> = () => {
 
     fetchTargetUser();
     setFollowingState();
-  }, [loginUser, followers, params.userId]);
+  }, [loginUser, followers, params.userId, fetchUser]);
 
   useEffect(() => {
     if (loginUser && loginUser.id === params.userId) {
