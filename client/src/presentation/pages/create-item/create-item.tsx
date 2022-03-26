@@ -13,8 +13,7 @@ import {
   SectionTitle,
   ValidateInput,
 } from '../../components/molecules';
-import { useAwsS3 } from '../../../application/hooks';
-import { itemServices } from '../../../services';
+import { itemServices, useImageStorage } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import { validate, VALIDATOR_REQUIRE } from '../../../services/util';
 import classes from './create-item.module.css';
@@ -34,7 +33,7 @@ export const CreateItem: FC = () => {
   const [imageFile, setImageFile] = useState<File>();
   const history = useHistory();
   const { loginUser, updateLoginUser } = useContext(AuthContext);
-  const { uploadImageToS3 } = useAwsS3();
+  const imageStorage = useImageStorage();
 
   const { title, author } = inputs;
 
@@ -97,7 +96,7 @@ export const CreateItem: FC = () => {
 
     try {
       // upload image
-      const imageUrl = (await uploadImageToS3(imageFile)) || '';
+      const imageUrl = (await imageStorage.uploadImage(imageFile)) || '';
       if (!imageUrl) {
         return;
       }
