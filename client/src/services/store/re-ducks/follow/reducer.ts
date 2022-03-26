@@ -54,15 +54,22 @@ export const followReducer = (
     case ADD_USER_TO_FOLLOWERS: {
       console.log(ADD_USER_TO_FOLLOWERS);
       const newUser = action.payload;
+
+      const exists = state.followers.find((user) => user.id === newUser.id);
+
+      if (exists) {
+        return state;
+      }
+
       return { ...state, followers: [...state.followers, newUser] };
     }
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWERS: {
-      const { followerUser, toFollowing } = action.payload;
+      const { userInFollowers, toFollowing } = action.payload;
       console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWERS);
 
       const newFollowers = state.followers.map((user) => {
-        if (user.id === followerUser.id) {
+        if (user.id === userInFollowers.id) {
           user.isFollowing = toFollowing;
         }
         return user;
@@ -72,11 +79,11 @@ export const followReducer = (
     }
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWINGS: {
-      const { followingUser, toFollowing } = action.payload;
+      const { userInFollowings, toFollowing } = action.payload;
       console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWINGS);
 
       const newFollowings = state.followings.map((user) => {
-        if (user.id === followingUser.id) {
+        if (user.id === userInFollowings.id) {
           user.isFollowing = toFollowing;
         }
         return user;

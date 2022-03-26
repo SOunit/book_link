@@ -9,18 +9,18 @@ import {
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
 import {
-  useAddUserToFollowers,
   useCountFollowings,
-  useRemoveUserFromFollowers,
   useUserUseCase,
+  useFollowUserInFollowers,
+  useUnFollowUserInFollowers,
+  useUnFollowUserInFollowings,
+  useFollowUserInFollowings,
+  useFollowUserInPageUser,
+  useUnFollowUserInPageUser,
 } from '../../../application';
 import { User } from '../../../domain';
-import classes from './follow.module.scss';
 import { useFollowStorage } from '../../../services';
-import { useFollowUserInFollowers } from '../../../application/follow/follow-user-in-followers';
-import { useUnFollowUserInFollowers } from '../../../application/follow/un-follow-user-in-followers';
-import { useUnFollowUserInFollowings } from '../../../application/follow/un-follow-user-in-followings';
-import { useFollowUserInFollowings } from '../../../application/follow/follow-user-in-followings';
+import classes from './follow.module.scss';
 
 type Props = {};
 type FollowParams = {
@@ -33,13 +33,13 @@ export const Follow: FC<Props> = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { getLoginUser, getUser } = useUserUseCase();
-  const { addFollowerUserToFollowers } = useAddUserToFollowers();
-  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
   const { countFollowings } = useCountFollowings();
   const { followUserInFollowers } = useFollowUserInFollowers();
   const { unFollowUserInFollowers } = useUnFollowUserInFollowers();
   const { unFollowUserInFollowings } = useUnFollowUserInFollowings();
   const { followUserInFollowings } = useFollowUserInFollowings();
+  const { followUserInPageUser } = useFollowUserInPageUser();
+  const { unFollowUserInPageUser } = useUnFollowUserInPageUser();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -85,10 +85,10 @@ export const Follow: FC<Props> = () => {
   const followClickHandlerInPageUser = (pageUser: User, loginUser: User) => {
     if (isPageUserFollowing) {
       setIsPageUserFollowing(false);
-      removeFollowerUserFromFollowers(pageUser, loginUser, pageUser);
+      unFollowUserInPageUser(loginUser, pageUser);
     } else {
       setIsPageUserFollowing(true);
-      addFollowerUserToFollowers(pageUser, loginUser, pageUser, loginUser);
+      followUserInPageUser(loginUser, pageUser);
     }
   };
 

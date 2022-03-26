@@ -28,36 +28,36 @@ export const addUserToFollowersAction = (user: User): FollowActionTypes => {
 };
 
 export const addUserToFollowingsAction = (
-  followingUser: User,
-): FollowActionTypes => {
-  return { type: ADD_USER_TO_FOLLOWINGS, payload: followingUser };
-};
-
-export const UpdateIsFollowingInFollowersAction = (
   followerUser: User,
-  toFollowing: boolean,
 ): FollowActionTypes => {
-  return {
-    type: UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
-    payload: { followerUser, toFollowing },
-  };
-};
-
-export const updateIsFollowingInFollowingsAction = (
-  followingUser: User,
-  toFollowing: boolean,
-): FollowActionTypes => {
-  return {
-    type: UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
-    payload: {
-      followingUser,
-      toFollowing,
-    },
-  };
+  return { type: ADD_USER_TO_FOLLOWINGS, payload: followerUser };
 };
 
 export const removeUserFromFollowersAction = (
   followingUser: User,
 ): FollowActionTypes => {
   return { type: REMOVE_USER_FROM_FOLLOWERS, payload: followingUser.id };
+};
+
+export const UpdateIsFollowingInFollowersAction = (
+  userInFollowers: User,
+  toFollowing: boolean,
+): FollowActionTypes => {
+  return {
+    type: UPDATE_IS_FOLLOWING_IN_FOLLOWERS,
+    payload: { userInFollowers, toFollowing },
+  };
+};
+
+export const updateIsFollowingInFollowingsAction = (
+  userInFollowings: User,
+  toFollowing: boolean,
+): FollowActionTypes => {
+  return {
+    type: UPDATE_IS_FOLLOWING_IN_FOLLOWINGS,
+    payload: {
+      userInFollowings,
+      toFollowing,
+    },
+  };
 };
