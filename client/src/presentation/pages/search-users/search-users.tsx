@@ -19,7 +19,7 @@ import {
   useRegisteredItems,
   useSearchedItems,
   useSearchedUsers,
-} from '../../../application/hooks';
+} from '../../hooks';
 import { Item } from '../../../domain/';
 import { itemServices, userServices } from '../../../services';
 import { AuthContext } from '../../../services/store';

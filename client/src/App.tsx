@@ -16,7 +16,7 @@ import {
   Follow,
 } from './presentation/pages';
 import './App.css';
-import { useSocket } from './application/hooks';
+import { useSocket } from './presentation/hooks';
 import { AuthContext } from './services/store';
 
 function App() {

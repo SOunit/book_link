@@ -8,7 +8,7 @@ import {
   SearchedItems,
   SectionTitle,
 } from '../../components/molecules';
-import { useSearchedItems } from '../../../application/hooks';
+import { useSearchedItems } from '../../hooks';
 import { AuthContext } from '../../../services/store';
 import classes from './edit-user-items.module.scss';
 import { useUpdateUserItems } from '../../../application/user/update-user-items';
