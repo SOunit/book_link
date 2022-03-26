@@ -13,3 +13,5 @@ export * from './follow/follow-user-in-page-user';
 export * from './follow/un-follow-user-in-followers';
 export * from './follow/un-follow-user-in-followings';
 export * from './follow/un-follow-user-in-page-user';
+
+export * from './search-users/search-items';

@@ -20,6 +20,10 @@ export interface FollowStorageService {
   isFollowingsLoaded: boolean;
 }
 
+export interface SearchStorageService {
+  search: string;
+}
+
 export interface FollowAdapterService {
   fetchFollowingUsers(targetUserId: string, loginUserId: string): Promise<any>;
   fetchFollowerUsers(targetUserId: string, loginUserId: string): Promise<any>;

@@ -25,6 +25,7 @@ import { useItemAdapter, useUserAdapter } from '../../../services';
 import { AuthContext } from '../../../services/store';
 
 import classes from './search-users.module.scss';
+import { useSearchItems } from '../../../application';
 
 export const SearchUsers = () => {
   const {
@@ -47,6 +48,9 @@ export const SearchUsers = () => {
   } = useSearchedUsers();
   const { fetchRandomItems } = useItemAdapter();
   const { fetchUsersByItems } = useUserAdapter();
+  const { searchItems } = useSearchItems();
+
+  searchItems('test');
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
