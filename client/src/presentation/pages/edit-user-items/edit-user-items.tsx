@@ -12,6 +12,7 @@ import { useSearchedItems } from '../../../application/hooks';
 import { AuthContext } from '../../../services/store';
 import classes from './edit-user-items.module.scss';
 import { useUpdateUserItems } from '../../../application/user/update-user-items';
+import { User } from '../../../domain';
 
 export const EditUserItems: FC = () => {
   const { loginUser } = useContext(AuthContext);
@@ -45,8 +46,8 @@ export const EditUserItems: FC = () => {
   const deleteClickHandler = (itemId: string) => {
     if (loginUser) {
       // update user state
-      const newUser = { ...loginUser };
-      newUser.items = newUser.items?.filter((item) => item.id !== itemId);
+      const newUser: User = { ...loginUser };
+      newUser.items = newUser.items!.filter((item) => item.id !== itemId);
 
       removeUserItem(newUser, itemId);
     }

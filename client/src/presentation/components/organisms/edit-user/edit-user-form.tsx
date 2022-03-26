@@ -7,7 +7,7 @@ import {
   useContext,
 } from 'react';
 import { useHistory } from 'react-router';
-import { User } from '../../../../domain/models';
+import { User } from '../../../../domain';
 import { Button } from '../../atoms';
 import {
   ImageUpload,

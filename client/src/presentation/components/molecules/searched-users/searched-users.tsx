@@ -1,5 +1,5 @@
 import { FC, Fragment } from 'react';
-import { User } from '../../../../domain/models/user';
+import { User } from '../../../../domain';
 import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
 import { Buttons, UserCard } from '..';

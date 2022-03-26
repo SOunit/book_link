@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useModal } from '../../../../application/hooks';
-import { User as UserType } from '../../../../domain/models';
+import { User } from '../../../../domain/';
 import { LogoutModal } from '../../organisms';
 import { Backdrop } from '../backdrop/backdrop';
 import { Image } from '../../atoms';
@@ -10,7 +10,7 @@ import { FollowNumber } from '../follow-number/follow-number';
 import { useAuthenticate } from '../../../../application';
 
 type UserInfoProps = {
-  user: UserType;
+  user: User;
   isHome?: boolean;
   followingsCount: number;
   followersCount: number;

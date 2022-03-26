@@ -7,7 +7,7 @@ import {
   UserInfo,
   UserItems,
 } from '../../components/molecules';
-import { User as UserType } from '../../../domain/models';
+import { User } from '../../../domain/';
 import {
   ChatServices,
   useFollowStorage,
@@ -31,7 +31,7 @@ export const UserDetail: FC<Props> = () => {
   const { loginUser } = useContext(AuthContext);
   const params = useParams<UserDetailParams>();
   const history = useHistory();
-  const [targetUser, setTargetUser] = useState<UserType>();
+  const [targetUser, setTargetUser] = useState<User>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
   const { addFollowerUserToFollowers } = useAddUserToFollowers();
   const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();

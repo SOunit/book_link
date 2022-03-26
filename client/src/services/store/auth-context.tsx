@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
-import { User } from '../../domain/models';
+import { User } from '../../domain';
 import { userServices } from '..';
 import { keys } from '../util';
 
