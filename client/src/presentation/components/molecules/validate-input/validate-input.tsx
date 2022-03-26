@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useState } from 'react';
-import { validate, VALIDATOR_REQUIRE } from '../../../../services/util';
+import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import { ErrorText, Input } from '../../atoms';
 import classes from './validate-input.module.scss';
 

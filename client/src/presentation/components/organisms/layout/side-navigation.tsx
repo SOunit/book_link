@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom';
-import { isPathMatch } from '../../../../services/util';
+import { isPathMatch } from '../../../util';
 import classes from './side-navigation.module.scss';
 
 type Props = { onSideMenuToggle: () => void; className: string };

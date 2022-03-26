@@ -17,7 +17,7 @@ import {
 } from '../../molecules';
 import { AuthContext } from '../../../../services/store';
 import { useValidateForm } from '../../../../presentation/hooks/';
-import { validate, VALIDATOR_REQUIRE } from '../../../../services/util';
+import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
 import { useUserUseCase, useUploadImage } from '../../../../application';
 
