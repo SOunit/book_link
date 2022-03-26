@@ -1,4 +1,4 @@
-import { User } from '../domain';
+import { Item, User } from '../domain';
 
 export interface UserStorageService {
   token: '';
@@ -21,7 +21,7 @@ export interface FollowStorageService {
 }
 
 export interface SearchStorageService {
-  search: string;
+  searchedItems: Item[];
 }
 
 export interface FollowAdapterService {

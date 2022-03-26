@@ -1,0 +1,1 @@
+export const SET_SEARCHED_ITEMS = 'SET_SEARCHED_ITEMS';

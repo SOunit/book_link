@@ -1,9 +1,21 @@
-import { Action } from 'redux';
+import { SET_SEARCHED_ITEMS } from './constants';
+import { SearchActionTypes } from './types';
 
 const initialState = {
-  search: 'search',
+  searchedItems: [],
 };
 
-export const searchReducer = (state = initialState, action: Action) => {
-  return state;
+export const searchReducer = (
+  state = initialState,
+  action: SearchActionTypes,
+) => {
+  switch (action.type) {
+    case SET_SEARCHED_ITEMS: {
+      const searchedItems = action.payload.searchedItems;
+      return { ...state, searchedItems };
+    }
+
+    default:
+      return state;
+  }
 };

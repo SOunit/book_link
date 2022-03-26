@@ -21,7 +21,12 @@ import {
   useSearchedUsers,
 } from '../../hooks';
 import { Item } from '../../../domain/';
-import { useItemAdapter, useUserAdapter } from '../../../services';
+import {
+  useItemAdapter,
+  useSearchStorage,
+  useUserAdapter,
+} from '../../../services';
+// FIXME: de-couple from context
 import { AuthContext } from '../../../services/store';
 
 import classes from './search-users.module.scss';
@@ -49,8 +54,7 @@ export const SearchUsers = () => {
   const { fetchRandomItems } = useItemAdapter();
   const { fetchUsersByItems } = useUserAdapter();
   const { searchItems } = useSearchItems();
-
-  searchItems('test');
+  const { searchedItems: TESTsearchedItems } = useSearchStorage();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +62,15 @@ export const SearchUsers = () => {
     setSearchItemInput(e.target.value);
   };
 
+  console.log(TESTsearchedItems);
+
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
 
   const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
     setIsUserSearched(false);
+    searchItems(searchItemInput);
   };
 
   const userSearchHandler = async () => {
