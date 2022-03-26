@@ -22,6 +22,7 @@ export interface FollowStorageService {
 
 export interface SearchStorageService {
   searchedItems: Item[];
+  registeredItems: Item[];
 }
 
 export interface FollowAdapterService {

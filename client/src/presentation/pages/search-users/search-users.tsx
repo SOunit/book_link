@@ -56,7 +56,10 @@ export const SearchUsers = () => {
   const { fetchUsersByItems } = useUserAdapter();
   const { searchItems } = useSearchItems();
   const { searchUsers } = useSearchUsers();
-  const { searchedItems: TESTsearchedItems } = useSearchStorage();
+  const {
+    searchedItems: TESTsearchedItems,
+    registeredItems: TESTregisteredItems,
+  } = useSearchStorage();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +67,8 @@ export const SearchUsers = () => {
     setSearchItemInput(e.target.value);
   };
 
-  console.log(TESTsearchedItems);
+  console.log('TESTsearchedItems', TESTsearchedItems);
+  console.log('TESTregisteredItems', TESTregisteredItems);
 
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
