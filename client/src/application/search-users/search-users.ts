@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useSearchStorage, useUserAdapter } from '../../services';
+import { setSearchedUsersAction } from '../../services/store/re-ducks/search/actions';
 
 export const useSearchUsers = () => {
   const userAdapter = useUserAdapter();
@@ -8,9 +9,11 @@ export const useSearchUsers = () => {
 
   const searchUsers = async (loginUserId: string) => {
     // fetch user data
-    const itemIds = storage.searchedItems.map((item) => item.id);
+    const itemIds = storage.registeredItems.map((item) => item.id);
     const response = await userAdapter.fetchUsersByItems(itemIds, loginUserId);
-    console.log(response);
+    const searchedUsers = response.data.data.getUsersByItems;
+
+    dispatch(setSearchedUsersAction(searchedUsers));
   };
 
   return { searchUsers };

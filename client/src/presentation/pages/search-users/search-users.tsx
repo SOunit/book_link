@@ -59,6 +59,7 @@ export const SearchUsers = () => {
   const {
     searchedItems: TESTsearchedItems,
     registeredItems: TESTregisteredItems,
+    searchedUsers: TESTsearchedUsers,
   } = useSearchStorage();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
@@ -69,6 +70,7 @@ export const SearchUsers = () => {
 
   console.log('TESTsearchedItems', TESTsearchedItems);
   console.log('TESTregisteredItems', TESTregisteredItems);
+  console.log('TESTsearchedUsers', TESTsearchedUsers);
 
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
