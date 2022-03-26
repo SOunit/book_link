@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router';
-import { Chat as ChatType, Message } from '../../../../domain/models';
+import { Chat, getDisplayTime } from '../../../../domain/';
 import { Image } from '../../atoms';
 import classes from './chat-list-item.module.css';
 
 type ChatListItemProps = {
-  chat: ChatType;
+  chat: Chat;
 };
 
 export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
@@ -65,7 +65,7 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
       </div>
       {latestMessage && latestMessage.createdAt && (
         <div className={classes['chatListItem__time']}>
-          {Message.getDisplayTime(latestMessage.createdAt)}
+          {getDisplayTime(latestMessage.createdAt)}
         </div>
       )}
     </div>

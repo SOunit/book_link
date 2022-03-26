@@ -1,6 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import { ChatServices } from '../../../services';
-import { Chat as ChatType } from '../../../domain/models';
+import { Chat } from '../../../domain';
 import {
   ChatListItem,
   NotFoundMessage,
@@ -11,7 +11,7 @@ import classes from './chat-list.module.scss';
 
 export const ChatList: FC = () => {
   const { loginUser } = useContext(AuthContext);
-  const [chats, setChats] = useState<ChatType[]>([]);
+  const [chats, setChats] = useState<Chat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

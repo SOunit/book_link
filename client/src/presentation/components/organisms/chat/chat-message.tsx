@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Chat, Message } from '../../../../domain/models';
+import { Chat, Message, getDisplayTime } from '../../../../domain/';
 import { Image } from '../../atoms';
 import classes from './chat-message.module.scss';
 
@@ -40,7 +40,7 @@ export const ChatMessage: FC<Props> = ({
       </div>
       {message.createdAt && (
         <div className={classes['message__time']}>
-          {Message.getDisplayTime(message.createdAt)}
+          {getDisplayTime(message.createdAt)}
         </div>
       )}
     </div>
