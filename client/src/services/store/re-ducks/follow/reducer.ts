@@ -29,7 +29,6 @@ export const followReducer = (
 
     case INIT_FOLLOWERS: {
       console.log(INIT_FOLLOWERS);
-
       return { ...state, followers: action.payload, isFollowersLoaded: true };
     }
 
