@@ -15,9 +15,7 @@ import {
 } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import {
-  useAddUserToFollowers,
   useInitFollow,
-  useRemoveUserFromFollowers,
   useFollowInUserDetail,
   useUnFollowInUserDetail,
 } from '../../../application';
