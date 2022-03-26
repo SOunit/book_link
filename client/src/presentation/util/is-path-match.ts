@@ -1,4 +1,4 @@
-import { homeRootPathList } from '../../presentation/constants';
+import { homeRootPathList } from '../constants';
 
 export const isPathMatch = (pathname: string) => {
   let isMatch = false;

@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import { Item } from '../../../../domain/';
-import { itemServices } from '../../../../services';
+import { useItemAdapter } from '../../../../services';
 import classes from './search-bar.module.scss';
 
 type Props = {
@@ -18,6 +18,8 @@ export const SearchBar: React.FC<Props> = ({
   onSetSearchResult,
   onSetIsSearched,
 }) => {
+  const itemAdapter = useItemAdapter();
+
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -27,7 +29,7 @@ export const SearchBar: React.FC<Props> = ({
       return;
     }
 
-    itemServices.fetchItemsByTitle(value).then((result) => {
+    itemAdapter.fetchItemsByTitle(value).then((result) => {
       onSetSearchResult(result.data.data.itemsByTitle);
       onSetIsSearched();
     });

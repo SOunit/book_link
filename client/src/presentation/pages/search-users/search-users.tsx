@@ -21,7 +21,7 @@ import {
   useSearchedUsers,
 } from '../../hooks';
 import { Item } from '../../../domain/';
-import { itemServices, userServices } from '../../../services';
+import { useItemAdapter, useUserAdapter } from '../../../services';
 import { AuthContext } from '../../../services/store';
 
 import classes from './search-users.module.scss';
@@ -45,6 +45,8 @@ export const SearchUsers = () => {
     followClickHandler,
     followingClickHandler,
   } = useSearchedUsers();
+  const { fetchRandomItems } = useItemAdapter();
+  const { fetchUsersByItems } = useUserAdapter();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +68,7 @@ export const SearchUsers = () => {
       return itemIdList.push(item.id);
     });
 
-    userServices.fetchUsersByItems(itemIdList, token!).then((result) => {
+    fetchUsersByItems(itemIdList, token!).then((result) => {
       setSearchedUsers(result.data.data.getUsersByItems);
       setIsUserSearched(true);
     });
@@ -85,14 +87,14 @@ export const SearchUsers = () => {
     }
 
     if (defaultItems.length === 0) {
-      itemServices.fetchRandomItems().then((response) => {
+      fetchRandomItems().then((response) => {
         defaultItems = response.data.data.fetchRandomItems;
         initItemsHandler(defaultItems);
       });
     } else {
       initItemsHandler(defaultItems);
     }
-  }, [loginUser, initItemsHandler]);
+  }, [loginUser, initItemsHandler, fetchRandomItems]);
 
   useEffect(() => {
     setDefaultItems();

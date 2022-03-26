@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks/';
-import { isPathMatch } from '../../../../services/util';
+import { isPathMatch } from '../../../util';
 import classes from './footer-nav.module.scss';
 
 const FooterNav: FC = () => {

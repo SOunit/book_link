@@ -1,4 +1,5 @@
-import { api as API } from './api';
+import { useCallback } from 'react';
+import { apiAdapter as API } from './api-adapter';
 
 type User = {
   id: string;
@@ -9,7 +10,7 @@ type User = {
 
 export const useUserAdapter = () => {
   return {
-    createUser: async (id: string) => {
+    createUser: useCallback(async (id: string) => {
       const graphqlQuery = {
         query: `
           mutation CreateUser($id: ID!){
@@ -27,9 +28,9 @@ export const useUserAdapter = () => {
       return await API({
         data: graphqlQuery,
       });
-    },
+    }, []),
 
-    getUserCount: async (id: string) => {
+    getUserCount: useCallback(async (id: string) => {
       // check user
       const graphqlQuery = {
         query: `
@@ -45,9 +46,9 @@ export const useUserAdapter = () => {
       return await API({
         data: graphqlQuery,
       });
-    },
+    }, []),
 
-    fetchUser: async (userId: string) => {
+    fetchUser: useCallback(async (userId: string) => {
       const graphqlQuery = {
         query: `
                   query fetchUser($id: ID!){
@@ -72,7 +73,7 @@ export const useUserAdapter = () => {
       return await API({
         data: graphqlQuery,
       });
-    },
+    }, []),
 
     updateUser: async (user: User) => {
       const { id, name, about, imageUrl } = user;
@@ -103,9 +104,10 @@ export const useUserAdapter = () => {
       });
     },
 
-    fetchUsersByItems: async (itemIds: string[], userId: string) => {
-      const graphqlQuery = {
-        query: `
+    fetchUsersByItems: useCallback(
+      async (itemIds: string[], userId: string) => {
+        const graphqlQuery = {
+          query: `
                 query fetchUsersByItems($itemIds: [String!]!, $userId: String!){
                   getUsersByItems(itemIds: $itemIds, userId: $userId){
                     id
@@ -115,15 +117,17 @@ export const useUserAdapter = () => {
                   }
                 }
               `,
-        variables: {
-          itemIds,
-          userId,
-        },
-      };
+          variables: {
+            itemIds,
+            userId,
+          },
+        };
 
-      return await API({
-        data: graphqlQuery,
-      });
-    },
+        return await API({
+          data: graphqlQuery,
+        });
+      },
+      [],
+    ),
   };
 };

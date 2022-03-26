@@ -1,6 +1,6 @@
-import { api as API } from './api';
+import { apiAdapter } from './api-adapter';
 
-export const ChatServices = {
+export const ChatAdapter = {
   fetchChat: async (userIds: string[]) => {
     const graphqlQuery = {
       query: `
@@ -27,7 +27,7 @@ export const ChatServices = {
       },
     };
 
-    return await API({
+    return await apiAdapter({
       data: graphqlQuery,
     });
   },
@@ -57,7 +57,7 @@ export const ChatServices = {
       },
     };
 
-    return await API({
+    return await apiAdapter({
       data: graphqlQuery,
     });
   },
@@ -75,7 +75,7 @@ export const ChatServices = {
       },
     };
 
-    return await API({
+    return await apiAdapter({
       data: graphqlQuery,
     });
   },
@@ -100,7 +100,7 @@ export const ChatServices = {
       },
     };
 
-    return await API({
+    return await apiAdapter({
       data: graphqlQuery,
     });
   },

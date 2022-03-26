@@ -9,9 +9,9 @@ import {
 } from '../../components/molecules';
 import { User } from '../../../domain/';
 import {
-  ChatServices,
+  ChatAdapter,
   useFollowStorage,
-  userServices,
+  useUserAdapter,
 } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import {
@@ -38,6 +38,7 @@ export const UserDetail: FC<Props> = () => {
   const { initIsLoaded, initFollow } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
+  const { fetchUser } = useUserAdapter();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
@@ -59,7 +60,7 @@ export const UserDetail: FC<Props> = () => {
     }
 
     // get message
-    ChatServices.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
+    ChatAdapter.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
 
       if (chats && chats.length <= 0) {
@@ -67,7 +68,7 @@ export const UserDetail: FC<Props> = () => {
         history.push(`/chats/${targetUser.id}`);
       } else {
         if (loginUser && targetUser) {
-          ChatServices.createChat(loginUser?.id, targetUser.id).then((res) => {
+          ChatAdapter.createChat(loginUser?.id, targetUser.id).then((res) => {
             history.push(`/chats/${targetUser.id}`);
           });
         }
@@ -93,7 +94,7 @@ export const UserDetail: FC<Props> = () => {
 
   useEffect(() => {
     const fetchTargetUser = () => {
-      userServices.fetchUser(params.userId).then((result) => {
+      fetchUser(params.userId).then((result) => {
         setTargetUser(result.data.data.user);
       });
     };
@@ -107,7 +108,7 @@ export const UserDetail: FC<Props> = () => {
 
     fetchTargetUser();
     setFollowingState();
-  }, [loginUser, followers, params.userId]);
+  }, [loginUser, followers, params.userId, fetchUser]);
 
   useEffect(() => {
     if (loginUser && loginUser.id === params.userId) {
