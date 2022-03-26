@@ -1,6 +1,7 @@
 import { Item, User } from '../../../../domain';
 import {
   REGISTER_ITEM,
+  SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
   UN_REGISTER_ITEM,
@@ -24,6 +25,10 @@ export const registerItemAction = (item: Item): SearchActionTypes => {
 
 export const unRegisterItemAction = (itemId: string): SearchActionTypes => {
   return { type: UN_REGISTER_ITEM, payload: { itemId } };
+};
+
+export const SetRegisteredItemsAction = (items: Item[]): SearchActionTypes => {
+  return { type: SET_REGISTERED_ITEMS, payload: { items } };
 };
 
 export const setSearchedUsersAction = (users: User[]): SearchActionTypes => {

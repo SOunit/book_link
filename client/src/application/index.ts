@@ -14,7 +14,9 @@ export * from './follow/un-follow-user-in-followers';
 export * from './follow/un-follow-user-in-followings';
 export * from './follow/un-follow-user-in-page-user';
 
-export * from './search-users/search-items';
 export * from './search-users/register-item';
-export * from './search-users/un-register-item';
+export * from './search-users/search-items';
 export * from './search-users/search-users';
+export * from './search-users/set-default-items';
+export * from './search-users/un-register-item';
+export * from './search-users/update-is-item-searched';

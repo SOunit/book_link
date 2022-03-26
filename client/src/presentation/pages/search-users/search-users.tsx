@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  Fragment,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
 import { Button } from '../../components/atoms';
 import {
   NotFoundMessage,
@@ -15,22 +8,22 @@ import {
   SearchedUsers,
   SectionTitle,
 } from '../../components/molecules';
-import { useRegisteredItems, useSearchedUsers } from '../../hooks';
+import { useSearchedUsers } from '../../hooks';
 import { Item } from '../../../domain/';
-import { useItemAdapter, useSearchStorage } from '../../../services';
-// FIXME: de-couple from context
-import { AuthContext } from '../../../services/store';
+import { useSearchStorage } from '../../../services';
 import {
   useRegisterItem,
   useSearchItems,
   useSearchUsers,
+  useSetDefaultItems,
   useUnRegisterItem,
+  useUpdateIsItemSearched,
 } from '../../../application';
+// FIXME: de-couple from context
+import { AuthContext } from '../../../services/store';
 import classes from './search-users.module.scss';
-import { useUpdateIsItemSearched } from '../../../application/search-users/update-is-item-searched';
 
 export const SearchUsers = () => {
-  const { initItemsHandler } = useRegisteredItems();
   const { followClickHandler, followingClickHandler } = useSearchedUsers();
 
   // clean architecture
@@ -41,8 +34,7 @@ export const SearchUsers = () => {
   const { unRegisterItem } = useUnRegisterItem();
   const { searchUsers } = useSearchUsers();
   const { updateIsItemSearched } = useUpdateIsItemSearched();
-  // FIXME: to application use-case
-  const { fetchRandomItems } = useItemAdapter();
+  const { setDefaultItems } = useSetDefaultItems();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +44,7 @@ export const SearchUsers = () => {
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
 
-  const itemSearchHandler = (searchedItems: Item[]) => {
+  const itemSearchHandler = () => {
     // FIXME: to state?
     setIsUserSearched(false);
     searchItems(searchItemInput);
@@ -72,31 +64,9 @@ export const SearchUsers = () => {
     searchUsers(token!);
   };
 
-  const setDefaultItems = useCallback(() => {
-    if (!loginUser || !loginUser.items) {
-      return;
-    }
-
-    let defaultItems = [];
-    for (let i = 0; i < 3; i++) {
-      if (loginUser.items[i]) {
-        defaultItems.push(loginUser.items[i]);
-      }
-    }
-
-    if (defaultItems.length === 0) {
-      fetchRandomItems().then((response) => {
-        defaultItems = response.data.data.fetchRandomItems;
-        initItemsHandler(defaultItems);
-      });
-    } else {
-      initItemsHandler(defaultItems);
-    }
-  }, [loginUser, initItemsHandler, fetchRandomItems]);
-
   useEffect(() => {
     setDefaultItems();
-  }, [setDefaultItems, loginUser]);
+  }, [setDefaultItems]);
 
   useEffect(() => {
     setIsUserSearched(false);

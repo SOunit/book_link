@@ -5,7 +5,7 @@ export interface UserStorageService {
   isLoggedIn: false;
   login: (token?: string) => void;
   logout: () => void;
-  loginUser: null;
+  loginUser: User | null;
   updateLoginUser: (user: User) => void;
 }
 

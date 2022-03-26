@@ -1,5 +1,6 @@
 import {
   REGISTER_ITEM,
+  SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
   UN_REGISTER_ITEM,
@@ -41,6 +42,11 @@ export const searchReducer = (
         (item) => item.id !== itemId,
       );
       return { ...state, registeredItems: newRegisteredItems };
+    }
+
+    case SET_REGISTERED_ITEMS: {
+      const { items } = action.payload;
+      return { ...state, registeredItems: items };
     }
 
     case SET_SEARCHED_USERS: {

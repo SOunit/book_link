@@ -1,6 +1,7 @@
 import { Item, User } from '../../../../domain';
 import {
   REGISTER_ITEM,
+  SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
   UN_REGISTER_ITEM,
@@ -39,9 +40,15 @@ interface SetSearchedUsersAction {
   payload: { users: User[] };
 }
 
+interface SetRegisteredItemsAction {
+  type: typeof SET_REGISTERED_ITEMS;
+  payload: { items: Item[] };
+}
+
 export type SearchActionTypes =
   | SetSearchedItemsAction
   | RegisterItemAction
   | UnRegisterItemAction
   | SetSearchedUsersAction
-  | UpdateIsItemSearched;
+  | UpdateIsItemSearched
+  | SetRegisteredItemsAction;
