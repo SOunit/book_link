@@ -15,9 +15,9 @@ import {
 } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import {
+  useAddUserToFollowers,
   useInitFollow,
-  useFollowInUserDetail,
-  useUnFollowInUserDetail,
+  useRemoveUserFromFollowers,
 } from '../../../application';
 import classes from './user-detail.module.css';
 
@@ -33,23 +33,23 @@ export const UserDetail: FC<Props> = () => {
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<UserType>();
   const [isFollowing, setIsFollowing] = useState<boolean | null>(null);
+  const { addFollowerUserToFollowers } = useAddUserToFollowers();
+  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
   const { initIsLoaded, initFollow } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
-  const { followInUserDetail } = useFollowInUserDetail();
-  const { unFollowInUserDetail } = useUnFollowInUserDetail();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
       setIsFollowing(true);
-      followInUserDetail(loginUser, targetUser);
+      addFollowerUserToFollowers(targetUser, loginUser, targetUser, loginUser);
     }
   };
 
   const followingClickHandler = () => {
     if (loginUser && targetUser) {
       setIsFollowing(false);
-      unFollowInUserDetail(loginUser, targetUser);
+      removeFollowerUserFromFollowers(targetUser, loginUser, targetUser);
     }
   };
 
