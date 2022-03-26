@@ -9,10 +9,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router';
 import { ChatServices } from '../../../services';
-import {
-  Message as MessageType,
-  Chat as ChatType,
-} from '../../../domain/models';
+import { Message, Chat as ChatType } from '../../../domain';
 import { AuthContext } from '../../../services/store';
 import { ChatForm, ChatHeader } from '../../components/organisms';
 import { ChatMessage } from '../../components/organisms';
@@ -55,13 +52,13 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     }, 100);
   };
 
-  const addMessageToChat = (message: MessageType) => {
+  const addMessageToChat = (message: Message) => {
     setChat((prevState: any) => {
       const newChat = { ...prevState };
       const messages = newChat.messages!;
 
       // stop duplicate id
-      if (messages.find((msg: MessageType) => msg.id === message.id)) {
+      if (messages.find((msg: Message) => msg.id === message.id)) {
         return prevState;
       }
 
@@ -112,7 +109,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
 
   useEffect(() => {
     if (socket) {
-      socket.on('update:chat', (message: MessageType) => {
+      socket.on('update:chat', (message: Message) => {
         addMessageToChat(message);
         scrollToBottom();
       });
@@ -121,7 +118,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
 
   let messages;
   if (chat && loginUser) {
-    messages = chat.messages.map((message: MessageType) => {
+    messages = chat.messages.map((message: Message) => {
       let isMine = false;
       if (loginUser.id === message.userId) {
         isMine = true;

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Item } from '../../../../domain/models';
+import { Item } from '../../../../domain/';
 import { Image } from '../../atoms';
 import classes from './item-card.module.css';
 

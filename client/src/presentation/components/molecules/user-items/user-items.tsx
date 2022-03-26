@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { Item as ItemType } from '../../../../domain/models';
+import { Item } from '../../../../domain/';
 import { Image } from '../../atoms';
 import classes from './user-items.module.css';
 
 type UserItemsProps = {
-  items: ItemType[];
+  items: Item[];
 };
 
 export const UserItems: FC<UserItemsProps> = (props) => {

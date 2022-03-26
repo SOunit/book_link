@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useHistory } from 'react-router-dom';
-import { User } from '../../../../domain/models';
+import { User } from '../../../../domain/';
 import classes from './chat-header.module.scss';
 
 type Props = {

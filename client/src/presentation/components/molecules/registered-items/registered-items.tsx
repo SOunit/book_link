@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { ItemCard } from '..';
-import { Item } from '../../../../domain/models';
+import { Item } from '../../../../domain/';
 import { IconButton } from '../../atoms';
 import { Buttons } from '../buttons/buttons';
 import classes from './registered-items.module.css';

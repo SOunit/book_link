@@ -20,7 +20,7 @@ import {
   useSearchedItems,
   useSearchedUsers,
 } from '../../../application/hooks';
-import { Item } from '../../../domain/models';
+import { Item } from '../../../domain/';
 import { itemServices, userServices } from '../../../services';
 import { AuthContext } from '../../../services/store';
 

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { User } from '../../../../domain/models';
+import { User } from '../../../../domain/';
 import { Image } from '../../atoms';
 import { FollowNumber } from '../follow-number/follow-number';
 import classes from './user-card.module.css';

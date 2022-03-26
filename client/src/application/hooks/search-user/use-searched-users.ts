@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User } from '../../../domain/models';
+import { User } from '../../../domain/';
 
 export const useSearchedUsers = () => {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([]);
