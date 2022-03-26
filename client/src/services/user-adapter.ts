@@ -105,11 +105,11 @@ export const useUserAdapter = () => {
     },
 
     fetchUsersByItems: useCallback(
-      async (itemIds: string[], userId: string) => {
+      async (itemIds: string[], loginUserId: string) => {
         const graphqlQuery = {
           query: `
-                query fetchUsersByItems($itemIds: [String!]!, $userId: String!){
-                  getUsersByItems(itemIds: $itemIds, userId: $userId){
+                query fetchUsersByItems($itemIds: [String!]!, $loginUserId: String!){
+                  getUsersByItems(itemIds: $itemIds, userId: $loginUserId){
                     id
                     name
                     about
@@ -119,7 +119,7 @@ export const useUserAdapter = () => {
               `,
           variables: {
             itemIds,
-            userId,
+            loginUserId,
           },
         };
 

@@ -31,6 +31,7 @@ import { AuthContext } from '../../../services/store';
 
 import classes from './search-users.module.scss';
 import { useSearchItems } from '../../../application';
+import { useSearchUsers } from '../../../application/search-users/search-users';
 
 export const SearchUsers = () => {
   const {
@@ -54,6 +55,7 @@ export const SearchUsers = () => {
   const { fetchRandomItems } = useItemAdapter();
   const { fetchUsersByItems } = useUserAdapter();
   const { searchItems } = useSearchItems();
+  const { searchUsers } = useSearchUsers();
   const { searchedItems: TESTsearchedItems } = useSearchStorage();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
@@ -70,6 +72,7 @@ export const SearchUsers = () => {
   const itemSearchHandler = (searchedItems: Item[]) => {
     updateSearchedItemsHandler(searchedItems);
     setIsUserSearched(false);
+    // FIXME
     searchItems(searchItemInput);
   };
 
@@ -83,6 +86,8 @@ export const SearchUsers = () => {
       setSearchedUsers(result.data.data.getUsersByItems);
       setIsUserSearched(true);
     });
+
+    searchUsers(token!);
   };
 
   const setDefaultItems = useCallback(() => {
