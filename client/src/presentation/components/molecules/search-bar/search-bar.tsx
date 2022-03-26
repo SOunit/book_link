@@ -1,5 +1,5 @@
 import { FormEvent } from 'react';
-import { Item } from '../../../../domain/models';
+import { Item } from '../../../../domain/';
 import { itemServices } from '../../../../services';
 import classes from './search-bar.module.scss';
 

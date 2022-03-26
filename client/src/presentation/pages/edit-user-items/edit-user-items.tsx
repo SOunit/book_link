@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, Fragment, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Item as ItemType } from '../../../domain/models';
+import { Item } from '../../../domain/';
 import {
   NotFoundMessage,
   RegisteredItems,
@@ -30,7 +30,7 @@ export const EditUserItems: FC = () => {
   };
   const { addUserItem, removeUserItem } = useUpdateUserItems();
 
-  const addClickHandler = (item: ItemType) => {
+  const addClickHandler = (item: Item) => {
     if (loginUser) {
       // update user state
       const newUser = { ...loginUser };

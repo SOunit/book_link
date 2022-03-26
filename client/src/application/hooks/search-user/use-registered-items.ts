@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Item } from '../../../domain/models';
+import { Item } from '../../../domain/';
 
 export const useRegisteredItems = () => {
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);

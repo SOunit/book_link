@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import { Buttons, NotFoundMessage, SearchItemCard } from '..';
-import { Item } from '../../../../domain/models';
+import { Item } from '../../../../domain/';
 import { IconButton } from '../../atoms';
 
 type SearchedItemsProps = {
