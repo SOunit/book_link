@@ -1,4 +1,4 @@
-import { api as API } from './api';
+import { apiAdapter as API } from './api-adapter';
 
 export const useItemAdapter = () => {
   return {

@@ -1,4 +1,4 @@
-export * from './api';
+export * from './api-adapter';
 export * from './chat-services';
 export * from './follow-services';
 export * from './item-services';
