@@ -2,8 +2,8 @@ import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '../../domain';
 import { useUserAdapter } from '..';
 import { keys } from '../../presentation/util';
+import { useAuthTokenStorage } from '../storage-adapter';
 
-// FIXME: move logic to application layer, createUser, getUser etc.
 type AuthContextType = {
   token: string | null;
   isLoggedIn: boolean;
@@ -25,24 +25,27 @@ export const AuthContext = React.createContext<AuthContextType>({
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider: FC = (props) => {
-  const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
-  const [token, setToken] = useState<string | null>(initialToken);
+  // hooks
+  const { getItem, removeItem, setItem } = useAuthTokenStorage();
+  const { createUser, getUserCount, fetchUser } = useUserAdapter();
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { createUser, getUserCount, fetchUser } = useUserAdapter();
 
-  const logoutHandler = () => {
+  const initialToken = getItem(keys.TOKEN_KEY);
+  const [token, setToken] = useState<string | null>(initialToken);
+
+  const logout = () => {
     setToken(null);
     setLoginUser(null);
     setIsLoggedIn(false);
-    localStorage.removeItem(keys.TOKEN_KEY!);
+    removeItem(keys.TOKEN_KEY!);
   };
 
-  const loginHandler = useCallback(
+  const login = useCallback(
     (token: string | null) => {
       setToken(token);
       if (token) {
-        localStorage.setItem(keys.TOKEN_KEY!, token);
+        setItem(keys.TOKEN_KEY!, token);
         setIsLoggedIn(true);
 
         // check if user exists
@@ -67,7 +70,7 @@ export const AuthContextProvider: FC = (props) => {
           });
       }
     },
-    [createUser, getUserCount, fetchUser],
+    [createUser, getUserCount, fetchUser, setItem],
   );
 
   const updateLoginUser = (user: User | null) => {
@@ -78,17 +81,17 @@ export const AuthContextProvider: FC = (props) => {
     token,
     isLoggedIn,
     loginUser,
-    login: loginHandler,
-    logout: logoutHandler,
+    login,
+    logout,
     updateLoginUser,
   };
 
   // auto login
   useEffect(() => {
     if (initialToken) {
-      loginHandler(initialToken);
+      login(initialToken);
     }
-  }, [initialToken, loginHandler]);
+  }, [initialToken, login]);
 
   return (
     <AuthContext.Provider value={contextValue}>
