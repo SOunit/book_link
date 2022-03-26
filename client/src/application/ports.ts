@@ -10,7 +10,7 @@ export interface UserStorageService {
 }
 
 export interface ImageStorageService {
-  uploadImage: (image: File) => string | null;
+  uploadImage: (image: File) => Promise<string | undefined>;
 }
 
 export interface FollowStorageService {
@@ -25,6 +25,12 @@ export interface FollowAdapterService {
   fetchFollowerUsers(targetUserId: string, loginUserId: string): Promise<any>;
   createFollowing(followingUserId: string, userId: string): Promise<any>;
   deleteFollowing(followingUserId: string, userId: string): Promise<any>;
+}
+
+export interface AuthTokenStorageService {
+  getItem(key: string): string | null;
+  removeItem(key: string): void;
+  setItem(key: string, value: string): void;
 }
 
 export interface AuthenticateService {

@@ -2,6 +2,7 @@ import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '../../domain';
 import { useUserAdapter } from '..';
 import { keys } from '../../presentation/util';
+import { useAuthTokenStorage } from '../storage-adapter';
 
 // FIXME: move logic to application layer, createUser, getUser etc.
 type AuthContextType = {
@@ -25,7 +26,8 @@ export const AuthContext = React.createContext<AuthContextType>({
 export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider: FC = (props) => {
-  const initialToken = localStorage.getItem(keys.TOKEN_KEY!);
+  const { getItem, removeItem, setItem } = useAuthTokenStorage();
+  const initialToken = getItem(keys.TOKEN_KEY);
   const [token, setToken] = useState<string | null>(initialToken);
   const [loginUser, setLoginUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -35,14 +37,14 @@ export const AuthContextProvider: FC = (props) => {
     setToken(null);
     setLoginUser(null);
     setIsLoggedIn(false);
-    localStorage.removeItem(keys.TOKEN_KEY!);
+    removeItem(keys.TOKEN_KEY!);
   };
 
   const loginHandler = useCallback(
     (token: string | null) => {
       setToken(token);
       if (token) {
-        localStorage.setItem(keys.TOKEN_KEY!, token);
+        setItem(keys.TOKEN_KEY!, token);
         setIsLoggedIn(true);
 
         // check if user exists
@@ -67,7 +69,7 @@ export const AuthContextProvider: FC = (props) => {
           });
       }
     },
-    [createUser, getUserCount, fetchUser],
+    [createUser, getUserCount, fetchUser, setItem],
   );
 
   const updateLoginUser = (user: User | null) => {
