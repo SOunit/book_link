@@ -1,6 +1,6 @@
 import { FC, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { useModal } from '../../../../application/hooks';
+import { useModal } from '../../../../presentation/hooks';
 import { User } from '../../../../domain/';
 import { LogoutModal } from '../../organisms';
 import { Backdrop } from '../backdrop/backdrop';
