@@ -10,10 +10,8 @@ import {
 import { IconButton } from '../../components/atoms';
 import {
   useAddUserToFollowers,
-  useAddUserToFollowings,
   useCountFollowings,
   useRemoveUserFromFollowers,
-  useRemoveUserFromFollowings,
   useUserUseCase,
 } from '../../../application';
 import { User } from '../../../domain';
@@ -22,6 +20,7 @@ import { useFollowStorage } from '../../../services';
 import { useFollowUserInFollowers } from '../../../application/follow/follow-user-in-followers';
 import { useUnFollowUserInFollowers } from '../../../application/follow/un-follow-user-in-followers';
 import { useUnFollowUserInFollowings } from '../../../application/follow/un-follow-user-in-followings';
+import { useFollowUserInFollowings } from '../../../application/follow/follow-user-in-followings';
 
 type Props = {};
 type FollowParams = {
@@ -34,14 +33,13 @@ export const Follow: FC<Props> = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { getLoginUser, getUser } = useUserUseCase();
-  const { addFollowingUserToFollowings } = useAddUserToFollowings();
   const { addFollowerUserToFollowers } = useAddUserToFollowers();
   const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
-  const { removeFollowingUserFromFollowings } = useRemoveUserFromFollowings();
   const { countFollowings } = useCountFollowings();
   const { followUserInFollowers } = useFollowUserInFollowers();
   const { unFollowUserInFollowers } = useUnFollowUserInFollowers();
   const { unFollowUserInFollowings } = useUnFollowUserInFollowings();
+  const { followUserInFollowings } = useFollowUserInFollowings();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -80,7 +78,7 @@ export const Follow: FC<Props> = () => {
     if (user.isFollowing) {
       unFollowUserInFollowings(loginUser, user);
     } else {
-      addFollowingUserToFollowings(user, loginUser, pageUser!);
+      followUserInFollowings(loginUser, user);
     }
   };
 
