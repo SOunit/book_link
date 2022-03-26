@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
-import { useFollowAdapter } from '../../../../services';
 
 type Props = {
   users: User[];
@@ -15,36 +14,28 @@ type Props = {
 
 export const SearchedUsers: FC<Props> = ({
   users,
-  loginUser,
   onFollowClick,
   onFollowingClick,
 }) => {
   const history = useHistory();
-  const { createFollowing, deleteFollowing } = useFollowAdapter();
+
+  console.log('searchedUsers users', users);
 
   const detailClickHandler = (user: User) => {
     history.push(`/users/${user.id}`);
   };
 
+  const followClickHandler = (user: User) => {
+    if (user.isFollowing) {
+      onFollowingClick(user);
+    } else {
+      onFollowClick(user);
+    }
+  };
+
   return (
     <Fragment>
       {users.map((user) => {
-        const followClickHandler = () => {
-          // update db
-          createFollowing(loginUser.id, user.id);
-
-          // update state
-          onFollowClick(user.id);
-        };
-
-        const followingClickHandler = () => {
-          // delete db
-          deleteFollowing(loginUser.id, user.id);
-
-          // update state
-          onFollowingClick(user.id);
-        };
-
         const actions = (
           <Buttons>
             <IconButton
@@ -56,9 +47,7 @@ export const SearchedUsers: FC<Props> = ({
               iconName={
                 user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
               }
-              onClick={
-                user.isFollowing ? followingClickHandler : followClickHandler
-              }
+              onClick={() => followClickHandler(user)}
             />
           </Buttons>
         );

@@ -8,14 +8,15 @@ import {
   SearchedUsers,
   SectionTitle,
 } from '../../components/molecules';
-import { useSearchedUsers } from '../../hooks';
-import { Item } from '../../../domain/';
+import { Item, User } from '../../../domain/';
 import { useSearchStorage } from '../../../services';
 import {
+  useFollowUser,
   useRegisterItem,
   useSearchItems,
   useSearchUsers,
   useSetDefaultItems,
+  useUnFollowUser,
   useUnRegisterItem,
   useUpdateIsItemSearched,
 } from '../../../application';
@@ -24,8 +25,6 @@ import { AuthContext } from '../../../services/store';
 import classes from './search-users.module.scss';
 
 export const SearchUsers = () => {
-  const { followClickHandler, followingClickHandler } = useSearchedUsers();
-
   // clean architecture
   const { isItemSearched, searchedItems, registeredItems, searchedUsers } =
     useSearchStorage();
@@ -35,14 +34,19 @@ export const SearchUsers = () => {
   const { searchUsers } = useSearchUsers();
   const { updateIsItemSearched } = useUpdateIsItemSearched();
   const { setDefaultItems } = useSetDefaultItems();
+  const { followUser } = useFollowUser();
+  const { unFollowUser } = useUnFollowUser();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
+  // FIXME: to redux state
+  const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
+  // FIXME: to clean architecture
+  const { loginUser, token } = useContext(AuthContext);
+
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     updateIsItemSearched(false);
     setSearchItemInput(e.target.value);
   };
-  const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
-  const { loginUser, token } = useContext(AuthContext);
 
   const itemSearchHandler = () => {
     // FIXME: to state?
@@ -62,6 +66,18 @@ export const SearchUsers = () => {
     // FIXME: to state?
     setIsUserSearched(true);
     searchUsers(token!);
+  };
+
+  const followClickHandler = (followerUser: User) => {
+    if (loginUser) {
+      followUser(loginUser, followerUser);
+    }
+  };
+
+  const followingClickHandler = (followerUser: User) => {
+    if (loginUser) {
+      unFollowUser(loginUser, followerUser);
+    }
   };
 
   useEffect(() => {

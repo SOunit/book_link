@@ -17,7 +17,6 @@ export const useSetDefaultItems = () => {
 
     if (defaultItems.length === 0) {
       const response = await fetchRandomItems();
-      console.log(response.data.data);
       defaultItems = response.data.data.fetchRandomItems;
     }
 

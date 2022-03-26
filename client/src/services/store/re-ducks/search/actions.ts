@@ -1,9 +1,11 @@
 import { Item, User } from '../../../../domain';
 import {
+  FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
+  UN_FOLLOW_USER,
   UN_REGISTER_ITEM,
   UPDATE_IS_ITEM_SEARCHED,
 } from './constants';
@@ -33,4 +35,18 @@ export const SetRegisteredItemsAction = (items: Item[]): SearchActionTypes => {
 
 export const setSearchedUsersAction = (users: User[]): SearchActionTypes => {
   return { type: SET_SEARCHED_USERS, payload: { users } };
+};
+
+export const followUserAction = (
+  followingUser: User,
+  followerUser: User,
+): SearchActionTypes => {
+  return { type: FOLLOW_USER, payload: { followingUser, followerUser } };
+};
+
+export const unFollowUserAction = (
+  followingUser: User,
+  followerUser: User,
+): SearchActionTypes => {
+  return { type: UN_FOLLOW_USER, payload: { followingUser, followerUser } };
 };

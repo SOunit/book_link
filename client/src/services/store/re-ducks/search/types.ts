@@ -1,9 +1,11 @@
 import { Item, User } from '../../../../domain';
 import {
+  FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
+  UN_FOLLOW_USER,
   UN_REGISTER_ITEM,
   UPDATE_IS_ITEM_SEARCHED,
 } from './constants';
@@ -45,10 +47,22 @@ interface SetRegisteredItemsAction {
   payload: { items: Item[] };
 }
 
+interface FollowUserAction {
+  type: typeof FOLLOW_USER;
+  payload: { followingUser: User; followerUser: User };
+}
+
+interface UnFollowUserAction {
+  type: typeof UN_FOLLOW_USER;
+  payload: { followingUser: User; followerUser: User };
+}
+
 export type SearchActionTypes =
   | SetSearchedItemsAction
   | RegisterItemAction
   | UnRegisterItemAction
   | SetSearchedUsersAction
   | UpdateIsItemSearched
-  | SetRegisteredItemsAction;
+  | SetRegisteredItemsAction
+  | FollowUserAction
+  | UnFollowUserAction;

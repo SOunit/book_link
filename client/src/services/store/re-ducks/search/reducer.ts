@@ -1,8 +1,10 @@
 import {
+  FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
+  UN_FOLLOW_USER,
   UN_REGISTER_ITEM,
   UPDATE_IS_ITEM_SEARCHED,
 } from './constants';
@@ -52,6 +54,32 @@ export const searchReducer = (
     case SET_SEARCHED_USERS: {
       const { users: searchedUsers } = action.payload;
       return { ...state, searchedUsers };
+    }
+
+    case FOLLOW_USER: {
+      const { followerUser } = action.payload;
+
+      const newSearchedUsers = state.searchedUsers.map((user) => {
+        if (user.id === followerUser.id) {
+          user.isFollowing = true;
+        }
+        return user;
+      });
+
+      return { ...state, searchedUsers: newSearchedUsers };
+    }
+
+    case UN_FOLLOW_USER: {
+      const { followerUser } = action.payload;
+
+      const newSearchedUsers = state.searchedUsers.map((user) => {
+        if (user.id === followerUser.id) {
+          user.isFollowing = false;
+        }
+        return user;
+      });
+
+      return { ...state, searchedUsers: newSearchedUsers };
     }
 
     default:
