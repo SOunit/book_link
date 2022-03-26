@@ -9,16 +9,18 @@ import {
 } from '../../components/molecules';
 import { IconButton } from '../../components/atoms';
 import {
-  useAddUserToFollowers,
-  useAddUserToFollowings,
   useCountFollowings,
-  useRemoveUserFromFollowers,
-  useRemoveUserFromFollowings,
   useUserUseCase,
+  useFollowUserInFollowers,
+  useUnFollowUserInFollowers,
+  useUnFollowUserInFollowings,
+  useFollowUserInFollowings,
+  useFollowUserInPageUser,
+  useUnFollowUserInPageUser,
 } from '../../../application';
 import { User } from '../../../domain';
-import classes from './follow.module.scss';
 import { useFollowStorage } from '../../../services';
+import classes from './follow.module.scss';
 
 type Props = {};
 type FollowParams = {
@@ -31,11 +33,13 @@ export const Follow: FC<Props> = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const { getLoginUser, getUser } = useUserUseCase();
-  const { addFollowingUserToFollowings } = useAddUserToFollowings();
-  const { addFollowerUserToFollowers } = useAddUserToFollowers();
-  const { removeFollowerUserFromFollowers } = useRemoveUserFromFollowers();
-  const { removeFollowingUserFromFollowings } = useRemoveUserFromFollowings();
   const { countFollowings } = useCountFollowings();
+  const { followUserInFollowers } = useFollowUserInFollowers();
+  const { unFollowUserInFollowers } = useUnFollowUserInFollowers();
+  const { unFollowUserInFollowings } = useUnFollowUserInFollowings();
+  const { followUserInFollowings } = useFollowUserInFollowings();
+  const { followUserInPageUser } = useFollowUserInPageUser();
+  const { unFollowUserInPageUser } = useUnFollowUserInPageUser();
   const followStorage = useFollowStorage();
   const [pageUser, setPageUser] = useState<User>();
   const [isPageUserFollowing, setIsPageUserFollowing] = useState<boolean>();
@@ -64,27 +68,27 @@ export const Follow: FC<Props> = () => {
     console.log('followClickHandlerInFollowers');
 
     if (user.isFollowing) {
-      removeFollowerUserFromFollowers(user, loginUser, pageUser);
+      unFollowUserInFollowers(loginUser, user);
     } else {
-      addFollowerUserToFollowers(user, loginUser, pageUser, loginUser);
+      followUserInFollowers(loginUser, user, pageUser, loginUser);
     }
   };
 
   const followClickHandlerInFollowings = (user: User, loginUser: User) => {
     if (user.isFollowing) {
-      removeFollowingUserFromFollowings(user, loginUser);
+      unFollowUserInFollowings(user);
     } else {
-      addFollowingUserToFollowings(user, loginUser, pageUser!);
+      followUserInFollowings(loginUser, user);
     }
   };
 
   const followClickHandlerInPageUser = (pageUser: User, loginUser: User) => {
     if (isPageUserFollowing) {
       setIsPageUserFollowing(false);
-      removeFollowerUserFromFollowers(pageUser, loginUser, pageUser);
+      unFollowUserInPageUser(loginUser, pageUser);
     } else {
       setIsPageUserFollowing(true);
-      addFollowerUserToFollowers(pageUser, loginUser, pageUser, loginUser);
+      followUserInPageUser(loginUser, pageUser);
     }
   };
 

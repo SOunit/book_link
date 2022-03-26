@@ -5,7 +5,6 @@ import {
   removeUserFromFollowersAction,
   UpdateIsFollowingInFollowersAction,
 } from '../../services/store/re-ducks/follow/actions';
-import { UPDATE_IS_FOLLOWING_IN_FOLLOWERS } from '../../services/store/re-ducks/follow/constants';
 import { FollowAdapterService } from '../ports';
 
 export const useRemoveUserFromFollowers = () => {
