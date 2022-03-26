@@ -23,8 +23,10 @@ export const initFollowersAction = (followers: User[]): FollowActionTypes => {
   return { type: INIT_FOLLOWERS, payload: followers };
 };
 
-export const addUserToFollowersAction = (user: User): FollowActionTypes => {
-  return { type: ADD_USER_TO_FOLLOWERS, payload: user };
+export const addUserToFollowersAction = (
+  followingUser: User,
+): FollowActionTypes => {
+  return { type: ADD_USER_TO_FOLLOWERS, payload: followingUser };
 };
 
 export const addUserToFollowingsAction = (
