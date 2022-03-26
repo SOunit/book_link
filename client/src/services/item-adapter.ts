@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { apiAdapter as API } from './api-adapter';
 
 export const useItemAdapter = () => {
@@ -90,7 +91,7 @@ export const useItemAdapter = () => {
       });
     },
 
-    fetchRandomItems: async () => {
+    fetchRandomItems: useCallback(async () => {
       const graphqlQuery = {
         query: `
                 query FetchRandomItems {
@@ -107,6 +108,6 @@ export const useItemAdapter = () => {
       return await API({
         data: graphqlQuery,
       });
-    },
+    }, []),
   };
 };

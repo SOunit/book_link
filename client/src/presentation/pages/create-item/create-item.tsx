@@ -13,7 +13,7 @@ import {
   SectionTitle,
   ValidateInput,
 } from '../../components/molecules';
-import { itemServices, useImageStorage } from '../../../services';
+import { useItemAdapter, useImageStorage } from '../../../services';
 import { AuthContext } from '../../../services/store';
 import { validate, VALIDATOR_REQUIRE } from '../../util';
 import classes from './create-item.module.css';
@@ -34,6 +34,7 @@ export const CreateItem: FC = () => {
   const history = useHistory();
   const { loginUser, updateLoginUser } = useContext(AuthContext);
   const imageStorage = useImageStorage();
+  const itemAdapter = useItemAdapter();
 
   const { title, author } = inputs;
 
@@ -102,13 +103,13 @@ export const CreateItem: FC = () => {
       }
 
       // update db
-      const itemRes = await itemServices.createItem(
+      const itemRes = await itemAdapter.createItem(
         title.value,
         author.value,
         imageUrl,
       );
       const newItem = itemRes.data.data.createItem;
-      await itemServices.addUserItem(loginUser.id, newItem.id);
+      await itemAdapter.addUserItem(loginUser.id, newItem.id);
 
       // update state
       updateLoginUser({ ...loginUser, items: [...loginUser.items, newItem] });
