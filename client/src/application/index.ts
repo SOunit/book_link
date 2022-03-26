@@ -17,3 +17,4 @@ export * from './follow/un-follow-user-in-page-user';
 export * from './search-users/search-items';
 export * from './search-users/register-item';
 export * from './search-users/un-register-item';
+export * from './search-users/search-users';

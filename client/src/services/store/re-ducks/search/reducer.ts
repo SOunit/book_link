@@ -3,10 +3,12 @@ import {
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
   UN_REGISTER_ITEM,
+  UPDATE_IS_ITEM_SEARCHED,
 } from './constants';
 import { SearchActionTypes, SearchState } from './types';
 
 const initialState: SearchState = {
+  isItemSearched: false,
   searchedItems: [],
   registeredItems: [],
   searchedUsers: [],
@@ -17,19 +19,24 @@ export const searchReducer = (
   action: SearchActionTypes,
 ) => {
   switch (action.type) {
+    case UPDATE_IS_ITEM_SEARCHED: {
+      const { isItemSearched } = action.payload;
+      return { ...state, isItemSearched };
+    }
+
     case SET_SEARCHED_ITEMS: {
-      const searchedItems = action.payload.searchedItems;
+      const { searchedItems } = action.payload;
       return { ...state, searchedItems };
     }
 
     case REGISTER_ITEM: {
-      const item = action.payload.item;
+      const { item } = action.payload;
       const newRegisteredItems = [...state.registeredItems, item];
       return { ...state, registeredItems: newRegisteredItems };
     }
 
     case UN_REGISTER_ITEM: {
-      const itemId = action.payload.itemId;
+      const { itemId } = action.payload;
       const newRegisteredItems = state.registeredItems.filter(
         (item) => item.id !== itemId,
       );
@@ -37,7 +44,7 @@ export const searchReducer = (
     }
 
     case SET_SEARCHED_USERS: {
-      const searchedUsers = action.payload.users;
+      const { users: searchedUsers } = action.payload;
       return { ...state, searchedUsers };
     }
 

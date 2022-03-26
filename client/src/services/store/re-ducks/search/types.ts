@@ -4,9 +4,11 @@ import {
   SET_SEARCHED_ITEMS,
   SET_SEARCHED_USERS,
   UN_REGISTER_ITEM,
+  UPDATE_IS_ITEM_SEARCHED,
 } from './constants';
 
 export type SearchState = {
+  isItemSearched: boolean;
   searchedItems: Item[];
   registeredItems: Item[];
   searchedUsers: User[];
@@ -15,6 +17,11 @@ export type SearchState = {
 interface SetSearchedItemsAction {
   type: typeof SET_SEARCHED_ITEMS;
   payload: { searchedItems: Item[] };
+}
+
+interface UpdateIsItemSearched {
+  type: typeof UPDATE_IS_ITEM_SEARCHED;
+  payload: { isItemSearched: boolean };
 }
 
 interface RegisterItemAction {
@@ -36,4 +43,5 @@ export type SearchActionTypes =
   | SetSearchedItemsAction
   | RegisterItemAction
   | UnRegisterItemAction
-  | SetSearchedUsersAction;
+  | SetSearchedUsersAction
+  | UpdateIsItemSearched;

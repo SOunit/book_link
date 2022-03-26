@@ -21,6 +21,7 @@ export interface FollowStorageService {
 }
 
 export interface SearchStorageService {
+  isItemSearched: boolean;
   searchedItems: Item[];
   registeredItems: Item[];
   searchedUsers: User[];

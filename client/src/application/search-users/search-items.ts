@@ -8,6 +8,7 @@ export const useSearchItems = () => {
 
   const searchItems = async (searchTerm: string) => {
     if (!searchTerm) {
+      dispatch(setSearchedItemsAction([]));
       return;
     }
 

@@ -15,84 +15,60 @@ import {
   SearchedUsers,
   SectionTitle,
 } from '../../components/molecules';
-import {
-  useRegisteredItems,
-  useSearchedItems,
-  useSearchedUsers,
-} from '../../hooks';
+import { useRegisteredItems, useSearchedUsers } from '../../hooks';
 import { Item } from '../../../domain/';
-import {
-  useItemAdapter,
-  useSearchStorage,
-  useUserAdapter,
-} from '../../../services';
+import { useItemAdapter, useSearchStorage } from '../../../services';
 // FIXME: de-couple from context
 import { AuthContext } from '../../../services/store';
-
+import {
+  useRegisterItem,
+  useSearchItems,
+  useSearchUsers,
+  useUnRegisterItem,
+} from '../../../application';
 import classes from './search-users.module.scss';
-import { useSearchItems } from '../../../application';
-import { useSearchUsers } from '../../../application/search-users/search-users';
+import { useUpdateIsItemSearched } from '../../../application/search-users/update-is-item-searched';
 
 export const SearchUsers = () => {
-  const {
-    searchedItems,
-    isItemSearched,
-    updateSearchedItemsHandler,
-    updateIsItemSearchedHandler,
-  } = useSearchedItems();
-  const {
-    registeredItems,
-    initItemsHandler,
-    addRegisteredItemHandler,
-    deleteRegisteredItemHandler,
-  } = useRegisteredItems();
-  const {
-    searchedUsers,
-    setSearchedUsers,
-    followClickHandler,
-    followingClickHandler,
-  } = useSearchedUsers();
-  const { fetchRandomItems } = useItemAdapter();
-  const { fetchUsersByItems } = useUserAdapter();
+  const { initItemsHandler } = useRegisteredItems();
+  const { followClickHandler, followingClickHandler } = useSearchedUsers();
+
+  // clean architecture
+  const { isItemSearched, searchedItems, registeredItems, searchedUsers } =
+    useSearchStorage();
   const { searchItems } = useSearchItems();
+  const { registerItem } = useRegisterItem();
+  const { unRegisterItem } = useUnRegisterItem();
   const { searchUsers } = useSearchUsers();
-  const {
-    searchedItems: TESTsearchedItems,
-    registeredItems: TESTregisteredItems,
-    searchedUsers: TESTsearchedUsers,
-  } = useSearchStorage();
+  const { updateIsItemSearched } = useUpdateIsItemSearched();
+  // FIXME: to application use-case
+  const { fetchRandomItems } = useItemAdapter();
 
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    updateIsItemSearchedHandler(false);
+    updateIsItemSearched(false);
     setSearchItemInput(e.target.value);
   };
-
-  console.log('TESTsearchedItems', TESTsearchedItems);
-  console.log('TESTregisteredItems', TESTregisteredItems);
-  console.log('TESTsearchedUsers', TESTsearchedUsers);
-
   const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   const { loginUser, token } = useContext(AuthContext);
 
   const itemSearchHandler = (searchedItems: Item[]) => {
-    updateSearchedItemsHandler(searchedItems);
+    // FIXME: to state?
     setIsUserSearched(false);
-    // FIXME
     searchItems(searchItemInput);
   };
 
+  const registerItemHandler = (item: Item) => {
+    registerItem(item);
+  };
+
+  const unRegisterItemHandler = (itemId: string) => {
+    unRegisterItem(itemId);
+  };
+
   const userSearchHandler = async () => {
-    const itemIdList: string[] = [];
-    registeredItems.map((item) => {
-      return itemIdList.push(item.id);
-    });
-
-    fetchUsersByItems(itemIdList, token!).then((result) => {
-      setSearchedUsers(result.data.data.getUsersByItems);
-      setIsUserSearched(true);
-    });
-
+    // FIXME: to state?
+    setIsUserSearched(true);
     searchUsers(token!);
   };
 
@@ -133,7 +109,7 @@ export const SearchUsers = () => {
         <SectionTitle>Registered items</SectionTitle>
         <RegisteredItems
           items={registeredItems}
-          onDeleteRegisteredItem={deleteRegisteredItemHandler}
+          onDeleteRegisteredItem={unRegisterItemHandler}
         />
         <div className={classes['button-container']}>
           <Button title="Search Users" onClick={userSearchHandler} />
@@ -168,17 +144,16 @@ export const SearchUsers = () => {
           value={searchItemInput}
           onChange={searchItemInputChangeHandler}
           placeholder={'Search item'}
-          onSetIsSearched={updateIsItemSearchedHandler}
+          onSetIsSearched={() => updateIsItemSearched(true)}
           onSetSearchResult={itemSearchHandler}
         />
       </section>
       <section>
         <SearchedItems
-          searchItemInput={searchItemInput}
           items={searchedItems}
           registeredItems={registeredItems}
           isItemSearched={isItemSearched}
-          onAddClick={addRegisteredItemHandler}
+          onAddClick={registerItemHandler}
         />
       </section>
       {registeredItemsSection}
