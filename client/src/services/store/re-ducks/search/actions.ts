@@ -1,5 +1,6 @@
 import { Item, User } from '../../../../domain';
 import {
+  CLEAR_SEARCH_STATE,
   FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
@@ -54,4 +55,8 @@ export const unFollowUserAction = (
   followerUser: User,
 ): SearchActionTypes => {
   return { type: UN_FOLLOW_USER, payload: { followingUser, followerUser } };
+};
+
+export const clearSearchStateAction = (): SearchActionTypes => {
+  return { type: CLEAR_SEARCH_STATE };
 };
