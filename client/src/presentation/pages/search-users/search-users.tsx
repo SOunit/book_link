@@ -19,6 +19,7 @@ import {
   useUnFollowUser,
   useUnRegisterItem,
   useUpdateIsItemSearched,
+  useUpdateIsUserSearched,
 } from '../../../application';
 // FIXME: de-couple from context
 import { AuthContext } from '../../../services/store';
@@ -26,8 +27,13 @@ import classes from './search-users.module.scss';
 
 export const SearchUsers = () => {
   // clean architecture
-  const { isItemSearched, searchedItems, registeredItems, searchedUsers } =
-    useSearchStorage();
+  const {
+    isItemSearched,
+    isUserSearched,
+    searchedItems,
+    registeredItems,
+    searchedUsers,
+  } = useSearchStorage();
   const { searchItems } = useSearchItems();
   const { registerItem } = useRegisterItem();
   const { unRegisterItem } = useUnRegisterItem();
@@ -36,10 +42,10 @@ export const SearchUsers = () => {
   const { setDefaultItems } = useSetDefaultItems();
   const { followUser } = useFollowUser();
   const { unFollowUser } = useUnFollowUser();
+  const { updateIsUserSearched } = useUpdateIsUserSearched();
 
+  // FIXME: to component
   const [searchItemInput, setSearchItemInput] = useState<string>('');
-  // FIXME: to redux state
-  const [isUserSearched, setIsUserSearched] = useState<boolean>(false);
   // FIXME: to clean architecture
   const { loginUser, token } = useContext(AuthContext);
 
@@ -49,8 +55,7 @@ export const SearchUsers = () => {
   };
 
   const itemSearchHandler = () => {
-    // FIXME: to state?
-    setIsUserSearched(false);
+    updateIsUserSearched(false);
     searchItems(searchItemInput);
   };
 
@@ -63,8 +68,7 @@ export const SearchUsers = () => {
   };
 
   const userSearchHandler = async () => {
-    // FIXME: to state?
-    setIsUserSearched(true);
+    updateIsUserSearched(true);
     searchUsers(token!);
   };
 
@@ -85,8 +89,8 @@ export const SearchUsers = () => {
   }, [setDefaultItems]);
 
   useEffect(() => {
-    setIsUserSearched(false);
-  }, [registeredItems]);
+    updateIsUserSearched(false);
+  }, [updateIsUserSearched, registeredItems]);
 
   let registeredItemsSection = null;
   if (registeredItems.length > 0) {

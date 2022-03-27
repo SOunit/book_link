@@ -7,11 +7,13 @@ import {
   UN_FOLLOW_USER,
   UN_REGISTER_ITEM,
   UPDATE_IS_ITEM_SEARCHED,
+  UPDATE_IS_USER_SEARCHED,
 } from './constants';
 import { SearchActionTypes, SearchState } from './types';
 
 const initialState: SearchState = {
   isItemSearched: false,
+  isUserSearched: false,
   searchedItems: [],
   registeredItems: [],
   searchedUsers: [],
@@ -25,6 +27,11 @@ export const searchReducer = (
     case UPDATE_IS_ITEM_SEARCHED: {
       const { isItemSearched } = action.payload;
       return { ...state, isItemSearched };
+    }
+
+    case UPDATE_IS_USER_SEARCHED: {
+      const { isUserSearched } = action.payload;
+      return { ...state, isUserSearched };
     }
 
     case SET_SEARCHED_ITEMS: {

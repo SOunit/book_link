@@ -22,3 +22,4 @@ export * from './search-users/un-register-item';
 export * from './search-users/update-is-item-searched';
 export * from './search-users/follow-user';
 export * from './search-users/un-follow-user';
+export * from './search-users/update-is-user-searched';

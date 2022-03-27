@@ -8,6 +8,7 @@ import {
   UN_FOLLOW_USER,
   UN_REGISTER_ITEM,
   UPDATE_IS_ITEM_SEARCHED,
+  UPDATE_IS_USER_SEARCHED,
 } from './constants';
 import { SearchActionTypes } from './types';
 
@@ -19,6 +20,10 @@ export const setSearchedItemsAction = (
 
 export const updateIsItemSearchedAction = (isItemSearched: boolean) => {
   return { type: UPDATE_IS_ITEM_SEARCHED, payload: { isItemSearched } };
+};
+
+export const updateIsUserSearchedAction = (isUserSearched: boolean) => {
+  return { type: UPDATE_IS_USER_SEARCHED, payload: { isUserSearched } };
 };
 
 export const registerItemAction = (item: Item): SearchActionTypes => {
