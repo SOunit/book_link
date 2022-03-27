@@ -80,7 +80,6 @@ export const EditUserItems: FC = () => {
       {loginUser && (
         <section>
           <SearchedItems
-            searchItemInput={itemSearchInput}
             items={searchedItems}
             registeredItems={loginUser.items ? loginUser.items : []}
             isItemSearched={isItemSearched}

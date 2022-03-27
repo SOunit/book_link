@@ -8,7 +8,6 @@ type SearchedItemsProps = {
   registeredItems: Item[];
   isItemSearched: boolean;
   onAddClick: (item: Item) => void;
-  searchItemInput: string;
 };
 
 export const SearchedItems: React.FC<SearchedItemsProps> = ({
@@ -16,7 +15,6 @@ export const SearchedItems: React.FC<SearchedItemsProps> = ({
   registeredItems,
   isItemSearched,
   onAddClick,
-  searchItemInput,
 }) => {
   const createButtons = (item: Item) => {
     const buttonDisabled = registeredItems.some((elem) => elem.id === item.id);
@@ -39,7 +37,7 @@ export const SearchedItems: React.FC<SearchedItemsProps> = ({
 
   return (
     <Fragment>
-      {searchItemCardList.length === 0 && searchItemInput && isItemSearched && (
+      {searchItemCardList.length === 0 && isItemSearched && (
         <NotFoundMessage
           title="Item not found!"
           text="Please search by another keyword."

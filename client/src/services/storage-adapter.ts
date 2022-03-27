@@ -2,6 +2,7 @@ import {
   AuthTokenStorageService,
   FollowStorageService,
   ImageStorageService,
+  SearchStorageService,
   UserStorageService,
 } from '../application/ports';
 import { useAuthContext } from './store';
@@ -35,7 +36,15 @@ export const useAuthTokenStorage = (): AuthTokenStorageService => {
 };
 
 export const useFollowStorage = () => {
-  return useSelector((state: RootState) => state) as FollowStorageService;
+  return useSelector(
+    (state: RootState) => state.follow,
+  ) as FollowStorageService;
+};
+
+export const useSearchStorage = () => {
+  return useSelector(
+    (state: RootState) => state.search,
+  ) as SearchStorageService;
 };
 
 export const useImageStorage = (): ImageStorageService => {

@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react';
+import { useUnRegisterItem } from '../../../application';
 import { Item } from '../../../domain/';
 
 export const useRegisteredItems = () => {
   const [registeredItems, setRegisteredItems] = useState<Item[]>([]);
+  const { unRegisterItem } = useUnRegisterItem();
 
   const deleteRegisteredItemHandler = (id: string) => {
     setRegisteredItems((prevState) => {
@@ -11,6 +13,8 @@ export const useRegisteredItems = () => {
       );
       return updatedRegisteredItems;
     });
+
+    unRegisterItem(id);
   };
 
   const initItemsHandler = useCallback((items: Item[]) => {

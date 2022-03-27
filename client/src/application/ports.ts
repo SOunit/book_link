@@ -1,11 +1,11 @@
-import { User } from '../domain';
+import { Item, User } from '../domain';
 
 export interface UserStorageService {
   token: '';
   isLoggedIn: false;
   login: (token?: string) => void;
   logout: () => void;
-  loginUser: null;
+  loginUser: User | null;
   updateLoginUser: (user: User) => void;
 }
 
@@ -18,6 +18,14 @@ export interface FollowStorageService {
   followers: any[];
   isFollowersLoaded: boolean;
   isFollowingsLoaded: boolean;
+}
+
+export interface SearchStorageService {
+  isItemSearched: boolean;
+  isUserSearched: boolean;
+  searchedItems: Item[];
+  registeredItems: Item[];
+  searchedUsers: User[];
 }
 
 export interface FollowAdapterService {

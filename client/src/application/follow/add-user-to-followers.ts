@@ -7,13 +7,14 @@ import {
 } from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
+// FIXME: redux don't need some arguments
 export const useAddUserToFollowers = () => {
   const followAdapter: FollowAdapterService = useFollowAdapter();
   const storage: FollowStorageService = useFollowStorage();
   const dispatch = useDispatch();
 
-  const addUserToFollowers = (followers: User[], followerUser: User) => {
-    const exists = followers.some(
+  const addUserToFollowers = (followerUser: User) => {
+    const exists = storage.followers.some(
       (follower) => follower.id === followerUser.id,
     );
 
@@ -41,7 +42,7 @@ export const useAddUserToFollowers = () => {
 
     // follow page user, add login user to followers of page user
     if (pageUser.id === followerUser.id) {
-      addUserToFollowers(storage.followers, followingUser);
+      addUserToFollowers(followingUser);
     }
 
     // update IsFollowing flag
