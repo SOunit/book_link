@@ -1,4 +1,5 @@
 import {
+  CLEAR_SEARCH_STATE,
   FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
@@ -87,6 +88,10 @@ export const searchReducer = (
       });
 
       return { ...state, searchedUsers: newSearchedUsers };
+    }
+
+    case CLEAR_SEARCH_STATE: {
+      return initialState;
     }
 
     default:

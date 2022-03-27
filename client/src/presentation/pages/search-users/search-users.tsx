@@ -11,6 +11,7 @@ import {
 import { Item, User } from '../../../domain/';
 import { useSearchStorage } from '../../../services';
 import {
+  useClearSearchState,
   useFollowUser,
   useRegisterItem,
   useSearchItems,
@@ -43,6 +44,7 @@ export const SearchUsers = () => {
   const { followUser } = useFollowUser();
   const { unFollowUser } = useUnFollowUser();
   const { updateIsUserSearched } = useUpdateIsUserSearched();
+  const { clearSearchState } = useClearSearchState();
 
   // FIXME: to component
   const [searchItemInput, setSearchItemInput] = useState<string>('');
@@ -85,8 +87,9 @@ export const SearchUsers = () => {
   };
 
   useEffect(() => {
+    clearSearchState();
     setDefaultItems();
-  }, [setDefaultItems]);
+  }, [clearSearchState, setDefaultItems]);
 
   useEffect(() => {
     updateIsUserSearched(false);

@@ -1,5 +1,6 @@
 import { Item, User } from '../../../../domain';
 import {
+  CLEAR_SEARCH_STATE,
   FOLLOW_USER,
   REGISTER_ITEM,
   SET_REGISTERED_ITEMS,
@@ -64,6 +65,10 @@ interface UnFollowUserAction {
   payload: { followingUser: User; followerUser: User };
 }
 
+interface ClearSearchStateAction {
+  type: typeof CLEAR_SEARCH_STATE;
+}
+
 export type SearchActionTypes =
   | SetSearchedItemsAction
   | RegisterItemAction
@@ -73,4 +78,5 @@ export type SearchActionTypes =
   | UpdateIsUserSearched
   | SetRegisteredItemsAction
   | FollowUserAction
-  | UnFollowUserAction;
+  | UnFollowUserAction
+  | ClearSearchStateAction;
