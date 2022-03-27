@@ -57,16 +57,11 @@ export const Follow: FC<Props> = () => {
     history.push(`/users/${userId}`);
   };
 
-  console.log('followers', followers);
-  console.log('followings', followings);
-
   const followClickHandlerInFollowers = (
     user: User,
     loginUser: User,
     pageUser: User,
   ) => {
-    console.log('followClickHandlerInFollowers');
-
     if (user.isFollowing) {
       unFollowUserInFollowers(loginUser, user);
     } else {
@@ -76,7 +71,7 @@ export const Follow: FC<Props> = () => {
 
   const followClickHandlerInFollowings = (user: User, loginUser: User) => {
     if (user.isFollowing) {
-      unFollowUserInFollowings(user);
+      unFollowUserInFollowings(loginUser, user);
     } else {
       followUserInFollowings(loginUser, user);
     }
