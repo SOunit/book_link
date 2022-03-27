@@ -19,8 +19,6 @@ export const SearchedUsers: FC<Props> = ({
 }) => {
   const history = useHistory();
 
-  console.log('searchedUsers users', users);
-
   const detailClickHandler = (user: User) => {
     history.push(`/users/${user.id}`);
   };
