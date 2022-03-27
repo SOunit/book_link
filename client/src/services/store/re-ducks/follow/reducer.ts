@@ -28,17 +28,14 @@ export const followReducer = (
     }
 
     case INIT_FOLLOWERS: {
-      console.log(INIT_FOLLOWERS);
       return { ...state, followers: action.payload, isFollowersLoaded: true };
     }
 
     case INIT_FOLLOWINGS: {
-      console.log(INIT_FOLLOWINGS);
       return { ...state, followings: action.payload, isFollowingsLoaded: true };
     }
 
     case ADD_USER_TO_FOLLOWINGS: {
-      console.log(ADD_USER_TO_FOLLOWINGS);
       const newUser = action.payload;
 
       const exists = state.followings.find((user) => user.id === newUser.id);
@@ -51,7 +48,6 @@ export const followReducer = (
     }
 
     case ADD_USER_TO_FOLLOWERS: {
-      console.log(ADD_USER_TO_FOLLOWERS);
       const newUser = action.payload;
 
       const exists = state.followers.find((user) => user.id === newUser.id);
@@ -65,7 +61,6 @@ export const followReducer = (
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWERS: {
       const { userInFollowers, toFollowing } = action.payload;
-      console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWERS);
 
       const newFollowers = state.followers.map((user) => {
         if (user.id === userInFollowers.id) {
@@ -79,7 +74,6 @@ export const followReducer = (
 
     case UPDATE_IS_FOLLOWING_IN_FOLLOWINGS: {
       const { userInFollowings, toFollowing } = action.payload;
-      console.log(UPDATE_IS_FOLLOWING_IN_FOLLOWINGS);
 
       const newFollowings = state.followings.map((user) => {
         if (user.id === userInFollowings.id) {
@@ -92,7 +86,6 @@ export const followReducer = (
     }
 
     case REMOVE_USER_FROM_FOLLOWERS: {
-      console.log(REMOVE_USER_FROM_FOLLOWERS);
       const followingUserId = action.payload;
 
       const newFollowers = state.followers.filter(
