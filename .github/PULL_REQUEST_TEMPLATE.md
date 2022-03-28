@@ -1,3 +1,3 @@
-# auto close issue command
+## issue numbers to close them automatically
 
 - fixed #
