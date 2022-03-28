@@ -1,27 +1,28 @@
 import { keys } from '../presentation/util';
 
-// to hold initialized google auth
-let auth: any;
-
 export const useAuth = () => {
-  const authenticate = (): any => {
+  const authenticate = (): Promise<string | null> => {
     if (!window.gapi) {
-      return;
+      return new Promise(() => {});
     }
 
-    return new Promise((res) => {
+    return new Promise((resolve, reject) => {
       window.gapi.load('client:auth2', () => {
-        return window.gapi.client
+        window.gapi.client
           .init({
             clientId: keys.GOOGLE_CLIENT_ID,
             scope: 'email',
           })
           .then(() => {
-            auth = window.gapi.auth2.getAuthInstance();
-            auth.signIn();
+            const googleAuth = window.gapi.auth2.getAuthInstance();
 
-            const loginId = auth.currentUser.get().getId();
-            return res(loginId);
+            googleAuth.signIn().then(() => {
+              const loginId = googleAuth.currentUser.get().getId();
+              resolve(loginId);
+            });
+          })
+          .catch((err) => {
+            reject(err);
           });
       });
     });

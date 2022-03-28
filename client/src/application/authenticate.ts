@@ -4,13 +4,15 @@ import { AuthenticateService, UserStorageService } from './ports';
 
 export const useAuthenticate = () => {
   const storage: UserStorageService = useUserStorage();
-  const auth: AuthenticateService = useAuth();
+  const authAdapter: AuthenticateService = useAuth();
 
   const authenticate = () => {
-    auth
+    authAdapter
       .auth()
       .then((loginId) => {
-        storage.login(loginId);
+        if (loginId) {
+          storage.login(loginId);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -18,7 +20,7 @@ export const useAuthenticate = () => {
   };
 
   const logout = () => {
-    auth.logout();
+    authAdapter.logout();
     storage.logout();
   };
 
