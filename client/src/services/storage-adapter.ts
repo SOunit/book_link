@@ -8,9 +8,14 @@ import {
 import { useAuthContext } from './store';
 import axios from 'axios';
 import { keys } from '../presentation/util';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import { useCallback } from 'react';
+import {
+  addUserToFollowersAction,
+  UpdateIsFollowingInFollowersAction,
+} from './store/re-ducks/follow/actions';
+import { User } from '../domain';
 
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
@@ -36,9 +41,26 @@ export const useAuthTokenStorage = (): AuthTokenStorageService => {
 };
 
 export const useFollowStorage = () => {
-  return useSelector(
-    (state: RootState) => state.follow,
-  ) as FollowStorageService;
+  const dispatch = useDispatch();
+
+  const followState = useSelector((state: RootState) => state.follow);
+
+  const addUserToFollowers = (userToJoinFollowers: User) => {
+    dispatch(addUserToFollowersAction(userToJoinFollowers));
+  };
+
+  const updateIsFollowingInFollowers = (
+    userInFollowers: User,
+    toFollowing: boolean,
+  ) => {
+    dispatch(UpdateIsFollowingInFollowersAction(userInFollowers, toFollowing));
+  };
+
+  return {
+    ...followState,
+    addUserToFollowers,
+    updateIsFollowingInFollowers,
+  } as FollowStorageService;
 };
 
 export const useSearchStorage = () => {
