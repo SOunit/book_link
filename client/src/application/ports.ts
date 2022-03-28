@@ -42,6 +42,6 @@ export interface AuthTokenStorageService {
 }
 
 export interface AuthenticateService {
-  auth(): Promise<any>;
+  auth(): Promise<string | null>;
   logout(): void;
 }
