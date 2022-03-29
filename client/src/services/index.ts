@@ -1,6 +1,7 @@
 export * from './api-adapter';
 
 export * from './chat-adapter';
+export * from './chat-storage';
 
 export * from './item-adapter';
 

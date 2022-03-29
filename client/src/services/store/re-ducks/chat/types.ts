@@ -8,6 +8,7 @@ export type ChatState = {
 
 interface InitChatListAction extends Action {
   type: typeof INIT_CHAT_LIST;
+  payload: { chatList: Chat[] };
 }
 
 export type ChatActionTypes = InitChatListAction;

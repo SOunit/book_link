@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { ChatAdapter, useAuthStorage } from '../../../services';
+import { useAuthStorage, useChatAdapter } from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
@@ -19,10 +19,11 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   const [chat, setChat] = useState<ChatType | null>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
+  const chatAdapter = useChatAdapter();
 
   const fetchChat = (userIds: string[]) => {
     const [loginUserId, chatPartnerUserId] = userIds;
-    ChatAdapter.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
+    chatAdapter.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
       const chat = res.data.data.getUserChat;
       setChat(chat);
     });
@@ -69,8 +70,9 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     }
 
     if (chat && loginUser) {
-      ChatAdapter.createMessage(chat.id, loginUser.id, messageInput).then(
-        (res) => {
+      chatAdapter
+        .createMessage(chat.id, loginUser.id, messageInput)
+        .then((res) => {
           // fetch message from backend
           const message = res.data.data.createMessage;
 
@@ -81,8 +83,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
           });
 
           setMessageInput('');
-        },
-      );
+        });
     }
   };
 

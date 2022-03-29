@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { Chat } from '../../../domain';
-import { ChatAdapter, useAuthStorage } from '../../../services';
+import { useChatAdapter, useAuthStorage } from '../../../services';
 import { NotFoundMessage, Spinner } from '../../components/molecules';
 import { ChatList as ChatLogList } from '../../components/organisms';
 import classes from './chat-list.module.scss';
@@ -9,10 +9,12 @@ export const ChatList: FC = () => {
   const { loginUser } = useAuthStorage();
   const [chats, setChats] = useState<Chat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const chatAdapter = useChatAdapter();
 
   useEffect(() => {
     if (loginUser) {
-      ChatAdapter.fetchChatList(loginUser.id)
+      chatAdapter
+        .fetchChatList(loginUser.id)
         .then((res) => {
           const chats = res.data.data.getUserChatList;
           setChats(chats);
