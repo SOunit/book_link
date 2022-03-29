@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { Chat } from '../../../../domain';
-import { INIT_CHAT_LIST } from './constants';
+import { ADD_CHAT, INIT_CHAT_LIST } from './constants';
 
 export type ChatState = {
   chatList: Chat[];
@@ -11,4 +11,9 @@ interface InitChatListAction extends Action {
   payload: { chatList: Chat[] };
 }
 
-export type ChatActionTypes = InitChatListAction;
+interface AddChatAction extends Action {
+  type: typeof ADD_CHAT;
+  payload: { chat: Chat };
+}
+
+export type ChatActionTypes = InitChatListAction | AddChatAction;

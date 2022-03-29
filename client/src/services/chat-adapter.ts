@@ -68,7 +68,18 @@ export const useChatAdapter = () => {
       const graphqlQuery = {
         query: `
                 mutation CreateChat($targetId: ID!, $userId: ID!){
-                  createChat(targetId: $targetId, userId: $userId)
+                  createChat(targetId: $targetId, userId: $userId){
+                    id
+                    users{
+                      id
+                      name
+                      imageUrl
+                    }
+                    messages{
+                      id
+                      text
+                    }
+                  }
                 }
               `,
         variables: {

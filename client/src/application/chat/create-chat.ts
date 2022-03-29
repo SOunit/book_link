@@ -6,7 +6,10 @@ export const useCreateChat = () => {
   const adapter = useChatAdapter();
 
   const createChat = (loginUser: User, targetUser: User): Promise<any> => {
-    return adapter.createChat(loginUser.id, targetUser.id);
+    return adapter.createChat(loginUser.id, targetUser.id).then((res) => {
+      const chat = res.data.data.createChat;
+      storage.addChat(chat);
+    });
   };
 
   return { createChat };

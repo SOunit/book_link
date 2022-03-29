@@ -1,7 +1,10 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chat } from '../domain';
-import { initChatListAction } from './store/re-ducks/chat/actions';
+import {
+  addChatAction,
+  initChatListAction,
+} from './store/re-ducks/chat/actions';
 import { RootState } from './store/store';
 
 export const useChatStorage = () => {
@@ -15,8 +18,13 @@ export const useChatStorage = () => {
     [dispatch],
   );
 
+  const addChat = (chat: Chat) => {
+    dispatch(addChatAction(chat));
+  };
+
   return {
     ...chatState,
     initChatList,
+    addChat,
   };
 };
