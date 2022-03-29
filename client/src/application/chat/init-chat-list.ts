@@ -9,7 +9,6 @@ export const useInitChatList = () => {
     async (userId: string) => {
       // fetch data
       const response = await fetchChatList(userId);
-
       const chatList = response.data.data.getUserChatList;
 
       // update state
