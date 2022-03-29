@@ -1,11 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { unRegisterItemAction } from '../../services/store/re-ducks/search/actions';
+import { useSearchStorage } from '../../services';
+import { SearchStorageService } from '../ports';
 
 export const useUnRegisterItem = () => {
-  const dispatch = useDispatch();
+  const storage: SearchStorageService = useSearchStorage();
 
   const unRegisterItem = (itemId: string) => {
-    dispatch(unRegisterItemAction(itemId));
+    storage.unRegisterItem(itemId);
   };
 
   return { unRegisterItem };
