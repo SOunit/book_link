@@ -9,7 +9,7 @@ import {
 } from '../../components/molecules';
 import { User } from '../../../domain/';
 import {
-  ChatAdapter,
+  useChatAdapter,
   useAuthStorage,
   useFollowStorage,
   useUserAdapter,
@@ -39,6 +39,7 @@ export const UserDetail: FC<Props> = () => {
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();
   const { fetchUser } = useUserAdapter();
+  const chatAdapter = useChatAdapter();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
@@ -60,7 +61,7 @@ export const UserDetail: FC<Props> = () => {
     }
 
     // get message
-    ChatAdapter.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
+    chatAdapter.fetchChat([targetUser.id, loginUser!.id]).then((res) => {
       const chats = res.data.data.getUserChat;
 
       if (chats && chats.length <= 0) {
@@ -68,7 +69,7 @@ export const UserDetail: FC<Props> = () => {
         history.push(`/chats/${targetUser.id}`);
       } else {
         if (loginUser && targetUser) {
-          ChatAdapter.createChat(loginUser?.id, targetUser.id).then((res) => {
+          chatAdapter.createChat(loginUser?.id, targetUser.id).then((res) => {
             history.push(`/chats/${targetUser.id}`);
           });
         }

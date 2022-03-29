@@ -1,48 +1,20 @@
-import { FC, useEffect, useState } from 'react';
-import { ChatAdapter, useAuthStorage } from '../../../services';
-import { Chat } from '../../../domain';
-import {
-  ChatListItem,
-  NotFoundMessage,
-  Spinner,
-} from '../../components/molecules';
-import classes from './chat-list.module.scss';
+import { FC } from 'react';
+import { useChatStorage } from '../../../services';
+import { NotFoundMessage } from '../../components/molecules';
+import { ChatList as ChatLogList } from '../../components/organisms';
 
 export const ChatList: FC = () => {
-  const { loginUser } = useAuthStorage();
-  const [chats, setChats] = useState<Chat[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    if (loginUser) {
-      ChatAdapter.fetchChatList(loginUser.id)
-        .then((res) => {
-          const chats = res.data.data.getUserChatList;
-          setChats(chats);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          setIsLoading(false);
-        });
-    }
-  }, [loginUser]);
-
-  let chatList = null;
-  if (chats && loginUser) {
-    chatList = chats.map((chat) => <ChatListItem chat={chat} key={chat.id} />);
-  }
+  const { chatList } = useChatStorage();
 
   return (
     <div>
-      {isLoading && <Spinner className={classes['spinner']} />}
-      {!isLoading && chatList && chatList.length === 0 && (
+      {(!chatList || (chatList && chatList.length === 0)) && (
         <NotFoundMessage
           title="No Chat Found"
           text="Let's chat with somebody."
         />
       )}
-      {!isLoading && chatList}
+      {chatList && <ChatLogList chatList={chatList} />}
     </div>
   );
 };

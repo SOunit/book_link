@@ -15,13 +15,24 @@ import {
   CreateItem,
   Follow,
 } from './presentation/pages';
-import './App.css';
 import { useSocket } from './presentation/hooks';
-import { useAuthStorage } from './services';
+import { useAuthStorage, useChatStorage } from './services';
+import './App.css';
+import { useInitChatList } from './application/chat/init-chat-list';
 
 function App() {
   const { socket } = useSocket();
   const authStorage = useAuthStorage();
+  const { token } = authStorage;
+  const chatStorage = useChatStorage();
+  console.log('chatStorage.chatList', chatStorage.chatList);
+  const { initChatList } = useInitChatList();
+
+  useEffect(() => {
+    if (token) {
+      initChatList(token);
+    }
+  }, [initChatList, token]);
 
   useEffect(() => {
     document.title = 'Book Link';
@@ -29,9 +40,9 @@ function App() {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('join', authStorage.token);
+      socket.emit('join', token);
     }
-  }, [authStorage.token, socket]);
+  }, [token, socket]);
 
   return (
     <Layout>
