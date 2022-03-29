@@ -1,11 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { updateIsItemSearchedAction } from '../../services/store/re-ducks/search/actions';
+import { useSearchStorage } from '../../services';
+import { SearchStorageService } from '../ports';
 
 export const useUpdateIsItemSearched = () => {
-  const dispatch = useDispatch();
+  const storage: SearchStorageService = useSearchStorage();
 
   const updateIsItemSearched = (isItemSearched: boolean) => {
-    dispatch(updateIsItemSearchedAction(isItemSearched));
+    storage.updateIsItemSearched(isItemSearched);
   };
 
   return { updateIsItemSearched };

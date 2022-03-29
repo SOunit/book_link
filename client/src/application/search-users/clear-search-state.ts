@@ -1,13 +1,7 @@
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { clearSearchStateAction } from '../../services/store/re-ducks/search/actions';
+import { useSearchStorage } from '../../services';
 
 export const useClearSearchState = () => {
-  const dispatch = useDispatch();
-
-  const clearSearchState = useCallback(() => {
-    dispatch(clearSearchStateAction());
-  }, [dispatch]);
+  const { clearSearchState } = useSearchStorage();
 
   return { clearSearchState };
 };

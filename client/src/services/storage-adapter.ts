@@ -21,7 +21,19 @@ import {
   updateIsFollowingInFollowersAction,
   updateIsFollowingInFollowingsAction,
 } from './store/re-ducks/follow/actions';
-import { User } from '../domain';
+import { Item, User } from '../domain';
+import {
+  clearSearchStateAction,
+  followUserAction,
+  registerItemAction,
+  SetRegisteredItemsAction,
+  setSearchedItemsAction,
+  setSearchedUsersAction,
+  unFollowUserAction,
+  unRegisterItemAction,
+  updateIsItemSearchedAction,
+  updateIsUserSearchedAction,
+} from './store/re-ducks/search/actions';
 
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
@@ -103,9 +115,68 @@ export const useFollowStorage = () => {
 };
 
 export const useSearchStorage = () => {
-  return useSelector(
-    (state: RootState) => state.search,
-  ) as SearchStorageService;
+  const searchUserState = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
+
+  const clearSearchState = useCallback(() => {
+    dispatch(clearSearchStateAction());
+  }, [dispatch]);
+
+  const followUser = (followingUser: User, followerUser: User) => {
+    dispatch(followUserAction(followingUser, followerUser));
+  };
+
+  const unFollowUser = (followingUser: User, followerUser: User) => {
+    dispatch(unFollowUserAction(followingUser, followerUser));
+  };
+
+  const registerItem = (item: Item) => {
+    dispatch(registerItemAction(item));
+  };
+
+  const unRegisterItem = (itemId: string) => {
+    dispatch(unRegisterItemAction(itemId));
+  };
+
+  const setSearchedItems = (searchedItems: Item[]) => {
+    dispatch(setSearchedItemsAction(searchedItems));
+  };
+
+  const setSearchedUsers = (searchedUsers: User[]) => {
+    dispatch(setSearchedUsersAction(searchedUsers));
+  };
+
+  const setRegisteredItems = useCallback(
+    (items: Item[]) => {
+      dispatch(SetRegisteredItemsAction(items));
+    },
+    [dispatch],
+  );
+
+  const updateIsItemSearched = (isItemSearched: boolean) => {
+    dispatch(updateIsItemSearchedAction(isItemSearched));
+  };
+
+  const updateIsUserSearched = useCallback(
+    (isUserSearched: boolean) => {
+      dispatch(updateIsUserSearchedAction(isUserSearched));
+    },
+    [dispatch],
+  );
+
+  return {
+    ...searchUserState,
+    clearSearchState,
+    followUser,
+    unFollowUser,
+    registerItem,
+    unRegisterItem,
+    setSearchedItems,
+    setSearchedUsers,
+    setRegisteredItems,
+    updateIsItemSearched,
+    updateIsUserSearched,
+  } as SearchStorageService;
 };
 
 export const useImageStorage = (): ImageStorageService => {

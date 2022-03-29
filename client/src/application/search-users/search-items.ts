@@ -1,21 +1,20 @@
-import { useDispatch } from 'react-redux';
-import { useItemAdapter } from '../../services';
-import { setSearchedItemsAction } from '../../services/store/re-ducks/search/actions';
+import { useItemAdapter, useSearchStorage } from '../../services';
+import { SearchStorageService } from '../ports';
 
 export const useSearchItems = () => {
   const itemAdapter = useItemAdapter();
-  const dispatch = useDispatch();
+  const storage: SearchStorageService = useSearchStorage();
 
   const searchItems = async (searchTerm: string) => {
     if (!searchTerm) {
-      dispatch(setSearchedItemsAction([]));
+      storage.setSearchedItems([]);
       return;
     }
 
     const response = await itemAdapter.fetchItemsByTitle(searchTerm);
     const searchedItems = response.data.data.itemsByTitle;
 
-    dispatch(setSearchedItemsAction(searchedItems));
+    storage.setSearchedItems(searchedItems);
   };
 
   return { searchItems };

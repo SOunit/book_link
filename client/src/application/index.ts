@@ -1,4 +1,4 @@
-export * from './authenticate';
+export * from './auth/authenticate';
 export * from './user/user-use-case';
 export * from './image/upload-image';
 export * from './user/update-user-items';
