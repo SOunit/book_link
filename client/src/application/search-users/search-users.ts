@@ -10,6 +10,7 @@ export const useSearchUsers = () => {
     const response = await userAdapter.fetchUsersByItems(itemIds, loginUserId);
     const searchedUsers = response.data.data.getUsersByItems;
 
+    // update state
     storage.setSearchedUsers(searchedUsers);
   };
 

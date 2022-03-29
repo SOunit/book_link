@@ -26,6 +26,7 @@ import {
   clearSearchStateAction,
   followUserAction,
   registerItemAction,
+  SetRegisteredItemsAction,
   setSearchedItemsAction,
   setSearchedUsersAction,
 } from './store/re-ducks/search/actions';
@@ -133,6 +134,13 @@ export const useSearchStorage = () => {
     dispatch(setSearchedUsersAction(searchedUsers));
   };
 
+  const setRegisteredItems = useCallback(
+    (items: Item[]) => {
+      dispatch(SetRegisteredItemsAction(items));
+    },
+    [dispatch],
+  );
+
   return {
     ...searchUserState,
     clearSearchState,
@@ -140,6 +148,7 @@ export const useSearchStorage = () => {
     registerItem,
     setSearchedItems,
     setSearchedUsers,
+    setRegisteredItems,
   } as SearchStorageService;
 };
 

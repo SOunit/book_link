@@ -1,12 +1,15 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useItemAdapter, useUserStorage } from '../../services';
-import { SetRegisteredItemsAction } from '../../services/store/re-ducks/search/actions';
+import {
+  useItemAdapter,
+  useSearchStorage,
+  useUserStorage,
+} from '../../services';
+import { SearchStorageService } from '../ports';
 
 export const useSetDefaultItems = () => {
   const { loginUser } = useUserStorage();
   const { fetchRandomItems } = useItemAdapter();
-  const dispatch = useDispatch();
+  const { setRegisteredItems }: SearchStorageService = useSearchStorage();
 
   const setDefaultItems = useCallback(async () => {
     if (!loginUser || !loginUser.items) {
@@ -20,8 +23,8 @@ export const useSetDefaultItems = () => {
       defaultItems = response.data.data.fetchRandomItems;
     }
 
-    dispatch(SetRegisteredItemsAction(defaultItems));
-  }, [loginUser, fetchRandomItems, dispatch]);
+    setRegisteredItems(defaultItems);
+  }, [loginUser, fetchRandomItems, setRegisteredItems]);
 
   return {
     setDefaultItems,
