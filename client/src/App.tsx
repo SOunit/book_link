@@ -17,8 +17,8 @@ import {
 } from './presentation/pages';
 import { useSocket } from './presentation/hooks';
 import { useAuthStorage, useChatStorage } from './services';
+import { useInitChatList } from './application/';
 import './App.css';
-import { useInitChatList } from './application/chat/init-chat-list';
 
 function App() {
   const { socket } = useSocket();
