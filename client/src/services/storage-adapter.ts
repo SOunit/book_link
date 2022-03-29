@@ -14,6 +14,9 @@ import { useCallback } from 'react';
 import {
   addUserToFollowersAction,
   addUserToFollowingsAction,
+  initFollowersAction,
+  initFollowingsAction,
+  initFollowIsLoadedAction,
   removeUserFromFollowersAction,
   updateIsFollowingInFollowersAction,
   updateIsFollowingInFollowingsAction,
@@ -74,6 +77,18 @@ export const useFollowStorage = () => {
     dispatch(updateIsFollowingInFollowersAction(userInFollowers, toFollowing));
   };
 
+  const initFollowIsLoaded = useCallback(() => {
+    dispatch(initFollowIsLoadedAction());
+  }, [dispatch]);
+
+  const initFollowings = (followings: User[]) => {
+    dispatch(initFollowingsAction(followings));
+  };
+
+  const initFollowers = (followers: User[]) => {
+    dispatch(initFollowersAction(followers));
+  };
+
   return {
     ...followState,
     addUserToFollowers,
@@ -81,6 +96,9 @@ export const useFollowStorage = () => {
     addUserToFollowings,
     updateIsFollowingInFollowers,
     updateIsFollowingInFollowings,
+    initFollowIsLoaded,
+    initFollowings,
+    initFollowers,
   } as FollowStorageService;
 };
 

@@ -30,6 +30,9 @@ export interface FollowStorageService {
     followerUser: User,
     toFollowing: boolean,
   ) => void;
+  initFollowIsLoaded: () => void;
+  initFollowings: (followings: User[]) => void;
+  initFollowers: (followers: User[]) => void;
 }
 
 export interface SearchStorageService {
