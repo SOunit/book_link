@@ -43,7 +43,7 @@ export const UserDetail: FC<Props> = () => {
   const followClickHandler = () => {
     if (loginUser && targetUser) {
       setIsFollowing(true);
-      addFollowerUserToFollowers(targetUser, loginUser, targetUser, loginUser);
+      addFollowerUserToFollowers(targetUser, loginUser, targetUser);
     }
   };
 

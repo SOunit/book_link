@@ -1,43 +1,47 @@
 import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import { useFollowAdapter, useFollowStorage } from '../../services';
-import {
-  initFollowersAction,
-  initFollowingsAction,
-  initFollowIsLoadedAction,
-} from '../../services/store/re-ducks/follow/actions';
 import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useInitFollow = () => {
   const followAdapter: FollowAdapterService = useFollowAdapter();
   const storage: FollowStorageService = useFollowStorage();
-  const dispatch = useDispatch();
+  const {
+    isFollowingsLoaded,
+    isFollowersLoaded,
+    initFollowIsLoaded,
+    initFollowings,
+    initFollowers,
+  } = storage;
+  const { fetchFollowingUsers, fetchFollowerUsers } = followAdapter;
 
   const initIsLoaded = useCallback(() => {
-    dispatch(initFollowIsLoadedAction());
-  }, [dispatch]);
+    initFollowIsLoaded();
+  }, [initFollowIsLoaded]);
 
   const initFollow = useCallback(
     (targetUserId: string, loginUserId: string) => {
-      if (!storage.isFollowingsLoaded) {
-        followAdapter
-          .fetchFollowingUsers(targetUserId, loginUserId)
-          .then((res) => {
-            const followings = res.data.data.getFollowingUsers;
-            dispatch(initFollowingsAction(followings));
-          });
+      if (!isFollowingsLoaded) {
+        fetchFollowingUsers(targetUserId, loginUserId).then((res) => {
+          const followings = res.data.data.getFollowingUsers;
+          initFollowings(followings);
+        });
       }
 
-      if (!storage.isFollowersLoaded) {
-        followAdapter
-          .fetchFollowerUsers(targetUserId, loginUserId)
-          .then((res) => {
-            const followers = res.data.data.getFollowerUsers;
-            dispatch(initFollowersAction(followers));
-          });
+      if (!isFollowersLoaded) {
+        fetchFollowerUsers(targetUserId, loginUserId).then((res) => {
+          const followers = res.data.data.getFollowerUsers;
+          initFollowers(followers);
+        });
       }
     },
-    [dispatch, followAdapter, storage],
+    [
+      fetchFollowingUsers,
+      fetchFollowerUsers,
+      isFollowingsLoaded,
+      isFollowersLoaded,
+      initFollowings,
+      initFollowers,
+    ],
   );
   return { initFollow, initIsLoaded };
 };

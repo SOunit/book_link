@@ -1,15 +1,13 @@
-import { useDispatch } from 'react-redux';
 import { User } from '../../domain';
-import { useFollowAdapter } from '../../services';
-import { updateIsFollowingInFollowingsAction } from '../../services/store/re-ducks/follow/actions';
-import { FollowAdapterService } from '../ports';
+import { useFollowAdapter, useFollowStorage } from '../../services';
+import { FollowAdapterService, FollowStorageService } from '../ports';
 
 export const useFollowUserInFollowings = () => {
   const followAdapter: FollowAdapterService = useFollowAdapter();
-  const dispatch = useDispatch();
+  const storage: FollowStorageService = useFollowStorage();
 
   const followUserInFollowings = (followingUser: User, followerUser: User) => {
-    dispatch(updateIsFollowingInFollowingsAction(followerUser, true));
+    storage.updateIsFollowingInFollowings(followerUser, true);
     followAdapter.createFollowing(followingUser.id, followerUser.id);
   };
 

@@ -41,7 +41,7 @@ export const removeUserFromFollowersAction = (
   return { type: REMOVE_USER_FROM_FOLLOWERS, payload: followingUser.id };
 };
 
-export const UpdateIsFollowingInFollowersAction = (
+export const updateIsFollowingInFollowersAction = (
   userInFollowers: User,
   toFollowing: boolean,
 ): FollowActionTypes => {
