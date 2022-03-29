@@ -5,3 +5,5 @@ export * from './item-adapter';
 export * from './auth-adapter';
 export * from './storage-adapter';
 export * from './user-adapter';
+export * from './user-storage';
+export * from './auth-token-storage';

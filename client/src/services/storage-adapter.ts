@@ -1,11 +1,8 @@
 import {
-  AuthTokenStorageService,
   FollowStorageService,
   ImageStorageService,
   SearchStorageService,
-  UserStorageService,
 } from '../application/ports';
-import { useAuthContext } from './store';
 import axios from 'axios';
 import { keys } from '../presentation/util';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,25 +35,6 @@ import {
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
 // application layer can keep independent from service using interface
-export const useUserStorage = (): UserStorageService => {
-  return useAuthContext() as UserStorageService;
-};
-
-export const useAuthTokenStorage = (): AuthTokenStorageService => {
-  const getItem = useCallback((key: string): string | null => {
-    return localStorage.getItem(key);
-  }, []);
-
-  const setItem = useCallback((key: string, value: string): void => {
-    localStorage.setItem(key, value);
-  }, []);
-
-  const removeItem = useCallback((key: string): void => {
-    localStorage.removeItem(key);
-  }, []);
-
-  return { getItem, setItem, removeItem };
-};
 
 export const useFollowStorage = () => {
   const dispatch = useDispatch();
