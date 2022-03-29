@@ -49,6 +49,7 @@ export interface SearchStorageService {
   setSearchedItems: (searchedItems: Item[]) => void;
   setSearchedUsers: (searchedUsers: User[]) => void;
   setRegisteredItems: (items: Item[]) => void;
+  updateIsItemSearched: (isItemSearched: boolean) => void;
 }
 
 export interface FollowAdapterService {
