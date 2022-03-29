@@ -42,6 +42,7 @@ export interface SearchStorageService {
   registeredItems: Item[];
   searchedUsers: User[];
   clearSearchState: () => void;
+  followUser: (followingUser: User, followerUser: User) => void;
 }
 
 export interface FollowAdapterService {
