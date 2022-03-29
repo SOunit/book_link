@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  FC,
-  Fragment,
-  SyntheticEvent,
-  useContext,
-  useState,
-} from 'react';
+import { ChangeEvent, FC, Fragment, SyntheticEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button } from '../../components/atoms';
 import {
@@ -13,8 +6,11 @@ import {
   SectionTitle,
   ValidateInput,
 } from '../../components/molecules';
-import { useItemAdapter, useImageStorage } from '../../../services';
-import { AuthContext } from '../../../services/store';
+import {
+  useItemAdapter,
+  useImageStorage,
+  useAuthStorage,
+} from '../../../services';
 import { validate, VALIDATOR_REQUIRE } from '../../util';
 import classes from './create-item.module.css';
 
@@ -32,7 +28,7 @@ export const CreateItem: FC = () => {
   });
   const [imageFile, setImageFile] = useState<File>();
   const history = useHistory();
-  const { loginUser, updateLoginUser } = useContext(AuthContext);
+  const { loginUser, updateLoginUser } = useAuthStorage();
   const imageStorage = useImageStorage();
   const itemAdapter = useItemAdapter();
 

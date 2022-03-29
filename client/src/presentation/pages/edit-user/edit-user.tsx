@@ -1,12 +1,11 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, Fragment, useEffect } from 'react';
 import { UserInfo } from '../../components/molecules';
 import { EditUserForm } from '../../components/organisms';
-import { AuthContext } from '../../../services/store';
 import { useInitFollow } from '../../../application';
-import { useFollowStorage } from '../../../services';
+import { useAuthStorage, useFollowStorage } from '../../../services';
 
 export const EditUser: FC = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const { initFollow, initIsLoaded } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =
     useFollowStorage();

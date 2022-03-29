@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, Fragment, useContext, useState } from 'react';
+import { ChangeEvent, FC, Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Item } from '../../../domain/';
 import {
@@ -9,13 +9,13 @@ import {
   SectionTitle,
 } from '../../components/molecules';
 import { useSearchedItems } from '../../hooks';
-import { AuthContext } from '../../../services/store';
 import classes from './edit-user-items.module.scss';
 import { useUpdateUserItems } from '../../../application/user/update-user-items';
 import { User } from '../../../domain';
+import { useAuthStorage } from '../../../services';
 
 export const EditUserItems: FC = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const {
     searchedItems,
     isItemSearched,

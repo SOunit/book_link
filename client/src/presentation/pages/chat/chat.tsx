@@ -1,16 +1,7 @@
-import {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  FormEvent,
-  useContext,
-  ChangeEvent,
-} from 'react';
+import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { ChatAdapter } from '../../../services';
+import { ChatAdapter, useAuthStorage } from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
-import { AuthContext } from '../../../services/store';
 import { ChatForm, ChatHeader } from '../../components/organisms';
 import { ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
@@ -24,7 +15,7 @@ type UserDetailParams = {
 };
 
 export const Chat: FC<ChatProps> = ({ socket }) => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const { userId } = useParams<UserDetailParams>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);

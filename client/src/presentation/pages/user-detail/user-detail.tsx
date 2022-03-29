@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useContext, FC } from 'react';
+import { Fragment, useEffect, useState, FC } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import {
   Buttons,
@@ -10,10 +10,10 @@ import {
 import { User } from '../../../domain/';
 import {
   ChatAdapter,
+  useAuthStorage,
   useFollowStorage,
   useUserAdapter,
 } from '../../../services';
-import { AuthContext } from '../../../services/store';
 import {
   useAddUserToFollowers,
   useInitFollow,
@@ -28,7 +28,7 @@ type UserDetailParams = {
 type Props = {};
 
 export const UserDetail: FC<Props> = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const params = useParams<UserDetailParams>();
   const history = useHistory();
   const [targetUser, setTargetUser] = useState<User>();
