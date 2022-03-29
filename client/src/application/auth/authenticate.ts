@@ -1,6 +1,6 @@
-import { useAuth } from '../services';
-import { useUserStorage } from '../services';
-import { AuthenticateService, UserStorageService } from './ports';
+import { useAuth } from '../../services';
+import { useUserStorage } from '../../services';
+import { AuthenticateService, UserStorageService } from '../ports';
 
 export const useAuthenticate = () => {
   const storage: UserStorageService = useUserStorage();
