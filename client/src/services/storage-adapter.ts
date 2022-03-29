@@ -1,23 +1,12 @@
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import {
-  FollowStorageService,
   ImageStorageService,
   SearchStorageService,
 } from '../application/ports';
-import axios from 'axios';
 import { keys } from '../presentation/util';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store/store';
-import { useCallback } from 'react';
-import {
-  addUserToFollowersAction,
-  addUserToFollowingsAction,
-  initFollowersAction,
-  initFollowingsAction,
-  initFollowIsLoadedAction,
-  removeUserFromFollowersAction,
-  updateIsFollowingInFollowersAction,
-  updateIsFollowingInFollowingsAction,
-} from './store/re-ducks/follow/actions';
 import { Item, User } from '../domain';
 import {
   clearSearchStateAction,
@@ -35,62 +24,6 @@ import {
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
 // application layer can keep independent from service using interface
-
-export const useFollowStorage = () => {
-  const dispatch = useDispatch();
-
-  const followState = useSelector((state: RootState) => state.follow);
-
-  const addUserToFollowers = (followingUser: User) => {
-    dispatch(addUserToFollowersAction(followingUser));
-  };
-
-  const removeUserFromFollowers = (followingUser: User) => {
-    dispatch(removeUserFromFollowersAction(followingUser));
-  };
-
-  const addUserToFollowings = (followerUser: User) => {
-    dispatch(addUserToFollowingsAction(followerUser));
-  };
-
-  const updateIsFollowingInFollowings = (
-    followerUser: User,
-    toFollowing: boolean,
-  ) => {
-    dispatch(updateIsFollowingInFollowingsAction(followerUser, toFollowing));
-  };
-
-  const updateIsFollowingInFollowers = (
-    userInFollowers: User,
-    toFollowing: boolean,
-  ) => {
-    dispatch(updateIsFollowingInFollowersAction(userInFollowers, toFollowing));
-  };
-
-  const initFollowIsLoaded = useCallback(() => {
-    dispatch(initFollowIsLoadedAction());
-  }, [dispatch]);
-
-  const initFollowings = (followings: User[]) => {
-    dispatch(initFollowingsAction(followings));
-  };
-
-  const initFollowers = (followers: User[]) => {
-    dispatch(initFollowersAction(followers));
-  };
-
-  return {
-    ...followState,
-    addUserToFollowers,
-    removeUserFromFollowers,
-    addUserToFollowings,
-    updateIsFollowingInFollowers,
-    updateIsFollowingInFollowings,
-    initFollowIsLoaded,
-    initFollowings,
-    initFollowers,
-  } as FollowStorageService;
-};
 
 export const useSearchStorage = () => {
   const searchUserState = useSelector((state: RootState) => state.search);
