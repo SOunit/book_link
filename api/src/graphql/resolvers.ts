@@ -449,9 +449,23 @@ const resolvers = {
     }
 
     const transaction = await sequelize.transaction();
+
+    type Response = {
+      id: string;
+      users: UserType[];
+      messages: [];
+    };
+    const response: Response = {
+      id: '',
+      users: [],
+      messages: [],
+    };
+
     try {
       const chat = await Chat.create({ id: uuidV4() }, { transaction });
       const chatId = chat.get({ row: true }).id;
+
+      response.id = chatId;
 
       await UserChat.create(
         {
@@ -471,14 +485,32 @@ const resolvers = {
         { transaction },
       );
 
+      console.log('args.targetId', args.targetId);
+
+      const user = await User.findOne({
+        where: { id: args.targetId },
+      });
+
+      console.log('user', user);
+      const userData = {
+        id: user.id,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        about: user.about,
+      } as UserType;
+      console.log('userData', userData);
+
+      response.users = [userData];
+      console.log('response', response);
+
       await transaction.commit();
     } catch (err: any) {
       await transaction.rollback();
       console.log({ status: 'Error', message: err.message });
-      return false;
+      return;
     }
 
-    return true;
+    return response;
   },
 
   createMessage: async (args: {
