@@ -43,6 +43,7 @@ export interface SearchStorageService {
   searchedUsers: User[];
   clearSearchState: () => void;
   followUser: (followingUser: User, followerUser: User) => void;
+  unFollowUser: (followingUser: User, followerUser: User) => void;
   registerItem: (item: Item) => void;
   setSearchedItems: (searchedItems: Item[]) => void;
   setSearchedUsers: (searchedUsers: User[]) => void;
