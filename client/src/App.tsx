@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Layout } from './presentation/components/organisms';
 import { ProtectedRoute } from './presentation/components/molecules';
@@ -17,11 +17,11 @@ import {
 } from './presentation/pages';
 import './App.css';
 import { useSocket } from './presentation/hooks';
-import { AuthContext } from './services/store';
+import { useAuthStorage } from './services';
 
 function App() {
   const { socket } = useSocket();
-  const authCtx = useContext(AuthContext);
+  const authStorage = useAuthStorage();
 
   useEffect(() => {
     document.title = 'Book Link';
@@ -29,15 +29,15 @@ function App() {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('join', authCtx.token);
+      socket.emit('join', authStorage.token);
     }
-  }, [authCtx.token, socket]);
+  }, [authStorage.token, socket]);
 
   return (
     <Layout>
       <Switch>
         <Route path="/login">
-          {authCtx.isLoggedIn ? <Redirect to="/" /> : <Login />}
+          {authStorage.isLoggedIn ? <Redirect to="/" /> : <Login />}
         </Route>
         {/* Search */}
         <ProtectedRoute component={SearchUsers} path="/" exact />

@@ -1,9 +1,9 @@
 import { useAuth } from '../../services';
-import { useUserStorage } from '../../services';
+import { useAuthStorage } from '../../services';
 import { AuthenticateService, UserStorageService } from '../ports';
 
 export const useAuthenticate = () => {
-  const storage: UserStorageService = useUserStorage();
+  const storage: UserStorageService = useAuthStorage();
   const authAdapter: AuthenticateService = useAuth();
 
   const authenticate = () => {

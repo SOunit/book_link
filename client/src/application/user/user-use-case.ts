@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { User } from '../../domain';
-import { useUserAdapter, useUserStorage } from '../../services';
+import { useUserAdapter, useAuthStorage } from '../../services';
 
 import { UserStorageService } from '../ports';
 
 export const useUserUseCase = () => {
-  const storage: UserStorageService = useUserStorage();
+  const storage: UserStorageService = useAuthStorage();
   const userAdapter = useUserAdapter();
 
   const getLoginUser = (): User | null => {

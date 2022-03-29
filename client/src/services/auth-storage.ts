@@ -1,6 +1,6 @@
 import { UserStorageService } from '../application/ports';
 import { useAuthContext } from './store';
 
-export const useUserStorage = (): UserStorageService => {
+export const useAuthStorage = (): UserStorageService => {
   return useAuthContext() as UserStorageService;
 };
