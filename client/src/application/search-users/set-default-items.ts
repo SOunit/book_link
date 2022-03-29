@@ -2,12 +2,12 @@ import { useCallback } from 'react';
 import {
   useItemAdapter,
   useSearchStorage,
-  useUserStorage,
+  useAuthStorage,
 } from '../../services';
 import { SearchStorageService } from '../ports';
 
 export const useSetDefaultItems = () => {
-  const { loginUser } = useUserStorage();
+  const { loginUser } = useAuthStorage();
   const { fetchRandomItems } = useItemAdapter();
   const { setRegisteredItems }: SearchStorageService = useSearchStorage();
 

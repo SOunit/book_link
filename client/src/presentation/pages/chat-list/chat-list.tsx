@@ -1,16 +1,15 @@
-import { FC, useContext, useEffect, useState } from 'react';
-import { ChatAdapter } from '../../../services';
+import { FC, useEffect, useState } from 'react';
+import { ChatAdapter, useAuthStorage } from '../../../services';
 import { Chat } from '../../../domain';
 import {
   ChatListItem,
   NotFoundMessage,
   Spinner,
 } from '../../components/molecules';
-import { AuthContext } from '../../../services/store';
 import classes from './chat-list.module.scss';
 
 export const ChatList: FC = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const [chats, setChats] = useState<Chat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

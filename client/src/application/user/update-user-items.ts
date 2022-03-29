@@ -1,9 +1,9 @@
 import { User } from '../../domain';
-import { useItemAdapter, useUserStorage } from '../../services';
+import { useItemAdapter, useAuthStorage } from '../../services';
 
 export const useUpdateUserItems = () => {
   const itemAdapter = useItemAdapter();
-  const storage = useUserStorage();
+  const storage = useAuthStorage();
 
   const addUserItem = (user: User, itemId: string) => {
     itemAdapter.addUserItem(user.id, itemId);

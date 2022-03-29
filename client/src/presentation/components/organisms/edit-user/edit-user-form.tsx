@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  FC,
-  Fragment,
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import { ChangeEvent, FC, Fragment, useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { User } from '../../../../domain';
 import { Button } from '../../atoms';
@@ -15,17 +8,17 @@ import {
   ValidateInput,
   ValidateTextarea,
 } from '../../molecules';
-import { AuthContext } from '../../../../services/store';
 import { useValidateForm } from '../../../../presentation/hooks/';
 import { validate, VALIDATOR_REQUIRE } from '../../../util';
 import classes from './edit-user-form.module.css';
 import { useUserUseCase, useUploadImage } from '../../../../application';
+import { useAuthStorage } from '../../../../services';
 
 type Props = {};
 
 export const EditUserForm: FC<Props> = () => {
   const history = useHistory();
-  const { loginUser: user } = useContext(AuthContext);
+  const { loginUser: user } = useAuthStorage();
   const [imageFile, setImageFile] = useState<File>();
   const { uploadImage } = useUploadImage();
   const [isUpdated, setIsUpdate] = useState(false);

@@ -9,10 +9,10 @@ export * from './search-storage';
 export * from './image-storage';
 
 export * from './auth-adapter';
+export * from './auth-storage';
 export * from './auth-token-storage';
 
 export * from './user-adapter';
-export * from './user-storage';
 
 export * from './follow-adapter';
 export * from './follow-storage';

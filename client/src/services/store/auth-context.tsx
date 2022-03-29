@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '../../domain';
-import { useUserAdapter } from '..';
+import { useUserAdapter } from '../user-adapter';
 import { keys } from '../../presentation/util';
 import { useAuthTokenStorage } from '../auth-token-storage';
 

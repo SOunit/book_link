@@ -1,6 +1,6 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
 import { Redirect, Route } from 'react-router';
-import { AuthContext } from '../../../../services/store';
+import { useAuthStorage } from '../../../../services';
 
 type ProtectedRouteProps = {
   component: FC<any>;
@@ -10,12 +10,16 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute: FC<ProtectedRouteProps> = (props) => {
-  const authCtx = useContext(AuthContext);
+  const authStorage = useAuthStorage();
   const Component = props.component;
 
   return (
     <Route path={props.path}>
-      {authCtx.isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />}
+      {authStorage.isLoggedIn ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )}
     </Route>
   );
 };

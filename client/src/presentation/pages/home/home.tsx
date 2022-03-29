@@ -1,6 +1,5 @@
-import { FC, Fragment, useContext, useEffect } from 'react';
+import { FC, Fragment, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import { AuthContext } from '../../../services/store';
 import {
   IconTextButton,
   Spinner,
@@ -9,12 +8,12 @@ import {
 } from '../../components/molecules';
 import classes from './home.module.css';
 import { useInitFollow } from '../../../application';
-import { useFollowStorage } from '../../../services';
+import { useAuthStorage, useFollowStorage } from '../../../services';
 
 type HomeProps = {};
 
 export const Home: FC<HomeProps> = () => {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser } = useAuthStorage();
   const history = useHistory();
   const { initFollow, initIsLoaded } = useInitFollow();
   const { followings, followers, isFollowersLoaded, isFollowingsLoaded } =

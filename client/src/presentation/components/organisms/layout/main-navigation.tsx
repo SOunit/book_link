@@ -1,16 +1,16 @@
-import { Fragment, useContext } from 'react';
+import { Fragment } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks';
-import { AuthContext } from '../../../../services/store';
 import { isPathMatch } from '../../../util';
 import classes from './main-navigation.module.scss';
+import { useAuthStorage } from '../../../../services';
 
 type MainNavigationProps = {
   onSideMenuToggle: () => void;
 };
 
 const MainNavigation: React.FC<MainNavigationProps> = (props) => {
-  const authCtx = useContext(AuthContext);
+  const authStorage = useAuthStorage();
   const { isNavShown } = useNavShown();
   const { pathname } = useLocation();
 
@@ -68,8 +68,8 @@ const MainNavigation: React.FC<MainNavigationProps> = (props) => {
               BookLink
             </NavLink>
           </h1>
-          {authCtx.isLoggedIn && headerNav}
-          {authCtx.isLoggedIn && sideNavButton}
+          {authStorage.isLoggedIn && headerNav}
+          {authStorage.isLoggedIn && sideNavButton}
         </Fragment>
       )}
     </header>

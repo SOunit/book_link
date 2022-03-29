@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, useContext, useEffect, useState } from 'react';
+import { ChangeEvent, Fragment, useEffect, useState } from 'react';
 import { Button } from '../../components/atoms';
 import {
   NotFoundMessage,
@@ -9,7 +9,7 @@ import {
   SectionTitle,
 } from '../../components/molecules';
 import { Item, User } from '../../../domain/';
-import { useSearchStorage } from '../../../services';
+import { useAuthStorage, useSearchStorage } from '../../../services';
 import {
   useClearSearchState,
   useFollowUser,
@@ -22,8 +22,6 @@ import {
   useUpdateIsItemSearched,
   useUpdateIsUserSearched,
 } from '../../../application';
-// FIXME: de-couple from context
-import { AuthContext } from '../../../services/store';
 import classes from './search-users.module.scss';
 
 export const SearchUsers = () => {
@@ -49,7 +47,7 @@ export const SearchUsers = () => {
   // FIXME: to component
   const [searchItemInput, setSearchItemInput] = useState<string>('');
   // FIXME: to clean architecture
-  const { loginUser, token } = useContext(AuthContext);
+  const { loginUser, token } = useAuthStorage();
 
   const searchItemInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     updateIsItemSearched(false);
