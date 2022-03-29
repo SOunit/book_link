@@ -1,11 +1,6 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import {
-  ImageStorageService,
-  SearchStorageService,
-} from '../application/ports';
-import { keys } from '../presentation/util';
+import { SearchStorageService } from '../application/ports';
 import { RootState } from './store/store';
 import { Item, User } from '../domain';
 import {
@@ -20,10 +15,6 @@ import {
   updateIsItemSearchedAction,
   updateIsUserSearchedAction,
 } from './store/re-ducks/search/actions';
-
-// use interface to de-couple application layer and service layer
-// application layer only use interface, don't care implementation of service layer
-// application layer can keep independent from service using interface
 
 export const useSearchStorage = () => {
   const searchUserState = useSelector((state: RootState) => state.search);
@@ -88,27 +79,4 @@ export const useSearchStorage = () => {
     updateIsItemSearched,
     updateIsUserSearched,
   } as SearchStorageService;
-};
-
-export const useImageStorage = (): ImageStorageService => {
-  const uploadImageToS3 = async (image: File) => {
-    try {
-      // get aws s3 url to upload
-      const uploadConfig = await axios.get('/api/upload');
-
-      // put data to aws s3
-      await axios.put(uploadConfig.data.url, image, {
-        headers: {
-          'Content-Type': image.type,
-        },
-      });
-
-      const imageUrl = keys.AWS_S3_URL + uploadConfig.data.key;
-      return imageUrl;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return { uploadImage: uploadImageToS3 } as ImageStorageService;
 };

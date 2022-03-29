@@ -4,7 +4,9 @@ export * from './chat-adapter';
 
 export * from './item-adapter';
 
-export * from './storage-adapter';
+export * from './search-storage';
+
+export * from './image-storage';
 
 export * from './auth-adapter';
 export * from './auth-token-storage';
