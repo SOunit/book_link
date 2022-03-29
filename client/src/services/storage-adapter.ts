@@ -13,6 +13,7 @@ import { RootState } from './store/store';
 import { useCallback } from 'react';
 import {
   addUserToFollowersAction,
+  removeUserFromFollowersAction,
   UpdateIsFollowingInFollowersAction,
 } from './store/re-ducks/follow/actions';
 import { User } from '../domain';
@@ -45,8 +46,8 @@ export const useFollowStorage = () => {
 
   const followState = useSelector((state: RootState) => state.follow);
 
-  const addUserToFollowers = (userToJoinFollowers: User) => {
-    dispatch(addUserToFollowersAction(userToJoinFollowers));
+  const addUserToFollowers = (followingUser: User) => {
+    dispatch(addUserToFollowersAction(followingUser));
   };
 
   const updateIsFollowingInFollowers = (
@@ -56,10 +57,15 @@ export const useFollowStorage = () => {
     dispatch(UpdateIsFollowingInFollowersAction(userInFollowers, toFollowing));
   };
 
+  const removeUserFromFollowers = (followingUser: User) => {
+    dispatch(removeUserFromFollowersAction(followingUser));
+  };
+
   return {
     ...followState,
     addUserToFollowers,
     updateIsFollowingInFollowers,
+    removeUserFromFollowers,
   } as FollowStorageService;
 };
 

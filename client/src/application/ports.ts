@@ -18,11 +18,12 @@ export interface FollowStorageService {
   followers: any[];
   isFollowersLoaded: boolean;
   isFollowingsLoaded: boolean;
-  addUserToFollowers: (userToJoinFollowers: User) => void;
+  addUserToFollowers: (followingUser: User) => void;
   updateIsFollowingInFollowers: (
     userInFollowers: User,
     toFollowing: boolean,
   ) => void;
+  removeUserFromFollowers: (followingUser: User) => void;
 }
 
 export interface SearchStorageService {
