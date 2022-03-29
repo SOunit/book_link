@@ -1,13 +1,10 @@
-import { useDispatch } from 'react-redux';
-import { Item } from '../../domain';
-import { registerItemAction } from '../../services/store/re-ducks/search/actions';
+import { useSearchStorage } from '../../services';
+import { SearchStorageService } from '../ports';
 
 export const useRegisterItem = () => {
-  const dispatch = useDispatch();
+  const storage: SearchStorageService = useSearchStorage();
 
-  const registerItem = (item: Item) => {
-    dispatch(registerItemAction(item));
-  };
+  const { registerItem } = storage;
 
   return { registerItem };
 };
