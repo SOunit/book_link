@@ -2,7 +2,7 @@ import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '../../domain';
 import { useUserAdapter } from '..';
 import { keys } from '../../presentation/util';
-import { useAuthTokenStorage } from '../storage-adapter';
+import { useAuthTokenStorage } from '../auth-token-storage';
 
 type AuthContextType = {
   token: string | null;
