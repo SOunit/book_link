@@ -6,6 +6,7 @@ export * from './user/user-use-case';
 export * from './user/update-user-items';
 
 export * from './chat/init-chat-list';
+export * from './chat/create-chat';
 
 export * from './follow/add-user-to-followers';
 export * from './follow/remove-user-from-followers';
