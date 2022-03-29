@@ -27,6 +27,7 @@ import {
   followUserAction,
   registerItemAction,
   setSearchedItemsAction,
+  setSearchedUsersAction,
 } from './store/re-ducks/search/actions';
 
 // use interface to de-couple application layer and service layer
@@ -128,12 +129,17 @@ export const useSearchStorage = () => {
     dispatch(setSearchedItemsAction(searchedItems));
   };
 
+  const setSearchedUsers = (searchedUsers: User[]) => {
+    dispatch(setSearchedUsersAction(searchedUsers));
+  };
+
   return {
     ...searchUserState,
     clearSearchState,
     followUser,
     registerItem,
     setSearchedItems,
+    setSearchedUsers,
   } as SearchStorageService;
 };
 
