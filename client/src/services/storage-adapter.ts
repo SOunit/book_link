@@ -22,6 +22,7 @@ import {
   updateIsFollowingInFollowingsAction,
 } from './store/re-ducks/follow/actions';
 import { User } from '../domain';
+import { clearSearchStateAction } from './store/re-ducks/search/actions';
 
 // use interface to de-couple application layer and service layer
 // application layer only use interface, don't care implementation of service layer
@@ -103,9 +104,14 @@ export const useFollowStorage = () => {
 };
 
 export const useSearchStorage = () => {
-  return useSelector(
-    (state: RootState) => state.search,
-  ) as SearchStorageService;
+  const searchUserState = useSelector((state: RootState) => state.search);
+  const dispatch = useDispatch();
+
+  const clearSearchState = useCallback(() => {
+    dispatch(clearSearchStateAction());
+  }, [dispatch]);
+
+  return { ...searchUserState, clearSearchState } as SearchStorageService;
 };
 
 export const useImageStorage = (): ImageStorageService => {
