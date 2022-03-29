@@ -1,11 +1,8 @@
 import { FC, useEffect, useState } from 'react';
-import { ChatAdapter, useAuthStorage } from '../../../services';
 import { Chat } from '../../../domain';
-import {
-  ChatListItem,
-  NotFoundMessage,
-  Spinner,
-} from '../../components/molecules';
+import { ChatAdapter, useAuthStorage } from '../../../services';
+import { NotFoundMessage, Spinner } from '../../components/molecules';
+import { ChatList as ChatLogList } from '../../components/organisms';
 import classes from './chat-list.module.scss';
 
 export const ChatList: FC = () => {
@@ -28,21 +25,16 @@ export const ChatList: FC = () => {
     }
   }, [loginUser]);
 
-  let chatList = null;
-  if (chats && loginUser) {
-    chatList = chats.map((chat) => <ChatListItem chat={chat} key={chat.id} />);
-  }
-
   return (
     <div>
       {isLoading && <Spinner className={classes['spinner']} />}
-      {!isLoading && chatList && chatList.length === 0 && (
+      {!isLoading && chats && chats.length === 0 && (
         <NotFoundMessage
           title="No Chat Found"
           text="Let's chat with somebody."
         />
       )}
-      {!isLoading && chatList}
+      {!isLoading && chats && <ChatLogList chatList={chats} />}
     </div>
   );
 };

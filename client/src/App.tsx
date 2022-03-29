@@ -22,6 +22,7 @@ import { useAuthStorage } from './services';
 function App() {
   const { socket } = useSocket();
   const authStorage = useAuthStorage();
+  const { token } = authStorage;
 
   useEffect(() => {
     document.title = 'Book Link';
@@ -29,9 +30,9 @@ function App() {
 
   useEffect(() => {
     if (socket) {
-      socket.emit('join', authStorage.token);
+      socket.emit('join', token);
     }
-  }, [authStorage.token, socket]);
+  }, [token, socket]);
 
   return (
     <Layout>

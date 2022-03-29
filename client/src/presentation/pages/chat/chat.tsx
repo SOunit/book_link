@@ -2,8 +2,7 @@ import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
 import { ChatAdapter, useAuthStorage } from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
-import { ChatForm, ChatHeader } from '../../components/organisms';
-import { ChatMessage } from '../../components/organisms';
+import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
 
 type ChatProps = {
