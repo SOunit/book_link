@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import socketIoClient from 'socket.io-client';
+import { Message } from '../domain';
 
 export const useSocketAdapter = () => {
   // fixme:any
@@ -12,5 +13,17 @@ export const useSocketAdapter = () => {
     setSocket(socket);
   }, []);
 
-  return { socket };
+  const createMessage = (
+    loginUserId: string,
+    userId: string,
+    message: Message,
+  ) => {
+    socket.emit('create:message', {
+      loginUserId,
+      userId,
+      message,
+    });
+  };
+
+  return { socket, createMessage };
 };

@@ -1,13 +1,10 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import {
-  useAuthStorage,
-  useChatAdapter,
-  useChatStorage,
-} from '../../../services';
+import { useAuthStorage, useChatStorage } from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
+import { useCreateMessage } from '../../../application/chat/create-message';
 
 type Props = {
   socket: any;
@@ -20,12 +17,13 @@ type Params = {
 export const Chat: FC<Props> = ({ socket }) => {
   const { loginUser } = useAuthStorage();
   const { chatId } = useParams<Params>();
+  const { chatList } = useChatStorage();
+
   const [chat, setChat] = useState<ChatType | null>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
-  const chatAdapter = useChatAdapter();
-  const storage = useChatStorage();
-  const { chatList } = storage;
+
+  const { createMessage } = useCreateMessage();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -68,20 +66,8 @@ export const Chat: FC<Props> = ({ socket }) => {
     }
 
     if (chat && loginUser) {
-      chatAdapter
-        .createMessage(chat.id, loginUser.id, messageInput)
-        .then((res) => {
-          // fetch message from backend
-          const message = res.data.data.createMessage;
-
-          socket.emit('create:message', {
-            loginUserId: loginUser.id,
-            userId: chat.users[0].id,
-            message,
-          });
-
-          setMessageInput('');
-        });
+      createMessage(chat.id, chat.users[0].id, messageInput, loginUser.id);
+      setMessageInput('');
     }
   };
 
