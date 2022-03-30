@@ -9,7 +9,7 @@ import {
 
 export type ChatState = {
   chatList: Chat[];
-  chat: Chat | null;
+  chat: Chat;
 };
 
 interface InitChatListAction extends Action {

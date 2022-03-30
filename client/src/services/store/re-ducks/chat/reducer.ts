@@ -8,7 +8,7 @@ import { ChatActionTypes, ChatState } from './types';
 
 const initialState: ChatState = {
   chatList: [],
-  chat: null,
+  chat: { id: '', messages: [], users: [] },
 };
 
 export const chatReducer = (state = initialState, action: ChatActionTypes) => {
@@ -39,19 +39,24 @@ export const chatReducer = (state = initialState, action: ChatActionTypes) => {
       console.log(ADD_MESSAGE_TO_CHAT);
 
       const { chatId, message } = action.payload;
+
+      // update chat-list
       const newChatList = [...state.chatList];
-
       const chatIndex = newChatList.findIndex((chat) => chat.id === chatId);
-
       if (chatIndex || chatIndex === 0) {
-        const newMessages = [...newChatList[chatIndex].messages, message];
+        const newMessages = [message];
         const newChat = { ...newChatList[chatIndex], messages: newMessages };
         newChatList[chatIndex] = newChat;
-
-        return { ...state, chatList: newChatList };
       }
 
-      return { ...state };
+      // update chat
+      const newChat = { ...state.chat };
+      if (newChat && newChat.messages) {
+        const newMessages = [...newChat.messages, message];
+        newChat.messages = newMessages;
+      }
+
+      return { ...state, chatList: newChatList, chat: newChat };
     }
 
     default:
