@@ -1,5 +1,5 @@
-import { Chat } from '../../../../domain';
-import { ADD_CHAT, INIT_CHAT_LIST } from './constants';
+import { Chat, Message } from '../../../../domain';
+import { ADD_CHAT, ADD_MESSAGE_TO_CHAT, INIT_CHAT_LIST } from './constants';
 import { ChatActionTypes } from './types';
 
 export const initChatListAction = (chatList: Chat[]): ChatActionTypes => {
@@ -8,4 +8,11 @@ export const initChatListAction = (chatList: Chat[]): ChatActionTypes => {
 
 export const addChatAction = (chat: Chat): ChatActionTypes => {
   return { type: ADD_CHAT, payload: { chat } };
+};
+
+export const addMessageToChatAction = (
+  chatId: string,
+  message: Message,
+): ChatActionTypes => {
+  return { type: ADD_MESSAGE_TO_CHAT, payload: { chatId, message } };
 };

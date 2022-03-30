@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Chat } from '../domain';
+import { Chat, Message } from '../domain';
 import {
   addChatAction,
+  addMessageToChatAction,
   initChatListAction,
 } from './store/re-ducks/chat/actions';
 import { RootState } from './store/store';
@@ -22,9 +23,17 @@ export const useChatStorage = () => {
     dispatch(addChatAction(chat));
   };
 
+  const addMessageToChat = useCallback(
+    (chatId: string, message: Message) => {
+      dispatch(addMessageToChatAction(chatId, message));
+    },
+    [dispatch],
+  );
+
   return {
     ...chatState,
     initChatList,
     addChat,
+    addMessageToChat,
   };
 };

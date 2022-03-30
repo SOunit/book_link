@@ -1,6 +1,6 @@
 import { Action } from 'redux';
-import { Chat } from '../../../../domain';
-import { ADD_CHAT, INIT_CHAT_LIST } from './constants';
+import { Chat, Message } from '../../../../domain';
+import { ADD_CHAT, ADD_MESSAGE_TO_CHAT, INIT_CHAT_LIST } from './constants';
 
 export type ChatState = {
   chatList: Chat[];
@@ -16,4 +16,12 @@ interface AddChatAction extends Action {
   payload: { chat: Chat };
 }
 
-export type ChatActionTypes = InitChatListAction | AddChatAction;
+interface addMessageToChatAction extends Action {
+  type: typeof ADD_MESSAGE_TO_CHAT;
+  payload: { chatId: string; message: Message };
+}
+
+export type ChatActionTypes =
+  | InitChatListAction
+  | AddChatAction
+  | addMessageToChatAction;

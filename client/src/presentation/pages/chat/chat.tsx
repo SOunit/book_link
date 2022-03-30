@@ -5,6 +5,7 @@ import { Message, Chat as ChatType } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
 import { useCreateMessage } from '../../../application/chat/create-message';
+import { useAddMessageToChat } from '../../../application/chat/add-message-to-chat';
 
 type Props = {
   socket: any;
@@ -24,6 +25,7 @@ export const Chat: FC<Props> = ({ socket }) => {
   const [messageInput, setMessageInput] = useState('');
 
   const { createMessage } = useCreateMessage();
+  const { addMessageToChat } = useAddMessageToChat();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -39,21 +41,21 @@ export const Chat: FC<Props> = ({ socket }) => {
     }, 100);
   };
 
-  const addMessageToChat = (message: Message) => {
-    setChat((prevState: any) => {
-      const newChat = { ...prevState };
-      const messages = newChat.messages!;
+  // const addMessageToChat = (message: Message) => {
+  //   setChat((prevState: any) => {
+  //     const newChat = { ...prevState };
+  //     const messages = newChat.messages!;
 
-      // stop duplicate id
-      if (messages.find((msg: Message) => msg.id === message.id)) {
-        return prevState;
-      }
+  //     // stop duplicate id
+  //     if (messages.find((msg: Message) => msg.id === message.id)) {
+  //       return prevState;
+  //     }
 
-      const newMessages = [...messages, message];
-      newChat.messages = newMessages;
-      return newChat;
-    });
-  };
+  //     const newMessages = [...messages, message];
+  //     newChat.messages = newMessages;
+  //     return newChat;
+  //   });
+  // };
 
   const changeMessageInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setMessageInput(event.target.value);
@@ -85,13 +87,17 @@ export const Chat: FC<Props> = ({ socket }) => {
   }, [chatId, chatList]);
 
   useEffect(() => {
+    console.log('socket', socket);
+
     if (socket) {
       socket.on('update:chat', (message: Message) => {
-        addMessageToChat(message);
+        console.log('socket.on update:chat');
+
+        addMessageToChat(chatId, message);
         scrollToBottom();
       });
     }
-  }, [socket]);
+  }, [socket, addMessageToChat, chatId]);
 
   let messages;
   if (chat && loginUser) {

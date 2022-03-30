@@ -25,5 +25,13 @@ export const useSocketAdapter = () => {
     });
   };
 
-  return { socket, createMessage };
+  const onUpdateChat = (callback: any): boolean => {
+    socket.on('update:chat', (message: Message) => {
+      callback(message);
+      return true;
+    });
+    return false;
+  };
+
+  return { socket, createMessage, onUpdateChat };
 };
