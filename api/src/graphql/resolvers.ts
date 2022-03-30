@@ -530,7 +530,7 @@ const resolvers = {
 
   fetchRandomItems: async (args: any, req: any) => {
     const items = await Item.findAll({
-      limit: 3,
+      limit: 1,
     });
 
     const itemList = items.map((elm: any) => ({
