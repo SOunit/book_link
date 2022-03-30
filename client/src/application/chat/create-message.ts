@@ -11,7 +11,7 @@ export const useCreateMessage = () => {
     messageText: string,
     loginUserId: string,
   ) => {
-    chatAdapter.createMessage(chatId, userId, messageText).then((res) => {
+    chatAdapter.createMessage(chatId, loginUserId, messageText).then((res) => {
       const message: Message = res.data.data.createMessage;
       console.log('message', message);
 
