@@ -1,33 +1,31 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { useAuthStorage, useChatAdapter } from '../../../services';
+import {
+  useAuthStorage,
+  useChatAdapter,
+  useChatStorage,
+} from '../../../services';
 import { Message, Chat as ChatType } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
 
-type ChatProps = {
+type Props = {
   socket: any;
 };
 
-type UserDetailParams = {
-  userId: string;
+type Params = {
+  chatId: string;
 };
 
-export const Chat: FC<ChatProps> = ({ socket }) => {
+export const Chat: FC<Props> = ({ socket }) => {
   const { loginUser } = useAuthStorage();
-  const { userId } = useParams<UserDetailParams>();
+  const { chatId } = useParams<Params>();
   const [chat, setChat] = useState<ChatType | null>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
   const chatAdapter = useChatAdapter();
-
-  const fetchChat = (userIds: string[]) => {
-    const [loginUserId, chatPartnerUserId] = userIds;
-    chatAdapter.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
-      const chat = res.data.data.getUserChat;
-      setChat(chat);
-    });
-  };
+  const storage = useChatStorage();
+  const { chatList } = storage;
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -78,7 +76,7 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
 
           socket.emit('create:message', {
             loginUserId: loginUser.id,
-            userId,
+            userId: chat.users[0].id,
             message,
           });
 
@@ -88,15 +86,17 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
   };
 
   useEffect(() => {
-    if (loginUser) {
-      fetchChat([loginUser.id, userId]);
-      scrollToBottom();
+    const chat = chatList.find((chat) => chat.id === chatId);
+    if (chat) {
+      setChat(chat);
     }
+    scrollToBottom();
+
     // return cleanup function to avoid memory leak error
     return () => {
       setChat(null);
     };
-  }, [loginUser, userId]);
+  }, [chatId, chatList]);
 
   useEffect(() => {
     if (socket) {
