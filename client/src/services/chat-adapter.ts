@@ -4,7 +4,7 @@ import { apiAdapter } from './api-adapter';
 
 export const useChatAdapter = (): ChatAdapterService => {
   return {
-    fetchChat: async (userIds: string[]) => {
+    fetchChat: useCallback(async (userIds: string[]) => {
       const graphqlQuery = {
         query: `
                 query GetUserChat($userIds: [ID!]!){
@@ -33,7 +33,7 @@ export const useChatAdapter = (): ChatAdapterService => {
       return await apiAdapter({
         data: graphqlQuery,
       });
-    },
+    }, []),
 
     fetchChatList: useCallback(async (userId: string) => {
       const graphqlQuery = {

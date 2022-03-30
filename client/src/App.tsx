@@ -70,7 +70,7 @@ function App() {
         <ProtectedRoute component={ChatList} path="/chats" exact />
         <ProtectedRoute
           component={Chat}
-          path="/chats/:chatId"
+          path="/chats/:userId"
           socket={socket}
         />
 

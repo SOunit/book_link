@@ -1,29 +1,30 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
 import { useAuthStorage, useChatStorage } from '../../../services';
-import { Message, Chat as ChatType } from '../../../domain';
+import { Message } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
 import { useCreateMessage } from '../../../application/chat/create-message';
 import { useAddMessageToChat } from '../../../application/chat/add-message-to-chat';
+import { useInitChat } from '../../../application';
 
 type Props = {
   socket: any;
 };
 
 type Params = {
-  chatId: string;
+  userId: string;
 };
 
 export const Chat: FC<Props> = ({ socket }) => {
   const { loginUser } = useAuthStorage();
-  const { chatId } = useParams<Params>();
-  const { chatList } = useChatStorage();
+  const { userId } = useParams<Params>();
+  const { chat } = useChatStorage();
 
-  const [chat, setChat] = useState<ChatType | null>(null);
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
 
+  const { initChat } = useInitChat();
   const { createMessage } = useCreateMessage();
   const { addMessageToChat } = useAddMessageToChat();
 
@@ -40,22 +41,6 @@ export const Chat: FC<Props> = ({ socket }) => {
       }
     }, 100);
   };
-
-  // const addMessageToChat = (message: Message) => {
-  //   setChat((prevState: any) => {
-  //     const newChat = { ...prevState };
-  //     const messages = newChat.messages!;
-
-  //     // stop duplicate id
-  //     if (messages.find((msg: Message) => msg.id === message.id)) {
-  //       return prevState;
-  //     }
-
-  //     const newMessages = [...messages, message];
-  //     newChat.messages = newMessages;
-  //     return newChat;
-  //   });
-  // };
 
   const changeMessageInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setMessageInput(event.target.value);
@@ -74,30 +59,25 @@ export const Chat: FC<Props> = ({ socket }) => {
   };
 
   useEffect(() => {
-    const chat = chatList.find((chat) => chat.id === chatId);
-    if (chat) {
-      setChat(chat);
+    if (userId && loginUser) {
+      initChat([loginUser.id, userId]);
     }
-    scrollToBottom();
 
-    // return cleanup function to avoid memory leak error
-    return () => {
-      setChat(null);
-    };
-  }, [chatId, chatList]);
+    scrollToBottom();
+  }, [userId, loginUser, initChat]);
 
   useEffect(() => {
     console.log('socket', socket);
 
-    if (socket) {
+    if (socket && chat) {
       socket.on('update:chat', (message: Message) => {
         console.log('socket.on update:chat');
 
-        addMessageToChat(chatId, message);
+        addMessageToChat(chat.id, message);
         scrollToBottom();
       });
     }
-  }, [socket, addMessageToChat, chatId]);
+  }, [socket, addMessageToChat, chat]);
 
   let messages;
   if (chat && loginUser) {

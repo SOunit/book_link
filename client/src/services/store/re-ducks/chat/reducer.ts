@@ -1,8 +1,14 @@
-import { ADD_CHAT, ADD_MESSAGE_TO_CHAT, INIT_CHAT_LIST } from './constants';
+import {
+  ADD_CHAT,
+  ADD_MESSAGE_TO_CHAT,
+  INIT_CHAT,
+  INIT_CHAT_LIST,
+} from './constants';
 import { ChatActionTypes, ChatState } from './types';
 
 const initialState: ChatState = {
   chatList: [],
+  chat: null,
 };
 
 export const chatReducer = (state = initialState, action: ChatActionTypes) => {
@@ -12,6 +18,13 @@ export const chatReducer = (state = initialState, action: ChatActionTypes) => {
       const { chatList } = action.payload;
 
       return { ...state, chatList };
+    }
+
+    case INIT_CHAT: {
+      console.log('INIT_CHAT');
+
+      const { chat } = action.payload;
+      return { ...state, chat };
     }
 
     case ADD_CHAT: {
