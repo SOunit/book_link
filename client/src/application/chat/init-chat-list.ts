@@ -10,9 +10,12 @@ export const useInitChatList = () => {
       // fetch data
       const response = await fetchChatList(userId);
       const chatList = response.data.data.getUserChatList;
+      console.log('chatList', chatList);
 
       // update state
-      storageInitChatList(chatList);
+      if (chatList) {
+        storageInitChatList(chatList);
+      }
     },
     [fetchChatList, storageInitChatList],
   );
