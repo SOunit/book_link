@@ -70,3 +70,10 @@ export interface AuthenticateService {
   auth(): Promise<string | null>;
   logout(): void;
 }
+
+export interface ChatAdapterService {
+  fetchChat(userIds: string[]): Promise<any>;
+  fetchChatList(userId: string): Promise<any>;
+  createChat(userId: string, targetId: string): Promise<any>;
+  createMessage(chatId: string, userId: string, text: string): Promise<any>;
+}

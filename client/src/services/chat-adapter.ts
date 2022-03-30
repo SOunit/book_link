@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
+import { ChatAdapterService } from '../application/ports';
 import { apiAdapter } from './api-adapter';
 
-export const useChatAdapter = () => {
+export const useChatAdapter = (): ChatAdapterService => {
   return {
     fetchChat: async (userIds: string[]) => {
       const graphqlQuery = {
