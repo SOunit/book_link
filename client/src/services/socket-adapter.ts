@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import socketIoClient from 'socket.io-client';
 
-export const useSocket = () => {
+export const useSocketAdapter = () => {
   // fixme:any
   const [socket, setSocket] = useState<any>();
 

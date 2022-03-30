@@ -15,13 +15,12 @@ import {
   CreateItem,
   Follow,
 } from './presentation/pages';
-import { useSocket } from './presentation/hooks';
-import { useAuthStorage, useChatStorage } from './services';
+import { useAuthStorage, useChatStorage, useSocketAdapter } from './services';
 import { useInitChatList } from './application/';
 import './App.css';
 
 function App() {
-  const { socket } = useSocket();
+  const { socket } = useSocketAdapter();
   const authStorage = useAuthStorage();
   const { token } = authStorage;
   const chatStorage = useChatStorage();

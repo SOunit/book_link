@@ -17,3 +17,5 @@ export * from './user-adapter';
 
 export * from './follow-adapter';
 export * from './follow-storage';
+
+export * from './socket-adapter';
