@@ -6,7 +6,6 @@ import {
   addMessageToChatAction,
   initChatAction,
   initChatListAction,
-  setMessageAction,
 } from './store/re-ducks/chat/actions';
 import { ChatState } from './store/re-ducks/chat/types';
 import { RootState } from './store/store';
@@ -40,19 +39,11 @@ export const useChatStorage = () => {
     [dispatch],
   );
 
-  const setMessage = useCallback(
-    (chatId: string, message: Message) => {
-      dispatch(setMessageAction(chatId, message));
-    },
-    [dispatch],
-  );
-
   return {
     ...chatState,
     initChatList,
     addChat,
     addMessageToChat,
     initChat,
-    setMessage,
   };
 };

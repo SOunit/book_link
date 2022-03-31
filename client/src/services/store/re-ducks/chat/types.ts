@@ -5,7 +5,6 @@ import {
   ADD_MESSAGE_TO_CHAT,
   INIT_CHAT,
   INIT_CHAT_LIST,
-  SET_MESSAGE,
 } from './constants';
 
 export type ChatState = {
@@ -16,11 +15,6 @@ export type ChatState = {
 interface InitChatListAction extends Action {
   type: typeof INIT_CHAT_LIST;
   payload: { chatList: Chat[] };
-}
-
-interface SetMessageAction extends Action {
-  type: typeof SET_MESSAGE;
-  payload: { chatId: string; message: Message };
 }
 
 interface InitChatAction extends Action {
@@ -42,5 +36,4 @@ export type ChatActionTypes =
   | InitChatListAction
   | AddChatAction
   | addMessageToChatAction
-  | InitChatAction
-  | SetMessageAction;
+  | InitChatAction;

@@ -16,20 +16,12 @@ import {
   Follow,
 } from './presentation/pages';
 import { useAuthStorage, useSocketAdapter } from './services';
-import { useInitChatList } from './application/';
 import './App.css';
 
 function App() {
   const { socket } = useSocketAdapter();
   const authStorage = useAuthStorage();
   const { token } = authStorage;
-  const { initChatList } = useInitChatList();
-
-  useEffect(() => {
-    if (token) {
-      initChatList(token);
-    }
-  }, [initChatList, token]);
 
   useEffect(() => {
     document.title = 'Book Link';

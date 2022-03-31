@@ -4,10 +4,11 @@ import { useAuthStorage, useChatStorage } from '../../../services';
 import { Message } from '../../../domain';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
-import { useCreateMessage } from '../../../application/chat/create-message';
-import { useAddMessageToChat } from '../../../application/chat/add-message-to-chat';
-import { useInitChat } from '../../../application';
-import { useSetMessage } from '../../../application/chat/set-message';
+import {
+  useCreateMessage,
+  useAddMessageToChat,
+  useInitChat,
+} from '../../../application';
 
 type Props = {
   socket: any;
@@ -28,7 +29,6 @@ export const Chat: FC<Props> = ({ socket }) => {
   const { initChat } = useInitChat();
   const { createMessage } = useCreateMessage();
   const { addMessageToChat } = useAddMessageToChat();
-  const { setMessage } = useSetMessage();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -71,15 +71,11 @@ export const Chat: FC<Props> = ({ socket }) => {
   useEffect(() => {
     if (socket && chat) {
       socket.on('update:chat', (message: Message) => {
-        console.log('socket.on update:chat');
-
         addMessageToChat(message);
-        setMessage(chat.id, message);
-
         scrollToBottom();
       });
     }
-  }, [socket, addMessageToChat, chat, setMessage]);
+  }, [socket, addMessageToChat, chat]);
 
   let messages;
   if (chat && loginUser) {
