@@ -1,33 +1,38 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { useAuthStorage, useChatAdapter } from '../../../services';
-import { Message, Chat as ChatType } from '../../../domain';
+import { Message } from '../../../domain';
+import {
+  useAuthStorage,
+  useChatStorage,
+  useSocketAdapter,
+} from '../../../services';
+import {
+  useCreateMessage,
+  useAddMessageToChat,
+  useInitChat,
+} from '../../../application';
 import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
 import classes from './chat.module.css';
 
-type ChatProps = {
+type Props = {
   socket: any;
 };
 
-type UserDetailParams = {
+type Params = {
   userId: string;
 };
 
-export const Chat: FC<ChatProps> = ({ socket }) => {
+export const Chat: FC<Props> = ({ socket }) => {
   const { loginUser } = useAuthStorage();
-  const { userId } = useParams<UserDetailParams>();
-  const [chat, setChat] = useState<ChatType | null>(null);
+  const { chat } = useChatStorage();
+  const { userId } = useParams<Params>();
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
-  const chatAdapter = useChatAdapter();
 
-  const fetchChat = (userIds: string[]) => {
-    const [loginUserId, chatPartnerUserId] = userIds;
-    chatAdapter.fetchChat([loginUserId, chatPartnerUserId]).then((res) => {
-      const chat = res.data.data.getUserChat;
-      setChat(chat);
-    });
-  };
+  const { initChat } = useInitChat();
+  const { createMessage } = useCreateMessage();
+  const { addMessageToChat } = useAddMessageToChat();
+  const { onUpdateChat } = useSocketAdapter();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -43,22 +48,6 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     }, 100);
   };
 
-  const addMessageToChat = (message: Message) => {
-    setChat((prevState: any) => {
-      const newChat = { ...prevState };
-      const messages = newChat.messages!;
-
-      // stop duplicate id
-      if (messages.find((msg: Message) => msg.id === message.id)) {
-        return prevState;
-      }
-
-      const newMessages = [...messages, message];
-      newChat.messages = newMessages;
-      return newChat;
-    });
-  };
-
   const changeMessageInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setMessageInput(event.target.value);
   };
@@ -70,42 +59,25 @@ export const Chat: FC<ChatProps> = ({ socket }) => {
     }
 
     if (chat && loginUser) {
-      chatAdapter
-        .createMessage(chat.id, loginUser.id, messageInput)
-        .then((res) => {
-          // fetch message from backend
-          const message = res.data.data.createMessage;
-
-          socket.emit('create:message', {
-            loginUserId: loginUser.id,
-            userId,
-            message,
-          });
-
-          setMessageInput('');
-        });
+      createMessage(chat.id, chat.users[0].id, messageInput, loginUser.id);
+      setMessageInput('');
     }
   };
 
   useEffect(() => {
-    if (loginUser) {
-      fetchChat([loginUser.id, userId]);
-      scrollToBottom();
+    if (userId && loginUser) {
+      initChat([loginUser.id, userId]);
     }
-    // return cleanup function to avoid memory leak error
-    return () => {
-      setChat(null);
-    };
-  }, [loginUser, userId]);
+
+    scrollToBottom();
+  }, [userId, loginUser, initChat]);
 
   useEffect(() => {
-    if (socket) {
-      socket.on('update:chat', (message: Message) => {
-        addMessageToChat(message);
-        scrollToBottom();
-      });
-    }
-  }, [socket]);
+    onUpdateChat((message: Message) => {
+      addMessageToChat(message);
+      scrollToBottom();
+    }, socket);
+  }, [onUpdateChat, addMessageToChat, socket]);
 
   let messages;
   if (chat && loginUser) {

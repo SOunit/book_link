@@ -16,6 +16,7 @@ import {
 } from '../../../services';
 import {
   useAddUserToFollowers,
+  useCreateChat,
   useInitFollow,
   useRemoveUserFromFollowers,
 } from '../../../application';
@@ -40,6 +41,7 @@ export const UserDetail: FC<Props> = () => {
     useFollowStorage();
   const { fetchUser } = useUserAdapter();
   const chatAdapter = useChatAdapter();
+  const { createChat } = useCreateChat();
 
   const followClickHandler = () => {
     if (loginUser && targetUser) {
@@ -69,7 +71,8 @@ export const UserDetail: FC<Props> = () => {
         history.push(`/chats/${targetUser.id}`);
       } else {
         if (loginUser && targetUser) {
-          chatAdapter.createChat(loginUser?.id, targetUser.id).then((res) => {
+          createChat(loginUser, targetUser).then((res) => {
+            console.log(res);
             history.push(`/chats/${targetUser.id}`);
           });
         }

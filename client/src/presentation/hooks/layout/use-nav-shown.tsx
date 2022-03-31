@@ -6,7 +6,7 @@ export const useNavShown = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const reg = /chats\/\d/;
+    const reg = /chats\/\.*/;
     const match = reg.test(location.pathname);
     match ? setIsNavShown(false) : setIsNavShown(true);
   }, [location.pathname]);

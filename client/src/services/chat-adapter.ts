@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
+import { ChatAdapterService } from '../application/ports';
 import { apiAdapter } from './api-adapter';
 
-export const useChatAdapter = () => {
+export const useChatAdapter = (): ChatAdapterService => {
   return {
-    fetchChat: async (userIds: string[]) => {
+    fetchChat: useCallback(async (userIds: string[]) => {
       const graphqlQuery = {
         query: `
                 query GetUserChat($userIds: [ID!]!){
@@ -32,7 +33,7 @@ export const useChatAdapter = () => {
       return await apiAdapter({
         data: graphqlQuery,
       });
-    },
+    }, []),
 
     fetchChatList: useCallback(async (userId: string) => {
       const graphqlQuery = {
@@ -68,7 +69,18 @@ export const useChatAdapter = () => {
       const graphqlQuery = {
         query: `
                 mutation CreateChat($targetId: ID!, $userId: ID!){
-                  createChat(targetId: $targetId, userId: $userId)
+                  createChat(targetId: $targetId, userId: $userId){
+                    id
+                    users{
+                      id
+                      name
+                      imageUrl
+                    }
+                    messages{
+                      id
+                      text
+                    }
+                  }
                 }
               `,
         variables: {

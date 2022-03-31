@@ -25,7 +25,7 @@ export default buildSchema(`
         deleteFollowing(userId: ID!, followingUserId: ID!): Boolean
         createFollower(userId: ID!, followerUserId: ID!): Boolean
         deleteFollower(userId: ID!, followerUserId: ID!): Boolean
-        createChat(userId: ID!, targetId: ID!): Boolean
+        createChat(userId: ID!, targetId: ID!): Chat
         createMessage(chatId: ID!, userId: ID!, text: String!): Message
     }
 

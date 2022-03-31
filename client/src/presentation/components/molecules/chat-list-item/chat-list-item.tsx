@@ -14,7 +14,7 @@ export const ChatListItem: FC<ChatListItemProps> = ({ chat }) => {
   const latestMessage = chat.messages[0];
 
   const clickHandler = () => {
-    history.push(`/chats/${chatPartnerUser.id}`);
+    history.push(`/chats/${chat.users[0].id}`);
   };
 
   const getSummaryMessage = (text: string) => {
