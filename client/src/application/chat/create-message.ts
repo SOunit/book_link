@@ -13,8 +13,6 @@ export const useCreateMessage = () => {
   ) => {
     chatAdapter.createMessage(chatId, loginUserId, messageText).then((res) => {
       const message: Message = res.data.data.createMessage;
-      console.log('message', message);
-
       socketAdapter.createMessage(loginUserId, userId, message);
     });
   };

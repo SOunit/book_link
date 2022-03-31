@@ -1,14 +1,14 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
-import { useAuthStorage, useChatStorage } from '../../../services';
 import { Message } from '../../../domain';
-import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
-import classes from './chat.module.css';
+import { useAuthStorage, useChatStorage } from '../../../services';
 import {
   useCreateMessage,
   useAddMessageToChat,
   useInitChat,
 } from '../../../application';
+import { ChatForm, ChatHeader, ChatMessage } from '../../components/organisms';
+import classes from './chat.module.css';
 
 type Props = {
   socket: any;
@@ -20,9 +20,8 @@ type Params = {
 
 export const Chat: FC<Props> = ({ socket }) => {
   const { loginUser } = useAuthStorage();
-  const { userId } = useParams<Params>();
   const { chat } = useChatStorage();
-
+  const { userId } = useParams<Params>();
   const messagesBoxDivRef = useRef<HTMLDivElement>(null);
   const [messageInput, setMessageInput] = useState('');
 
