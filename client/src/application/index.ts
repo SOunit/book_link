@@ -5,6 +5,8 @@ export * from './image/upload-image';
 export * from './user/user-use-case';
 export * from './user/update-user-items';
 
+export * from './item/create-item';
+
 export * from './chat/add-message-to-chat';
 export * from './chat/create-chat';
 export * from './chat/create-message';

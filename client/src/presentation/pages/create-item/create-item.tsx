@@ -1,16 +1,13 @@
 import { ChangeEvent, FC, Fragment, SyntheticEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useCreateItem } from '../../../application';
 import { Button } from '../../components/atoms';
 import {
   ImageUpload,
   SectionTitle,
   ValidateInput,
 } from '../../components/molecules';
-import {
-  useItemAdapter,
-  useImageStorage,
-  useAuthStorage,
-} from '../../../services';
+import { useAuthStorage } from '../../../services';
 import { validate, VALIDATOR_REQUIRE } from '../../util';
 import classes from './create-item.module.css';
 
@@ -28,10 +25,8 @@ export const CreateItem: FC = () => {
   });
   const [imageFile, setImageFile] = useState<File>();
   const history = useHistory();
-  const { loginUser, updateLoginUser } = useAuthStorage();
-  const imageStorage = useImageStorage();
-  const itemAdapter = useItemAdapter();
-
+  const { loginUser } = useAuthStorage();
+  const { createItem } = useCreateItem();
   const { title, author } = inputs;
 
   const getFormIsValid = (inputs: Inputs) => {
@@ -91,28 +86,7 @@ export const CreateItem: FC = () => {
       return;
     }
 
-    try {
-      // upload image
-      const imageUrl = (await imageStorage.uploadImage(imageFile)) || '';
-      if (!imageUrl) {
-        return;
-      }
-
-      // update db
-      const itemRes = await itemAdapter.createItem(
-        title.value,
-        author.value,
-        imageUrl,
-      );
-      const newItem = itemRes.data.data.createItem;
-      await itemAdapter.addUserItem(loginUser.id, newItem.id);
-
-      // update state
-      updateLoginUser({ ...loginUser, items: [...loginUser.items, newItem] });
-    } catch (err) {
-      console.log('create-item submit');
-      console.log(err);
-    }
+    createItem(imageFile, loginUser, title.value, author.value);
 
     history.push('/users/items/edit');
   };
