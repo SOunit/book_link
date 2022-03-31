@@ -1,7 +1,11 @@
 import { FC, useEffect, useRef, useState, FormEvent, ChangeEvent } from 'react';
 import { useParams } from 'react-router';
 import { Message } from '../../../domain';
-import { useAuthStorage, useChatStorage } from '../../../services';
+import {
+  useAuthStorage,
+  useChatStorage,
+  useSocketAdapter,
+} from '../../../services';
 import {
   useCreateMessage,
   useAddMessageToChat,
@@ -28,6 +32,7 @@ export const Chat: FC<Props> = ({ socket }) => {
   const { initChat } = useInitChat();
   const { createMessage } = useCreateMessage();
   const { addMessageToChat } = useAddMessageToChat();
+  const { onUpdateChat } = useSocketAdapter();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -68,13 +73,11 @@ export const Chat: FC<Props> = ({ socket }) => {
   }, [userId, loginUser, initChat]);
 
   useEffect(() => {
-    if (socket && chat) {
-      socket.on('update:chat', (message: Message) => {
-        addMessageToChat(message);
-        scrollToBottom();
-      });
-    }
-  }, [socket, addMessageToChat, chat]);
+    onUpdateChat((message: Message) => {
+      addMessageToChat(message);
+      scrollToBottom();
+    }, socket);
+  }, [onUpdateChat, addMessageToChat, socket]);
 
   let messages;
   if (chat && loginUser) {

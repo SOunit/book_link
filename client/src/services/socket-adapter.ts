@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import socketIoClient from 'socket.io-client';
 import { Message } from '../domain';
 
@@ -25,13 +25,11 @@ export const useSocketAdapter = () => {
     });
   };
 
-  const onUpdateChat = (callback: any): boolean => {
+  const onUpdateChat = useCallback((callback: any, socket: any) => {
     socket.on('update:chat', (message: Message) => {
       callback(message);
-      return true;
     });
-    return false;
-  };
+  }, []);
 
   return { socket, createMessage, onUpdateChat };
 };
