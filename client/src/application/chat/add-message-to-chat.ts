@@ -6,8 +6,8 @@ export const useAddMessageToChat = () => {
   const { addMessageToChat: storageAddMessageToChat } = useChatStorage();
 
   const addMessageToChat = useCallback(
-    (chatId: string, message: Message) => {
-      storageAddMessageToChat(chatId, message);
+    (message: Message) => {
+      storageAddMessageToChat(message);
     },
     [storageAddMessageToChat],
   );

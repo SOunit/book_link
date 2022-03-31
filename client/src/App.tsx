@@ -15,7 +15,7 @@ import {
   CreateItem,
   Follow,
 } from './presentation/pages';
-import { useAuthStorage, useChatStorage, useSocketAdapter } from './services';
+import { useAuthStorage, useSocketAdapter } from './services';
 import { useInitChatList } from './application/';
 import './App.css';
 
@@ -23,8 +23,6 @@ function App() {
   const { socket } = useSocketAdapter();
   const authStorage = useAuthStorage();
   const { token } = authStorage;
-  const chatStorage = useChatStorage();
-  console.log('chatStorage.chatList', chatStorage.chatList);
   const { initChatList } = useInitChatList();
 
   useEffect(() => {

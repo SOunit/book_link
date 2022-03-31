@@ -7,6 +7,7 @@ import classes from './chat.module.css';
 import { useCreateMessage } from '../../../application/chat/create-message';
 import { useAddMessageToChat } from '../../../application/chat/add-message-to-chat';
 import { useInitChat } from '../../../application';
+import { useSetMessage } from '../../../application/chat/set-message';
 
 type Props = {
   socket: any;
@@ -27,6 +28,7 @@ export const Chat: FC<Props> = ({ socket }) => {
   const { initChat } = useInitChat();
   const { createMessage } = useCreateMessage();
   const { addMessageToChat } = useAddMessageToChat();
+  const { setMessage } = useSetMessage();
 
   const scrollToBottom = () => {
     // wait 100 ms to run after rendering
@@ -67,17 +69,17 @@ export const Chat: FC<Props> = ({ socket }) => {
   }, [userId, loginUser, initChat]);
 
   useEffect(() => {
-    console.log('socket', socket);
-
     if (socket && chat) {
       socket.on('update:chat', (message: Message) => {
         console.log('socket.on update:chat');
 
-        addMessageToChat(chat.id, message);
+        addMessageToChat(message);
+        setMessage(chat.id, message);
+
         scrollToBottom();
       });
     }
-  }, [socket, addMessageToChat, chat]);
+  }, [socket, addMessageToChat, chat, setMessage]);
 
   let messages;
   if (chat && loginUser) {

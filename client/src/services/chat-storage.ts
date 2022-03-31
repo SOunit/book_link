@@ -6,12 +6,14 @@ import {
   addMessageToChatAction,
   initChatAction,
   initChatListAction,
+  setMessageAction,
 } from './store/re-ducks/chat/actions';
+import { ChatState } from './store/re-ducks/chat/types';
 import { RootState } from './store/store';
 
 export const useChatStorage = () => {
   const dispatch = useDispatch();
-  const chatState = useSelector((state: RootState) => state.chat);
+  const chatState = useSelector((state: RootState) => state.chat) as ChatState;
 
   const initChatList = useCallback(
     (chatList: Chat[]) => {
@@ -25,8 +27,8 @@ export const useChatStorage = () => {
   };
 
   const addMessageToChat = useCallback(
-    (chatId: string, message: Message) => {
-      dispatch(addMessageToChatAction(chatId, message));
+    (message: Message) => {
+      dispatch(addMessageToChatAction(message));
     },
     [dispatch],
   );
@@ -38,11 +40,19 @@ export const useChatStorage = () => {
     [dispatch],
   );
 
+  const setMessage = useCallback(
+    (chatId: string, message: Message) => {
+      dispatch(setMessageAction(chatId, message));
+    },
+    [dispatch],
+  );
+
   return {
     ...chatState,
     initChatList,
     addChat,
     addMessageToChat,
     initChat,
+    setMessage,
   };
 };

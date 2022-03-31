@@ -4,6 +4,7 @@ import {
   ADD_MESSAGE_TO_CHAT,
   INIT_CHAT,
   INIT_CHAT_LIST,
+  SET_MESSAGE,
 } from './constants';
 import { ChatActionTypes } from './types';
 
@@ -16,14 +17,18 @@ export const addChatAction = (chat: Chat): ChatActionTypes => {
   return { type: ADD_CHAT, payload: { chat } };
 };
 
-export const addMessageToChatAction = (
+export const setMessageAction = (
   chatId: string,
   message: Message,
 ): ChatActionTypes => {
-  return { type: ADD_MESSAGE_TO_CHAT, payload: { chatId, message } };
+  return { type: SET_MESSAGE, payload: { chatId, message } };
 };
 
 // chat
 export const initChatAction = (chat: Chat): ChatActionTypes => {
   return { type: INIT_CHAT, payload: { chat } };
+};
+
+export const addMessageToChatAction = (message: Message): ChatActionTypes => {
+  return { type: ADD_MESSAGE_TO_CHAT, payload: { message } };
 };
