@@ -9,5 +9,4 @@ RUN npx sequelize-cli init
 RUN npm install -g webpack webpack-cli
 RUN webpack --config webpack.config.prod.js
 
-
 CMD ["npm", "run", "start"]
