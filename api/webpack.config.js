@@ -3,6 +3,7 @@ const CleanPlugin = require('clean-webpack-plugin');
 const { IgnorePlugin } = require('webpack');
 
 module.exports = {
+  watch: true,
   mode: 'development',
   entry: './src/index.ts',
   output: {

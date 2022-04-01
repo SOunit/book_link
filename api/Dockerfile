@@ -7,7 +7,7 @@ RUN npm install
 COPY . .
 RUN npx sequelize-cli init
 RUN npm install -g typescript ts-node
-RUN tsc
+RUN webpack
 
 
 CMD ["npm", "run", "start"]
