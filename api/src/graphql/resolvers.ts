@@ -14,7 +14,7 @@ import UserChat from '../models/sequelize/userChat';
 const resolvers = {
   Query: {
     // FIXME: any type to something
-    itemsByTitle: async (args: any, req: any) => {
+    itemsByTitle: async (_: any, args: any) => {
       const titleQuery = args.title;
 
       const items = await Item.findAll({
@@ -34,7 +34,10 @@ const resolvers = {
       return itemList;
     },
 
-    getUsersByItems: async (args: { itemIds: string[]; userId: string }) => {
+    getUsersByItems: async (
+      _: any,
+      args: { itemIds: string[]; userId: string },
+    ) => {
       const fetchedUsers = await sequelize.query(
         `
       SELECT
@@ -90,7 +93,7 @@ const resolvers = {
     },
 
     // only for login user
-    user: async (args: { id: string }) => {
+    user: async (_: any, args: { id: string }) => {
       const user = await User.findOne({
         where: { id: args.id },
         include: [{ model: Item }],
@@ -121,7 +124,7 @@ const resolvers = {
       };
     },
 
-    item: async (args: { id: string }) => {
+    item: async (_: any, args: { id: string }) => {
       const result = await Item.findByPk(args.id);
       const itemData = result.dataValues;
 
@@ -134,19 +137,28 @@ const resolvers = {
       };
     },
 
-    getUserCount: async (args: { id: string }) => {
+    getUserCount: async (_: any, args: any) => {
+      console.log('getUserCount args.id', args.id);
+
       try {
+        console.log('User.count');
+
         const amount = await User.count({ where: { id: args.id } });
+        console.log('amount', amount);
+
         return amount;
       } catch (err) {
-        console.log(err);
+        console.log('getUserCount error', err);
       }
     },
 
-    getFollowingUsers: async (args: {
-      targetUserId: string;
-      loginUserId: string;
-    }) => {
+    getFollowingUsers: async (
+      _: any,
+      args: {
+        targetUserId: string;
+        loginUserId: string;
+      },
+    ) => {
       const users = await sequelize.query(
         `
       SELECT USERS.ID,
@@ -176,10 +188,13 @@ const resolvers = {
       return users;
     },
 
-    getFollowerUsers: async (args: {
-      targetUserId: string;
-      loginUserId: string;
-    }) => {
+    getFollowerUsers: async (
+      _: any,
+      args: {
+        targetUserId: string;
+        loginUserId: string;
+      },
+    ) => {
       const users = await sequelize.query(
         `
       SELECT USERS.ID,
@@ -210,7 +225,10 @@ const resolvers = {
       return users;
     },
 
-    following: async (args: { userId: string; followingUserId: string }) => {
+    following: async (
+      _: any,
+      args: { userId: string; followingUserId: string },
+    ) => {
       const following = await Follow.findOne({
         where: {
           userId: args.userId,
@@ -232,7 +250,7 @@ const resolvers = {
       };
     },
 
-    getUserChat: async (args: { userIds: string[] }) => {
+    getUserChat: async (_: any, args: { userIds: string[] }) => {
       // fetch data
       const [userId1, userId2] = args.userIds;
       const user = await User.findOne({
@@ -271,7 +289,7 @@ const resolvers = {
       return chats[0];
     },
 
-    getUserChatList: async (args: { userId: string }) => {
+    getUserChatList: async (_: any, args: { userId: string }) => {
       // fetch data
       const user = await User.findOne({
         where: { id: args.userId },
@@ -308,7 +326,7 @@ const resolvers = {
       return chats;
     },
 
-    fetchRandomItems: async (args: any, req: any) => {
+    fetchRandomItems: async () => {
       const items = await Item.findAll({
         limit: 1,
       });
@@ -325,7 +343,7 @@ const resolvers = {
   },
 
   Mutation: {
-    createItem: async (args: { data: CreateItemInput }) => {
+    createItem: async (_: any, args: { data: CreateItemInput }) => {
       const id = uuidV4();
       const { title, author, imageUrl } = args.data;
       const newItem = { id, title, author, imageUrl };
@@ -335,7 +353,7 @@ const resolvers = {
       return newItem;
     },
 
-    createUser: (args: { id: string }) => {
+    createUser: (_: any, args: { id: string }) => {
       const newUser = User.create({
         id: args.id,
         name: 'new user',
@@ -345,7 +363,7 @@ const resolvers = {
       return newUser;
     },
 
-    updateUser: async (args: { data: UserType }) => {
+    updateUser: async (_: any, args: { data: UserType }) => {
       const userInstance = await User.findByPk(args.data.id);
       if (!userInstance) {
         throw new Error('User not found!');
@@ -369,9 +387,12 @@ const resolvers = {
       };
     },
 
-    deleteUserItem: async (args: {
-      data: { userId: string; itemId: string };
-    }) => {
+    deleteUserItem: async (
+      _: any,
+      args: {
+        data: { userId: string; itemId: string };
+      },
+    ) => {
       const userItemInstance = await UserItem.findOne({
         where: { userId: args.data.userId, itemId: args.data.itemId },
       });
@@ -394,7 +415,10 @@ const resolvers = {
       };
     },
 
-    addUserItem: async (args: { data: { userId: string; itemId: string } }) => {
+    addUserItem: async (
+      _: any,
+      args: { data: { userId: string; itemId: string } },
+    ) => {
       // FIXME: check if user and item exists
 
       await UserItem.create({
@@ -417,10 +441,13 @@ const resolvers = {
       };
     },
 
-    createFollowing: async (args: {
-      userId: string;
-      followingUserId: string;
-    }) => {
+    createFollowing: async (
+      _: any,
+      args: {
+        userId: string;
+        followingUserId: string;
+      },
+    ) => {
       await Follow.create({
         userId: args.userId,
         followingUserId: args.followingUserId,
@@ -429,10 +456,13 @@ const resolvers = {
       return true;
     },
 
-    deleteFollowing: async (args: {
-      userId: string;
-      followingUserId: string;
-    }) => {
+    deleteFollowing: async (
+      _: any,
+      args: {
+        userId: string;
+        followingUserId: string;
+      },
+    ) => {
       const followingInstance = await Follow.findOne({
         where: {
           userId: args.userId,
@@ -445,7 +475,7 @@ const resolvers = {
       return true;
     },
 
-    createChat: async (args: { userId: string; targetId: string }) => {
+    createChat: async (_: any, args: { userId: string; targetId: string }) => {
       if (args.userId === args.targetId) {
         throw new Error('both user ids are same!');
       }
@@ -531,11 +561,14 @@ const resolvers = {
       return response;
     },
 
-    createMessage: async (args: {
-      chatId: string;
-      userId: string;
-      text: string;
-    }) => {
+    createMessage: async (
+      _: any,
+      args: {
+        chatId: string;
+        userId: string;
+        text: string;
+      },
+    ) => {
       const result = await Message.create({
         id: uuidV4(),
         chatId: args.chatId,
