@@ -1,4 +1,4 @@
-type RootQuery {
+type Query {
   getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
   user(id: ID!): User!
   getUserCount(id: ID!): Int!
@@ -12,7 +12,7 @@ type RootQuery {
   item(id: ID!): Item!
 }
 
-type RootMutation {
+type Mutation {
   createItem(data: CreateItemInput!): Item!
   createUser(id: ID!): User!
   updateUser(data: UpdateUserInput!): User!
@@ -37,8 +37,8 @@ type Item {
 scalar Date
 
 schema {
-  query: RootQuery
-  mutation: RootMutation
+  query: Query
+  mutation: Mutation
 }
 
 input AddUserItemInput {
