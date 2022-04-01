@@ -1,13 +1,7 @@
-// Express App Setup
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
-const cors = require('cors');
 import { graphqlHTTP } from 'express-graphql';
-const { v4: uuid } = require('uuid');
-const AWS = require('aws-sdk');
-import keys from './util/keys';
-
-import graphqlSchema from './graphql/schema';
 import graphqlResolver from './graphql/resolvers';
 import sequelize from './util/database';
 import User from './models/sequelize/user';
@@ -18,6 +12,12 @@ import Chat from './models/sequelize/chat';
 import UserChat from './models/sequelize/userChat';
 import Message from './models/sequelize/message';
 import { setupDummyData } from './setup';
+import keys from './util/keys';
+const { v4: uuid } = require('uuid');
+const AWS = require('aws-sdk');
+const cors = require('cors');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { loadFilesSync } = require('@graphql-tools/load-files');
 
 const app = express();
 app.use(cors());
@@ -46,12 +46,20 @@ app.get('/upload', (req, res, next) => {
   );
 });
 
+const typesArray = loadFilesSync(path.join(__dirname, '**/*.graphql'));
+console.log('typesArray', typesArray);
+
+const schema = makeExecutableSchema({
+  typeDefs: typesArray,
+  resolvers: graphqlResolver,
+});
+console.log('schema', schema);
+
 // route setup
 app.use(
   '/graphql',
   graphqlHTTP({
-    schema: graphqlSchema,
-    rootValue: graphqlResolver,
+    schema,
     // http://localhost:3050/api/graphql
     graphiql: true,
   }),
