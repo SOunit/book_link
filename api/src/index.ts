@@ -51,6 +51,7 @@ console.log('typesArray', typesArray);
 
 const schema = makeExecutableSchema({
   typeDefs: typesArray,
+  // typeDefs,
   resolvers: graphqlResolver,
 });
 console.log('schema', schema);
