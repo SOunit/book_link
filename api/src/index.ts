@@ -1,8 +1,6 @@
-// import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
-import graphqlResolver from './graphql/resolvers';
 import sequelize from './util/database';
 import User from './models/sequelize/user';
 import Item from './models/sequelize/item';
@@ -17,8 +15,8 @@ const { v4: uuid } = require('uuid');
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
-// const { loadFilesSync } = require('@graphql-tools/load-files');
 import typeDefs from './graphql/users/users.graphql';
+import resolvers from './graphql/delete.resolvers';
 
 const app = express();
 app.use(cors());
@@ -47,15 +45,10 @@ app.get('/upload', (req, res, next) => {
   );
 });
 
-// const typesArray = loadFilesSync(path.join(__dirname, '**/*.graphql'));
-// console.log('typesArray', typesArray);
-
 const schema = makeExecutableSchema({
-  // typeDefs: typesArray,
   typeDefs,
-  resolvers: graphqlResolver,
+  resolvers,
 });
-console.log('schema', schema);
 
 // route setup
 app.use(
