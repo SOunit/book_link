@@ -16,6 +16,7 @@ const AWS = require('aws-sdk');
 const cors = require('cors');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 import typeDefs from './graphql/users/users.graphql';
+import itemsTypeDefs from './graphql/items/items.graphql';
 import resolvers from './graphql/delete.resolvers';
 
 const app = express();
@@ -46,7 +47,7 @@ app.get('/upload', (req, res, next) => {
 });
 
 const schema = makeExecutableSchema({
-  typeDefs,
+  typeDefs: [typeDefs, itemsTypeDefs],
   resolvers,
 });
 

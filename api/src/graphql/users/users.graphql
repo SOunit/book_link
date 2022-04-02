@@ -26,14 +26,6 @@ type Mutation {
   createMessage(chatId: ID!, userId: ID!, text: String!): Message
 }
 
-type Item {
-  id: ID!
-  title: String!
-  author: String!
-  imageUrl: String
-  users: [User]
-}
-
 scalar Date
 
 schema {
