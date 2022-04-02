@@ -7,17 +7,12 @@ type Query {
   following(userId: ID!, followingUserId: ID!): Following
   getUserChat(userIds: [ID!]!): Chat
   getUserChatList(userId: ID!): [Chat]
-  itemsByTitle(title: String): [Item!]!
   fetchRandomItems: [Item!]!
-  item(id: ID!): Item!
 }
 
 type Mutation {
-  createItem(data: CreateItemInput!): Item!
   createUser(id: ID!): User!
   updateUser(data: UpdateUserInput!): User!
-  deleteUserItem(data: DeleteUserItemInput!): User!
-  addUserItem(data: AddUserItemInput!): User!
   createFollowing(userId: ID!, followingUserId: ID!): Boolean
   deleteFollowing(userId: ID!, followingUserId: ID!): Boolean
   createFollower(userId: ID!, followerUserId: ID!): Boolean
@@ -31,16 +26,6 @@ scalar Date
 schema {
   query: Query
   mutation: Mutation
-}
-
-input AddUserItemInput {
-  userId: ID!
-  itemId: ID!
-}
-
-input DeleteUserItemInput {
-  userId: ID!
-  itemId: ID!
 }
 
 input UpdateUserInput {
