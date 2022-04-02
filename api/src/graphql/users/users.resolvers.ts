@@ -1,8 +1,41 @@
 import { QueryTypes } from 'sequelize';
+import { Item, User } from '../../models/sequelize';
 import sequelize from '../../util/database';
 
 export = {
   Query: {
+    // only for login user
+    user: async (_: any, args: { id: string }) => {
+      const user = await User.findOne({
+        where: { id: args.id },
+        include: [{ model: Item }],
+      });
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      const userData = user.get({ row: true });
+
+      const items = userData.items.map((elm: any) => {
+        const itemData = elm.get({ row: true });
+        return {
+          id: itemData.id,
+          title: itemData.title,
+          author: itemData.author,
+          imageUrl: itemData.imageUrl,
+        };
+      });
+
+      return {
+        id: userData.id,
+        name: userData.name,
+        about: userData.about,
+        imageUrl: userData.imageUrl,
+        items,
+      };
+    },
+
     getUsersByItems: async (
       _: any,
       args: { itemIds: string[]; userId: string },

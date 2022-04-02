@@ -1,9 +1,11 @@
-import Chat from './models/sequelize/chat';
-import Follow from './models/sequelize/follow';
-import Message from './models/sequelize/message';
-import User from './models/sequelize/user';
-import UserChat from './models/sequelize/userChat';
-import UserItem from './models/sequelize/userItem';
+import {
+  Chat,
+  Follow,
+  Message,
+  User,
+  UserItem,
+  UserChat,
+} from './models/sequelize';
 
 export const setupDummyData = async () => {
   // users

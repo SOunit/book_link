@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../util/database';
-import Chat from './chat';
-import User from './user';
+import { Chat } from './chat';
+import { User } from './user';
 
-const Message = sequelize.define('message', {
+export const Message = sequelize.define('message', {
   id: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -31,5 +31,3 @@ const Message = sequelize.define('message', {
     type: Sequelize.DATE,
   },
 });
-
-export default Message;

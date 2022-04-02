@@ -1,50 +1,20 @@
 import { v4 as uuidV4 } from 'uuid';
 import { Op, QueryTypes, literal } from 'sequelize';
 import CreateItemInput from '../models/ts/CreateItemInput';
-import Item from '../models/sequelize/item';
+import {
+  User,
+  Item,
+  UserItem,
+  Follow,
+  Chat,
+  Message,
+  UserChat,
+} from '../models/sequelize';
 import UserType from '../models/ts/User';
 import sequelize from '../util/database';
-import User from '../models/sequelize/user';
-import UserItem from '../models/sequelize/userItem';
-import Follow from '../models/sequelize/follow';
-import Chat from '../models/sequelize/chat';
-import Message from '../models/sequelize/message';
-import UserChat from '../models/sequelize/userChat';
 
 const resolvers = {
   Query: {
-    // only for login user
-    user: async (_: any, args: { id: string }) => {
-      const user = await User.findOne({
-        where: { id: args.id },
-        include: [{ model: Item }],
-      });
-
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      const userData = user.get({ row: true });
-
-      const items = userData.items.map((elm: any) => {
-        const itemData = elm.get({ row: true });
-        return {
-          id: itemData.id,
-          title: itemData.title,
-          author: itemData.author,
-          imageUrl: itemData.imageUrl,
-        };
-      });
-
-      return {
-        id: userData.id,
-        name: userData.name,
-        about: userData.about,
-        imageUrl: userData.imageUrl,
-        items,
-      };
-    },
-
     item: async (_: any, args: { id: string }) => {
       const result = await Item.findByPk(args.id);
       const itemData = result.dataValues;

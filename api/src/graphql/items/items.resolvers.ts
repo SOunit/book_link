@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import Item from '../../models/sequelize/item';
+import { Item } from '../../models/sequelize';
 
 export = {
   Query: {

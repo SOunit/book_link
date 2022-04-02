@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../util/database';
-import Chat from './chat';
-import User from './user';
+import { Chat } from './chat';
+import { User } from './user';
 
-const UserChat = sequelize.define('userChat', {
+export const UserChat = sequelize.define('userChat', {
   userId: {
     type: Sequelize.STRING,
     references: {
@@ -19,5 +19,3 @@ const UserChat = sequelize.define('userChat', {
     },
   },
 });
-
-export default UserChat;

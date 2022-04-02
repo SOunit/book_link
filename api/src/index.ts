@@ -2,13 +2,15 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
 import sequelize from './util/database';
-import User from './models/sequelize/user';
-import Item from './models/sequelize/item';
-import UserItem from './models/sequelize/userItem';
-import Follow from './models/sequelize/follow';
-import Chat from './models/sequelize/chat';
-import UserChat from './models/sequelize/userChat';
-import Message from './models/sequelize/message';
+import {
+  User,
+  Item,
+  UserItem,
+  Follow,
+  Chat,
+  UserChat,
+  Message,
+} from './models/sequelize';
 import { setupDummyData } from './setup';
 import keys from './util/keys';
 const { v4: uuid } = require('uuid');
