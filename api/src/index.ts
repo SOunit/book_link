@@ -1,7 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
-import sequelize from './util/database';
+const { v4: uuid } = require('uuid');
+const AWS = require('aws-sdk');
+const cors = require('cors');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+import { merge } from 'lodash';
+
 import {
   User,
   Item,
@@ -12,11 +17,7 @@ import {
   Message,
 } from './models/sequelize';
 import { setupDummyData } from './setup';
-import keys from './util/keys';
-const { v4: uuid } = require('uuid');
-const AWS = require('aws-sdk');
-const cors = require('cors');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
+
 import {
   itemTypeDefs,
   userTypeDefs,
@@ -28,7 +29,7 @@ import {
   followsResolvers,
   schemaTypeDefs,
 } from './graphql';
-import { merge } from 'lodash';
+import { sequelize, keys } from './util';
 
 const app = express();
 app.use(cors());

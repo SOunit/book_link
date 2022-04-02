@@ -1,4 +1,4 @@
-const keys = {
+export const keys = {
   pgUser: process.env.PGUSER,
   pgHost: process.env.PGHOST,
   pgDatabase: process.env.PGDATABASE,
@@ -8,5 +8,3 @@ const keys = {
   secretAccessKey: process.env.SECRETACCESSKEY,
   region: process.env.REGION,
 };
-
-export default keys;

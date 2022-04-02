@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../util/database';
+import { sequelize } from '../../util';
 
 export const Item = sequelize.define('item', {
   id: {
