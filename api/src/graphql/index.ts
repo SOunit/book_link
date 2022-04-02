@@ -1,4 +1,7 @@
-import itemsSchema from './items/items.graphql';
-import usersSchema from './users/users.graphql';
+import itemTypeDefs from './items/items.graphql';
+import userTypeDefs from './users/users.graphql';
 
-export { itemsSchema, usersSchema };
+import itemsResolvers from './items/items.resolvers';
+import usersResolvers from './users/users.resolvers';
+
+export { itemTypeDefs, userTypeDefs, itemsResolvers, usersResolvers };
