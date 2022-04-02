@@ -21,6 +21,7 @@ import {
   itemTypeDefs,
   userTypeDefs,
   followTypeDefs,
+  chatTypeDefs,
   itemsResolvers,
   usersResolvers,
   chatsResolvers,
@@ -62,8 +63,15 @@ const mergedResolvers = merge(
   followsResolvers,
 );
 
+const typeDefsArray = [
+  itemTypeDefs,
+  userTypeDefs,
+  followTypeDefs,
+  chatTypeDefs,
+];
+
 const schema = makeExecutableSchema({
-  typeDefs: [itemTypeDefs, userTypeDefs, followTypeDefs],
+  typeDefs: typeDefsArray,
   resolvers: mergedResolvers,
 });
 

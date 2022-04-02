@@ -1,0 +1,23 @@
+type Query {
+  getUserChat(userIds: [ID!]!): Chat
+  getUserChatList(userId: ID!): [Chat]
+}
+
+type Mutation {
+  createChat(userId: ID!, targetId: ID!): Chat
+  createMessage(chatId: ID!, userId: ID!, text: String!): Message
+}
+
+type Chat {
+  id: ID
+  users: [User]
+  messages: [Message]
+}
+
+type Message {
+  id: ID
+  chatId: ID
+  userId: ID
+  text: String
+  createdAt: Date
+}

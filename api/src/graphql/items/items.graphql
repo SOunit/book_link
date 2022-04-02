@@ -1,6 +1,7 @@
 type Query {
   item(id: ID!): Item!
   itemsByTitle(title: String): [Item!]!
+  fetchRandomItems: [Item!]!
 }
 
 type Mutation {

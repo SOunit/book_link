@@ -2,16 +2,11 @@ type Query {
   user(id: ID!): User!
   getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
   getUserCount(id: ID!): Int!
-  getUserChat(userIds: [ID!]!): Chat
-  getUserChatList(userId: ID!): [Chat]
-  fetchRandomItems: [Item!]!
 }
 
 type Mutation {
   createUser(id: ID!): User!
   updateUser(data: UpdateUserInput!): User!
-  createChat(userId: ID!, targetId: ID!): Chat
-  createMessage(chatId: ID!, userId: ID!, text: String!): Message
 }
 
 scalar Date
@@ -41,18 +36,4 @@ type User {
   imageUrl: String
   items: [Item]
   chats: [Chat]
-}
-
-type Chat {
-  id: ID
-  users: [User]
-  messages: [Message]
-}
-
-type Message {
-  id: ID
-  chatId: ID
-  userId: ID
-  text: String
-  createdAt: Date
 }
