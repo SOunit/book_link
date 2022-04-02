@@ -18,6 +18,8 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 import typeDefs from './graphql/users/users.graphql';
 import itemsTypeDefs from './graphql/items/items.graphql';
 import resolvers from './graphql/delete.resolvers';
+import userResolvers from './graphql/users/users.resolvers';
+import { merge } from 'lodash';
 
 const app = express();
 app.use(cors());
@@ -46,9 +48,12 @@ app.get('/upload', (req, res, next) => {
   );
 });
 
+const mergedResolvers = merge(resolvers, userResolvers);
+console.log(mergedResolvers);
+
 const schema = makeExecutableSchema({
   typeDefs: [typeDefs, itemsTypeDefs],
-  resolvers,
+  resolvers: mergedResolvers,
 });
 
 // route setup
