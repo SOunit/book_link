@@ -1,7 +1,8 @@
+// import syntax for type support
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
-const { v4: uuid } = require('uuid');
+import { v4 as uuid } from 'uuid';
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
