@@ -1,7 +1,15 @@
+// import syntax for type support
 import express from 'express';
-import bodyParser from 'body-parser';
+import { json } from 'body-parser';
 import { graphqlHTTP } from 'express-graphql';
-import sequelize from './util/database';
+import { v4 as uuid } from 'uuid';
+import AWS from 'aws-sdk';
+import cors from 'cors';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { merge } from 'lodash';
+import http from 'http';
+import { socketServer } from './socket';
+
 import {
   User,
   Item,
@@ -12,11 +20,6 @@ import {
   Message,
 } from './models/sequelize';
 import { setupDummyData } from './setup';
-import keys from './util/keys';
-const { v4: uuid } = require('uuid');
-const AWS = require('aws-sdk');
-const cors = require('cors');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
 import {
   itemTypeDefs,
   userTypeDefs,
@@ -28,21 +31,21 @@ import {
   followsResolvers,
   schemaTypeDefs,
 } from './graphql';
-import { merge } from 'lodash';
+import { sequelize, keys } from './util';
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(json());
 
 const s3 = new AWS.S3({
   credentials: {
-    accessKeyId: keys.accessKeyId,
-    secretAccessKey: keys.secretAccessKey,
+    accessKeyId: keys.accessKeyId!,
+    secretAccessKey: keys.secretAccessKey!,
   },
   region: keys.region,
 });
 
-app.get('/upload', (req, res, next) => {
+app.get('/upload', (_req, res) => {
   const userId = 'test_user_id';
   const key = `${userId}/${uuid()}.jpeg`;
 
@@ -53,7 +56,7 @@ app.get('/upload', (req, res, next) => {
       ContentType: 'image/jpeg',
       Key: key,
     },
-    (err: any, url: string) => res.send({ key, url }),
+    (_err: any, url: string) => res.send({ key, url }),
   );
 });
 
@@ -97,10 +100,8 @@ Message.belongsTo(Chat);
 Chat.hasMany(Message);
 Message.belongsTo(User);
 
-const http = require('http');
 const server = http.createServer(app);
-const SocketServer = require('./socket');
-SocketServer(server);
+socketServer(server);
 
 // create table using model by sync command
 sequelize

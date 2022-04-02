@@ -1,6 +1,6 @@
 import { QueryTypes } from 'sequelize';
 import { Item, User } from '../../models/sequelize';
-import sequelize from '../../util/database';
+import { sequelize } from '../../util';
 import UserType from '../../models/ts/User';
 
 export = {

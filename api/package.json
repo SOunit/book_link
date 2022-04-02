@@ -2,6 +2,7 @@
   "dependencies": {
     "@graphql-tools/load-files": "^6.5.3",
     "@graphql-tools/schema": "^8.3.6",
+    "@types/sequelize": "^4.28.11",
     "@types/socket.io": "^3.0.2",
     "aws-sdk": "^2.1018.0",
     "body-parser": "*",

@@ -1,6 +1,6 @@
 import { QueryTypes } from 'sequelize';
 import { Follow } from '../../models/sequelize';
-import sequelize from '../../util/database';
+import { sequelize } from '../../util';
 
 export = {
   Query: {

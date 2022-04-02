@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../util/database';
+import { sequelize } from '../../util';
 import { Item } from './item';
 import { User } from './user';
 

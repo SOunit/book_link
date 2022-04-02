@@ -1,5 +1,5 @@
 import MessageType from '../models/ts/Message';
-const socketIo = require('socket.io');
+import { Server } from 'socket.io';
 
 // to save sockets for login user
 const loginUserIdToUserIdWithSockets = new Map();
@@ -7,8 +7,8 @@ const loginUserIdToUserIdWithSockets = new Map();
 // when user logout, api get socket only
 const socketIdToLoginUserId = new Map();
 
-const socketServer = (server: any) => {
-  const io = socketIo(server);
+export const socketServer = (server: any) => {
+  const io = new Server(server);
 
   const emitUpdateChat = (userId: string, message: MessageType) => {
     console.log('emitUpdateChat');
@@ -127,5 +127,3 @@ const socketServer = (server: any) => {
     );
   });
 };
-
-module.exports = socketServer;

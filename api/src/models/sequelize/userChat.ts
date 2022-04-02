@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../util/database';
+import { sequelize } from '../../util';
 import { Chat } from './chat';
 import { User } from './user';
 
