@@ -13,27 +13,6 @@ import UserChat from '../models/sequelize/userChat';
 
 const resolvers = {
   Query: {
-    // FIXME: any type to something
-    itemsByTitle: async (_: any, args: any) => {
-      const titleQuery = args.title;
-
-      const items = await Item.findAll({
-        where: { title: { [Op.iLike]: `${titleQuery}%` } },
-        limit: 10,
-      });
-
-      const itemList = items.map((elm: any) => {
-        return {
-          id: elm.id,
-          title: elm.title,
-          author: elm.author,
-          imageUrl: elm.imageUrl,
-        };
-      });
-
-      return itemList;
-    },
-
     // only for login user
     user: async (_: any, args: { id: string }) => {
       const user = await User.findOne({

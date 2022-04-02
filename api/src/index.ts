@@ -15,8 +15,7 @@ const { v4: uuid } = require('uuid');
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
-import typeDefs from './graphql/users/users.graphql';
-import itemsTypeDefs from './graphql/items/items.graphql';
+import { itemsSchema, usersSchema } from './graphql';
 import resolvers from './graphql/delete.resolvers';
 import userResolvers from './graphql/users/users.resolvers';
 import { merge } from 'lodash';
@@ -52,7 +51,7 @@ const mergedResolvers = merge(resolvers, userResolvers);
 console.log(mergedResolvers);
 
 const schema = makeExecutableSchema({
-  typeDefs: [typeDefs, itemsTypeDefs],
+  typeDefs: [itemsSchema, usersSchema],
   resolvers: mergedResolvers,
 });
 
