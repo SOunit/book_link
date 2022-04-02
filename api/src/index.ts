@@ -22,8 +22,9 @@ import {
   userTypeDefs,
   itemsResolvers,
   usersResolvers,
+  chatsResolvers,
+  followsResolvers,
 } from './graphql';
-import resolvers from './graphql/delete.resolvers';
 import { merge } from 'lodash';
 
 const app = express();
@@ -53,7 +54,12 @@ app.get('/upload', (req, res, next) => {
   );
 });
 
-const mergedResolvers = merge(resolvers, itemsResolvers, usersResolvers);
+const mergedResolvers = merge(
+  itemsResolvers,
+  usersResolvers,
+  chatsResolvers,
+  followsResolvers,
+);
 
 const schema = makeExecutableSchema({
   typeDefs: [itemTypeDefs, userTypeDefs],
