@@ -1,0 +1,29 @@
+type Query {
+  following(userId: ID!, followingUserId: ID!): Following
+  getFollowingUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
+  getFollowerUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
+}
+
+type Mutation {
+  createFollowing(userId: ID!, followingUserId: ID!): Boolean
+  deleteFollowing(userId: ID!, followingUserId: ID!): Boolean
+  createFollower(userId: ID!, followerUserId: ID!): Boolean
+  deleteFollower(userId: ID!, followerUserId: ID!): Boolean
+}
+
+type FollowingUser {
+  id: ID
+  name: String
+  imageUrl: String
+  isFollowing: Boolean
+}
+
+type Following {
+  userId: ID
+  followingUserId: ID
+}
+
+type Follower {
+  userId: ID
+  followerUserId: ID
+}

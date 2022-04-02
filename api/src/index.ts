@@ -20,6 +20,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 import {
   itemTypeDefs,
   userTypeDefs,
+  followTypeDefs,
   itemsResolvers,
   usersResolvers,
   chatsResolvers,
@@ -62,7 +63,7 @@ const mergedResolvers = merge(
 );
 
 const schema = makeExecutableSchema({
-  typeDefs: [itemTypeDefs, userTypeDefs],
+  typeDefs: [itemTypeDefs, userTypeDefs, followTypeDefs],
   resolvers: mergedResolvers,
 });
 

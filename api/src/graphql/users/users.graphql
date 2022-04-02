@@ -1,10 +1,7 @@
 type Query {
-  getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
   user(id: ID!): User!
+  getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
   getUserCount(id: ID!): Int!
-  getFollowingUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
-  getFollowerUsers(targetUserId: ID!, loginUserId: ID!): [FollowingUser!]!
-  following(userId: ID!, followingUserId: ID!): Following
   getUserChat(userIds: [ID!]!): Chat
   getUserChatList(userId: ID!): [Chat]
   fetchRandomItems: [Item!]!
@@ -13,10 +10,6 @@ type Query {
 type Mutation {
   createUser(id: ID!): User!
   updateUser(data: UpdateUserInput!): User!
-  createFollowing(userId: ID!, followingUserId: ID!): Boolean
-  deleteFollowing(userId: ID!, followingUserId: ID!): Boolean
-  createFollower(userId: ID!, followerUserId: ID!): Boolean
-  deleteFollower(userId: ID!, followerUserId: ID!): Boolean
   createChat(userId: ID!, targetId: ID!): Chat
   createMessage(chatId: ID!, userId: ID!, text: String!): Message
 }
@@ -48,23 +41,6 @@ type User {
   imageUrl: String
   items: [Item]
   chats: [Chat]
-}
-
-type FollowingUser {
-  id: ID
-  name: String
-  imageUrl: String
-  isFollowing: Boolean
-}
-
-type Following {
-  userId: ID
-  followingUserId: ID
-}
-
-type Follower {
-  userId: ID
-  followerUserId: ID
 }
 
 type Chat {
