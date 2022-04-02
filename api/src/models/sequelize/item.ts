@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../util/database';
 
-const Item = sequelize.define('item', {
+export const Item = sequelize.define('item', {
   id: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -20,5 +20,3 @@ const Item = sequelize.define('item', {
     allowNull: true,
   },
 });
-
-export default Item;

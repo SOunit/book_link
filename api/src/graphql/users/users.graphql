@@ -1,0 +1,32 @@
+type Query {
+  user(id: ID!): User!
+  getUsersByItems(itemIds: [String!]!, userId: String!): [User!]!
+  getUserCount(id: ID!): Int!
+}
+
+type Mutation {
+  createUser(id: ID!): User!
+  updateUser(data: UpdateUserInput!): User!
+}
+
+input UpdateUserInput {
+  id: ID!
+  name: String!
+  imageUrl: String!
+  about: String!
+}
+
+input CreateItemInput {
+  title: String!
+  author: String!
+  imageUrl: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  about: String
+  imageUrl: String
+  items: [Item]
+  chats: [Chat]
+}

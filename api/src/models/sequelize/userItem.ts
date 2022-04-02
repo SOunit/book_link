@@ -1,9 +1,9 @@
 import Sequelize from 'sequelize';
 import sequelize from '../../util/database';
-import Item from './item';
-import User from './user';
+import { Item } from './item';
+import { User } from './user';
 
-const UserItem = sequelize.define('userItem', {
+export const UserItem = sequelize.define('userItem', {
   userId: {
     type: Sequelize.STRING,
     references: {
@@ -19,5 +19,3 @@ const UserItem = sequelize.define('userItem', {
     },
   },
 });
-
-export default UserItem;

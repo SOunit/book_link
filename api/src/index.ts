@@ -1,23 +1,34 @@
-// Express App Setup
 import express from 'express';
 import bodyParser from 'body-parser';
-const cors = require('cors');
 import { graphqlHTTP } from 'express-graphql';
+import sequelize from './util/database';
+import {
+  User,
+  Item,
+  UserItem,
+  Follow,
+  Chat,
+  UserChat,
+  Message,
+} from './models/sequelize';
+import { setupDummyData } from './setup';
+import keys from './util/keys';
 const { v4: uuid } = require('uuid');
 const AWS = require('aws-sdk');
-import keys from './util/keys';
-
-import graphqlSchema from './graphql/schema';
-import graphqlResolver from './graphql/resolvers';
-import sequelize from './util/database';
-import User from './models/sequelize/user';
-import Item from './models/sequelize/item';
-import UserItem from './models/sequelize/userItem';
-import Follow from './models/sequelize/follow';
-import Chat from './models/sequelize/chat';
-import UserChat from './models/sequelize/userChat';
-import Message from './models/sequelize/message';
-import { setupDummyData } from './setup';
+const cors = require('cors');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+import {
+  itemTypeDefs,
+  userTypeDefs,
+  followTypeDefs,
+  chatTypeDefs,
+  itemsResolvers,
+  usersResolvers,
+  chatsResolvers,
+  followsResolvers,
+  schemaTypeDefs,
+} from './graphql';
+import { merge } from 'lodash';
 
 const app = express();
 app.use(cors());
@@ -46,12 +57,31 @@ app.get('/upload', (req, res, next) => {
   );
 });
 
+const mergedResolvers = merge(
+  itemsResolvers,
+  usersResolvers,
+  chatsResolvers,
+  followsResolvers,
+);
+
+const typeDefsArray = [
+  schemaTypeDefs,
+  itemTypeDefs,
+  userTypeDefs,
+  followTypeDefs,
+  chatTypeDefs,
+];
+
+const schema = makeExecutableSchema({
+  typeDefs: typeDefsArray,
+  resolvers: mergedResolvers,
+});
+
 // route setup
 app.use(
   '/graphql',
   graphqlHTTP({
-    schema: graphqlSchema,
-    rootValue: graphqlResolver,
+    schema,
     // http://localhost:3050/api/graphql
     graphiql: true,
   }),
