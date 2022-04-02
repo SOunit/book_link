@@ -1,3 +1,4 @@
+import schemaTypeDefs from './schema.graphql';
 import itemTypeDefs from './items/items.graphql';
 import userTypeDefs from './users/users.graphql';
 import followTypeDefs from './follows/follows.graphql';
@@ -9,6 +10,7 @@ import followsResolvers from './follows/follows.resolvers';
 import chatsResolvers from './chats/chats.resolvers';
 
 export {
+  schemaTypeDefs,
   itemTypeDefs,
   userTypeDefs,
   followTypeDefs,

@@ -9,13 +9,6 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
 }
 
-scalar Date
-
-schema {
-  query: Query
-  mutation: Mutation
-}
-
 input UpdateUserInput {
   id: ID!
   name: String!

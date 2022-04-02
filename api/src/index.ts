@@ -26,6 +26,7 @@ import {
   usersResolvers,
   chatsResolvers,
   followsResolvers,
+  schemaTypeDefs,
 } from './graphql';
 import { merge } from 'lodash';
 
@@ -64,6 +65,7 @@ const mergedResolvers = merge(
 );
 
 const typeDefsArray = [
+  schemaTypeDefs,
   itemTypeDefs,
   userTypeDefs,
   followTypeDefs,
