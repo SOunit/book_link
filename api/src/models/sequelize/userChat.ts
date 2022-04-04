@@ -14,15 +14,17 @@ UserChat.init(
   {
     UserId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       references: {
-        model: User,
+        model: 'users',
         key: 'id',
       },
     },
     ChatId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       references: {
-        model: Chat,
+        model: 'chats',
         key: 'id',
       },
     },

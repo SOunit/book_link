@@ -15,14 +15,16 @@ Follow.init(
   {
     UserId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       allowNull: false,
       references: {
-        model: User,
+        model: 'users',
         key: 'id',
       },
     },
     followingUserId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       allowNull: false,
     },
   },
