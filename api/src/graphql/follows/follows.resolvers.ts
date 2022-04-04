@@ -112,7 +112,7 @@ export = {
       },
     ) => {
       await Follow.create({
-        userId: args.userId,
+        UserId: args.userId,
         followingUserId: args.followingUserId,
       });
 
@@ -128,7 +128,7 @@ export = {
     ) => {
       const followingInstance: any = await Follow.findOne({
         where: {
-          userId: args.userId,
+          UserId: args.userId,
           followingUserId: args.followingUserId,
         },
       });
