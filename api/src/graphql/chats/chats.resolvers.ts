@@ -23,13 +23,13 @@ export = {
       });
 
       // change data for return
-      const chats = user.chats.map((chat: any) => {
-        const messages = chat.messages.map((message: any) => {
+      const chats = user.get({ plain: true }).Chats.map((chat: any) => {
+        const messages = chat.Messages.map((message: any) => {
           return message;
         });
         messages.reverse();
 
-        const users = chat.users.map((user: UserType) => {
+        const users = chat.Users.map((user: UserType) => {
           return {
             id: user.id,
             name: user.name,
@@ -66,12 +66,12 @@ export = {
       });
 
       // change data for return
-      const chats = user.chats.map((chat: any) => {
-        const messages = chat.messages.map((message: any) => {
+      const chats = user.get({ plain: true }).Chats.map((chat: any) => {
+        const messages = chat.Messages.map((message: any) => {
           return message;
         });
 
-        const users = chat.users.map((user: UserType) => {
+        const users = chat.Users.map((user: UserType) => {
           return {
             id: user.id,
             name: user.name,
