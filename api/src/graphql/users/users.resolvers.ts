@@ -40,9 +40,9 @@ export = {
           FROM
             (SELECT "UserId" ,
                 COUNT("ItemId")
-              FROM "userItems"
+              FROM "UserItems"
               WHERE "ItemId" in (:itemIds)
-              GROUP BY "userItems"."UserId"
+              GROUP BY "UserItems"."UserId"
               HAVING COUNT("ItemId") = :itemIdsLength) AS "targetUsers"
           JOIN "Users" ON "Users".ID = "targetUsers"."UserId"
           WHERE "Users".ID <> :userId
