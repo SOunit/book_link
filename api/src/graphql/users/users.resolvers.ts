@@ -1,6 +1,6 @@
 import { QueryTypes } from 'sequelize';
-import { Chat, Item, Message, User, UserChat } from '../../models/sequelize';
-import { sequelize } from '../../util';
+import { Chat, Item, User } from '../../models/sequelize';
+import { db } from '../../config';
 import UserType from '../../models/ts/User';
 
 export = {
@@ -31,7 +31,7 @@ export = {
       _: any,
       args: { itemIds: string[]; userId: string },
     ) => {
-      const fetchedUsers = await sequelize.query(
+      const fetchedUsers = await db.query(
         `
         SELECT ID ,
             NAME ,

@@ -32,7 +32,7 @@ export const ChatMessage: FC<Props> = ({
       )}
       <div
         className={
-          message.userId === loginUserId
+          message.UserId === loginUserId
             ? `${classes['message__text']} ${classes['message__text--mine']}`
             : classes['message__text']
         }>

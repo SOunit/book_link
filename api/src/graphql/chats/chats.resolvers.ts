@@ -2,7 +2,7 @@ import { v4 as uuidV4 } from 'uuid';
 import { Op, literal } from 'sequelize';
 import { Chat, Message, User, UserChat } from '../../models/sequelize';
 import UserType from '../../models/ts/User';
-import { sequelize } from '../../util';
+import { db } from '../../config';
 
 export = {
   Query: {
@@ -114,7 +114,7 @@ export = {
         throw new Error('Chat already exists');
       }
 
-      const transaction = await sequelize.transaction();
+      const transaction = await db.transaction();
 
       type Response = {
         id: string;
@@ -190,8 +190,8 @@ export = {
     ) => {
       const result = await Message.create({
         id: uuidV4(),
-        chatId: args.chatId,
-        userId: args.userId,
+        ChatId: args.chatId,
+        UserId: args.userId,
         text: args.text,
       });
 

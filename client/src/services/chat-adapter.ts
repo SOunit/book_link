@@ -17,8 +17,8 @@ export const useChatAdapter = (): ChatAdapterService => {
                     }
                     messages{
                       id
-                      chatId
-                      userId
+                      ChatId
+                      UserId
                       text
                       createdAt
                     }
@@ -48,7 +48,7 @@ export const useChatAdapter = (): ChatAdapterService => {
                     }
                     messages{
                       id
-                      userId
+                      UserId
                       text
                       createdAt
                     }
@@ -100,8 +100,8 @@ export const useChatAdapter = (): ChatAdapterService => {
                 mutation CreateMessage($chatId: ID!, $userId: ID!, $text: String!){
                   createMessage(chatId: $chatId, userId: $userId, text: $text){
                     id
-                    chatId
-                    userId
+                    ChatId
+                    UserId
                     text
                     createdAt
                   }
