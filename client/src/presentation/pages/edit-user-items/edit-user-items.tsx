@@ -34,10 +34,10 @@ export const EditUserItems: FC = () => {
     if (loginUser) {
       // update user state
       const newUser = { ...loginUser };
-      if (!newUser.items) {
+      if (!newUser.Items) {
         return;
       }
-      newUser.items.push(item);
+      newUser.Items.push(item);
 
       addUserItem(newUser, item.id);
     }
@@ -47,7 +47,7 @@ export const EditUserItems: FC = () => {
     if (loginUser) {
       // update user state
       const newUser: User = { ...loginUser };
-      newUser.items = newUser.items!.filter((item) => item.id !== itemId);
+      newUser.Items = newUser.Items!.filter((item) => item.id !== itemId);
 
       removeUserItem(newUser, itemId);
     }
@@ -56,9 +56,9 @@ export const EditUserItems: FC = () => {
   return (
     <Fragment>
       <SectionTitle>Your items</SectionTitle>
-      {loginUser && loginUser.items && loginUser.items.length > 0 ? (
+      {loginUser && loginUser.Items && loginUser.Items.length > 0 ? (
         <RegisteredItems
-          items={loginUser.items}
+          items={loginUser.Items}
           onDeleteRegisteredItem={deleteClickHandler}
         />
       ) : (
@@ -81,7 +81,7 @@ export const EditUserItems: FC = () => {
         <section>
           <SearchedItems
             items={searchedItems}
-            registeredItems={loginUser.items ? loginUser.items : []}
+            registeredItems={loginUser.Items ? loginUser.Items : []}
             isItemSearched={isItemSearched}
             onAddClick={addClickHandler}
           />

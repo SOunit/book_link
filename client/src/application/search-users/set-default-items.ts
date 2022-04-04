@@ -12,11 +12,11 @@ export const useSetDefaultItems = () => {
   const { setRegisteredItems }: SearchStorageService = useSearchStorage();
 
   const setDefaultItems = useCallback(async () => {
-    if (!loginUser || !loginUser.items) {
+    if (!loginUser || !loginUser.Items) {
       return;
     }
 
-    let defaultItems = loginUser.items;
+    let defaultItems = loginUser.Items;
 
     if (defaultItems.length === 0) {
       const response = await fetchRandomItems();

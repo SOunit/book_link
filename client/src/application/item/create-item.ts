@@ -31,7 +31,7 @@ export const useCreateItem = () => {
       // update state
       updateLoginUser({
         ...loginUser,
-        items: loginUser.items ? [...loginUser.items, newItem] : [newItem],
+        Items: loginUser.Items ? [...loginUser.Items, newItem] : [newItem],
       });
     } catch (err) {
       console.log('create-item submit');

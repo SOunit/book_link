@@ -5,6 +5,6 @@ export type User = {
   name: string;
   imageUrl: string;
   about?: string;
-  items?: Item[];
+  Items?: Item[];
   isFollowing?: boolean;
 };

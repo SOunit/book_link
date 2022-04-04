@@ -62,7 +62,7 @@ export const Home: FC<HomeProps> = () => {
         />
       </div>
       {loginUser && (
-        <UserItems items={loginUser.items ? loginUser.items : []} />
+        <UserItems items={loginUser.Items ? loginUser.Items : []} />
       )}
     </Fragment>
   );
