@@ -100,8 +100,8 @@ export = {
       // FIXME: check if user and item exists
 
       await UserItem.create({
-        userId: args.data.userId,
-        itemId: args.data.itemId,
+        UserId: args.data.userId,
+        ItemId: args.data.itemId,
       });
 
       // create return value

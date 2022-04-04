@@ -12,14 +12,14 @@ export class UserItem extends Model<UserItemAttributes> {}
 
 UserItem.init(
   {
-    userId: {
+    UserId: {
       type: DataTypes.STRING,
       references: {
         model: User,
         key: 'id',
       },
     },
-    itemId: {
+    ItemId: {
       type: DataTypes.STRING,
       references: {
         model: Item,

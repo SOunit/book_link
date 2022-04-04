@@ -25,6 +25,8 @@ export const useCreateItem = () => {
 
       // update db
       const response = await itemAdapter.createItem(title, author, imageUrl);
+      console.log(response);
+
       const newItem = response.data.data.createItem;
       await itemAdapter.addUserItem(loginUser.id, newItem.id);
 
