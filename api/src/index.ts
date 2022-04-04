@@ -19,7 +19,6 @@ import {
   UserChat,
   Message,
 } from './models/sequelize';
-import { setupDummyData } from './setup';
 import {
   itemTypeDefs,
   userTypeDefs,
@@ -33,6 +32,7 @@ import {
 } from './graphql';
 import { keys } from './util';
 import { db } from './config/database.config';
+import { createTestData } from './data';
 
 const app = express();
 app.use(cors());
@@ -110,7 +110,7 @@ socketServer(server);
 // create table using model by sync command
 db.sync({ force: true })
   .then(() => {
-    setupDummyData();
+    createTestData();
 
     server.listen(5000, () => {
       console.log('Listening on port 5000');
