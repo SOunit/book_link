@@ -25,13 +25,15 @@ export const useCreateItem = () => {
 
       // update db
       const response = await itemAdapter.createItem(title, author, imageUrl);
+      console.log(response);
+
       const newItem = response.data.data.createItem;
       await itemAdapter.addUserItem(loginUser.id, newItem.id);
 
       // update state
       updateLoginUser({
         ...loginUser,
-        items: loginUser.items ? [...loginUser.items, newItem] : [newItem],
+        Items: loginUser.Items ? [...loginUser.Items, newItem] : [newItem],
       });
     } catch (err) {
       console.log('create-item submit');

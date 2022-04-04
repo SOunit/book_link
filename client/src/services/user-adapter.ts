@@ -57,7 +57,7 @@ export const useUserAdapter = () => {
                       name
                       about
                       imageUrl
-                      items{
+                      Items{
                         id
                         title
                         imageUrl

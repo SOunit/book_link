@@ -148,7 +148,7 @@ export const UserDetail: FC<Props> = () => {
             className={classes['user-detail__button']}
           />
         </Buttons>
-        {targetUser.items && <UserItems items={targetUser.items} />}
+        {targetUser.Items && <UserItems items={targetUser.Items} />}
       </Fragment>
     );
   }

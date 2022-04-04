@@ -1,21 +1,31 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../util';
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../config/database.config';
 import { Item } from './item';
 import { User } from './user';
 
-export const UserItem = sequelize.define('userItem', {
-  userId: {
-    type: Sequelize.STRING,
-    references: {
-      model: User,
-      key: 'id',
+interface UserItemAttributes {
+  UserId: string;
+  ItemId: string;
+}
+
+export class UserItem extends Model<UserItemAttributes> {}
+
+UserItem.init(
+  {
+    UserId: {
+      type: DataTypes.STRING,
+      references: {
+        model: User,
+        key: 'id',
+      },
+    },
+    ItemId: {
+      type: DataTypes.STRING,
+      references: {
+        model: Item,
+        key: 'id',
+      },
     },
   },
-  itemId: {
-    type: Sequelize.STRING,
-    references: {
-      model: Item,
-      key: 'id',
-    },
-  },
-});
+  { sequelize: db, tableName: 'userItems' },
+);

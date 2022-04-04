@@ -1,22 +1,37 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../util';
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../config/database.config';
 
-export const User = sequelize.define('user', {
-  id: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
+interface UserAttributes {
+  id: string;
+  name: string;
+  about?: string;
+  imageUrl?: string;
+}
+
+export class User extends Model<UserAttributes> {}
+
+User.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    about: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
+  {
+    sequelize: db,
+    tableName: 'users',
   },
-  about: {
-    type: Sequelize.TEXT,
-    allowNull: true,
-  },
-  imageUrl: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-});
+);

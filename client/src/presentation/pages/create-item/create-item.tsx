@@ -82,7 +82,7 @@ export const CreateItem: FC = () => {
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    if (!loginUser || !loginUser.items || !imageFile) {
+    if (!loginUser || !loginUser.Items || !imageFile) {
       return;
     }
 

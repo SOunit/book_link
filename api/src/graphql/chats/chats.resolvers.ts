@@ -2,32 +2,34 @@ import { v4 as uuidV4 } from 'uuid';
 import { Op, literal } from 'sequelize';
 import { Chat, Message, User, UserChat } from '../../models/sequelize';
 import UserType from '../../models/ts/User';
-import { sequelize } from '../../util';
+import { db } from '../../config';
 
 export = {
   Query: {
     getUserChat: async (_: any, args: { userIds: string[] }) => {
       // fetch data
       const [userId1, userId2] = args.userIds;
-      const user = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: userId1 },
-        include: {
-          model: Chat,
-          include: [
-            { model: Message, limit: 20, order: [['createdAt', 'DESC']] },
-            { model: User, where: { id: userId2 } },
-          ],
-        },
+        include: [
+          {
+            model: Chat,
+            include: [
+              { model: Message, limit: 20, order: [['createdAt', 'DESC']] },
+              { model: User, where: { id: userId2 } },
+            ],
+          },
+        ],
       });
 
       // change data for return
-      const chats = user.chats.map((chat: any) => {
-        const messages = chat.messages.map((message: any) => {
+      const chats = user.get({ plain: true }).Chats.map((chat: any) => {
+        const messages = chat.Messages.map((message: any) => {
           return message;
         });
         messages.reverse();
 
-        const users = chat.users.map((user: UserType) => {
+        const users = chat.Users.map((user: UserType) => {
           return {
             id: user.id,
             name: user.name,
@@ -47,24 +49,29 @@ export = {
 
     getUserChatList: async (_: any, args: { userId: string }) => {
       // fetch data
-      const user = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.userId },
-        include: {
-          model: Chat,
-          include: [
-            { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
-            { model: User, where: { [Op.not]: { id: args.userId } } },
-          ],
-        },
+        include: [
+          {
+            model: Chat,
+            include: [
+              { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
+              {
+                model: User,
+                where: { [Op.not]: { id: args.userId } } as any,
+              },
+            ],
+          },
+        ],
       });
 
       // change data for return
-      const chats = user.chats.map((chat: any) => {
-        const messages = chat.messages.map((message: any) => {
+      const chats = user.get({ plain: true }).Chats.map((chat: any) => {
+        const messages = chat.Messages.map((message: any) => {
           return message;
         });
 
-        const users = chat.users.map((user: UserType) => {
+        const users = chat.Users.map((user: UserType) => {
           return {
             id: user.id,
             name: user.name,
@@ -89,23 +96,26 @@ export = {
         throw new Error('both user ids are same!');
       }
 
-      const existingChat = await Chat.count({
+      const countResponse: any = await Chat.count({
         where: {
-          '$users.id$': { [Op.in]: [args.userId, args.targetId] },
+          '$Users.id$': { [Op.in]: [args.userId, args.targetId] },
         },
-        include: {
-          model: User,
-          as: 'users',
-        },
-        group: 'chat.id',
-        having: literal('count(chat.id) = 2'),
+        include: [
+          {
+            model: User,
+            as: 'Users',
+          },
+        ],
+        group: 'Chat.id',
       });
 
-      if (existingChat.length === 1) {
+      const chatCount = countResponse[0].count;
+
+      if (+chatCount === 2) {
         throw new Error('Chat already exists');
       }
 
-      const transaction = await sequelize.transaction();
+      const transaction = await db.transaction();
 
       type Response = {
         id: string;
@@ -120,15 +130,16 @@ export = {
 
       try {
         const chat = await Chat.create({ id: uuidV4() }, { transaction });
-        const chatId = chat.get({ row: true }).id;
+        const chatData: any = chat.get({ plain: true });
+        const chatId = chatData.id;
 
         response.id = chatId;
 
         await UserChat.create(
           {
             id: uuidV4(),
-            chatId,
-            userId: args.userId,
+            ChatId: chatId,
+            UserId: args.userId,
           },
           { transaction },
         );
@@ -136,19 +147,16 @@ export = {
         await UserChat.create(
           {
             id: uuidV4(),
-            chatId,
-            userId: args.targetId,
+            ChatId: chatId,
+            UserId: args.targetId,
           },
           { transaction },
         );
 
-        console.log('args.targetId', args.targetId);
-
-        const user = await User.findOne({
+        const user: any = await User.findOne({
           where: { id: args.targetId },
         });
 
-        console.log('user', user);
         const userData = {
           id: user.id,
           name: user.name,
@@ -180,8 +188,8 @@ export = {
     ) => {
       const result = await Message.create({
         id: uuidV4(),
-        chatId: args.chatId,
-        userId: args.userId,
+        ChatId: args.chatId,
+        UserId: args.userId,
         text: args.text,
       });
 

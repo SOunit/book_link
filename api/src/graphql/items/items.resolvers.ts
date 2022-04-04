@@ -6,7 +6,7 @@ import CreateItemInput from '../../models/ts/CreateItemInput';
 export = {
   Query: {
     item: async (_: any, args: { id: string }) => {
-      const result = await Item.findByPk(args.id);
+      const result: any = await Item.findByPk(args.id);
       const itemData = result.dataValues;
 
       return {
@@ -79,17 +79,17 @@ export = {
       }
 
       // create return value
-      const userInstance = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.data.userId },
-        include: Item,
+        include: [Item],
       });
 
       return {
-        id: userInstance.id,
-        name: userInstance.name,
-        about: userInstance.about,
-        imageUrl: userInstance.imageUrl,
-        items: userInstance.items,
+        id: user.id,
+        name: user.name,
+        about: user.about,
+        imageUrl: user.imageUrl,
+        items: user.items,
       };
     },
 
@@ -100,22 +100,22 @@ export = {
       // FIXME: check if user and item exists
 
       await UserItem.create({
-        userId: args.data.userId,
-        itemId: args.data.itemId,
+        UserId: args.data.userId,
+        ItemId: args.data.itemId,
       });
 
       // create return value
-      const userInstance = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.data.userId },
-        include: Item,
+        include: [Item],
       });
 
       return {
-        id: userInstance.id,
-        name: userInstance.name,
-        about: userInstance.about,
-        imageUrl: userInstance.imageUrl,
-        items: userInstance.items,
+        id: user.id,
+        name: user.name,
+        about: user.about,
+        imageUrl: user.imageUrl,
+        items: user.items,
       };
     },
   },

@@ -1,6 +1,6 @@
 import { QueryTypes } from 'sequelize';
 import { Follow } from '../../models/sequelize';
-import { sequelize } from '../../util';
+import { db } from '../../config/database.config';
 
 export = {
   Query: {
@@ -22,7 +22,7 @@ export = {
         };
       }
 
-      const followingData = following.get({ row: true });
+      const followingData: any = following.get({ plain: true });
       return {
         userId: followingData.userId,
         followingUserId: followingData.followingUserId,
@@ -36,18 +36,18 @@ export = {
         loginUserId: string;
       },
     ) => {
-      const users = await sequelize.query(
+      const users = await db.query(
         `
         SELECT USERS.ID,
           USERS.NAME,
           USERS."imageUrl",
           CASE
-                  WHEN LOGIN_USER_FOLLOWS."userId" IS NOT NULL THEN TRUE
+                  WHEN LOGIN_USER_FOLLOWS."UserId" IS NOT NULL THEN TRUE
                   ELSE FALSE
           END AS "isFollowing"
         FROM FOLLOWS
-        JOIN USERS ON FOLLOWS."userId" = USERS.ID
-        LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."userId" = FOLLOWS."userId"
+        JOIN USERS ON FOLLOWS."UserId" = USERS.ID
+        LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."UserId" = FOLLOWS."UserId"
         AND LOGIN_USER_FOLLOWS."followingUserId" = :loginUserId
         WHERE FOLLOWS."followingUserId" = :targetUserId
         LIMIT 10
@@ -72,7 +72,7 @@ export = {
         loginUserId: string;
       },
     ) => {
-      const users = await sequelize.query(
+      const users = await db.query(
         `
         SELECT USERS.ID,
           USERS.NAME,
@@ -85,8 +85,8 @@ export = {
         FROM FOLLOWS
         JOIN USERS ON FOLLOWS."followingUserId" = USERS.ID
         LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."followingUserId" = :loginUserId
-        AND LOGIN_USER_FOLLOWS."userId" = USERS.ID
-        WHERE FOLLOWS."userId" = :targetUserId
+        AND LOGIN_USER_FOLLOWS."UserId" = USERS.ID
+        WHERE FOLLOWS."UserId" = :targetUserId
         LIMIT 10
         OFFSET 0
         `,
@@ -112,7 +112,7 @@ export = {
       },
     ) => {
       await Follow.create({
-        userId: args.userId,
+        UserId: args.userId,
         followingUserId: args.followingUserId,
       });
 
@@ -126,9 +126,9 @@ export = {
         followingUserId: string;
       },
     ) => {
-      const followingInstance = await Follow.findOne({
+      const followingInstance: any = await Follow.findOne({
         where: {
-          userId: args.userId,
+          UserId: args.userId,
           followingUserId: args.followingUserId,
         },
       });
