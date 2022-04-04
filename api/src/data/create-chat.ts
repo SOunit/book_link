@@ -4,6 +4,7 @@ export const createChat = async () => {
   await Chat.create({
     id: '1',
   });
+
   await UserChat.create({
     UserId: '1',
     ChatId: '1',
@@ -12,6 +13,7 @@ export const createChat = async () => {
     UserId: '2',
     ChatId: '1',
   });
+
   await Message.create({
     id: '1',
     ChatId: '1',

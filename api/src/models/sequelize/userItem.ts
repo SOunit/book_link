@@ -14,15 +14,17 @@ UserItem.init(
   {
     UserId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       references: {
-        model: User,
+        model: 'users',
         key: 'id',
       },
     },
     ItemId: {
       type: DataTypes.STRING,
+      primaryKey: true,
       references: {
-        model: Item,
+        model: 'items',
         key: 'id',
       },
     },

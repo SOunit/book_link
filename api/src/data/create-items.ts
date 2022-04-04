@@ -187,6 +187,10 @@ export const createItems = async (
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/vagabond.jpeg',
   });
 
+  // id dose not exist error
+  // should i add id?
+  // https://stackoverflow.com/questions/29233896/sequelize-table-without-column-id
+
   //   user1-11 create
   //   10-16
   //   20,30,40,50,60,70,80,90

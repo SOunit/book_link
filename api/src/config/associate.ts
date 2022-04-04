@@ -10,15 +10,16 @@ import {
 
 export const associate = () => {
   // setup association, add functions
-  User.belongsToMany(Item, { through: UserItem });
-  Item.belongsToMany(User, { through: UserItem });
+  User.belongsToMany(Item, { through: 'userItems' });
+  Item.belongsToMany(User, { through: 'userItems' });
   User.belongsToMany(User, {
     as: 'followingUser',
-    through: Follow,
+    through: 'follows',
   });
-  Chat.belongsToMany(User, { through: UserChat });
-  User.belongsToMany(Chat, { through: UserChat });
+  Chat.belongsToMany(User, { through: 'userChats' });
+  User.belongsToMany(Chat, { through: 'userChats' });
   Message.belongsTo(Chat);
   Chat.hasMany(Message);
+
   Message.belongsTo(User);
 };
