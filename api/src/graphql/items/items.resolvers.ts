@@ -79,17 +79,17 @@ export = {
       }
 
       // create return value
-      const userInstance = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.data.userId },
         include: Item,
       });
 
       return {
-        id: userInstance.id,
-        name: userInstance.name,
-        about: userInstance.about,
-        imageUrl: userInstance.imageUrl,
-        items: userInstance.items,
+        id: user.id,
+        name: user.name,
+        about: user.about,
+        imageUrl: user.imageUrl,
+        items: user.items,
       };
     },
 
@@ -105,17 +105,17 @@ export = {
       });
 
       // create return value
-      const userInstance = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.data.userId },
         include: Item,
       });
 
       return {
-        id: userInstance.id,
-        name: userInstance.name,
-        about: userInstance.about,
-        imageUrl: userInstance.imageUrl,
-        items: userInstance.items,
+        id: user.id,
+        name: user.name,
+        about: user.about,
+        imageUrl: user.imageUrl,
+        items: user.items,
       };
     },
   },

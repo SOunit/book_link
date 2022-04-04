@@ -93,7 +93,10 @@ app.use(
 // setup association, add functions
 User.belongsToMany(Item, { through: UserItem });
 Item.belongsToMany(User, { through: UserItem });
-User.belongsToMany(User, { as: 'followingUser', through: Follow });
+User.belongsToMany(User, {
+  as: 'followingUser',
+  through: Follow,
+});
 Chat.belongsToMany(User, { through: UserChat });
 User.belongsToMany(Chat, { through: UserChat });
 Message.belongsTo(Chat);
@@ -107,7 +110,7 @@ socketServer(server);
 sequelize
   .sync({ force: true })
   .then(() => {
-    setupDummyData();
+    // setupDummyData();
 
     server.listen(5000, () => {
       console.log('Listening on port 5000');

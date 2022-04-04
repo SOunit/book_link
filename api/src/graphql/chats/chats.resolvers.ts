@@ -9,15 +9,17 @@ export = {
     getUserChat: async (_: any, args: { userIds: string[] }) => {
       // fetch data
       const [userId1, userId2] = args.userIds;
-      const user = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: userId1 },
-        include: {
-          model: Chat,
-          include: [
-            { model: Message, limit: 20, order: [['createdAt', 'DESC']] },
-            { model: User, where: { id: userId2 } },
-          ],
-        },
+        include: [
+          {
+            model: Chat,
+            include: [
+              { model: Message, limit: 20, order: [['createdAt', 'DESC']] },
+              { model: User, where: { id: userId2 } },
+            ],
+          },
+        ],
       });
 
       // change data for return
@@ -47,15 +49,20 @@ export = {
 
     getUserChatList: async (_: any, args: { userId: string }) => {
       // fetch data
-      const user = await User.findOne({
+      const user: any = await User.findOne({
         where: { id: args.userId },
-        include: {
-          model: Chat,
-          include: [
-            { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
-            { model: User, where: { [Op.not]: { id: args.userId } } },
-          ],
-        },
+        include: [
+          {
+            model: Chat,
+            include: [
+              { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
+              {
+                model: User,
+                where: { [Op.not]: { id: args.userId } } as any,
+              },
+            ],
+          },
+        ],
       });
 
       // change data for return
@@ -144,7 +151,7 @@ export = {
 
         console.log('args.targetId', args.targetId);
 
-        const user = await User.findOne({
+        const user: any = await User.findOne({
           where: { id: args.targetId },
         });
 

@@ -16,7 +16,7 @@ export = {
         throw new Error('User not found');
       }
 
-      const userData = user.get({ row: true });
+      const userData = user.get({ plain: true }) as any;
 
       const items = userData.items.map((elm: any) => {
         const itemData = elm.get({ row: true });
@@ -123,26 +123,27 @@ export = {
     },
 
     updateUser: async (_: any, args: { data: UserType }) => {
-      const userInstance = await User.findByPk(args.data.id);
-      if (!userInstance) {
+      const user = (await User.findByPk(args.data.id)) as any;
+
+      if (!user) {
         throw new Error('User not found!');
       }
 
       // update
       if (args.data && args.data.name) {
-        userInstance.name = args.data.name;
-        userInstance.about = args.data.about;
-        userInstance.imageUrl = args.data.imageUrl;
+        user.name = args.data.name;
+        user.about = args.data.about;
+        user.imageUrl = args.data.imageUrl;
 
         // save
-        userInstance.save();
+        user.save();
       }
 
       return {
-        id: userInstance.id,
-        about: userInstance.about,
-        imageUrl: userInstance.imageUrl,
-        name: userInstance.name,
+        id: user.id,
+        about: user.about,
+        imageUrl: user.imageUrl,
+        name: user.name,
       };
     },
   },

@@ -9,13 +9,16 @@ import {
 
 export const setupDummyData = async () => {
   // users
-  const jack = await User.create({
+  const jack: any = await User.create({
     id: '1',
     name: 'Jack',
     about: `I am a test user! You can edit whatever you want, but All changes will be gone. because every deploy create new records!`,
     imageUrl:
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/vicky-hladynets-C8Ta0gwPbQg-unsplash.jpg',
   });
+
+  console.log('jack', jack);
+  console.log('jack.createItem', jack.createItem);
 
   const rebecca = await User.create({
     id: '2',
@@ -268,7 +271,7 @@ export const setupDummyData = async () => {
   });
 
   // items
-  await jack.createItem({
+  await (jack as any).createItem({
     id: '10',
     title: 'Majo',
     author: 'Igarashi Daisuke',
@@ -276,7 +279,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/518NRzHLRUL._SX349_BO1,204,203,200_.jpg',
   });
 
-  await jack.createItem({
+  await (jack as any).createItem({
     id: '20',
     title: 'Majo2',
     author: `Igarashi Daisuke`,
@@ -284,7 +287,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/71gDhFdvIcL.jpg',
   });
 
-  await rebecca.createItem({
+  await (rebecca as any).createItem({
     id: '50',
     title: 'Dorohedoro',
     author: `Q Hayashida`,
@@ -292,7 +295,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/81hJWZiZheL.jpg',
   });
 
-  await rebecca.createItem({
+  await (rebecca as any).createItem({
     id: '60',
     title: 'Atom the Beginning',
     author: `Tetsuro Kasahara`,
@@ -300,7 +303,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/91oqiYYAUpL.jpg',
   });
 
-  await kevin.createItem({
+  await (kevin as any).createItem({
     id: '70',
     title: 'HISTORIĒ',
     author: `Iwaaki Hitoshi`,
@@ -308,7 +311,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/51RCfblrEjL.jpg',
   });
 
-  await kevin.createItem({
+  await (kevin as any).createItem({
     id: '80',
     title: 'Attack on Titan',
     author: `Hajime Isayama`,
@@ -316,28 +319,28 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/A1uSJx8pG-S.jpg',
   });
 
-  await kate.createItem({
+  await (kate as any).createItem({
     id: '90',
     title: 'Steve Jobs',
     author: `Mari Yamazaki`,
     imageUrl: 'https://m.media-amazon.com/images/I/516w7mS6LKL.jpg',
   });
 
-  await kate.createItem({
+  await (kate as any).createItem({
     id: '91',
     title: 'Bataashi Kingyo',
     author: `Minetaro Mochizuki`,
     imageUrl: 'https://decadeview.ocnk.net/data/decadeview/product/1030-1.jpg',
   });
 
-  await user5.createItem({
+  await (user5 as any).createItem({
     id: '92',
     title: 'Tobu ga Gotoku',
     author: `Ryotaro Shiba`,
     imageUrl: 'https://m.media-amazon.com/images/I/41lVVfWe06L.jpg',
   });
 
-  await user5.createItem({
+  await (user5 as any).createItem({
     id: '93',
     title: 'RYOMA！',
     author: `Ryotaro Shiba`,
@@ -345,7 +348,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/41HMEAKYQXL.jpg',
   });
 
-  await user6.createItem({
+  await (user6 as any).createItem({
     id: '94',
     title: 'Taikoki',
     author: `Ryotaro Shiba`,
@@ -353,7 +356,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/61myrbUC70L._SX360_BO1,204,203,200_.jpg',
   });
 
-  await user6.createItem({
+  await (user6 as any).createItem({
     id: '95',
     title: 'One Child',
     author: `Torey L. Hayden`,
@@ -361,7 +364,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/61PUPRhrFcS.jpg',
   });
 
-  await user7.createItem({
+  await (user7 as any).createItem({
     id: '96',
     title: "Tiger's child",
     author: `Torey L. Hayden`,
@@ -369,7 +372,7 @@ export const setupDummyData = async () => {
       'https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781439107188/tigers-child-9781439107188_hr.jpg',
   });
 
-  await user7.createItem({
+  await (user7 as any).createItem({
     id: '97',
     title: 'Beautiful child',
     author: `Torey L. Hayden`,
@@ -377,7 +380,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/61RBtK1SP0L.jpg',
   });
 
-  await user8.createItem({
+  await (user8 as any).createItem({
     id: '30',
     title: 'Kunitori Monogatari',
     author: 'Ryotaro Shiba',
@@ -385,7 +388,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/511LCOghq2L.jpg',
   });
 
-  await user8.createItem({
+  await (user8 as any).createItem({
     id: '40',
     title: 'Zatch Bell!',
     author: 'Makoto Raiku',
@@ -393,7 +396,7 @@ export const setupDummyData = async () => {
       'https://images-na.ssl-images-amazon.com/images/I/51ux4gmFUCL.jpg',
   });
 
-  await user9.createItem({
+  await (user9 as any).createItem({
     id: '11',
     title: 'APOSIMZ',
     author: 'TSUTOMU NIHEI',
@@ -401,7 +404,7 @@ export const setupDummyData = async () => {
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/APOSIMZ.jpeg',
   });
 
-  await user9.createItem({
+  await (user9 as any).createItem({
     id: '12',
     title: 'Castle in the sky',
     author: 'Hayao Miyazaki',
@@ -409,7 +412,7 @@ export const setupDummyData = async () => {
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Castle_in_the_Sky.jpg',
   });
 
-  await user10.createItem({
+  await (user10 as any).createItem({
     id: '13',
     title: 'Fullmetal Alchemistt',
     author: 'Hiromu Arakawa',
@@ -417,7 +420,7 @@ export const setupDummyData = async () => {
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Fullmetal+_Alchemistt.jpeg',
   });
 
-  await user10.createItem({
+  await (user10 as any).createItem({
     id: '14',
     title: 'Emma',
     author: 'Kaoru Mori',
@@ -425,7 +428,7 @@ export const setupDummyData = async () => {
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/emma.jpeg',
   });
 
-  await user11.createItem({
+  await (user11 as any).createItem({
     id: '15',
     title: 'GANTZ',
     author: 'HIROYA OKU',
@@ -433,7 +436,7 @@ export const setupDummyData = async () => {
       'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/gantz.jpeg',
   });
 
-  await user11.createItem({
+  await (user11 as any).createItem({
     id: '16',
     title: 'Vagabond',
     author: 'Takehiko Inoue',
@@ -709,11 +712,11 @@ export const setupDummyData = async () => {
   });
 
   // fetch user including chats, messages
-  User.findOne({
-    where: { id: '1' },
-    include: {
-      model: Chat,
-      include: [{ model: Message }],
-    },
-  }).then((res: any) => {});
+  // User.findOne({
+  //   where: { id: '1' },
+  //   include: {
+  //     model: Chat,
+  //     include: [{ model: Message }],
+  //   },
+  // }).then((res: any) => {});
 };
