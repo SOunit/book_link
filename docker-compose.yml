@@ -21,15 +21,6 @@ services:
     volumes:
       - /app/node_modules
       - ./api:/app
-    environment:
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
-      - ACCESSKEYID=
-      - SECRETACCESSKEY=
-      - REGION=
   client:
     restart: always
     stdin_open: true
@@ -42,10 +33,3 @@ services:
     # polling setting for Docker. activate auto reload when file change.
     environment:
       - CHOKIDAR_USEPOLLING=true
-  pgadmin:
-    image: 'dpage/pgadmin4'
-    ports:
-      - '5555:80'
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=hussein_demo_Ea625xpCJWhC@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=password
