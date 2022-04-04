@@ -38,18 +38,18 @@ export = {
     ) => {
       const users = await db.query(
         `
-        SELECT USERS.ID,
-          USERS.NAME,
-          USERS."imageUrl",
+        SELECT "Users".ID,
+          "Users".NAME,
+          "Users"."imageUrl",
           CASE
                   WHEN LOGIN_USER_FOLLOWS."UserId" IS NOT NULL THEN TRUE
                   ELSE FALSE
           END AS "isFollowing"
-        FROM FOLLOWS
-        JOIN USERS ON FOLLOWS."UserId" = USERS.ID
-        LEFT JOIN FOLLOWS AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."UserId" = FOLLOWS."UserId"
+        FROM "Follows"
+        JOIN "Users" ON "Follows"."UserId" = "Users".ID
+        LEFT JOIN "Follows" AS LOGIN_USER_FOLLOWS ON LOGIN_USER_FOLLOWS."UserId" = "Follows"."UserId"
         AND LOGIN_USER_FOLLOWS."followingUserId" = :loginUserId
-        WHERE FOLLOWS."followingUserId" = :targetUserId
+        WHERE "Follows"."followingUserId" = :targetUserId
         LIMIT 10
         OFFSET 0
         `,
