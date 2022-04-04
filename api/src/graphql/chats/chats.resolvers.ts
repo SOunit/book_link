@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
-import { Op, literal } from 'sequelize';
+import { Op } from 'sequelize';
 import { Chat, Message, User, UserChat } from '../../models/sequelize';
 import UserType from '../../models/ts/User';
 import { db } from '../../config';

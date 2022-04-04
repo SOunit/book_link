@@ -12,14 +12,14 @@ export class UserChat extends Model<UserChatAttributes> {}
 
 UserChat.init(
   {
-    userId: {
+    UserId: {
       type: DataTypes.STRING,
       references: {
         model: User,
         key: 'id',
       },
     },
-    chatId: {
+    ChatId: {
       type: DataTypes.STRING,
       references: {
         model: Chat,
