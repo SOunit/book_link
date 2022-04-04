@@ -30,5 +30,5 @@ Item.init(
       allowNull: true,
     },
   },
-  { sequelize: db, tableName: 'items' },
+  { sequelize: db, modelName: 'Item' },
 );

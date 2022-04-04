@@ -1,7 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '../../config/database.config';
-import { Chat } from './chat';
-import { User } from './user';
 
 interface MessageAttributes {
   id: string;
@@ -22,14 +20,14 @@ Message.init(
     ChatId: {
       type: DataTypes.STRING,
       references: {
-        model: Chat,
+        model: 'Chats',
         key: 'id',
       },
     },
     UserId: {
       type: DataTypes.STRING,
       references: {
-        model: User,
+        model: 'Users',
         key: 'id',
       },
     },
@@ -41,5 +39,5 @@ Message.init(
       type: DataTypes.DATE,
     },
   },
-  { sequelize: db, tableName: 'messages' },
+  { sequelize: db, modelName: 'Message' },
 );

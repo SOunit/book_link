@@ -15,5 +15,5 @@ Chat.init(
       primaryKey: true,
     },
   },
-  { sequelize: db, tableName: 'chats' },
+  { sequelize: db, modelName: 'Chat' },
 );

@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '../../config/database.config';
-import { User } from './user';
 
 // export const Follow = sequelize.define('follow');
 
@@ -18,7 +17,7 @@ Follow.init(
       primaryKey: true,
       allowNull: false,
       references: {
-        model: 'users',
+        model: 'Users',
         key: 'id',
       },
     },
@@ -28,5 +27,5 @@ Follow.init(
       allowNull: false,
     },
   },
-  { sequelize: db, tableName: 'follows' },
+  { sequelize: db, modelName: 'Follow' },
 );
