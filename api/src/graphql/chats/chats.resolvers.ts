@@ -96,21 +96,22 @@ export = {
         throw new Error('both user ids are same!');
       }
 
-      const existingChat = await Chat.findAll({
+      const countResponse: any = await Chat.count({
         where: {
-          '$users.id$': { [Op.in]: [args.userId, args.targetId] },
+          '$Users.id$': { [Op.in]: [args.userId, args.targetId] },
         },
         include: [
           {
             model: User,
-            as: 'users',
+            as: 'Users',
           },
         ],
-        group: 'chat.id',
-        having: literal('count(chat.id) = 2'),
+        group: 'Chat.id',
       });
 
-      if (existingChat.length === 1) {
+      const chatCount = countResponse[0].count;
+
+      if (+chatCount === 2) {
         throw new Error('Chat already exists');
       }
 
@@ -130,15 +131,15 @@ export = {
       try {
         const chat = await Chat.create({ id: uuidV4() }, { transaction });
         const chatData: any = chat.get({ plain: true });
-        const { chatId } = chatData;
+        const chatId = chatData.id;
 
         response.id = chatId;
 
         await UserChat.create(
           {
             id: uuidV4(),
-            chatId,
-            userId: args.userId,
+            ChatId: chatId,
+            UserId: args.userId,
           },
           { transaction },
         );
@@ -146,19 +147,16 @@ export = {
         await UserChat.create(
           {
             id: uuidV4(),
-            chatId,
-            userId: args.targetId,
+            ChatId: chatId,
+            UserId: args.targetId,
           },
           { transaction },
         );
-
-        console.log('args.targetId', args.targetId);
 
         const user: any = await User.findOne({
           where: { id: args.targetId },
         });
 
-        console.log('user', user);
         const userData = {
           id: user.id,
           name: user.name,
