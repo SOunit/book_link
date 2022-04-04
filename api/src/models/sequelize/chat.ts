@@ -1,10 +1,19 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../util';
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../config/database.config';
 
-export const Chat = sequelize.define('chat', {
-  id: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
+interface ChatAttributes {
+  id: string;
+}
+
+export class Chat extends Model<ChatAttributes> {}
+
+Chat.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
   },
-});
+  { sequelize: db, tableName: 'chats' },
+);

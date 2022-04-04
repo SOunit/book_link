@@ -1,21 +1,31 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../util';
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../config/database.config';
 import { Chat } from './chat';
 import { User } from './user';
 
-export const UserChat = sequelize.define('userChat', {
-  userId: {
-    type: Sequelize.STRING,
-    references: {
-      model: User,
-      key: 'id',
+interface UserChatAttributes {
+  UserId: string;
+  ChatId: string;
+}
+
+export class UserChat extends Model<UserChatAttributes> {}
+
+UserChat.init(
+  {
+    userId: {
+      type: DataTypes.STRING,
+      references: {
+        model: User,
+        key: 'id',
+      },
+    },
+    chatId: {
+      type: DataTypes.STRING,
+      references: {
+        model: Chat,
+        key: 'id',
+      },
     },
   },
-  chatId: {
-    type: Sequelize.STRING,
-    references: {
-      model: Chat,
-      key: 'id',
-    },
-  },
-});
+  { sequelize: db, tableName: 'userChats' },
+);

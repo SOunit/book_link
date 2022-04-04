@@ -1,22 +1,34 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../../util';
+import { Model, DataTypes } from 'sequelize';
+import { db } from '../../config/database.config';
 
-export const Item = sequelize.define('item', {
-  id: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    primaryKey: true,
+interface ItemAttributes {
+  id: string;
+  title: string;
+  author: string;
+  imageUrl: string;
+}
+
+export class Item extends Model<ItemAttributes> {}
+
+Item.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    author: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  author: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  imageUrl: {
-    type: Sequelize.STRING,
-    allowNull: true,
-  },
-});
+  { sequelize: db, tableName: 'items' },
+);

@@ -1,51 +1,26 @@
 import { QueryTypes } from 'sequelize';
-import { Item, User } from '../../models/sequelize';
+import { Chat, Item, Message, User, UserChat } from '../../models/sequelize';
 import { sequelize } from '../../util';
 import UserType from '../../models/ts/User';
 
 export = {
   Query: {
-    // only for login user
     user: async (_: any, args: { id: string }) => {
       const user = await User.findOne({
         where: { id: args.id },
-        include: [{ model: Item }],
+        include: [{ model: Item }, { model: Chat }],
       });
 
       if (!user) {
         throw new Error('User not found');
       }
 
-      const userData = user.get({ plain: true }) as any;
-
-      const items = userData.items.map((elm: any) => {
-        const itemData = elm.get({ row: true });
-        return {
-          id: itemData.id,
-          title: itemData.title,
-          author: itemData.author,
-          imageUrl: itemData.imageUrl,
-        };
-      });
-
-      return {
-        id: userData.id,
-        name: userData.name,
-        about: userData.about,
-        imageUrl: userData.imageUrl,
-        items,
-      };
+      return user.get({ plain: true });
     },
 
     getUserCount: async (_: any, args: any) => {
-      console.log('getUserCount args.id', args.id);
-
       try {
-        console.log('User.count');
-
         const amount = await User.count({ where: { id: args.id } });
-        console.log('amount', amount);
-
         return amount;
       } catch (err) {
         console.log('getUserCount error', err);
@@ -58,44 +33,25 @@ export = {
     ) => {
       const fetchedUsers = await sequelize.query(
         `
-      SELECT
-        id
-        , name
-        , about
-        , "imageUrl"
-      FROM
-        (
-          SELECT
-            "userId"
-            , count("itemId")
+        SELECT ID ,
+            NAME ,
+            ABOUT ,
+            "imageUrl"
           FROM
-            "userItems"
-          WHERE
-            "itemId" in (:itemIds)
-          GROUP BY 
-            "userItems"."userId"
-          HAVING 
-            count("itemId") = :itemIdsLength
-        ) as "targetUsers"
-      JOIN
-        users
-      ON 
-        users.id = "targetUsers"."userId"
-      WHERE 
-        users.id <> :userId
-      AND
-        users.id not in (
-          SELECT
-            "userId"
-          FROM
-            follows
-          WHERE
-            follows."followingUserId" = :userId
-        )
-      LIMIT
-        10
-      OFFSET
-        0
+            (SELECT "UserId" ,
+                COUNT("ItemId")
+              FROM "userItems"
+              WHERE "ItemId" in (:itemIds)
+              GROUP BY "userItems"."UserId"
+              HAVING COUNT("ItemId") = :itemIdsLength) AS "targetUsers"
+          JOIN USERS ON USERS.ID = "targetUsers"."UserId"
+          WHERE USERS.ID <> :userId
+            AND USERS.ID not in
+              (SELECT "UserId"
+                FROM FOLLOWS
+                WHERE FOLLOWS."followingUserId" = :userId )
+          LIMIT 10
+          OFFSET 0
       `,
         {
           replacements: {

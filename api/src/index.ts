@@ -31,7 +31,8 @@ import {
   followsResolvers,
   schemaTypeDefs,
 } from './graphql';
-import { sequelize, keys } from './util';
+import { keys } from './util';
+import { db } from './config/database.config';
 
 const app = express();
 app.use(cors());
@@ -107,10 +108,9 @@ const server = http.createServer(app);
 socketServer(server);
 
 // create table using model by sync command
-sequelize
-  .sync({ force: true })
+db.sync({ force: true })
   .then(() => {
-    // setupDummyData();
+    setupDummyData();
 
     server.listen(5000, () => {
       console.log('Listening on port 5000');

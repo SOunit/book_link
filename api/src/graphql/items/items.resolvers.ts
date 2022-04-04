@@ -6,7 +6,7 @@ import CreateItemInput from '../../models/ts/CreateItemInput';
 export = {
   Query: {
     item: async (_: any, args: { id: string }) => {
-      const result = await Item.findByPk(args.id);
+      const result: any = await Item.findByPk(args.id);
       const itemData = result.dataValues;
 
       return {
@@ -81,7 +81,7 @@ export = {
       // create return value
       const user: any = await User.findOne({
         where: { id: args.data.userId },
-        include: Item,
+        include: [Item],
       });
 
       return {
@@ -107,7 +107,7 @@ export = {
       // create return value
       const user: any = await User.findOne({
         where: { id: args.data.userId },
-        include: Item,
+        include: [Item],
       });
 
       return {

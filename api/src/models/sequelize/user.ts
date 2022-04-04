@@ -1,4 +1,4 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import { db } from '../../config/database.config';
 
 interface UserAttributes {
@@ -13,20 +13,20 @@ export class User extends Model<UserAttributes> {}
 User.init(
   {
     id: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
     },
     name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     about: {
-      type: Sequelize.TEXT,
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     imageUrl: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },

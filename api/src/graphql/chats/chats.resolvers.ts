@@ -96,14 +96,16 @@ export = {
         throw new Error('both user ids are same!');
       }
 
-      const existingChat = await Chat.count({
+      const existingChat = await Chat.findAll({
         where: {
           '$users.id$': { [Op.in]: [args.userId, args.targetId] },
         },
-        include: {
-          model: User,
-          as: 'users',
-        },
+        include: [
+          {
+            model: User,
+            as: 'users',
+          },
+        ],
         group: 'chat.id',
         having: literal('count(chat.id) = 2'),
       });
@@ -127,7 +129,8 @@ export = {
 
       try {
         const chat = await Chat.create({ id: uuidV4() }, { transaction });
-        const chatId = chat.get({ row: true }).id;
+        const chatData: any = chat.get({ plain: true });
+        const { chatId } = chatData;
 
         response.id = chatId;
 
