@@ -6,15 +6,14 @@ import CreateItemInput from '../../models/ts/CreateItemInput';
 export = {
   Query: {
     item: async (_: any, args: { id: string }) => {
-      const result: any = await Item.findByPk(args.id);
-      const itemData = result.dataValues;
+      const response: any = await Item.findByPk(args.id);
+      const itemData = response.get({ plain: true });
 
       return {
         id: itemData.id,
         title: itemData.title,
         author: itemData.author,
         imageUrl: itemData.imageUrl,
-        users: [],
       };
     },
 

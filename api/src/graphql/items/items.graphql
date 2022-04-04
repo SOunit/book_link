@@ -25,5 +25,4 @@ type Item {
   title: String!
   author: String!
   imageUrl: String
-  users: [User]
 }
