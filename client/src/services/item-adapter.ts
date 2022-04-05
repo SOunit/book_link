@@ -33,7 +33,7 @@ export const useItemAdapter = () => {
       const graphqlQuery = {
         query: `
                 mutation AddUserItem($userId: ID!, $itemId: ID!){
-                  addUserItem(data: {userId: $userId, itemId: $itemId}){
+                  addUserItem(data: {UserId: $userId, ItemId: $itemId}){
                     id
                   }
                 }
@@ -53,7 +53,7 @@ export const useItemAdapter = () => {
       const graphqlQuery = {
         query: `
                   mutation DeleteUserItem($userId: ID!, $itemId: ID!) {
-                    deleteUserItem(data: {userId: $userId, itemId: $itemId}){
+                    deleteUserItem(data: {UserId: $userId, ItemId: $itemId}){
                       id
                     }
                   }

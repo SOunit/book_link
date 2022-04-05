@@ -11,13 +11,13 @@ type Mutation {
 }
 
 input AddUserItemInput {
-  userId: ID!
-  itemId: ID!
+  UserId: ID!
+  ItemId: ID!
 }
 
 input DeleteUserItemInput {
-  userId: ID!
-  itemId: ID!
+  UserId: ID!
+  ItemId: ID!
 }
 
 type Item {

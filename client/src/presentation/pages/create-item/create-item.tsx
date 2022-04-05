@@ -82,11 +82,11 @@ export const CreateItem: FC = () => {
   const submitHandler = async (event: SyntheticEvent) => {
     event.preventDefault();
 
-    if (!loginUser || !loginUser.Items || !imageFile) {
-      return;
+    if (!loginUser || !loginUser.Items) {
+      return history.push('/users/items/edit');
     }
 
-    createItem(imageFile, loginUser, title.value, author.value);
+    createItem(loginUser, title.value, author.value, imageFile);
 
     history.push('/users/items/edit');
   };

@@ -40,16 +40,16 @@ export = {
           FROM
             (SELECT "UserId" ,
                 COUNT("ItemId")
-              FROM "userItems"
+              FROM "UserItems"
               WHERE "ItemId" in (:itemIds)
-              GROUP BY "userItems"."UserId"
+              GROUP BY "UserItems"."UserId"
               HAVING COUNT("ItemId") = :itemIdsLength) AS "targetUsers"
-          JOIN USERS ON USERS.ID = "targetUsers"."UserId"
-          WHERE USERS.ID <> :userId
-            AND USERS.ID not in
+          JOIN "Users" ON "Users".ID = "targetUsers"."UserId"
+          WHERE "Users".ID <> :userId
+            AND "Users".ID not in
               (SELECT "UserId"
-                FROM FOLLOWS
-                WHERE FOLLOWS."followingUserId" = :userId )
+                FROM "Follows"
+                WHERE "Follows"."followingUserId" = :userId )
           LIMIT 10
           OFFSET 0
       `,
@@ -62,6 +62,8 @@ export = {
           type: QueryTypes.SELECT,
         },
       );
+
+      console.log('fetchedUsers', fetchedUsers);
 
       return fetchedUsers;
     },

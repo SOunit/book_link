@@ -1,7 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
 import { db } from '../../config/database.config';
-import { Item } from './item';
-import { User } from './user';
 
 interface UserItemAttributes {
   UserId: string;
@@ -16,7 +14,7 @@ UserItem.init(
       type: DataTypes.STRING,
       primaryKey: true,
       references: {
-        model: 'users',
+        model: 'Users',
         key: 'id',
       },
     },
@@ -24,10 +22,10 @@ UserItem.init(
       type: DataTypes.STRING,
       primaryKey: true,
       references: {
-        model: 'items',
+        model: 'Items',
         key: 'id',
       },
     },
   },
-  { sequelize: db, tableName: 'userItems' },
+  { sequelize: db, modelName: 'UserItem' },
 );
