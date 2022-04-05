@@ -94,18 +94,18 @@ export = {
 
     addUserItem: async (
       _: any,
-      args: { data: { userId: string; itemId: string } },
+      args: { data: { UserId: string; ItemId: string } },
     ) => {
       // FIXME: check if user and item exists
 
       await UserItem.create({
-        UserId: args.data.userId,
-        ItemId: args.data.itemId,
+        UserId: args.data.UserId,
+        ItemId: args.data.ItemId,
       });
 
       // create return value
       const user: any = await User.findOne({
-        where: { id: args.data.userId },
+        where: { id: args.data.UserId },
         include: [Item],
       });
 
@@ -114,7 +114,7 @@ export = {
         name: user.name,
         about: user.about,
         imageUrl: user.imageUrl,
-        items: user.items,
+        Items: user.Items,
       };
     },
   },
