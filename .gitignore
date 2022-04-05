@@ -2,3 +2,4 @@ node_modules
 build
 .env
 nodemon.json
+nodemon.json.prod
