@@ -49,7 +49,7 @@ export = {
 
     getUserChatList: async (_: any, args: { userId: string }) => {
       // fetch data
-      const user: any = await User.findOne({
+      const userResponse: any = await User.findOne({
         where: { id: args.userId },
         include: [
           {
@@ -58,15 +58,16 @@ export = {
               { model: Message, order: [['createdAt', 'DESC']], limit: 1 },
               {
                 model: User,
-                where: { [Op.not]: { id: args.userId } } as any,
+                where: { id: { [Op.not]: args.userId } },
               },
             ],
           },
         ],
       });
+      const userData = userResponse.get({ plain: true });
 
       // change data for return
-      const chats = user.get({ plain: true }).Chats.map((chat: any) => {
+      const chats = userData.Chats.map((chat: any) => {
         const messages = chat.Messages.map((message: any) => {
           return message;
         });

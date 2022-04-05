@@ -34,9 +34,9 @@ socketServer(server);
 associate();
 
 // create table using model by sync command
-db.sync({ force: true })
+db.sync({ force: false })
   .then(() => {
-    createTestData();
+    // createTestData();
 
     server.listen(5000, () => {
       console.log('Listening on port 5000');
