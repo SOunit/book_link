@@ -11,21 +11,29 @@ export const useCreateItem = () => {
   const itemAdapter = useItemAdapter();
 
   const createItem = async (
-    imageFile: File,
     loginUser: User,
     title: string,
     author: string,
+    imageFile?: File,
   ) => {
     try {
+      console.log('image upload');
+
       // upload image
-      const imageUrl = (await imageStorage.uploadImage(imageFile)) || '';
-      if (!imageUrl) {
-        return;
+      let imageUrl = '';
+      if (imageFile) {
+        imageUrl = (await imageStorage.uploadImage(imageFile)) || '';
+        if (!imageUrl) {
+          return;
+        }
       }
 
       // update db
-      const response = await itemAdapter.createItem(title, author, imageUrl);
-      console.log(response);
+      const response: any = await itemAdapter.createItem(
+        title,
+        author,
+        imageUrl,
+      );
 
       const newItem = response.data.data.createItem;
       await itemAdapter.addUserItem(loginUser.id, newItem.id);
