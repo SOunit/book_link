@@ -7,7 +7,7 @@ export const createItems = async () => {
     title: 'Majo',
     author: 'Igarashi Daisuke',
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/518NRzHLRUL._SX349_BO1,204,203,200_.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/518NRzHLRUL._SX349_BO1%2C204%2C203%2C200_.jpg',
   });
 
   await Item.create({
@@ -23,7 +23,7 @@ export const createItems = async () => {
     title: 'Castle in the sky',
     author: 'Hayao Miyazaki',
     imageUrl:
-      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Castle_in_the_Sky.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Castle_in_the_Sky.jpeg',
   });
 
   await Item.create({
@@ -31,7 +31,7 @@ export const createItems = async () => {
     title: 'Fullmetal Alchemistt',
     author: 'Hiromu Arakawa',
     imageUrl:
-      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Fullmetal+_Alchemistt.jpeg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/Fullmetal%2B_Alchemistt.jpeg',
   });
 
   await Item.create({
@@ -63,7 +63,7 @@ export const createItems = async () => {
     title: 'Majo2',
     author: `Igarashi Daisuke`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/71gDhFdvIcL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/71gDhFdvIcL.jpeg',
   });
 
   await Item.create({
@@ -71,7 +71,7 @@ export const createItems = async () => {
     title: 'Kunitori Monogatari',
     author: 'Ryotaro Shiba',
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/511LCOghq2L.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/511LCOghq2L.jpeg',
   });
 
   await Item.create({
@@ -79,7 +79,7 @@ export const createItems = async () => {
     title: 'Zatch Bell!',
     author: 'Makoto Raiku',
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/51ux4gmFUCL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/51ux4gmFUCL.jpeg',
   });
 
   await Item.create({
@@ -87,7 +87,7 @@ export const createItems = async () => {
     title: 'Dorohedoro',
     author: `Q Hayashida`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/81hJWZiZheL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/81hJWZiZheL.jpeg',
   });
 
   await Item.create({
@@ -95,7 +95,7 @@ export const createItems = async () => {
     title: 'Atom the Beginning',
     author: `Tetsuro Kasahara`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/91oqiYYAUpL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/91oqiYYAUpL.jpeg',
   });
 
   await Item.create({
@@ -103,7 +103,7 @@ export const createItems = async () => {
     title: 'HISTORIĒ',
     author: `Iwaaki Hitoshi`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/51RCfblrEjL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/51RCfblrEjL.jpeg',
   });
 
   await Item.create({
@@ -111,28 +111,31 @@ export const createItems = async () => {
     title: 'Attack on Titan',
     author: `Hajime Isayama`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/A1uSJx8pG-S.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/A1uSJx8pG-S.jpeg',
   });
 
   await Item.create({
     id: '90',
     title: 'Steve Jobs',
     author: `Mari Yamazaki`,
-    imageUrl: 'https://m.media-amazon.com/images/I/516w7mS6LKL.jpg',
+    imageUrl:
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/516w7mS6LKL.jpeg',
   });
 
   await Item.create({
     id: '91',
     title: 'Bataashi Kingyo',
     author: `Minetaro Mochizuki`,
-    imageUrl: 'https://decadeview.ocnk.net/data/decadeview/product/1030-1.jpg',
+    imageUrl:
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/1030-1.jpeg',
   });
 
   await Item.create({
     id: '92',
     title: 'Tobu ga Gotoku',
     author: `Ryotaro Shiba`,
-    imageUrl: 'https://m.media-amazon.com/images/I/41lVVfWe06L.jpg',
+    imageUrl:
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/41lVVfWe06L.jpeg',
   });
 
   await Item.create({
@@ -140,7 +143,7 @@ export const createItems = async () => {
     title: 'RYOMA！',
     author: `Ryotaro Shiba`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/41HMEAKYQXL.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/41HMEAKYQXL.jpeg',
   });
 
   await Item.create({
@@ -148,7 +151,7 @@ export const createItems = async () => {
     title: 'Taikoki',
     author: `Ryotaro Shiba`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/61myrbUC70L._SX360_BO1,204,203,200_.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/61myrbUC70L._SX360_BO1%2C204%2C203%2C200_.jpg',
   });
 
   await Item.create({
@@ -156,7 +159,7 @@ export const createItems = async () => {
     title: 'One Child',
     author: `Torey L. Hayden`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/61PUPRhrFcS.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/61PUPRhrFcS.jpeg',
   });
 
   await Item.create({
@@ -164,7 +167,7 @@ export const createItems = async () => {
     title: "Tiger's child",
     author: `Torey L. Hayden`,
     imageUrl:
-      'https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781439107188/tigers-child-9781439107188_hr.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/tigers-child-9781439107188_hr.jpeg',
   });
 
   await Item.create({
@@ -172,7 +175,7 @@ export const createItems = async () => {
     title: 'Beautiful child',
     author: `Torey L. Hayden`,
     imageUrl:
-      'https://images-na.ssl-images-amazon.com/images/I/61RBtK1SP0L.jpg',
+      'https://image-upload-sample-blog-app-123.s3.ca-central-1.amazonaws.com/test_user_id/61RBtK1SP0L.jpeg',
   });
 
   // id dose not exist error
