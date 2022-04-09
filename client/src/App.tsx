@@ -1,52 +1,63 @@
-import { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Layout } from './presentation/components/organisms';
-import { ProtectedRoute } from './presentation/components/molecules';
 import { SearchUsers, Login } from './presentation/pages';
 import { useAuthStorage, useSocketAdapter } from './services';
 import './App.css';
 
-const PageNotFound = lazy(() =>
+// import {
+//   PageNotFound,
+//   UserDetail,
+//   EditUserItems,
+//   Follow,
+//   Home,
+//   ChatList,
+//   EditUser,
+//   CreateItem,
+//   Chat,
+// } from './presentation/pages';
+
+const PageNotFound = React.lazy(() =>
   import('./presentation/pages').then(({ PageNotFound }) => ({
     default: PageNotFound,
   })),
 );
-const UserDetail = lazy(() =>
+const UserDetail = React.lazy(() =>
   import('./presentation/pages').then(({ UserDetail }) => ({
     default: UserDetail,
   })),
 );
-const Home = lazy(() =>
+const Home = React.lazy(() =>
   import('./presentation/pages').then(({ Home }) => ({
     default: Home,
   })),
 );
-const EditUser = lazy(() =>
+const EditUser = React.lazy(() =>
   import('./presentation/pages').then(({ EditUser }) => ({
     default: EditUser,
   })),
 );
-const EditUserItems = lazy(() =>
+const EditUserItems = React.lazy(() =>
   import('./presentation/pages').then(({ EditUserItems }) => ({
     default: EditUserItems,
   })),
 );
-const Chat = lazy(() =>
+const Chat = React.lazy(() =>
   import('./presentation/pages').then(({ Chat }) => ({
     default: Chat,
   })),
 );
-const ChatList = lazy(() =>
+const ChatList = React.lazy(() =>
   import('./presentation/pages').then(({ ChatList }) => ({
     default: ChatList,
   })),
 );
-const CreateItem = lazy(() =>
+const CreateItem = React.lazy(() =>
   import('./presentation/pages').then(({ CreateItem }) => ({
     default: CreateItem,
   })),
 );
-const Follow = lazy(() =>
+const Follow = React.lazy(() =>
   import('./presentation/pages').then(({ Follow }) => ({
     default: Follow,
   })),
@@ -75,30 +86,43 @@ function App() {
             {authStorage.isLoggedIn ? <Redirect to="/" /> : <Login />}
           </Route>
           {/* Search */}
-          <ProtectedRoute component={SearchUsers} path="/" exact />
-          <ProtectedRoute component={SearchUsers} path="/search" />
-
+          <Route path="/" exact>
+            <SearchUsers />
+          </Route>
+          <Route path="/search">
+            <SearchUsers />
+          </Route>
           {/* Users */}
-          <ProtectedRoute component={EditUser} path="/users/edit" />
-          <ProtectedRoute component={EditUserItems} path="/users/items/edit" />
-          <ProtectedRoute component={Follow} path="/users/:userId/followings" />
-          <ProtectedRoute component={Follow} path="/users/:userId/followers" />
-          <ProtectedRoute component={UserDetail} path="/users/:userId" />
-
+          <Route path="users/edit">
+            <EditUser />
+          </Route>
+          <Route path="/users/items/edit">
+            <EditUserItems />
+          </Route>
+          <Route path="/users/:userId/followings">
+            <Follow />
+          </Route>
+          <Route path="/users/:userId/followers">
+            <Follow />
+          </Route>
+          <Route path="/users/:userId">
+            <UserDetail />
+          </Route>
           {/* Home */}
-          <ProtectedRoute component={Home} path="/home" />
-
+          <Route path="/home">
+            <Home />
+          </Route>
           {/* Items */}
-          <ProtectedRoute component={CreateItem} path="/items/new" />
-
+          <Route path="/items/new">
+            <CreateItem />
+          </Route>
           {/* Chats */}
-          <ProtectedRoute component={ChatList} path="/chats" exact />
-          <ProtectedRoute
-            component={Chat}
-            path="/chats/:userId"
-            socket={socket}
-          />
-
+          <Route path="/chats" exact>
+            <ChatList />
+          </Route>
+          <Route path="/chats/:userId">
+            <Chat socket={socket} />
+          </Route>
           {/* Page Not Found */}
           <Route path="*">
             <PageNotFound />
