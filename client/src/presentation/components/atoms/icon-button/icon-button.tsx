@@ -12,6 +12,7 @@ export const IconButton: FC<Props> = ({ icon, onClick, className }) => {
   return (
     <button
       onClick={onClick}
+      title="icon-button"
       className={`${classes['icon-button']} ${className && className}`}>
       <FontAwesomeIcon icon={icon} />
     </button>
