@@ -1,20 +1,21 @@
 import { keys } from '../presentation/util';
+import { gapi } from 'gapi-script';
 
 export const useAuth = () => {
   const authenticate = (): Promise<string | null> => {
-    if (!window.gapi) {
+    if (!gapi) {
       return new Promise(() => {});
     }
 
     return new Promise((resolve, reject) => {
-      window.gapi.load('client:auth2', () => {
-        window.gapi.client
+      gapi.load('client:auth2', () => {
+        gapi.client
           .init({
             clientId: keys.GOOGLE_CLIENT_ID,
             scope: 'email',
           })
           .then(() => {
-            const googleAuth = window.gapi.auth2.getAuthInstance();
+            const googleAuth = gapi.auth2.getAuthInstance();
 
             googleAuth.signIn().then(() => {
               const loginId = googleAuth.currentUser.get().getId();
@@ -28,19 +29,19 @@ export const useAuth = () => {
     });
   };
 
-  const logout = () => {
-    if (!window.gapi) {
+  const logout = (): void => {
+    if (!gapi) {
       return;
     }
 
-    window.gapi.load('client:auth2', () => {
-      window.gapi.client
+    gapi.load('client:auth2', () => {
+      gapi.client
         .init({
           clientId: keys.GOOGLE_CLIENT_ID,
           scope: 'email',
         })
         .then(() => {
-          window.gapi.auth2.getAuthInstance().signOut();
+          gapi.auth2.getAuthInstance().signOut();
         })
         .catch((err) => {
           console.log('use-google-auth', err);
