@@ -1,11 +1,3 @@
-export * from './chat/chat';
-export * from './chat-list/chat-list';
-export * from './edit-user/edit-user';
-export * from './edit-user-items/edit-user-items';
-export * from './follow/follow';
-export * from './home/home';
+// delete other pages for lazy load
 export * from './login/login';
-export * from './page-not-found/page-not-found';
 export * from './search-users/search-users';
-export * from './user-detail/user-detail';
-export * from './create-item/create-item';
