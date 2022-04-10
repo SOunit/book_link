@@ -25,7 +25,6 @@ import {
   faUserMinus,
   faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
-import {} from '@fortawesome/free-regular-svg-icons';
 import classes from './follow.module.scss';
 
 type Props = {};

@@ -26,7 +26,6 @@ import {
   faUserPlus,
   faComment,
 } from '@fortawesome/free-solid-svg-icons';
-import {} from '@fortawesome/free-regular-svg-icons';
 
 type UserDetailParams = {
   userId: string;
