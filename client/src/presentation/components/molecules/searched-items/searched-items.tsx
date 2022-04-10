@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Buttons, NotFoundMessage, SearchItemCard } from '..';
 import { Item } from '../../../../domain/';
 import { IconButton } from '../../atoms';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 type SearchedItemsProps = {
   items: Item[];
@@ -22,7 +23,7 @@ export const SearchedItems: React.FC<SearchedItemsProps> = ({
     const buttons = (
       <Buttons>
         {!buttonDisabled && (
-          <IconButton iconName="fa fa-plus" onClick={() => onAddClick(item)} />
+          <IconButton icon={faPlus} onClick={() => onAddClick(item)} />
         )}
       </Buttons>
     );

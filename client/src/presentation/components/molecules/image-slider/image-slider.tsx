@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 import classes from './image-slider.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { faCommentAlt } from '@fortawesome/free-regular-svg-icons';
+import { faBook, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { SliderCard } from '..';
 
 type Props = {};
@@ -23,17 +25,17 @@ export const ImageSlider: FC<Props> = () => {
   return (
     <Slider {...settings} className={classes['slider']}>
       <SliderCard
-        iconClass="fas fa-book"
+        icon={faBook}
         title="Find Books"
         text="What are your friends reading?"
       />
       <SliderCard
-        iconClass="fas fa-users"
+        icon={faUsers}
         title="Find Friends"
         text="Friends with common interests."
       />
       <SliderCard
-        iconClass="fal fa-comments-alt"
+        icon={faCommentAlt}
         title="Chat with Friends"
         text="Message people directly."
       />

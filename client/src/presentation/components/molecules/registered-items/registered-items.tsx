@@ -4,6 +4,7 @@ import { Item } from '../../../../domain/';
 import { IconButton } from '../../atoms';
 import { Buttons } from '../buttons/buttons';
 import classes from './registered-items.module.css';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type RegisteredItemsProps = {
   items: Item[];
@@ -15,7 +16,7 @@ export const RegisteredItems: FC<RegisteredItemsProps> = (props) => {
     const buttons = (
       <Buttons>
         <IconButton
-          iconName="fas fa-trash"
+          icon={faTrash}
           onClick={() => props.onDeleteRegisteredItem(item.id)}
         />
       </Buttons>

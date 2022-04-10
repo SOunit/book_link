@@ -9,6 +9,7 @@ import {
 import classes from './home.module.css';
 import { useInitFollow } from '../../../application';
 import { useAuthStorage, useFollowStorage } from '../../../services';
+import { faPen, faBook } from '@fortawesome/free-solid-svg-icons';
 
 type HomeProps = {};
 
@@ -51,12 +52,12 @@ export const Home: FC<HomeProps> = () => {
       )}
       <div className={classes['home__actions']}>
         <IconTextButton
-          iconName="far fa-pen"
+          icon={faPen}
           text="Edit Profile"
           onClick={editProfileClickHandler}
         />
         <IconTextButton
-          iconName="far fa-books"
+          icon={faBook}
           text="Edit Items"
           onClick={editUserItemsClickHandler}
         />

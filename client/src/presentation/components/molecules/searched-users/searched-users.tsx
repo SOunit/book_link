@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import classes from './searched-users.module.css';
 import { Buttons, UserCard } from '..';
 import { IconButton } from '../../atoms';
+import { faInfo, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   users: User[];
@@ -37,14 +38,12 @@ export const SearchedUsers: FC<Props> = ({
         const actions = (
           <Buttons>
             <IconButton
-              iconName="fa fa-info"
+              icon={faInfo}
               onClick={() => detailClickHandler(user)}
               className={classes['action-icon']}
             />
             <IconButton
-              iconName={
-                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-              }
+              icon={user.isFollowing ? faMinus : faPlus}
               onClick={() => followClickHandler(user)}
             />
           </Buttons>

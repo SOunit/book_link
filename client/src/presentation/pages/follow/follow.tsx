@@ -20,6 +20,12 @@ import {
 } from '../../../application';
 import { User } from '../../../domain';
 import { useFollowStorage } from '../../../services';
+import {
+  faInfo,
+  faUserMinus,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
+import {} from '@fortawesome/free-regular-svg-icons';
 import classes from './follow.module.scss';
 
 type Props = {};
@@ -117,15 +123,13 @@ export const Follow: FC<Props> = () => {
       const buttons = (
         <Buttons>
           <IconButton
-            iconName="fas fa-info"
+            icon={faInfo}
             onClick={() => detailClickHandler(user.id)}
             className={classes['followers__info-icon']}
           />
           {loginUser.id !== user.id && (
             <IconButton
-              iconName={
-                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-              }
+              icon={user.isFollowing ? faUserMinus : faUserPlus}
               onClick={() =>
                 followClickHandlerInFollowers(user, loginUser, pageUser)
               }
@@ -150,15 +154,13 @@ export const Follow: FC<Props> = () => {
       const buttons = (
         <Buttons>
           <IconButton
-            iconName="fas fa-info"
+            icon={faInfo}
             onClick={() => detailClickHandler(user.id)}
             className={classes['followers__info-icon']}
           />
           {loginUser.id !== user.id && (
             <IconButton
-              iconName={
-                user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-              }
+              icon={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
               onClick={() => followClickHandlerInFollowings(user, loginUser)}
             />
           )}
@@ -190,15 +192,13 @@ export const Follow: FC<Props> = () => {
           actions={
             <Buttons>
               <IconButton
-                iconName="fas fa-info"
+                icon={faInfo}
                 onClick={() => detailClickHandler(pageUser.id)}
                 className={classes['followers__info-icon']}
               />
               {loginUser && loginUser.id !== pageUser.id && (
                 <IconButton
-                  iconName={
-                    isPageUserFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'
-                  }
+                  icon={isPageUserFollowing ? faUserMinus : faUserPlus}
                   onClick={() =>
                     followClickHandlerInPageUser(pageUser, loginUser)
                   }
