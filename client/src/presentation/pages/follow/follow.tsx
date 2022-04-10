@@ -159,7 +159,7 @@ export const Follow: FC<Props> = () => {
           />
           {loginUser.id !== user.id && (
             <IconButton
-              icon={user.isFollowing ? 'fa fa-user-minus' : 'fa fa-user-plus'}
+              icon={user.isFollowing ? faUserMinus : faUserPlus}
               onClick={() => followClickHandlerInFollowings(user, loginUser)}
             />
           )}
