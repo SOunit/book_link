@@ -21,6 +21,11 @@ import {
   useRemoveUserFromFollowers,
 } from '../../../application';
 import classes from './user-detail.module.css';
+import {
+  faUserMinus,
+  faUserPlus,
+  faComment,
+} from '@fortawesome/free-solid-svg-icons';
 
 type UserDetailParams = {
   userId: string;
@@ -136,13 +141,13 @@ export const UserDetail: FC<Props> = () => {
         )}
         <Buttons className={classes['user-detail__buttons']}>
           <IconTextButton
-            iconName={isFollowing ? `fa fa-user-minus` : `fa fa-user-plus`}
+            icon={isFollowing ? faUserMinus : faUserPlus}
             text={isFollowing ? 'Following' : 'Follow'}
             onClick={isFollowing ? followingClickHandler : followClickHandler}
             className={classes['user-detail__button']}
           />
           <IconTextButton
-            iconName="far fa-comment"
+            icon={faComment}
             text="Chat"
             onClick={chatClickHandler}
             className={classes['user-detail__button']}

@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FormEvent } from 'react';
 import { Item } from '../../../../domain/';
 import { useItemAdapter } from '../../../../services';
@@ -44,7 +46,10 @@ export const SearchBar: React.FC<Props> = ({
         value={value}
         onChange={onChange}
       />
-      <i className={`fas fa-search ${classes['search-bar__icon']}`}></i>
+      <FontAwesomeIcon
+        className={classes['search-bar__icon']}
+        icon={faSearch}
+      />
     </form>
   );
 };

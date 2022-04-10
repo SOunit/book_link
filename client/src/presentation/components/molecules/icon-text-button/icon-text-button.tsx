@@ -1,15 +1,16 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 import classes from './icon-text-button.module.scss';
 
 type Props = {
-  iconName: string;
+  icon: any;
   text: string;
   className?: string;
   onClick: any;
 };
 
 export const IconTextButton: FC<Props> = ({
-  iconName,
+  icon,
   text,
   className,
   onClick,
@@ -18,7 +19,10 @@ export const IconTextButton: FC<Props> = ({
     <button
       className={`${classes['icon-text-button']} ${className}`}
       onClick={onClick}>
-      <i className={`${iconName} ${classes['icon-text-button__icon']}`} />
+      <FontAwesomeIcon
+        className={classes['icon-text-button__icon']}
+        icon={icon}
+      />
       <p className={`${classes['icon-text-button__text']}`}>{text}</p>
     </button>
   );

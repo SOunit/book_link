@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
 import { FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuthenticate } from '../../../../application';
@@ -21,7 +23,10 @@ export const GoogleAuth: FC<Props> = ({ className }) => {
       <button
         className={`${classes['google-button']} ${className}`}
         onClick={clickHandler}>
-        <i className={`fab fa-google ${classes['google-button__icon']}`}></i>
+        <FontAwesomeIcon
+          className={classes['google-button__icon']}
+          icon={faUserCheck}
+        />
         <p>Sign in with Google</p>
       </button>
     </Fragment>

@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faCommentDots } from '@fortawesome/free-regular-svg-icons';
 import { FC } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useNavShown } from '../../../hooks/';
@@ -21,7 +24,10 @@ const FooterNav: FC = () => {
               }`}
               activeClassName={classes['nav__link--active']}>
               <div className={classes['nav__icon-box']}>
-                <i className={`fas fa-search ${classes['nav__icon']}`}></i>
+                <FontAwesomeIcon
+                  className={classes['nav__icon']}
+                  icon={faSearch}
+                />
                 <p className={classes['nav__text']}>Search</p>
               </div>
             </NavLink>
@@ -32,7 +38,10 @@ const FooterNav: FC = () => {
               className={classes['nav__link']}
               activeClassName={classes['nav__link--active']}>
               <div className={classes['nav__icon-box']}>
-                <i className={`far fa-comments ${classes['nav__icon']}`}></i>
+                <FontAwesomeIcon
+                  className={classes['nav__icon']}
+                  icon={faCommentDots}
+                />
                 <p className={classes['nav__text']}>Chats</p>
               </div>
             </NavLink>
@@ -45,7 +54,10 @@ const FooterNav: FC = () => {
               }`}
               activeClassName={classes['nav__link--active']}>
               <div className={classes['nav__icon-box']}>
-                <i className={`fas fa-home ${classes['nav__icon']}`}></i>
+                <FontAwesomeIcon
+                  className={classes['nav__icon']}
+                  icon={faHouse}
+                />
                 <p className={classes['nav__text']}>Home</p>
               </div>
             </NavLink>

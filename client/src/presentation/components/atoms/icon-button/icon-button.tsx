@@ -1,18 +1,19 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC, MouseEventHandler } from 'react';
 import classes from './icon-button.module.scss';
 
 type Props = {
-  iconName: string;
+  icon: any;
   onClick: MouseEventHandler<HTMLButtonElement>;
   className?: string;
 };
 
-export const IconButton: FC<Props> = ({ iconName, onClick, className }) => {
+export const IconButton: FC<Props> = ({ icon, onClick, className }) => {
   return (
     <button
       onClick={onClick}
-      className={`${classes['icon-button']} ${className}`}>
-      <i className={iconName}></i>
+      className={`${classes['icon-button']} ${className && className}`}>
+      <FontAwesomeIcon icon={icon} />
     </button>
   );
 };

@@ -1,16 +1,17 @@
-import React, { FC } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 import classes from './slider-card.module.css';
 
 type Props = {
-  iconClass: string;
+  icon: any;
   title: string;
   text: string;
 };
 
-export const SliderCard: FC<Props> = ({ iconClass, title, text }) => {
+export const SliderCard: FC<Props> = ({ icon, title, text }) => {
   return (
     <div className={classes['slider-card']}>
-      <i className={`${iconClass} ${classes['slider-card__icon']}`}></i>
+      <FontAwesomeIcon className={classes['slider-card__icon']} icon={icon} />
       <h2 className={classes['slider-card__title']}>{title}</h2>
       <p className={classes['slider-card__text']}>{text}</p>
     </div>
