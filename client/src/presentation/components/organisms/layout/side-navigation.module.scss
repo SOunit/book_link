@@ -25,11 +25,13 @@
 
 .side-navigation__link {
   text-decoration: none;
-  color: $colors4;
+  color: $colors11;
   font-weight: bold;
   padding-bottom: 0.2rem;
+  background-color: $colors7;
 }
 
 .side-navigation__link--active {
   color: $colors1;
+  background-color: $colors7;
 }
